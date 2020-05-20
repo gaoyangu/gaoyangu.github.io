@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    514 字
+                    548 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    9
+                    10
                      分钟
                   </span>
                 
@@ -185,6 +185,7 @@
               <p>源码：<a href="https://github.com/tud-amr/amr-lmpcc" target="_blank" rel="noopener">https://github.com/tud-amr/amr-lmpcc</a></p>
 <h2 id="Experimental-Setup"><a href="#Experimental-Setup" class="headerlink" title="Experimental Setup"></a>Experimental Setup</h2><h3 id="ACADO-："><a href="#ACADO-：" class="headerlink" title="ACADO ："></a>ACADO ：</h3><ul>
 <li>solve  the LMPCC problem  </li>
+<li><a href="https://acado.github.io/index.html" target="_blank" rel="noopener">ACADO Toolkit</a></li>
 </ul>
 <h3 id="qpOASES-："><a href="#qpOASES-：" class="headerlink" title="qpOASES  ："></a>qpOASES  ：</h3><ul>
 <li>to solve the resulting  QP problem</li>
@@ -271,6 +272,10 @@ LMPCC()
 <li>成员函数：LMPCC::reconfigureCallback()</li>
 </ul>
 </li>
+<li><code>Initialize global reference path</code><ul>
+<li>referencePath.SetGlobalPath()</li>
+</ul>
+</li>
 </ul>
 <pre><code class="hljs cpp"><span class="hljs-comment">// Initialization of the LMPCC planer</span>
 <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">LMPCC::initialize</span><span class="hljs-params">()</span></span>
@@ -292,6 +297,9 @@ LMPCC()
 	<span class="hljs-function">ros::NodeHandle <span class="hljs-title">nh_lmpcc</span><span class="hljs-params">(<span class="hljs-string">"lmpcc"</span>)</span></span>;
 	reconfigure_server_.reset(<span class="hljs-keyword">new</span> dynamic_reconfigure::Server&lt;lmpcc::LmpccConfig&gt;(reconfig_mutex_, nh_lmpcc));
 	reconfigure_server_-&gt;setCallback(boost::bind(&amp;LMPCC::reconfigureCallback, <span class="hljs-keyword">this</span>, _1, _2));
+    
+    <span class="hljs-comment">// Initialize global reference path</span>
+    referencePath.SetGlobalPath(lmpcc_config_-&gt;ref_x_, lmpcc_config_-&gt;ref_y_, lmpcc_config_-&gt;ref_theta_);
 &#125;</code></pre>
 
 <h3 id="4-class-LMPCC-configuration"><a href="#4-class-LMPCC-configuration" class="headerlink" title="4. class LMPCC_configuration"></a>4. class LMPCC_configuration</h3><p>📄<code>lmpcc_configuration.cpp</code></p>
@@ -319,6 +327,13 @@ LMPCC()
 <li>This function is called each 1/controller_frequency</li>
 </ul>
 <pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LMPCC::controlLoop</span><span class="hljs-params">(<span class="hljs-keyword">const</span> ros::TimerEvent &amp;event)</span></span>&#123;
+    
+    <span class="hljs-keyword">if</span> (plan_ ) &#123;
+   		
+        <span class="hljs-comment">/*</span>
+<span class="hljs-comment">    	*	......</span>
+<span class="hljs-comment">    	*/</span>
+    &#125;
 &#125;</code></pre>
 
 <h3 id="6-成员函数：LMPCC-reconfigureCallback"><a href="#6-成员函数：LMPCC-reconfigureCallback" class="headerlink" title="6. 成员函数：LMPCC::reconfigureCallback()"></a>6. 成员函数：LMPCC::reconfigureCallback()</h3><ul>
@@ -333,13 +348,16 @@ LMPCC()
     window_size_ = config.window_size;
     n_search_points_ = config.n_search_points;
     plan_ = config.plan;
-    <span class="hljs-comment">/*</span>
-<span class="hljs-comment">    *	......</span>
-<span class="hljs-comment">    */</span>
+    <span class="hljs-keyword">if</span>(plan_)
+    &#123;
+		<span class="hljs-comment">/*</span>
+<span class="hljs-comment">		*	......</span>
+<span class="hljs-comment">   		*/</span>
+    &#125;
     config.plan = <span class="hljs-literal">false</span>;   
 &#125;</code></pre>
 
-
+<h3 id="7-class-ReferencePath"><a href="#7-class-ReferencePath" class="headerlink" title="7. class ReferencePath"></a>7. class ReferencePath</h3>
             </article>
             <hr>
             <div>
