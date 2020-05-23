@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    548 字
+                    978 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    10
+                    17
                      分钟
                   </span>
                 
@@ -183,14 +183,10 @@
             
             <article class="markdown-body">
               <p>源码：<a href="https://github.com/tud-amr/amr-lmpcc" target="_blank" rel="noopener">https://github.com/tud-amr/amr-lmpcc</a></p>
-<h2 id="Experimental-Setup"><a href="#Experimental-Setup" class="headerlink" title="Experimental Setup"></a>Experimental Setup</h2><h3 id="ACADO-："><a href="#ACADO-：" class="headerlink" title="ACADO ："></a>ACADO ：</h3><ul>
-<li>solve  the LMPCC problem  </li>
-<li><a href="https://acado.github.io/index.html" target="_blank" rel="noopener">ACADO Toolkit</a></li>
-</ul>
-<h3 id="qpOASES-："><a href="#qpOASES-：" class="headerlink" title="qpOASES  ："></a>qpOASES  ：</h3><ul>
-<li>to solve the resulting  QP problem</li>
-<li>a KKT tolerance of $10^{-4}$</li>
-<li>a maximum of 10 iterations  </li>
+<h2 id="代办事项"><a href="#代办事项" class="headerlink" title="代办事项"></a>代办事项</h2><ul>
+<li><input disabled="" type="checkbox"> ROS：dynamic_reconfigure（相关知识有待补充）</li>
+<li><input disabled="" type="checkbox"> ACADO</li>
+<li><input disabled="" type="checkbox"> clothoid</li>
 </ul>
 <h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LMPCC</span>&#123;</span>
 	<span class="hljs-comment">/** Managing execution of all classes of lmpcc</span>
@@ -206,9 +202,16 @@
 <span class="hljs-comment">    *         Updated old data with new data</span>
 <span class="hljs-comment">    *  Note:  All data member name used like xyz_ and all parameter name is normal like xyz.</span>
 <span class="hljs-comment">    */</span>
+&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ReferencePath</span>&#123;</span>
+    <span class="hljs-comment">/*</span>
+<span class="hljs-comment">    *- 成员函数：ReferencePath::SetGlobalPath()</span>
+<span class="hljs-comment">	*- 成员函数：ReferencePath::InitLocalRefPath()</span>
+<span class="hljs-comment">	*- 成员函数：ReferencePath::UpdateLocalRefPath()</span>
+<span class="hljs-comment">    */</span>
 &#125;</code></pre>
 
-<h2 id="调用流程"><a href="#调用流程" class="headerlink" title="调用流程"></a>调用流程</h2><h3 id="1-Start-lmpcc-controller"><a href="#1-Start-lmpcc-controller" class="headerlink" title="1. Start lmpcc controller"></a>1. Start lmpcc controller</h3><pre><code class="hljs bash"><span class="hljs-comment"># 仿真环境</span>
+<h2 id="lmpcc-controller-调用流程"><a href="#lmpcc-controller-调用流程" class="headerlink" title="lmpcc controller 调用流程"></a>lmpcc controller 调用流程</h2><h3 id="1-Start-lmpcc-controller"><a href="#1-Start-lmpcc-controller" class="headerlink" title="1. Start lmpcc controller"></a>1. Start lmpcc controller</h3><pre><code class="hljs bash"><span class="hljs-comment"># 仿真环境</span>
 roslaunch lmpcc lmpcc.launch
 
 <span class="hljs-comment"># 真实环境</span>
@@ -253,26 +256,36 @@ LMPCC()
 
 <p>📄<code>lmpcc_controller.cpp</code></p>
 <ul>
-<li><code>controller_.initialize()</code><ul>
+<li><p><code>controller_.initialize()</code></p>
+<ul>
 <li>创建类<code>LMPCC_configuration</code>的实例化对象<code>lmpcc_config_</code></li>
 <li>调用成员函数：<code>lmpcc_config_.initialize()</code></li>
 </ul>
 </li>
-<li><code>Subscribers</code><ul>
+<li><p><code>Subscribers</code></p>
+<ul>
 <li>成员函数：LMPCC::StateCallBack()</li>
+</ul>
+<p>🍕<strong>Static Collision Avoidance</strong></p>
+<ul>
 <li>成员函数：LMPCC::ObstacleCallBack()</li>
 <li>成员函数：LMPCC::FreeAreaCallBack()</li>
+<li>❓topic：’’collision_constraints’’ 是谁发布的</li>
 </ul>
 </li>
-<li><code>Set timer for control loop</code><ul>
+<li><p><code>Set timer for control loop</code></p>
+<ul>
 <li>成员函数：LMPCC::controlLoop()</li>
 </ul>
 </li>
-<li><code>Setting up dynamic_reconfigure server for the LmpccConfig parameters</code><ul>
+<li><p><code>Setting up dynamic_reconfigure server for the LmpccConfig parameters</code></p>
+<ul>
 <li>成员函数：LMPCC::reconfigureCallback()</li>
 </ul>
 </li>
-<li><code>Initialize global reference path</code><ul>
+<li><p><code>Initialize global reference path</code></p>
+<p>🍕<strong>the global reference path</strong></p>
+<ul>
 <li>referencePath.SetGlobalPath()</li>
 </ul>
 </li>
@@ -313,6 +326,7 @@ LMPCC()
 
 <ul>
 <li><code>lmpcc_config_-&gt;initialize()</code></li>
+<li>对应文件：<strong><em>lmpcc_config_parameter.yaml</em></strong></li>
 </ul>
 <pre><code class="hljs cpp"><span class="hljs-comment">// read configuration parameter from parameter server</span>
 <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">LMPCC_configuration::initialize</span><span class="hljs-params">()</span></span>
@@ -325,20 +339,31 @@ LMPCC()
 
 <h3 id="5-成员函数：LMPCC-controlLoop"><a href="#5-成员函数：LMPCC-controlLoop" class="headerlink" title="5. 成员函数：LMPCC::controlLoop()"></a>5. 成员函数：LMPCC::controlLoop()</h3><ul>
 <li>This function is called each 1/controller_frequency</li>
+<li>🍕<strong>LMPCC problem  ：using <code>ACADO</code></strong></li>
+<li>🍕<strong>the resulting QP problem : with <code>KKT</code></strong></li>
+<li>成员函数：referencePath.UpdateLocalRefPath()</li>
 </ul>
 <pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LMPCC::controlLoop</span><span class="hljs-params">(<span class="hljs-keyword">const</span> ros::TimerEvent &amp;event)</span></span>&#123;
     
     <span class="hljs-keyword">if</span> (plan_ ) &#123;
    		
+        referencePath.UpdateLocalRefPath(segment_counter, ss, xx, yy, vv);
         <span class="hljs-comment">/*</span>
 <span class="hljs-comment">    	*	......</span>
 <span class="hljs-comment">    	*/</span>
+		controlled_velocity_pub_.publish(controlled_velocity_);
     &#125;
 &#125;</code></pre>
 
 <h3 id="6-成员函数：LMPCC-reconfigureCallback"><a href="#6-成员函数：LMPCC-reconfigureCallback" class="headerlink" title="6. 成员函数：LMPCC::reconfigureCallback()"></a>6. 成员函数：LMPCC::reconfigureCallback()</h3><ul>
-<li>Setting up dynamic_reconfigure server for the LmpccConfig parameters<ul>
-<li><code>plan_</code></li>
+<li><p>Setting up dynamic_reconfigure server for the LmpccConfig parameters</p>
+<ul>
+<li>❓<code>plan_</code></li>
+<li>成员函数：LMPCC::reset_solver()</li>
+</ul>
+<p>🍕<strong>the local reference path</strong></p>
+<ul>
+<li>成员函数： referencePath.InitLocalRefPath()</li>
 </ul>
 </li>
 </ul>
@@ -350,14 +375,125 @@ LMPCC()
     plan_ = config.plan;
     <span class="hljs-keyword">if</span>(plan_)
     &#123;
-		<span class="hljs-comment">/*</span>
-<span class="hljs-comment">		*	......</span>
-<span class="hljs-comment">   		*/</span>
+        <span class="hljs-comment">/** Initialize constant Online Data Variables **/</span>
+        reset_solver();
+		
+        referencePath.InitLocalRefPath(lmpcc_config_-&gt;n_local_,lmpcc_config_-&gt;n_poly_per_clothoid_,ss,xx,yy,vv);
     &#125;
     config.plan = <span class="hljs-literal">false</span>;   
 &#125;</code></pre>
 
-<h3 id="7-class-ReferencePath"><a href="#7-class-ReferencePath" class="headerlink" title="7. class ReferencePath"></a>7. class ReferencePath</h3>
+<h3 id="7-class-ReferencePath"><a href="#7-class-ReferencePath" class="headerlink" title="7. class ReferencePath"></a>7. class ReferencePath</h3><p>📄<code>reference_path.cpp</code></p>
+<ul>
+<li>构造函数</li>
+</ul>
+<pre><code class="hljs cpp">ReferencePath::ReferencePath()
+&#123;
+    globalPathSet = <span class="hljs-literal">false</span>;
+&#125;</code></pre>
+
+<ul>
+<li>成员函数：ReferencePath::SetGlobalPath()</li>
+<li>成员函数：ReferencePath::InitLocalRefPath()</li>
+<li>成员函数：ReferencePath::UpdateLocalRefPath()</li>
+</ul>
+<h2 id="lmpcc-obstacle-feed-调用流程"><a href="#lmpcc-obstacle-feed-调用流程" class="headerlink" title="lmpcc_obstacle_feed 调用流程"></a>lmpcc_obstacle_feed 调用流程</h2><h3 id="1-Start-lmpcc-obstacle-feed"><a href="#1-Start-lmpcc-obstacle-feed" class="headerlink" title="1. Start lmpcc_obstacle_feed"></a>1. Start lmpcc_obstacle_feed</h3><pre><code class="hljs bash">roslaunch lmpcc_obstacle_feed lmpcc_obstacle_feed.launch</code></pre>
+
+<p>📄<code>lmpcc_obstacle_feed.launch</code></p>
+<ul>
+<li>启动<code>lmpcc_obstacle_feed_node</code>节点</li>
+</ul>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"lmpcc_obstacle_feed"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"lmpcc_obstacle_feed_node"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"lmpcc_obstacle_feed_node"</span> <span class="hljs-attr">cwd</span>=<span class="hljs-string">"node"</span> <span class="hljs-attr">respawn</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">output</span>=<span class="hljs-string">"screen"</span>/&gt;</span></code></pre>
+
+<h3 id="2-lmpcc-obstacle-feed-node"><a href="#2-lmpcc-obstacle-feed-node" class="headerlink" title="2. lmpcc_obstacle_feed_node"></a>2. lmpcc_obstacle_feed_node</h3><p>📄<code>lmpcc_obstacle_feed_node.cpp</code></p>
+<ul>
+<li>创建类<code>ObstacleFeed</code>的实例化对象<code>obstacles</code></li>
+<li>调用成员函数：<code>obstacles.initialize()</code></li>
+</ul>
+<pre><code class="hljs cpp">ObstacleFeed obstacles;
+
+<span class="hljs-keyword">if</span>(!obstacles.initialize())
+    &#123;
+      ROS_ERROR_STREAM_NAMED(<span class="hljs-string">"FAILED TO INITIALIZE %s"</span>, ros::this_node::getName().c_str());
+      <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+    &#125;
+    <span class="hljs-keyword">else</span>&#123;
+      ROS_INFO_STREAM_NAMED(<span class="hljs-string">"%s INITIALIZED SUCCESSFULLY!"</span>, ros::this_node::getName().c_str());
+      <span class="hljs-keyword">while</span> (n.ok()) &#123;
+        ros::Duration(<span class="hljs-number">0.05</span>).sleep();
+        ros::spinOnce();
+      &#125;
+    &#125;</code></pre>
+
+<h3 id="3-class-ObstacleFeed"><a href="#3-class-ObstacleFeed" class="headerlink" title="3. class ObstacleFeed"></a>3. class ObstacleFeed</h3><p>📄<code>lmpcc_obstacle_feed.cpp</code></p>
+<ul>
+<li>构造函数</li>
+</ul>
+<pre><code class="hljs cpp">ObstacleFeed::ObstacleFeed()
+&#123;
+    <span class="hljs-keyword">this</span>-&gt;reconfigure_server_.reset();
+&#125;</code></pre>
+
+<ul>
+<li><code>ObstacleFeed::initialize()</code><ul>
+<li>创建类<code>lmpcc_obstacle_feed_configuration</code>的实例化对象<code>lmpcc_obstacle_feed_config_</code></li>
+<li>调用成员函数：lmpcc_obstacle_feed_config_-&gt;initialize()</li>
+</ul>
+</li>
+<li><code>new Obstacle_Prediction()</code><ul>
+<li>类<code>Obstacle_Prediction</code></li>
+</ul>
+</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">ObstacleFeed::initialize</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+	<span class="hljs-comment">// initialize parameter configuration class</span>
+	lmpcc_obstacle_feed_config_.reset(<span class="hljs-keyword">new</span> lmpcc_obstacle_feed_configuration());
+    <span class="hljs-keyword">bool</span> lmpcc_obstacle_feed_config_success = lmpcc_obstacle_feed_config_-&gt;initialize();
+    
+    <span class="hljs-comment">// resize filter</span>
+    filters_[obst_it] =  <span class="hljs-keyword">new</span> Obstacle_Prediction(dt,lmpcc_obstacle_feed_config_-&gt;discretization_steps_);
+    
+    <span class="hljs-comment">/** Initialize appropriate variables according to operation mode **/</span>
+    <span class="hljs-keyword">if</span> (lmpcc_obstacle_feed_config_-&gt;obstacle_feed_mode_ == <span class="hljs-number">2</span>)
+    &#123;
+        ROS_WARN(<span class="hljs-string">"In this mode, predefined obstacles are published"</span>);
+    &#125;
+     <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (lmpcc_obstacle_feed_config_-&gt;obstacle_feed_mode_ == <span class="hljs-number">1</span>)
+     &#123;
+         ROS_WARN(<span class="hljs-string">"In this mode, tracked obstacles by the OptiTrack system are forwarded"</span>);
+         optitrack_sub = nh_.subscribe(lmpcc_obstacle_feed_config_-&gt;sub_optitrack_, <span class="hljs-number">1</span>, &amp;ObstacleFeed::optitrackCallback, <span class="hljs-keyword">this</span>);
+     &#125;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (lmpcc_obstacle_feed_config_-&gt;obstacle_feed_mode_ == <span class="hljs-number">0</span>)
+    &#123;
+        ROS_WARN(<span class="hljs-string">"In this mode, clustered pointcloud obstacles are forwarded"</span>);
+        obstacles_sub = nh_.subscribe(lmpcc_obstacle_feed_config_-&gt;sub_pedestrians_, <span class="hljs-number">1</span>, &amp;ObstacleFeed::pedestriansCallback, <span class="hljs-keyword">this</span>);
+    &#125;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(lmpcc_obstacle_feed_config_-&gt;obstacle_feed_mode_ == <span class="hljs-number">4</span>)
+    &#123;
+        ROS_WARN(<span class="hljs-string">"In this mode, data from Pedsim is forwarded"</span>);
+         state_sub = nh_.subscribe(lmpcc_obstacle_feed_config_-&gt;sub_pedsim_,<span class="hljs-number">1</span>, &amp;ObstacleFeed::PedsimCallback, <span class="hljs-keyword">this</span>);
+    &#125;
+&#125;</code></pre>
+
+<h3 id="4-class-lmpcc-obstacle-feed-configuration"><a href="#4-class-lmpcc-obstacle-feed-configuration" class="headerlink" title="4. class lmpcc_obstacle_feed_configuration"></a>4. class lmpcc_obstacle_feed_configuration</h3><p>📄<code>lmpcc_obstacle_feed_configuration.cpp</code></p>
+<ul>
+<li>构造函数</li>
+</ul>
+<pre><code class="hljs cpp">lmpcc_obstacle_feed_configuration::lmpcc_obstacle_feed_configuration()
+&#123;
+    initialize_success_ = <span class="hljs-literal">false</span>;
+&#125;</code></pre>
+
+<ul>
+<li><code>lmpcc_obstacle_feed_configuration::initialize()</code></li>
+<li>对应文件：<strong><em>lmpcc_obstacle_feed_config.yaml</em></strong></li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">lmpcc_obstacle_feed_configuration::initialize</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+&#125;</code></pre>
+
+<h3 id="5-class-Obstacle-Prediction"><a href="#5-class-Obstacle-Prediction" class="headerlink" title="5. class Obstacle_Prediction"></a>5. class Obstacle_Prediction</h3>
             </article>
             <hr>
             <div>
