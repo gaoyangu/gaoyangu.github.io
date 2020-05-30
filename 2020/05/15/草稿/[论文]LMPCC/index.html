@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    978 字
+                    2.6k 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    17
+                    46
                      分钟
                   </span>
                 
@@ -183,12 +183,26 @@
             
             <article class="markdown-body">
               <p>源码：<a href="https://github.com/tud-amr/amr-lmpcc" target="_blank" rel="noopener">https://github.com/tud-amr/amr-lmpcc</a></p>
+<p>源码目录</p>
+<pre><code class="hljs plain">\amr-lmpcc-master
+├── lmpcc
+├── lmpcc_msgs
+├── lmpcc_obstacle_feed	(dynamic obstacles)
+└── static_collision_avoidance</code></pre>
+
 <h2 id="代办事项"><a href="#代办事项" class="headerlink" title="代办事项"></a>代办事项</h2><ul>
-<li><input disabled="" type="checkbox"> ROS：dynamic_reconfigure（相关知识有待补充）</li>
-<li><input disabled="" type="checkbox"> ACADO</li>
-<li><input disabled="" type="checkbox"> clothoid</li>
+<li><input disabled="" type="checkbox"> <p>ROS：costmap_2d</p>
+</li>
+<li><input disabled="" type="checkbox"> <p>tf 坐标变换结构</p>
+</li>
+<li><input disabled="" type="checkbox"> <p>ROS：dynamic_reconfigure（相关知识有待补充）</p>
+</li>
+<li><input disabled="" type="checkbox"> <p>ACADO</p>
+</li>
+<li><input disabled="" type="checkbox"> <p>clothoid</p>
+</li>
 </ul>
-<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LMPCC</span>&#123;</span>
+<h2 id="💻package-lmpcc"><a href="#💻package-lmpcc" class="headerlink" title="💻package: lmpcc"></a>💻package: <code>lmpcc</code></h2><h3 id="包含的类"><a href="#包含的类" class="headerlink" title="包含的类"></a>包含的类</h3><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LMPCC</span>&#123;</span>
 	<span class="hljs-comment">/** Managing execution of all classes of lmpcc</span>
 <span class="hljs-comment">     * - Handle self collision avoidance</span>
 <span class="hljs-comment">     * - Extract current position and velocity of manipulator joints</span>
@@ -211,7 +225,7 @@
 <span class="hljs-comment">    */</span>
 &#125;</code></pre>
 
-<h2 id="lmpcc-controller-调用流程"><a href="#lmpcc-controller-调用流程" class="headerlink" title="lmpcc controller 调用流程"></a>lmpcc controller 调用流程</h2><h3 id="1-Start-lmpcc-controller"><a href="#1-Start-lmpcc-controller" class="headerlink" title="1. Start lmpcc controller"></a>1. Start lmpcc controller</h3><pre><code class="hljs bash"><span class="hljs-comment"># 仿真环境</span>
+<h3 id="1-Start-lmpcc-controller"><a href="#1-Start-lmpcc-controller" class="headerlink" title="1. Start lmpcc controller"></a>1. Start lmpcc controller</h3><pre><code class="hljs bash"><span class="hljs-comment"># 仿真环境</span>
 roslaunch lmpcc lmpcc.launch
 
 <span class="hljs-comment"># 真实环境</span>
@@ -266,11 +280,15 @@ LMPCC()
 <ul>
 <li>成员函数：LMPCC::StateCallBack()</li>
 </ul>
-<p>🍕<strong>Static Collision Avoidance</strong></p>
+<p>🍕<strong>dynamic obstacles</strong>  </p>
 <ul>
 <li>成员函数：LMPCC::ObstacleCallBack()</li>
+</ul>
+<p>🍕<strong>Static Collision Avoidance</strong></p>
+<ul>
 <li>成员函数：LMPCC::FreeAreaCallBack()</li>
 <li>❓topic：’’collision_constraints’’ 是谁发布的</li>
+<li>答：<code>StaticEnvironment::initialize()</code></li>
 </ul>
 </li>
 <li><p><code>Set timer for control loop</code></p>
@@ -313,6 +331,10 @@ LMPCC()
     
     <span class="hljs-comment">// Initialize global reference path</span>
     referencePath.SetGlobalPath(lmpcc_config_-&gt;ref_x_, lmpcc_config_-&gt;ref_y_, lmpcc_config_-&gt;ref_theta_);
+    
+    <span class="hljs-keyword">if</span> (lmpcc_config_-&gt;activate_visualization_) &#123;
+        initialize_visuals();
+	&#125;
 &#125;</code></pre>
 
 <h3 id="4-class-LMPCC-configuration"><a href="#4-class-LMPCC-configuration" class="headerlink" title="4. class LMPCC_configuration"></a>4. class LMPCC_configuration</h3><p>📄<code>lmpcc_configuration.cpp</code></p>
@@ -337,11 +359,94 @@ LMPCC()
 <span class="hljs-comment">    */</span>
 &#125;</code></pre>
 
-<h3 id="5-成员函数：LMPCC-controlLoop"><a href="#5-成员函数：LMPCC-controlLoop" class="headerlink" title="5. 成员函数：LMPCC::controlLoop()"></a>5. 成员函数：LMPCC::controlLoop()</h3><ul>
+<h3 id="5-成员函数：LMPCC-ObstacleCallBack"><a href="#5-成员函数：LMPCC-ObstacleCallBack" class="headerlink" title="5. 成员函数：LMPCC::ObstacleCallBack"></a>5. 成员函数：LMPCC::ObstacleCallBack</h3><ul>
+<li>注意到形参为：<code>const lmpcc_msgs::lmpcc_obstacle_array&amp; received_obstacles</code></li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-comment">//lmpcc_obstacle.msg</span>
+geometry_msgs/Pose pose
+geometry_msgs/Twist velocity
+
+nav_msgs/Path trajectory
+float64 id
+float64 distance
+float64[] major_semiaxis
+float64[] minor_semiaxis
+    
+<span class="hljs-comment">//lmpcc_obstacle_array.msg</span>
+Header header
+
+lmpcc_msgs/lmpcc_obstacle[] lmpcc_obstacles</code></pre>
+
+<ul>
+<li>如果障碍物的数量小于<code>lmpcc_config_-&gt;n_obstacles_</code>，则随机初始化剩余的障碍物，存放在<code>obstacles_.lmpcc_obstacles</code> 中</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LMPCC::ObstacleCallBack</span><span class="hljs-params">(<span class="hljs-keyword">const</span> lmpcc_msgs::lmpcc_obstacle_array&amp; received_obstacles)</span></span>&#123;
+    <span class="hljs-comment">//ROS_INFO("LMPCC::ObstacleCallBack");</span>
+    lmpcc_msgs::lmpcc_obstacle_array total_obstacles;
+    total_obstacles.lmpcc_obstacles.resize(lmpcc_config_-&gt;n_obstacles_);
+
+    total_obstacles.lmpcc_obstacles = received_obstacles.lmpcc_obstacles;
+
+    <span class="hljs-comment">//ROS_INFO_STREAM("-- Received # obstacles: " &lt;&lt; received_obstacles.lmpcc_obstacles.size());</span>
+    <span class="hljs-comment">//ROS_INFO_STREAM("-- Expected # obstacles: " &lt;&lt; lmpcc_config_-&gt;n_obstacles_);</span>
+
+    <span class="hljs-keyword">if</span> (received_obstacles.lmpcc_obstacles.size() &lt; lmpcc_config_-&gt;n_obstacles_)
+    &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> obst_it = received_obstacles.lmpcc_obstacles.size(); obst_it &lt; lmpcc_config_-&gt;n_obstacles_; obst_it++)
+        &#123;
+            total_obstacles.lmpcc_obstacles[obst_it].pose.position.x = current_state_(<span class="hljs-number">0</span>) - <span class="hljs-number">100</span>;
+            total_obstacles.lmpcc_obstacles[obst_it].pose.position.y = <span class="hljs-number">0</span>;
+            total_obstacles.lmpcc_obstacles[obst_it].pose.orientation.z = <span class="hljs-number">0</span>;
+
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> traj_it = <span class="hljs-number">0</span>; traj_it &lt; ACADO_N; traj_it++)
+            &#123;
+                total_obstacles.lmpcc_obstacles[obst_it].trajectory.poses[traj_it].pose.position.x = current_state_(<span class="hljs-number">0</span>) - <span class="hljs-number">100</span>;
+                total_obstacles.lmpcc_obstacles[obst_it].trajectory.poses[traj_it].pose.position.y = <span class="hljs-number">0</span>;
+                total_obstacles.lmpcc_obstacles[obst_it].trajectory.poses[traj_it].pose.orientation.z = <span class="hljs-number">0</span>;
+                total_obstacles.lmpcc_obstacles[obst_it].major_semiaxis[traj_it] = <span class="hljs-number">0.001</span>;
+                total_obstacles.lmpcc_obstacles[obst_it].minor_semiaxis[traj_it] = <span class="hljs-number">0.001</span>;
+            &#125;
+        &#125;
+    &#125;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> total_obst_it = <span class="hljs-number">0</span>; total_obst_it &lt; lmpcc_config_-&gt;n_obstacles_; total_obst_it++)
+    &#123;
+        obstacles_.lmpcc_obstacles[total_obst_it] = total_obstacles.lmpcc_obstacles[total_obst_it];
+    &#125;
+&#125;</code></pre>
+
+<h3 id="6-成员函数：LMPCC-FreeAreaCallBack"><a href="#6-成员函数：LMPCC-FreeAreaCallBack" class="headerlink" title="6. 成员函数：LMPCC::FreeAreaCallBack()"></a>6. 成员函数：LMPCC::FreeAreaCallBack()</h3><ul>
+<li>注意到形参为：<code>const static_collision_avoidance::collision_free_polygon&amp; msg</code></li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LMPCC::FreeAreaCallBack</span><span class="hljs-params">(<span class="hljs-keyword">const</span> static_collision_avoidance::collision_free_polygon&amp; msg)</span></span>&#123;
+    <span class="hljs-comment">//ROS_INFO("LMPCC::FreeAreaCallBack");</span>
+    collision_free_a1x = msg.collision_free_a1x;
+    collision_free_a1y = msg.collision_free_a1y;
+    collision_free_a2x = msg.collision_free_a2x;
+    collision_free_a2y = msg.collision_free_a2y;
+    collision_free_a3x = msg.collision_free_a3x;
+    collision_free_a3y = msg.collision_free_a3y;
+    collision_free_a4x = msg.collision_free_a4x;
+    collision_free_a4y = msg.collision_free_a4y;
+
+    collision_free_C1 = msg.collision_free_C1;
+    collision_free_C2 = msg.collision_free_C2;
+    collision_free_C3 = msg.collision_free_C3;
+    collision_free_C4 = msg.collision_free_C4;
+
+    collision_free_xmin = msg.collision_free_xmin;
+    collision_free_xmax = msg.collision_free_xmax;
+    collision_free_ymin = msg.collision_free_ymin;
+    collision_free_ymax = msg.collision_free_ymax;
+&#125;</code></pre>
+
+<h3 id="7-成员函数：LMPCC-controlLoop"><a href="#7-成员函数：LMPCC-controlLoop" class="headerlink" title="7. 成员函数：LMPCC::controlLoop()"></a>7. 成员函数：LMPCC::controlLoop()</h3><ul>
 <li>This function is called each 1/controller_frequency</li>
 <li>🍕<strong>LMPCC problem  ：using <code>ACADO</code></strong></li>
 <li>🍕<strong>the resulting QP problem : with <code>KKT</code></strong></li>
 <li>成员函数：referencePath.UpdateLocalRefPath()</li>
+<li>成员函数：publishPredictedTrajectory()</li>
 </ul>
 <pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LMPCC::controlLoop</span><span class="hljs-params">(<span class="hljs-keyword">const</span> ros::TimerEvent &amp;event)</span></span>&#123;
     
@@ -351,11 +456,13 @@ LMPCC()
         <span class="hljs-comment">/*</span>
 <span class="hljs-comment">    	*	......</span>
 <span class="hljs-comment">    	*/</span>
+        publishPredictedTrajectory();
+        
 		controlled_velocity_pub_.publish(controlled_velocity_);
     &#125;
 &#125;</code></pre>
 
-<h3 id="6-成员函数：LMPCC-reconfigureCallback"><a href="#6-成员函数：LMPCC-reconfigureCallback" class="headerlink" title="6. 成员函数：LMPCC::reconfigureCallback()"></a>6. 成员函数：LMPCC::reconfigureCallback()</h3><ul>
+<h3 id="8-成员函数：LMPCC-reconfigureCallback"><a href="#8-成员函数：LMPCC-reconfigureCallback" class="headerlink" title="8. 成员函数：LMPCC::reconfigureCallback()"></a>8. 成员函数：LMPCC::reconfigureCallback()</h3><ul>
 <li><p>Setting up dynamic_reconfigure server for the LmpccConfig parameters</p>
 <ul>
 <li>❓<code>plan_</code></li>
@@ -383,7 +490,24 @@ LMPCC()
     config.plan = <span class="hljs-literal">false</span>;   
 &#125;</code></pre>
 
-<h3 id="7-class-ReferencePath"><a href="#7-class-ReferencePath" class="headerlink" title="7. class ReferencePath"></a>7. class ReferencePath</h3><p>📄<code>reference_path.cpp</code></p>
+<h3 id="9-成员函数：LMPCC-initialize-visuals"><a href="#9-成员函数：LMPCC-initialize-visuals" class="headerlink" title="9. 成员函数：LMPCC::initialize_visuals()"></a>9. 成员函数：LMPCC::initialize_visuals()</h3><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">LMPCC::initialize_visuals</span><span class="hljs-params">()</span></span>&#123;
+    pred_traj_pub_ = nh.advertise&lt;nav_msgs::Path&gt;(<span class="hljs-string">"predicted_trajectory"</span>,<span class="hljs-number">1</span>);
+&#125;</code></pre>
+
+<h3 id="10-成员函数：LMPCC-publishPredictedTrajectory"><a href="#10-成员函数：LMPCC-publishPredictedTrajectory" class="headerlink" title="10. 成员函数：LMPCC::publishPredictedTrajectory()"></a>10. 成员函数：LMPCC::publishPredictedTrajectory()</h3><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LMPCC::publishPredictedTrajectory</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-comment">//ROS_INFO("LMPCC::publishPredictedTrajectory");</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; ACADO_N; i++)
+    &#123;
+        pred_traj_.poses[i].pose.position.x = acadoVariables.x[i * ACADO_NX + <span class="hljs-number">0</span>]; <span class="hljs-comment">//x</span>
+        pred_traj_.poses[i].pose.position.y = acadoVariables.x[i * ACADO_NX + <span class="hljs-number">1</span>]; <span class="hljs-comment">//y</span>
+		pred_traj_.poses[i].pose.orientation.z = acadoVariables.x[i * ACADO_NX + <span class="hljs-number">2</span>]; <span class="hljs-comment">//theta</span>
+    &#125;
+
+	pred_traj_pub_.publish(pred_traj_);
+&#125;</code></pre>
+
+<h3 id="11-class-ReferencePath"><a href="#11-class-ReferencePath" class="headerlink" title="11. class ReferencePath"></a>11. class ReferencePath</h3><p>📄<code>reference_path.cpp</code></p>
 <ul>
 <li>构造函数</li>
 </ul>
@@ -397,7 +521,10 @@ LMPCC()
 <li>成员函数：ReferencePath::InitLocalRefPath()</li>
 <li>成员函数：ReferencePath::UpdateLocalRefPath()</li>
 </ul>
-<h2 id="lmpcc-obstacle-feed-调用流程"><a href="#lmpcc-obstacle-feed-调用流程" class="headerlink" title="lmpcc_obstacle_feed 调用流程"></a>lmpcc_obstacle_feed 调用流程</h2><h3 id="1-Start-lmpcc-obstacle-feed"><a href="#1-Start-lmpcc-obstacle-feed" class="headerlink" title="1. Start lmpcc_obstacle_feed"></a>1. Start lmpcc_obstacle_feed</h3><pre><code class="hljs bash">roslaunch lmpcc_obstacle_feed lmpcc_obstacle_feed.launch</code></pre>
+<h2 id="💻package-lmpcc-obstacle-feed"><a href="#💻package-lmpcc-obstacle-feed" class="headerlink" title="💻package: lmpcc_obstacle_feed"></a>💻package: <code>lmpcc_obstacle_feed</code></h2><h3 id="1-Start-lmpcc-obstacle-feed"><a href="#1-Start-lmpcc-obstacle-feed" class="headerlink" title="1. Start lmpcc_obstacle_feed"></a>1. Start lmpcc_obstacle_feed</h3><pre><code class="hljs bash"><span class="hljs-comment"># 仿真环境</span>
+roslaunch lmpcc_obstacle_feed lmpcc_obstacle_feed.launch
+<span class="hljs-comment"># 真实环境</span>
+roslaunch lmpcc_obstacle_feed map_lmpcc_obstacle_feed.launch</code></pre>
 
 <p>📄<code>lmpcc_obstacle_feed.launch</code></p>
 <ul>
@@ -412,18 +539,17 @@ LMPCC()
 </ul>
 <pre><code class="hljs cpp">ObstacleFeed obstacles;
 
-<span class="hljs-keyword">if</span>(!obstacles.initialize())
-    &#123;
-      ROS_ERROR_STREAM_NAMED(<span class="hljs-string">"FAILED TO INITIALIZE %s"</span>, ros::this_node::getName().c_str());
-      <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
-    &#125;
-    <span class="hljs-keyword">else</span>&#123;
-      ROS_INFO_STREAM_NAMED(<span class="hljs-string">"%s INITIALIZED SUCCESSFULLY!"</span>, ros::this_node::getName().c_str());
-      <span class="hljs-keyword">while</span> (n.ok()) &#123;
-        ros::Duration(<span class="hljs-number">0.05</span>).sleep();
-        ros::spinOnce();
-      &#125;
-    &#125;</code></pre>
+<span class="hljs-keyword">if</span>(!obstacles.initialize())&#123;
+	ROS_ERROR_STREAM_NAMED(<span class="hljs-string">"FAILED TO INITIALIZE %s"</span>, ros::this_node::getName().c_str());
+	<span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+&#125;
+<span class="hljs-keyword">else</span>&#123;
+	ROS_INFO_STREAM_NAMED(<span class="hljs-string">"%s INITIALIZED SUCCESSFULLY!"</span>, ros::this_node::getName().c_str());
+	<span class="hljs-keyword">while</span> (n.ok()) &#123;
+		ros::Duration(<span class="hljs-number">0.05</span>).sleep();
+		ros::spinOnce();
+	&#125;
+&#125;</code></pre>
 
 <h3 id="3-class-ObstacleFeed"><a href="#3-class-ObstacleFeed" class="headerlink" title="3. class ObstacleFeed"></a>3. class ObstacleFeed</h3><p>📄<code>lmpcc_obstacle_feed.cpp</code></p>
 <ul>
@@ -435,13 +561,55 @@ LMPCC()
 &#125;</code></pre>
 
 <ul>
-<li><code>ObstacleFeed::initialize()</code><ul>
+<li><p><code>ObstacleFeed::initialize()</code></p>
+<ul>
 <li>创建类<code>lmpcc_obstacle_feed_configuration</code>的实例化对象<code>lmpcc_obstacle_feed_config_</code></li>
 <li>调用成员函数：lmpcc_obstacle_feed_config_-&gt;initialize()</li>
 </ul>
 </li>
-<li><code>new Obstacle_Prediction()</code><ul>
-<li>类<code>Obstacle_Prediction</code></li>
+<li><p><strong>Initialize publisher of ellipsoid obstacles</strong></p>
+<ul>
+<li><code>obstacles_pub</code></li>
+</ul>
+</li>
+<li><p><strong>resize filter</strong></p>
+<ul>
+<li>分别为每一个障碍物绑定一个类<code>Obstacle_Prediction</code>的实例化对象<code>filters_[obst_it]</code></li>
+</ul>
+</li>
+<li><p><strong>operation mode</strong></p>
+<p>2 = predefined obstacles ❓ 提前定义的障碍物是否是移动障碍物</p>
+<p>答：是移动障碍物。</p>
+<ul>
+<li><p>服务service</p>
+</li>
+<li><p>ObstacleFeed::updateObstacles()</p>
+</li>
+<li><p>ObstacleFeed::UpdateCallback()</p>
+</li>
+<li><p>ObstacleFeed::UpdateCallbackInt()</p>
+</li>
+</ul>
+<p>1 = OptiTrack mode</p>
+<ul>
+<li><p>话题topic</p>
+</li>
+<li><p>ObstacleFeed::optitrackCallback()</p>
+</li>
+</ul>
+<p>0 = sensor mode</p>
+<ul>
+<li><p>话题topic</p>
+</li>
+<li><p>ObstacleFeed::pedestriansCallback()</p>
+</li>
+</ul>
+<p>4 = Pedsim</p>
+<ul>
+<li><p>话题topic</p>
+</li>
+<li><p>ObstacleFeed::PedsimCallback()</p>
+</li>
 </ul>
 </li>
 </ul>
@@ -451,6 +619,9 @@ LMPCC()
 	lmpcc_obstacle_feed_config_.reset(<span class="hljs-keyword">new</span> lmpcc_obstacle_feed_configuration());
     <span class="hljs-keyword">bool</span> lmpcc_obstacle_feed_config_success = lmpcc_obstacle_feed_config_-&gt;initialize();
     
+    <span class="hljs-comment">/** Initialize publisher of ellipsoid obstacles **/</span>
+    obstacles_pub = nh_.advertise&lt;lmpcc_msgs::lmpcc_obstacle_array&gt;(lmpcc_obstacle_feed_config_-&gt;pub_obstacles_,<span class="hljs-number">1</span>);
+    
     <span class="hljs-comment">// resize filter</span>
     filters_[obst_it] =  <span class="hljs-keyword">new</span> Obstacle_Prediction(dt,lmpcc_obstacle_feed_config_-&gt;discretization_steps_);
     
@@ -458,6 +629,10 @@ LMPCC()
     <span class="hljs-keyword">if</span> (lmpcc_obstacle_feed_config_-&gt;obstacle_feed_mode_ == <span class="hljs-number">2</span>)
     &#123;
         ROS_WARN(<span class="hljs-string">"In this mode, predefined obstacles are published"</span>);
+        loop_timer = nh_.createTimer(ros::Duration((<span class="hljs-keyword">double</span>)<span class="hljs-number">1</span>/update_rate), &amp;ObstacleFeed::updateObstacles, <span class="hljs-keyword">this</span>);
+		update_service = nh_.advertiseService(<span class="hljs-string">"update_trigger"</span>, &amp;ObstacleFeed::UpdateCallback, <span class="hljs-keyword">this</span>);
+		update_service_int = nh_.advertiseService(<span class="hljs-string">"update_trigger_int"</span>, &amp;ObstacleFeed::UpdateCallbackInt, <span class="hljs-keyword">this</span>);
+        
     &#125;
      <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (lmpcc_obstacle_feed_config_-&gt;obstacle_feed_mode_ == <span class="hljs-number">1</span>)
      &#123;
@@ -493,7 +668,279 @@ LMPCC()
 <span class="hljs-function"></span>&#123;
 &#125;</code></pre>
 
-<h3 id="5-class-Obstacle-Prediction"><a href="#5-class-Obstacle-Prediction" class="headerlink" title="5. class Obstacle_Prediction"></a>5. class Obstacle_Prediction</h3>
+<h3 id="5-class-Obstacle-Prediction"><a href="#5-class-Obstacle-Prediction" class="headerlink" title="5. class Obstacle_Prediction"></a>5. class Obstacle_Prediction</h3><p>📄<code>obstacle_prediction.cpp</code></p>
+<ul>
+<li>构造函数：Obstacle_Prediction::Obstacle_Prediction()</li>
+<li>成员函数：Obstacle_Prediction::updateFilter()<ul>
+<li><code>Kalman Filtering</code></li>
+</ul>
+</li>
+</ul>
+<pre><code class="hljs cpp">Obstacle_Prediction::Obstacle_Prediction(<span class="hljs-keyword">double</span> <span class="hljs-keyword">delta_t</span>, <span class="hljs-keyword">int</span> horizon_N): delta_t_(<span class="hljs-keyword">delta_t</span>), horizon_N_(horizon_N)&#123;
+    
+&#125;
+<span class="hljs-function">nav_msgs::Path <span class="hljs-title">Obstacle_Prediction::updateFilter</span><span class="hljs-params">(<span class="hljs-keyword">const</span> geometry_msgs::Pose &amp;msg)</span></span>&#123;
+
+&#125;</code></pre>
+
+<h3 id="6-成员函数：ObstacleFeed-updateObstacles"><a href="#6-成员函数：ObstacleFeed-updateObstacles" class="headerlink" title="6. 成员函数：ObstacleFeed::updateObstacles()"></a>6. 成员函数：ObstacleFeed::updateObstacles()</h3><ul>
+<li><p>2 = predefined obstacles</p>
+</li>
+<li><p>UpdateCallback()</p>
+</li>
+<li><p>publishObstacles(obstacles_)</p>
+</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ObstacleFeed::updateObstacles</span><span class="hljs-params">(<span class="hljs-keyword">const</span> ros::TimerEvent&amp; event)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">if</span> (lmpcc_obstacle_feed_config_-&gt;obstacle_feed_mode_ == <span class="hljs-number">2</span>)
+    &#123;
+        UpdateCallback();
+    &#125;
+    <span class="hljs-comment">// Publish ellipsoid obstacles</span>
+    publishObstacles(obstacles_);
+    <span class="hljs-comment">// Visualize ellipsoid obstacles</span>
+    visualizeObstacles(obstacles_);
+&#125;</code></pre>
+
+<h3 id="7-成员函数：ObstacleFeed-UpdateCallback"><a href="#7-成员函数：ObstacleFeed-UpdateCallback" class="headerlink" title="7. 成员函数：ObstacleFeed::UpdateCallback()"></a>7. 成员函数：ObstacleFeed::UpdateCallback()</h3><ul>
+<li><p>2 = predefined obstacles</p>
+</li>
+<li><p><strong>有两个版本的重载函数</strong></p>
+</li>
+<li><p>bool ObstacleFeed::UpdateCallback(std_srvs::Empty::Request&amp; request, std_srvs::Empty::Response&amp; response)</p>
+</li>
+<li><p>bool ObstacleFeed::UpdateCallback()</p>
+</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">ObstacleFeed::UpdateCallback</span><span class="hljs-params">(std_srvs::Empty::Request&amp; request, std_srvs::Empty::Response&amp; response)</span></span>&#123;
+
+&#125;</code></pre>
+
+<h3 id="8-成员函数：ObstacleFeed-UpdateCallbackInt"><a href="#8-成员函数：ObstacleFeed-UpdateCallbackInt" class="headerlink" title="8. 成员函数：ObstacleFeed::UpdateCallbackInt()"></a>8. 成员函数：ObstacleFeed::UpdateCallbackInt()</h3><ul>
+<li>2 = predefined obstacles</li>
+<li>与<code>7. 成员函数：ObstacleFeed::UpdateCallback()</code>稍有不同</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">ObstacleFeed::UpdateCallbackInt</span><span class="hljs-params">(lmpcc_msgs::IntTrigger::Request&amp; request, lmpcc_msgs::IntTrigger::Response&amp; response)</span></span>&#123;
+	<span class="hljs-keyword">int</span> rate = request.value;
+    
+    obstacles_.lmpcc_obstacles[obst_it].pose.position.x = obstacles_.lmpcc_obstacles[obst_it].trajectory.poses[<span class="hljs-number">0</span>].pose.position.x + ((<span class="hljs-keyword">double</span>) <span class="hljs-number">1</span>/rate )*lmpcc_obstacle_feed_config_-&gt;v_x_.at(obst_it);
+	obstacles_.lmpcc_obstacles[obst_it].pose.position.y = obstacles_.lmpcc_obstacles[obst_it].trajectory.poses[<span class="hljs-number">0</span>].pose.position.y + ((<span class="hljs-keyword">double</span>) <span class="hljs-number">1</span>/rate )*lmpcc_obstacle_feed_config_-&gt;v_y_.at(obst_it);
+&#125;</code></pre>
+
+<h3 id="9-成员函数：ObstacleFeed-publishObstacles"><a href="#9-成员函数：ObstacleFeed-publishObstacles" class="headerlink" title="9. 成员函数：ObstacleFeed::publishObstacles()"></a>9. 成员函数：ObstacleFeed::publishObstacles()</h3><ul>
+<li>寻找调用该函数的地方</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ObstacleFeed::publishObstacles</span><span class="hljs-params">(<span class="hljs-keyword">const</span> lmpcc_msgs::lmpcc_obstacle_array&amp; obstacles)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-comment">//ROS_INFO_STREAM("publishObstacles");</span>
+    obstacles_pub.publish(obstacles);
+&#125;</code></pre>
+
+<h3 id="10-成员函数：ObstacleFeed-optitrackCallback"><a href="#10-成员函数：ObstacleFeed-optitrackCallback" class="headerlink" title="# 10. 成员函数：ObstacleFeed::optitrackCallback()"></a># 10. 成员函数：ObstacleFeed::optitrackCallback()</h3><ul>
+<li><p>1 = OptiTrack mode</p>
+</li>
+<li><p>❓所有的代码被注释掉了</p>
+</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ObstacleFeed::optitrackCallback</span><span class="hljs-params">(<span class="hljs-keyword">const</span> nav_msgs::Path&amp; predicted_path)</span></span>&#123;
+    <span class="hljs-comment">//。。。</span>
+&#125;</code></pre>
+
+<h3 id="11-成员函数：ObstacleFeed-pedestriansCallback"><a href="#11-成员函数：ObstacleFeed-pedestriansCallback" class="headerlink" title="11. 成员函数：ObstacleFeed::pedestriansCallback()"></a>11. 成员函数：ObstacleFeed::pedestriansCallback()</h3><ul>
+<li>0 = sensor mode</li>
+<li>调用成员函数：<code>Obstacle_Prediction::updateFilter</code></li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ObstacleFeed::pedestriansCallback</span><span class="hljs-params">(<span class="hljs-keyword">const</span> spencer_tracking_msgs::TrackedPersons&amp; person)</span></span>&#123;
+    obst.trajectory = filters_[person_it]-&gt;updateFilter(obst.trajectory.poses[<span class="hljs-number">0</span>].pose);
+    
+    publishObstacles(local_ellipses);
+&#125;</code></pre>
+
+<h3 id="12-成员函数：ObstacleFeed-PedsimCallback"><a href="#12-成员函数：ObstacleFeed-PedsimCallback" class="headerlink" title="12. 成员函数：ObstacleFeed::PedsimCallback()"></a>12. 成员函数：ObstacleFeed::PedsimCallback()</h3><ul>
+<li>4 = Pedsim</li>
+<li>与<code>11. 成员函数：ObstacleFeed::pedestriansCallback()</code>大同小异</li>
+<li>调用成员函数：<code>Obstacle_Prediction::updateFilter</code></li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ObstacleFeed::PedsimCallback</span><span class="hljs-params">(<span class="hljs-keyword">const</span> pedsim_msgs::TrackedPersons&amp; person)</span></span>&#123;
+	obst.trajectory = filters_[person_it]-&gt;updateFilter(obst.trajectory.poses[<span class="hljs-number">0</span>].pose);
+    
+    publishObstacles(local_ellipses);
+&#125;</code></pre>
+
+
+
+<h2 id="💻package-static-collision-avoidance"><a href="#💻package-static-collision-avoidance" class="headerlink" title="💻package: static_collision_avoidance"></a>💻package: <code>static_collision_avoidance</code></h2><h3 id="1-Start-static-collision-avoidance-node"><a href="#1-Start-static-collision-avoidance-node" class="headerlink" title="1. Start static_collision_avoidance_node"></a>1. Start static_collision_avoidance_node</h3><pre><code class="hljs sh">roslaunch static_collision_avodience static_collision_avoidance.launch</code></pre>
+
+<p>📄<code>static_collision_avoidance.launch</code></p>
+<ul>
+<li><p>启动<code>costmap_node</code>节点</p>
+</li>
+<li><p>启动<code>static_collision_avoidance_node</code>节点</p>
+</li>
+</ul>
+<pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- Run the costmap node --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"costmap_node"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"costmap_2d"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"costmap_2d_node"</span> &gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">rosparam</span> <span class="hljs-attr">file</span>=<span class="hljs-string">"$(find static_collision_avoidance)/config/local_map_params.yaml"</span> <span class="hljs-attr">command</span>=<span class="hljs-string">"load"</span> <span class="hljs-attr">ns</span>=<span class="hljs-string">"costmap"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">node</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"static_collision_avoidance"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"static_collision_avoidance_node"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"static_collision_avoidance_node"</span> <span class="hljs-attr">cwd</span>=<span class="hljs-string">"node"</span> <span class="hljs-attr">respawn</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">output</span>=<span class="hljs-string">"screen"</span>/&gt;</span></code></pre>
+
+<h3 id="2-static-collision-avoidance-node"><a href="#2-static-collision-avoidance-node" class="headerlink" title="2. static_collision_avoidance_node"></a>2. static_collision_avoidance_node</h3><p>📄<code>static_collision_avoidance_node.cpp</code></p>
+<ul>
+<li>创建类<code>StaticEnvironment</code>的实例化对象<code>node_</code></li>
+<li>调用成员函数：<code>node_.initialize()</code></li>
+</ul>
+<pre><code class="hljs cpp">StaticEnvironment node_;
+<span class="hljs-comment">// initialize predictive control node</span>
+<span class="hljs-keyword">if</span> (!node_.initialize())&#123;
+	ROS_ERROR_STREAM_NAMED(<span class="hljs-string">"FAILED TO INITIALIZE %s"</span>, ros::this_node::getName().c_str());
+	<span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+&#125;
+<span class="hljs-keyword">else</span>&#123;
+	<span class="hljs-comment">// spin node, till ROS node is running on</span>
+	ROS_INFO_STREAM_NAMED(<span class="hljs-string">"%s INITIALIZE SUCCESSFULLY!!"</span>, ros::this_node::getName().c_str());
+	ros::spin();
+&#125;</code></pre>
+
+<h3 id="3-class-StaticEnvironment"><a href="#3-class-StaticEnvironment" class="headerlink" title="3. class StaticEnvironment"></a>3. class StaticEnvironment</h3><p>📄<code>static_environment.cpp</code></p>
+<ul>
+<li><code>StaticEnvironment::initialize()</code></li>
+<li>对应文件：<strong><em>static_avoidance_config.yaml</em></strong></li>
+<li>成员函数：StaticEnvironment::LocalMapCallBack()</li>
+<li>成员函数：StaticEnvironment::LocalMapUpdatesCallBack()</li>
+<li>成员函数：StaticEnvironment::PredictedTrajectoryCallback()<ul>
+<li>❓topic：’’predicted_trajectory’ 是谁发布的</li>
+<li>答：<code>LMPCC::initialize_visuals()</code></li>
+</ul>
+</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">StaticEnvironment::initialize</span><span class="hljs-params">()</span></span>&#123;
+	local_map_sub_ = nh_.subscribe(<span class="hljs-string">"costmap_node/costmap/costmap"</span>, <span class="hljs-number">1</span>, &amp;StaticEnvironment::LocalMapCallBack, <span class="hljs-keyword">this</span>);
+    local_map_updates_sub_ = nh_.subscribe(<span class="hljs-string">"costmap_node/costmap/costmap_updates"</span>, <span class="hljs-number">1</span>, &amp;StaticEnvironment::LocalMapUpdatesCallBack, <span class="hljs-keyword">this</span>);
+    pred_traj_sub_ = nh_.subscribe(<span class="hljs-string">"predicted_trajectory"</span>, <span class="hljs-number">1</span>, &amp;StaticEnvironment::PredictedTrajectoryCallback, <span class="hljs-keyword">this</span>);
+
+    collision_free_pub_ = nh_.advertise&lt;visualization_msgs::MarkerArray&gt;(<span class="hljs-string">"collision_free_area"</span>,<span class="hljs-number">1</span>);
+    collision_constraint_pub_ = nh_.advertise&lt;static_collision_avoidance::collision_free_polygon&gt;(<span class="hljs-string">"collision_constraints"</span>,<span class="hljs-number">1</span>);
+    local_map_pub_ = nh_.advertise&lt;nav_msgs::OccupancyGrid&gt;(<span class="hljs-string">"my_map"</span>,<span class="hljs-number">1</span>);
+&#125;</code></pre>
+
+<h3 id="4-成员函数：StaticEnvironment-PredictedTrajectoryCallback"><a href="#4-成员函数：StaticEnvironment-PredictedTrajectoryCallback" class="headerlink" title="4. 成员函数：StaticEnvironment::PredictedTrajectoryCallback()"></a>4. 成员函数：StaticEnvironment::PredictedTrajectoryCallback()</h3><ul>
+<li><p>函数的目的：得到<code>the convex free space</code>，即论文中<code>Fig.2.</code> 里的<code>orange squares</code></p>
+</li>
+<li><p>主要的内容：</p>
+<ul>
+<li><p>❓nav_msgs::Path pred_traj_; 从哪里获得，是全局参考路径还是局部参考路径</p>
+</li>
+<li><p>pred_traj_ = msg;</p>
+</li>
+<li><p>成员函数：ComputeCollisionFreeArea();</p>
+</li>
+<li><p>collision_constraint_pub_.publish(constraint_msg);</p>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StaticEnvironment::PredictedTrajectoryCallback</span><span class="hljs-params">(<span class="hljs-keyword">const</span> nav_msgs::Path msg)</span></span>&#123;
+
+    <span class="hljs-comment">//ROS_INFO_STREAM("PredictedTrajectoryCallback");</span>
+
+    static_collision_avoidance::collision_free_polygon constraint_msg;
+    pred_traj_ = msg;
+
+    ComputeCollisionFreeArea();
+
+    constraint_msg.collision_free_a1x = collision_free_a1x;
+    constraint_msg.collision_free_a1y = collision_free_a1y;
+    constraint_msg.collision_free_a2x = collision_free_a2x;
+    constraint_msg.collision_free_a2y = collision_free_a2y;
+    constraint_msg.collision_free_a3x = collision_free_a3x;
+    constraint_msg.collision_free_a3y = collision_free_a3y;
+    constraint_msg.collision_free_a4x = collision_free_a4x;
+    constraint_msg.collision_free_a4y = collision_free_a4y;
+
+    constraint_msg.collision_free_C1 = collision_free_C1;
+    constraint_msg.collision_free_C2 = collision_free_C2;
+    constraint_msg.collision_free_C3 = collision_free_C3;
+    constraint_msg.collision_free_C4 = collision_free_C4;
+
+    constraint_msg.collision_free_xmin = collision_free_xmin;
+    constraint_msg.collision_free_xmax = collision_free_xmax;
+    constraint_msg.collision_free_ymin = collision_free_ymin;
+    constraint_msg.collision_free_ymax = collision_free_ymax;
+    constraint_msg.computation_time = te_collision_free_;
+
+    collision_constraint_pub_.publish(constraint_msg);
+
+    publishPosConstraint();
+&#125;</code></pre>
+
+<h3 id="5-成员函数：StaticEnvironment-ComputeCollisionFreeArea"><a href="#5-成员函数：StaticEnvironment-ComputeCollisionFreeArea" class="headerlink" title="5. 成员函数：StaticEnvironment::ComputeCollisionFreeArea()"></a>5. 成员函数：StaticEnvironment::ComputeCollisionFreeArea()</h3><ul>
+<li>在每个<code>prediction_steps_</code>内调用成员函数<code>computeConstraint()</code>计算限制条件</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StaticEnvironment::ComputeCollisionFreeArea</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+	<span class="hljs-comment">// Iterate over points in prediction horizon to search for collision free circles</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; prediction_steps_; i++)
+    &#123;
+        <span class="hljs-comment">// Current search point of prediction horizon</span>
+        x_path = pred_traj_.poses[i].pose.position.x;
+        y_path = pred_traj_.poses[i].pose.position.y;
+        psi_path = pred_traj_.poses[i].pose.orientation.z;
+
+        <span class="hljs-comment">// Find corresponding index of the point in the occupancy grid map</span>
+        x_path_i = (<span class="hljs-keyword">int</span>) round((x_path - static_map_.info.origin.position.x)/static_map_.info.resolution);
+        y_path_i = (<span class="hljs-keyword">int</span>) round((y_path - static_map_.info.origin.position.y)/static_map_.info.resolution);
+
+        <span class="hljs-comment">// Compute the constraint</span>
+        computeConstraint(x_path_i,y_path_i,x_path, y_path, psi_path, i);
+	&#125;
+&#125;</code></pre>
+
+<h3 id="6-成员函数：StaticEnvironment-computeConstraint"><a href="#6-成员函数：StaticEnvironment-computeConstraint" class="headerlink" title="6. 成员函数：StaticEnvironment::computeConstraint()"></a>6. 成员函数：StaticEnvironment::computeConstraint()</h3><ul>
+<li>❓计算过程没看懂</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StaticEnvironment::computeConstraint</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x_i, <span class="hljs-keyword">int</span> y_i, <span class="hljs-keyword">double</span> x_path, <span class="hljs-keyword">double</span> y_path, <span class="hljs-keyword">double</span> psi_path, <span class="hljs-keyword">int</span> N)</span></span>
+<span class="hljs-function"></span>&#123;
+	<span class="hljs-comment">// Assign the rectangle values</span>
+    collision_free_xmin[N] = x_min*static_map_.info.resolution + <span class="hljs-number">0.35</span>;
+    collision_free_xmax[N] = x_max*static_map_.info.resolution - <span class="hljs-number">0.35</span>;
+    collision_free_ymin[N] = y_min*static_map_.info.resolution + <span class="hljs-number">0.35</span>;
+    collision_free_ymax[N] = y_max*static_map_.info.resolution - <span class="hljs-number">0.35</span>;
+    
+    <span class="hljs-comment">/*</span>
+<span class="hljs-comment">    * ......</span>
+<span class="hljs-comment">    */</span>
+    
+    collision_free_a1x[N] = t1[<span class="hljs-number">1</span>];
+    collision_free_a2x[N] = t2[<span class="hljs-number">1</span>];
+    collision_free_a3x[N] = t3[<span class="hljs-number">1</span>];
+    collision_free_a4x[N] = t4[<span class="hljs-number">1</span>];
+
+    collision_free_a1y[N] = -t1[<span class="hljs-number">0</span>];
+    collision_free_a2y[N] = -t2[<span class="hljs-number">0</span>];
+    collision_free_a3y[N] = -t3[<span class="hljs-number">0</span>];
+    collision_free_a4y[N] = -t4[<span class="hljs-number">0</span>];
+
+    collision_free_C1[N] = sqx[<span class="hljs-number">0</span>]*collision_free_a1x[N] + sqy[<span class="hljs-number">0</span>]*collision_free_a1y[N];
+    collision_free_C2[N] = sqx[<span class="hljs-number">1</span>]*collision_free_a2x[N] + sqy[<span class="hljs-number">1</span>]*collision_free_a2y[N];
+    collision_free_C3[N] = sqx[<span class="hljs-number">2</span>]*collision_free_a3x[N] + sqy[<span class="hljs-number">2</span>]*collision_free_a3y[N];
+    collision_free_C4[N] = sqx[<span class="hljs-number">3</span>]*collision_free_a4x[N] + sqy[<span class="hljs-number">3</span>]*collision_free_a4y[N];
+&#125;</code></pre>
+
+<h3 id="7-costmap-node"><a href="#7-costmap-node" class="headerlink" title="7. costmap_node"></a>7. costmap_node</h3><p>📄<code>costmap_2d_node.cpp</code></p>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span></span>
+<span class="hljs-function"></span>&#123;
+  ros::init(argc, argv, <span class="hljs-string">"costmap_node"</span>);
+  <span class="hljs-function">tf::TransformListener <span class="hljs-title">tf</span><span class="hljs-params">(ros::Duration(<span class="hljs-number">10</span>))</span></span>;
+  <span class="hljs-function">costmap_2d::Costmap2DROS <span class="hljs-title">lcr</span><span class="hljs-params">(<span class="hljs-string">"costmap"</span>, tf)</span></span>;
+
+  ros::spin();
+
+  <span class="hljs-keyword">return</span> (<span class="hljs-number">0</span>);
+&#125;</code></pre>
+
+
             </article>
             <hr>
             <div>
