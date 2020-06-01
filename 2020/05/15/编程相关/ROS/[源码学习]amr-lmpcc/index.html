@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="gaoyangu">
   <meta name="keywords" content="">
-  <title>LMPCC - gaoyangu</title>
+  <title>源码学习：amr-lmpcc - gaoyangu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -191,15 +191,15 @@
 └── static_collision_avoidance</code></pre>
 
 <h2 id="代办事项"><a href="#代办事项" class="headerlink" title="代办事项"></a>代办事项</h2><ul>
-<li><input disabled="" type="checkbox"> <p>ROS：costmap_2d</p>
+<li><p>ROS：costmap_2d</p>
 </li>
-<li><input disabled="" type="checkbox"> <p>tf 坐标变换结构</p>
+<li><p>tf 坐标变换结构</p>
 </li>
-<li><input disabled="" type="checkbox"> <p>ROS：dynamic_reconfigure（相关知识有待补充）</p>
+<li><p>ROS：dynamic_reconfigure（相关知识有待补充）</p>
 </li>
-<li><input disabled="" type="checkbox"> <p>ACADO</p>
+<li><p><a href="https://github.com/acado/acado" target="_blank" rel="noopener">ACADO</a></p>
 </li>
-<li><input disabled="" type="checkbox"> <p>clothoid</p>
+<li><p>clothoid</p>
 </li>
 </ul>
 <h2 id="💻package-lmpcc"><a href="#💻package-lmpcc" class="headerlink" title="💻package: lmpcc"></a>💻package: <code>lmpcc</code></h2><h3 id="包含的类"><a href="#包含的类" class="headerlink" title="包含的类"></a>包含的类</h3><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LMPCC</span>&#123;</span>
@@ -361,6 +361,8 @@ LMPCC()
 
 <h3 id="5-成员函数：LMPCC-ObstacleCallBack"><a href="#5-成员函数：LMPCC-ObstacleCallBack" class="headerlink" title="5. 成员函数：LMPCC::ObstacleCallBack"></a>5. 成员函数：LMPCC::ObstacleCallBack</h3><ul>
 <li>注意到形参为：<code>const lmpcc_msgs::lmpcc_obstacle_array&amp; received_obstacles</code></li>
+<li>接受：移动障碍物信息</li>
+<li>输出：<code>obstacles_</code></li>
 </ul>
 <pre><code class="hljs cpp"><span class="hljs-comment">//lmpcc_obstacle.msg</span>
 geometry_msgs/Pose pose
@@ -418,6 +420,8 @@ lmpcc_msgs/lmpcc_obstacle[] lmpcc_obstacles</code></pre>
 
 <h3 id="6-成员函数：LMPCC-FreeAreaCallBack"><a href="#6-成员函数：LMPCC-FreeAreaCallBack" class="headerlink" title="6. 成员函数：LMPCC::FreeAreaCallBack()"></a>6. 成员函数：LMPCC::FreeAreaCallBack()</h3><ul>
 <li>注意到形参为：<code>const static_collision_avoidance::collision_free_polygon&amp; msg</code></li>
+<li>接受：静态障碍物信息</li>
+<li>返回：<code>collision_free_*</code></li>
 </ul>
 <pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LMPCC::FreeAreaCallBack</span><span class="hljs-params">(<span class="hljs-keyword">const</span> static_collision_avoidance::collision_free_polygon&amp; msg)</span></span>&#123;
     <span class="hljs-comment">//ROS_INFO("LMPCC::FreeAreaCallBack");</span>
@@ -518,7 +522,10 @@ lmpcc_msgs/lmpcc_obstacle[] lmpcc_obstacles</code></pre>
 
 <ul>
 <li>成员函数：ReferencePath::SetGlobalPath()</li>
-<li>成员函数：ReferencePath::InitLocalRefPath()</li>
+<li>成员函数：ReferencePath::InitLocalRefPath()<ul>
+<li><code>clothoid</code></li>
+</ul>
+</li>
 <li>成员函数：ReferencePath::UpdateLocalRefPath()</li>
 </ul>
 <h2 id="💻package-lmpcc-obstacle-feed"><a href="#💻package-lmpcc-obstacle-feed" class="headerlink" title="💻package: lmpcc_obstacle_feed"></a>💻package: <code>lmpcc_obstacle_feed</code></h2><h3 id="1-Start-lmpcc-obstacle-feed"><a href="#1-Start-lmpcc-obstacle-feed" class="headerlink" title="1. Start lmpcc_obstacle_feed"></a>1. Start lmpcc_obstacle_feed</h3><pre><code class="hljs bash"><span class="hljs-comment"># 仿真环境</span>
@@ -959,7 +966,7 @@ roslaunch lmpcc_obstacle_feed map_lmpcc_obstacle_feed.launch</code></pre>
                     
                       <a class="hover-with-bg" href="/tags/ROS/">ROS</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0/">代码学习</a>
+                      <a class="hover-with-bg" href="/tags/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">源码学习</a>
                     
                       <a class="hover-with-bg" href="/tags/LMPCC/">LMPCC</a>
                     
@@ -969,6 +976,29 @@ roslaunch lmpcc_obstacle_feed map_lmpcc_obstacle_feed.launch</code></pre>
               
                 <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
               
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/05/25/%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3/c++/%5BC++Primerd%E7%AC%AC%E4%BA%94%E7%89%88%5D%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E5%8A%A8%E6%80%81%E5%86%85%E5%AD%98/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">C++Primerd第五版：第十二章 动态内存</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/05/12/%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3/c++/%5BC++Primerd%E7%AC%AC%E4%BA%94%E7%89%88%5D%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20%E5%85%B3%E8%81%94%E5%AE%B9%E5%99%A8/">
+                        <span class="hidden-mobile">C++Primer第五版：第十一章 关联容器</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
               
             </div>
 
@@ -1102,7 +1132,7 @@ roslaunch lmpcc_obstacle_feed map_lmpcc_obstacle_feed.launch</code></pre>
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "LMPCC&nbsp;",
+        "源码学习：amr-lmpcc&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
