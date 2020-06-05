@@ -20,21 +20,16 @@
   <title>标签 - gaoyangu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
 
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/googlecode.min.css" />
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_fmb4a04yx8h.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
 
 
 
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
-
-
 
 
 <link  rel="stylesheet" href="/css/main.css" />
@@ -42,6 +37,7 @@
 <!-- 自定义样式保持在最底部 -->
 
 
+  <script  src="/js/utils.js" ></script>
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 
@@ -65,47 +61,62 @@
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/">
-              <i class="iconfont icon-home-fill"></i>
-              首页</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/archives/">
-              <i class="iconfont icon-archive-fill"></i>
-              归档</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/categories/">
-              <i class="iconfont icon-category-fill"></i>
-              分类</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/tags/">
-              <i class="iconfont icon-tags-fill"></i>
-              标签</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/about/">
-              <i class="iconfont icon-user-fill"></i>
-              关于</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
         
         
           <li class="nav-item" id="search-btn">
@@ -149,7 +160,7 @@
                 
 
 <div class="text-center tagcloud">
-  <a href="/tags/LMPCC/" style="font-size: 15px; color: #bbe">LMPCC</a> <a href="/tags/ROS/" style="font-size: 15px; color: #bbe">ROS</a> <a href="/tags/c/" style="font-size: 25px; color: #6090c9">c++</a> <a href="/tags/git/" style="font-size: 15px; color: #bbe">git</a> <a href="/tags/ros/" style="font-size: 15px; color: #bbe">ros</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 30px; color: #337ab7">学习笔记</a> <a href="/tags/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #bbe">源码学习</a> <a href="/tags/%E7%BD%91%E7%AB%99%E6%B1%87%E6%80%BB/" style="font-size: 15px; color: #bbe">网站汇总</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 20px; color: #8ea5dc">读书笔记</a>
+  <a href="/tags/LMPCC/" style="font-size: 20px; color: #8ea5dc">LMPCC</a> <a href="/tags/ROS/" style="font-size: 20px; color: #8ea5dc">ROS</a> <a href="/tags/c/" style="font-size: 25px; color: #6090c9">c++</a> <a href="/tags/git/" style="font-size: 15px; color: #bbe">git</a> <a href="/tags/ros/" style="font-size: 15px; color: #bbe">ros</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 30px; color: #337ab7">学习笔记</a> <a href="/tags/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/" style="font-size: 20px; color: #8ea5dc">源码学习</a> <a href="/tags/%E7%BD%91%E7%AB%99%E6%B1%87%E6%80%BB/" style="font-size: 15px; color: #bbe">网站汇总</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 20px; color: #8ea5dc">读书笔记</a>
 </div>
 
               </div>
@@ -213,12 +224,15 @@
 <!-- SCRIPTS -->
 <script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
 <script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
 <script  src="/js/main.js" ></script>
 
+<!-- Plugins -->
 
-  <script  src="/js/lazyload.js" ></script>
 
-
+  
+    <script  src="/js/lazyload.js" ></script>
+  
 
 
 
@@ -230,7 +244,6 @@
 
 
 
-<!-- Plugins -->
 
 
 
@@ -254,21 +267,6 @@
 
 
 
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
-    }
-    anchors.add(res.join(", "))
-  </script>
-
 
 
   <script  src="/js/local-search.js" ></script>
@@ -280,6 +278,8 @@
       this.onclick = null
     }
   </script>
+
+
 
 
 
