@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="gaoyangu">
+  <meta name="keywords" content="">
+  <title>【源码学习】amr-lmpcc_03 - gaoyangu</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/googlecode.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>gaoyangu</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-06-21 18:38">
+      2020年6月21日 晚上
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      783 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      12
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h2 id="package-mobile-robot-state-publisher"><a href="#package-mobile-robot-state-publisher" class="headerlink" title="package:mobile_robot_state_publisher"></a>package:<code>mobile_robot_state_publisher</code></h2><h2 id="3-1-launch文件"><a href="#3-1-launch文件" class="headerlink" title="3.1 launch文件"></a>3.1 launch文件</h2><pre><code class="hljs applescript">/amr-lmpcc/mobile_robot_state_publisher/<span class="hljs-built_in">launch</span>
+└── mobile_robot_publisher.<span class="hljs-built_in">launch</span>
+
+<span class="hljs-built_in">file</span>: <span class="hljs-number">1</span></code></pre>
+<p>首先是<code>arg</code>参数</p>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">arg</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"config"</span> <span class="hljs-attr">default</span>=<span class="hljs-string">"$(find mobile_robot_state_publisher)"</span>/&gt;</span></code></pre>
+<p>然后是用于发布机器人位姿的<code>mobile_robot_state_publisher_node</code>节点</p>
+<pre><code class="hljs xml"><span class="hljs-comment">&lt;!--Publish the mobile robot pose --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"mobile_robot_state_publisher"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"mobile_robot_state_publisher"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"mobile_robot_state_publisher_node"</span> <span class="hljs-attr">respawn</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">output</span>=<span class="hljs-string">"screen"</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">rosparam</span> <span class="hljs-attr">command</span>=<span class="hljs-string">"load"</span> <span class="hljs-attr">file</span>=<span class="hljs-string">"$(arg config)/config/jackal.yaml"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">node</span>&gt;</span></code></pre>
+<p><strong>小结：</strong></p>
+<p>该文件只启动了一个节点</p>
+<ul>
+<li><code>mobile_robot_state_publisher_node</code></li>
+</ul>
+<h2 id="3-2-jackal-yaml"><a href="#3-2-jackal-yaml" class="headerlink" title="3.2 jackal.yaml"></a>3.2 jackal.yaml</h2><p>在启动<code>mobile_robot_state_publisher_node</code>节点时加载的配置文件，主要包括：</p>
+<p>发布的频率<code>rate</code>，底盘坐标系<code>base_frame</code>，地图坐标系<code>root_frame</code>，发布的机器人状态的话题名<code>robot_state_topic</code>和订阅的里程计的话题名<code>vel_state_topic</code>。</p>
+<pre><code class="hljs yaml"><span class="hljs-comment">## Driver Parameters</span>
+
+<span class="hljs-comment">#publisher rate</span>
+<span class="hljs-attr">rate:</span> <span class="hljs-number">40</span>
+<span class="hljs-comment">#robot base frame</span>
+<span class="hljs-attr">base_frame:</span> <span class="hljs-string">base_link</span>
+<span class="hljs-comment">#map frame</span>
+<span class="hljs-attr">root_frame:</span> <span class="hljs-string">map</span>
+<span class="hljs-attr">robot_state_topic:</span> <span class="hljs-string">/robot_state</span>
+<span class="hljs-attr">vel_state_topic:</span> <span class="hljs-string">/odometry/filtered</span></code></pre>
+<h2 id="3-3-头文件"><a href="#3-3-头文件" class="headerlink" title="3.3 头文件"></a>3.3 头文件</h2><pre><code class="hljs taggerscript"><span class="hljs-symbol">\a</span>mr-lmpcc<span class="hljs-symbol">\m</span>obile_robot_state_publisher<span class="hljs-symbol">\i</span>nclude<span class="hljs-symbol">\m</span>obile_robot_state_publisher
+└── mobile_robot_state_publisher.h
+
+file: 1</code></pre>
+<h3 id="3-3-1-class-MobileRobotStatePublisher"><a href="#3-3-1-class-MobileRobotStatePublisher" class="headerlink" title="3.3.1 class MobileRobotStatePublisher"></a>3.3.1 class <code>MobileRobotStatePublisher</code></h3><p>在头文件，定义了一个类<code>MobileRobotStatePublisher</code>。</p>
+<p>类的开始定义了ROS句柄<code>nh_</code>，订阅者<code>jointstate_sub_</code>，发布者<code>robot_state_pub_</code>和用于 tf 变换的订阅者<code>tfListener(tfBuffer)</code>。</p>
+<pre><code class="hljs cpp">ros::NodeHandle nh_;
+
+ros::Subscriber jointstate_sub_;
+
+ros::Publisher robot_state_pub_;
+
+tf2_ros::Buffer tfBuffer;
+<span class="hljs-function">tf2_ros::TransformListener <span class="hljs-title">tfListener</span><span class="hljs-params">(tfBuffer)</span></span>;</code></pre>
+<p>然后是构造函数，析构函数和用于初始化的成员函数<code>initialize()</code></p>
+<pre><code class="hljs cpp">MobileRobotStatePublisher()&#123;
+&#125;
+
+~MobileRobotStatePublisher()&#123;
+
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">initialize</span><span class="hljs-params">()</span></span>;</code></pre>
+<h2 id="3-4-源文件"><a href="#3-4-源文件" class="headerlink" title="3.4 源文件"></a>3.4 源文件</h2><pre><code class="hljs cpp">\amr-lmpcc\mobile_robot_state_publisher\src
+├── mobile_robot_state_publisher_node.cpp
+└── mobile_robot_state_publisher_node.cpp~
+
+file: <span class="hljs-number">2</span></code></pre>
+<h3 id="3-4-1-mobile-robot-state-publisher-node-cpp"><a href="#3-4-1-mobile-robot-state-publisher-node-cpp" class="headerlink" title="3.4.1 mobile_robot_state_publisher_node.cpp"></a>3.4.1 mobile_robot_state_publisher_node.cpp</h3><ol>
+<li><strong>main函数</strong></li>
+</ol>
+<p>主函数开头初始化<code>mobile_robot_state_publisher_node</code>节点，创建句柄<code>n</code>和订阅者<code>robot_state_sub_</code></p>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> **argv)</span></span>
+<span class="hljs-function"></span>&#123;
+    ros::init(argc, argv, <span class="hljs-string">"mobile_robot_state_publisher_node"</span>);
+	ros::NodeHandle n;
+	ros::Subscriber robot_state_sub_;
+&#125;</code></pre>
+<p>然后是用于获取<code>jackal.yaml</code>中的参数的代码，此处仅放一个作为示例。</p>
+<p>注：这些代码应该是要写在成员函数<code>initialize()</code>中的。</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">double</span> node_rate;
+<span class="hljs-keyword">if</span> (!n.getParam(ros::this_node::getName()+<span class="hljs-string">"/rate"</span>, node_rate))&#123;
+	ROS_ERROR_STREAM(<span class="hljs-string">"mobile_robot_state_publisher_node Parameter "</span> &lt;&lt; ros::this_node::getName()+<span class="hljs-string">"/rate not set"</span>);
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+<p>接着，订阅和发布了一些话题。</p>
+<pre><code class="hljs cpp">robot_state_sub_ = n.subscribe(vel_state_topic, <span class="hljs-number">1</span>, VelocityCallBack);
+ros::Publisher state_pub_ = n.advertise&lt;geometry_msgs::Pose&gt;(robot_state_topic, <span class="hljs-number">10</span>);
+
+tf2_ros::Buffer tfBuffer;
+<span class="hljs-function">tf2_ros::TransformListener <span class="hljs-title">tfListener</span><span class="hljs-params">(tfBuffer)</span></span>;</code></pre>
+<p>发布的频率设置</p>
+<pre><code class="hljs cpp"><span class="hljs-function">ros::Rate <span class="hljs-title">rate</span><span class="hljs-params">(node_rate)</span></span>;</code></pre>
+<p>中间变量的定义</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">//Intermidiate variables</span>
+geometry_msgs::Pose pose_msg;
+<span class="hljs-keyword">double</span> ysqr, t3, t4;
+geometry_msgs::TransformStamped transformStamped;</code></pre>
+<p>在循环<code>while (n.ok())</code>中的try-catch语句，通过frame ID获取两帧之间的变换。</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">try</span>&#123;
+    <span class="hljs-comment">//Get the transform between two frames by frame ID</span>
+    <span class="hljs-comment">//void 	lookupTransform (const std::string &amp;target_frame, const std::string &amp;source_frame, const ros::Time &amp;time, StampedTransform &amp;transform) const</span>
+	transformStamped = tfBuffer.lookupTransform(root_frame, base_frame, ros::Time(<span class="hljs-number">0</span>));
+&#125;
+<span class="hljs-keyword">catch</span> (tf2::TransformException &amp;ex) &#123;
+	ROS_WARN(<span class="hljs-string">"%s"</span>,ex.what());
+	ros::Duration(<span class="hljs-number">1.0</span>).sleep();
+	<span class="hljs-keyword">continue</span>;
+&#125;</code></pre>
+<p>然后发布机器人位姿</p>
+<pre><code class="hljs cpp">pose_msg.orientation.z = QuatToJointAngle(transformStamped);
+
+pose_msg.position.x = transformStamped.transform.translation.x;
+pose_msg.position.y = transformStamped.transform.translation.y;
+pose_msg.position.z = vel;
+state_pub_.publish(pose_msg);</code></pre>
+<p>最后是ROS的回旋函数</p>
+<pre><code class="hljs cpp">ros::spinOnce();</code></pre>
+<ol>
+<li><strong>VelocityCallBack()</strong></li>
+</ol>
+<p>订阅者<code>robot_state_sub_</code>的回调函数</p>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">VelocityCallBack</span><span class="hljs-params">(<span class="hljs-keyword">const</span> nav_msgs::Odometry&amp; msg)</span></span>&#123;
+	vel = <span class="hljs-built_in">sqrt</span>(<span class="hljs-built_in">pow</span>(msg.twist.twist.linear.x,<span class="hljs-number">2</span>)+<span class="hljs-built_in">pow</span>(msg.twist.twist.linear.y,<span class="hljs-number">2</span>));
+&#125;</code></pre>
+<ol>
+<li><strong>QuatToJointAngle()</strong></li>
+</ol>
+<p>四元数(Quaternion)到角度的转换，<code>atan2</code>返回以弧度表示的 t4/t3 的反正切。</p>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">QuatToJointAngle</span><span class="hljs-params">(<span class="hljs-keyword">const</span> geometry_msgs::TransformStamped transformStamped)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> ysqr = transformStamped.transform.rotation.y * transformStamped.transform.rotation.y;
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> t3 = +<span class="hljs-number">2.0</span> * (transformStamped.transform.rotation.w * transformStamped.transform.rotation.z
+                 + transformStamped.transform.rotation.x * transformStamped.transform.rotation.y);
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> t4 = +<span class="hljs-number">1.0</span> - <span class="hljs-number">2.0</span> * (ysqr + transformStamped.transform.rotation.z * transformStamped.transform.rotation.z);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">atan2</span>(t3, t4);
+&#125;;</code></pre>
+<h2 id="3-5-总结"><a href="#3-5-总结" class="headerlink" title="3.5 总结"></a>3.5 总结</h2><ol>
+<li>这个包只有一个节点<code>mobile_robot_state_publisher_node</code>，该节点订阅话题<code>/odometry/filtered</code>，发布话题<code>/robot_state</code>。</li>
+<li>在类<code>MobileRobotStatePublisher</code>中定义的发布者和订阅者没有用到，是否是多余的定义。</li>
+</ol>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ROS/">ROS</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">源码学习</a>
+                    
+                      <a class="hover-with-bg" href="/tags/LMPCC/">LMPCC</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/06/22/Code/ROS/%5B%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%5Damr-lmpcc_04lmpcc_obstacle_feed/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【源码学习】amr-lmpcc_04</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/06/20/Code/ROS/%5B%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%5Damr-lmpcc_02lmpcc/">
+                        <span class="hidden-mobile">【源码学习】amr-lmpcc_02</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "【源码学习】amr-lmpcc_03&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

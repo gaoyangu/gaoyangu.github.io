@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="gaoyangu">
+  <meta name="keywords" content="">
+  <title>C++Primerd第五版：第十二章 动态内存 - gaoyangu</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/googlecode.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>gaoyangu</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-05-25 14:23">
+      2020年5月25日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      65
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h2 id="十二章-动态内存"><a href="#十二章-动态内存" class="headerlink" title="十二章 动态内存"></a>十二章 动态内存</h2><ol>
+<li><code>静态内存</code><ul>
+<li>保存局部static对象、类static数据成员和定义在任何函数之外的变量</li>
+</ul>
+</li>
+<li><code>栈内存</code><ul>
+<li>保存定义在函数内的非static对象</li>
+</ul>
+</li>
+</ol>
+<p>分配在<code>静态内存</code>或<code>栈内存</code>中的对象由编译器自动创建和销毁</p>
+<ol>
+<li><code>堆（heap）</code>：自由空间（free store）<ul>
+<li>存储动态分配的对象</li>
+</ul>
+</li>
+</ol>
+<h3 id="12-1-动态内存与智能指针"><a href="#12-1-动态内存与智能指针" class="headerlink" title="12.1 动态内存与智能指针"></a>12.1 动态内存与智能指针</h3><ul>
+<li><code>new</code>：在动态内存中为对象分配并返回一个<strong>指向该对象的指针</strong>，可以选择对对象进行初始化</li>
+<li><p><code>delete</code>：接受一个动态对象的指针，销毁该对象，并释放与之关联的内存</p>
+</li>
+<li><p><code>智能指针</code></p>
+<ul>
+<li><p>行为类似常规指针，区别是它负责自动释放所指向的对象</p>
+</li>
+<li><p><code>shared_ptr</code>：允许多个指针指向同一个对象</p>
+</li>
+<li><code>unique_ptr</code>：独占所指的对象</li>
+<li><code>weak_ptr</code>：弱引用，指向<code>shared_ptr</code>所管理的对象</li>
+</ul>
+</li>
+</ul>
+<p><strong>12.1.1 <code>shared_ptr</code> 类</strong></p>
+<pre><code class="hljs cpp"><span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; p1;
+<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">list</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt; p2;</code></pre>
+<ol>
+<li>make_shared 函数</li>
+</ol>
+<ul>
+<li>头文件：<code>memory</code></li>
+<li>最安全的分配和使用动态内存的方法</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-comment">//指向一个值为42的int的shared_ptr</span>
+<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; p3 = make_shared&lt;<span class="hljs-keyword">int</span>&gt;(<span class="hljs-number">42</span>);
+<span class="hljs-comment">//p4指向一个“9999999999”的string</span>
+<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; p4 = make_shared&lt;<span class="hljs-built_in">string</span>&gt;(<span class="hljs-number">10</span>,<span class="hljs-string">'9'</span>);
+<span class="hljs-comment">//p6指向一个动态分配的空vector&lt;string&gt;</span>
+<span class="hljs-keyword">auto</span> p6 = make_shared&lt;vevtor&lt;<span class="hljs-built_in">string</span>&gt;&gt;();</code></pre>
+<ol>
+<li><code>shared_ptr</code>的拷贝和赋值</li>
+</ol>
+<ul>
+<li><code>引用计数</code>(reference count)<ul>
+<li>每个shared_ptr都会记录有多少个shared_ptr指向相同的对象</li>
+</ul>
+</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-keyword">auto</span> p = make_shared&lt;<span class="hljs-keyword">int</span>&gt;(<span class="hljs-number">42</span>);	<span class="hljs-comment">//p 指向的对象只有 p 一个引用者</span>
+<span class="hljs-function"><span class="hljs-keyword">auto</span> <span class="hljs-title">q</span><span class="hljs-params">(p)</span></span>;	<span class="hljs-comment">//p 和 q 指向相同对象，此对象有两个引用者</span>
+
+<span class="hljs-keyword">auto</span> r = make_shared&lt;<span class="hljs-keyword">int</span>&gt;(<span class="hljs-number">42</span>);	<span class="hljs-comment">//r 指向的 int 只有一个引用者</span>
+r = q;	<span class="hljs-comment">//给 r 赋值，令它指向另一个地址</span>
+		<span class="hljs-comment">//递增 q 指向的对象的引用计数</span>
+		<span class="hljs-comment">//递减 r 原来指向的对象的引用计数</span>
+		<span class="hljs-comment">//r 原来指向的对象已没有引用者，会自动释放</span></code></pre>
+<ol>
+<li><code>shared_ptr</code>自动销毁所管理的对象，自动释放相关联的内存</li>
+<li>如果将<code>shared_ptr</code>存放于一个容器中，而后不再需要全部元素，而只使用其中一部分，要记得用 erase 删除不再需要的那些元素。</li>
+<li>程序使用动态内存的原因<ul>
+<li>程序不知道自己需要使用多少对象</li>
+<li>程序不知道所需对象的准确类型</li>
+<li>程序需要在多个对象间共享数据</li>
+</ul>
+</li>
+<li>定义StrBlob类<ul>
+<li>类成员函数声明为const  以表明它们不修改类对象</li>
+</ul>
+</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StrBlob</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+	<span class="hljs-keyword">typedef</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt;::size_type size_type;
+	StrBlob();
+	StrBlob(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">initializer_list</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt; il);
+	<span class="hljs-function">size_type <span class="hljs-title">size</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span> </span>&#123; <span class="hljs-keyword">return</span> data-&gt;size(); &#125;
+	<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">empty</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span> </span>&#123; <span class="hljs-keyword">return</span> data-&gt;empty(); &#125;
+	<span class="hljs-comment">//添加和删除元素</span>
+	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">push_back</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; t)</span> </span>&#123; data-&gt;push_back(t); &#125;
+	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">pop_back</span><span class="hljs-params">()</span></span>;
+	<span class="hljs-comment">//元素访问</span>
+	<span class="hljs-function"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; <span class="hljs-title">front</span><span class="hljs-params">()</span></span>;
+	<span class="hljs-function"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; <span class="hljs-title">back</span><span class="hljs-params">()</span></span>;
+<span class="hljs-keyword">private</span>:
+	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt;&gt; data;
+	<span class="hljs-comment">// 如果data[i]不合法，抛出一个异常</span>
+	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">check</span><span class="hljs-params">(size_type i, <span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; msg)</span> <span class="hljs-keyword">const</span></span>;
+&#125;;</code></pre>
+<ol>
+<li>Strblob构造函数</li>
+</ol>
+<pre><code class="hljs cpp">StrBlob::StrBlob() : data(make_shared&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">string</span>&gt;&gt;())&#123;&#125;
+StrBlob::StrBlob(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">initializer_list</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt; il) : data(make_shared&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">string</span>&gt;&gt;(il))&#123;&#125;</code></pre>
+<ol>
+<li>元素访问成员函数</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StrBlob::check</span><span class="hljs-params">(size_type i, <span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; msg)</span> <span class="hljs-keyword">const</span> </span>&#123;
+    <span class="hljs-keyword">if</span>(i &gt;= data-&gt;size())
+        <span class="hljs-keyword">throw</span> out_of_range(msg);
+&#125;
+<span class="hljs-function"><span class="hljs-built_in">string</span>&amp; <span class="hljs-title">StrBlob::front</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    check(<span class="hljs-number">0</span>, <span class="hljs-string">"front on empty StrBlob"</span>);
+    <span class="hljs-keyword">return</span> data-&gt;front();
+&#125;
+<span class="hljs-function"><span class="hljs-built_in">string</span>&amp; <span class="hljs-title">StrBlob::back</span><span class="hljs-params">()</span></span>&#123;
+    check(<span class="hljs-number">0</span>, <span class="hljs-string">"back on empty StrBlob"</span>);
+    <span class="hljs-keyword">return</span> data-&gt;back();
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StrBlob::pop_back</span><span class="hljs-params">()</span></span>&#123;
+    check(<span class="hljs-number">0</span>,<span class="hljs-string">"pop_back on empty StrBlob"</span>);
+    data-&gt;pop_back();
+&#125;</code></pre>
+<p><strong>12.1.2 直接内存管理</strong></p>
+<ol>
+<li>使用<code>new</code>动态分配和初始化对象<ul>
+<li>值初始化的内置类型对象有着良好定义的值</li>
+<li>默认初始化的对象的值是未定义的</li>
+<li>只有当括号中仅有单一初始化器时才可以使用 auto </li>
+</ul>
+</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-keyword">int</span> *pi = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;	<span class="hljs-comment">//pi指向一个动态分配的、未初始化的无名对象</span>
+<span class="hljs-built_in">string</span> *ps = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>;	<span class="hljs-comment">//初始化为空 string</span>
+<span class="hljs-keyword">int</span> *pi = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">1024</span>);	<span class="hljs-comment">//pi指向的对象的值为1024</span>
+<span class="hljs-built_in">string</span> *ps = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>();	<span class="hljs-comment">//值初始化为空 string</span>
+<span class="hljs-keyword">auto</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">auto</span>(obj);
+<span class="hljs-comment">//auto p2 = new auto(a,b,c);	//错误</span></code></pre>
+<ol>
+<li>动态分配的 const 对象<ul>
+<li>对于一个定义了默认构造函数的类类型，其 const 动态对象可以隐式初始化</li>
+<li>其他类型的对象必须显示初始化</li>
+</ul>
+</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *pci = <span class="hljs-keyword">new</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">1024</span>);
+<span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span> *pcs = <span class="hljs-keyword">new</span> <span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span>;</code></pre>
+<ol>
+<li>内存耗尽<ul>
+<li>默认情况，如果 new 不能分配所需要的内存空间，会抛出一个类型为<code>bad_alloc</code>的异常</li>
+<li><code>bad_alloc</code>和<code>nothrow</code>定义在头文件<code>new</code>中</li>
+</ul>
+</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-keyword">int</span> *p1 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;	<span class="hljs-comment">//如果分配失败，new抛出std::bad_alloc</span>
+<span class="hljs-keyword">int</span> *p2 = <span class="hljs-keyword">new</span> (nothrow) <span class="hljs-keyword">int</span>;	<span class="hljs-comment">//如果分配失败，new 返回一个空指针</span></code></pre>
+<ol>
+<li>释放动态内存<ul>
+<li><code>delete</code></li>
+<li>销毁给定的指针指向的对象；释放对应的内存</li>
+</ul>
+</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-keyword">delete</span> p;	<span class="hljs-comment">//p 必须指向一个动态分配的对象或是一个空指针</span></code></pre>
+<ol>
+<li>指针值和 delete</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-keyword">int</span> i, *pi1 = &amp;i, *pi2 = <span class="hljs-literal">nullptr</span>;
+<span class="hljs-keyword">double</span> *pd = <span class="hljs-keyword">new</span> <span class="hljs-keyword">double</span>(<span class="hljs-number">33</span>), *pd2 = pd;
+<span class="hljs-keyword">delete</span> i;	<span class="hljs-comment">//错误：i不是一个指针</span>
+<span class="hljs-keyword">delete</span> pi1;	<span class="hljs-comment">//未定义：pi1指向一个局部变量</span>
+<span class="hljs-keyword">delete</span> pd;	<span class="hljs-comment">//正确</span>
+<span class="hljs-keyword">delete</span> pd2;	<span class="hljs-comment">//未定义：pd2指向的内存已经被释放</span>
+<span class="hljs-keyword">delete</span> pi2;	<span class="hljs-comment">//正确</span>
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *pci = <span class="hljs-keyword">new</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">1024</span>);
+<span class="hljs-keyword">delete</span> pci;	<span class="hljs-comment">//正确：释放一个const对象</span></code></pre>
+<ol>
+<li>动态对象的生存期直到被释放时为止<ul>
+<li>有内置指针（而不是智能指针）管理的动态内存在被显式释放前一直都会存在</li>
+</ul>
+</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-comment">// factory返回一个指针，指向一个动态分配的对象</span>
+<span class="hljs-function">Foo* <span class="hljs-title">factory</span><span class="hljs-params">(T arg)</span></span>&#123;
+    <span class="hljs-comment">//视情况处理arg</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Foo(arg);<span class="hljs-comment">//调用者负责释放此内存</span>
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">use_factory</span><span class="hljs-params">(T arg)</span></span>&#123;
+    Foo *p = factory(arg);
+    <span class="hljs-comment">//使用p但是不delete它</span>
+&#125;<span class="hljs-comment">//p离开了它的作用域，但它所指向的内存没有被释放</span></code></pre>
+<ul>
+<li>正确方法：在 use_factory 中释放内存</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">use_factory</span><span class="hljs-params">(T arg)</span></span>&#123;
+    Foo *p = factory(arg);
+    <span class="hljs-keyword">delete</span> p;
+&#125;</code></pre>
+<ul>
+<li>当其他代码要使用use_factory所分配的对象，修改函数让它返回一个指针，指向它分配的内存</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function">Foo* <span class="hljs-title">use_factory</span><span class="hljs-params">(T arg)</span></span>&#123;
+    Foo *p = factory(arg);
+    <span class="hljs-keyword">return</span> p;	<span class="hljs-comment">//调用者必须释放内存</span>
+&#125;</code></pre>
+<ol>
+<li>使用<code>new</code>和<code>delete</code>管理动态内存存在的三个常见问题：<ul>
+<li>忘记<code>delete</code>内存，导致内存泄露</li>
+<li>使用已经释放掉的对象。通过在释放内存后将指针置为空，有时可以检测出这种错误</li>
+<li>同一块内存释放两次</li>
+</ul>
+</li>
+<li><p>坚持只是用<code>智能指针</code>可以避免所有这些问题。对于一块内存，只有在设有任何智能指针指向它的情况下，智能指针才会自动释放他。</p>
+</li>
+<li><p><code>delete</code>之后重置指针值，但这只提供了有限的保护</p>
+</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">int</span> *<span class="hljs-title">p</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">42</span>))</span></span>;	<span class="hljs-comment">//p 指向动态内存</span>
+<span class="hljs-keyword">auto</span> q = p;	<span class="hljs-comment">//p 和 q 指向相同的内存</span>
+<span class="hljs-keyword">delete</span> p;	<span class="hljs-comment">//p 和 q 均变为无效</span>
+p = <span class="hljs-literal">nullptr</span>;	<span class="hljs-comment">//指出 p 不再绑定到任何对象</span></code></pre>
+<p>注意：此时 q 变为了空悬指针（dangling pointer），指向一块曾经保存数据对象但现在已经无效的内存的指针。</p>
+<p><strong>12.1.3 shared_ptr 和new 结合使用</strong></p>
+<ul>
+<li>接受指针参数的智能指针构造函数是 <code>explicit</code>的</li>
+<li><code>explicit</code>关键字用来修饰类的构造函数，被修饰的构造函数的类，不能发生相应的隐式类型转换，只能以显示的方式进行类型转换。</li>
+<li>不能将一个内置指针隐式转换为一个智能指针</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-comment">//shared_ptr&lt;int&gt; p1 = new int(1024);	//错误：必须使用直接初始化形式</span>
+<span class="hljs-function"><span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">p2</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">1024</span>))</span></span>;		<span class="hljs-comment">//正确：使用了直接初始化形式</span></code></pre>
+<ul>
+<li>一个返回<code>shared_ptr</code>的函数不能在其返回语句中隐式转换一个智能指针</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-comment">//错误：隐式转换为 shared_ptr&lt;int&gt;</span>
+<span class="hljs-comment">//shared_ptr&lt;int&gt; clone(int p)&#123;</span>
+<span class="hljs-comment">//    return new int(p);</span>
+<span class="hljs-comment">//&#125;</span>
+
+<span class="hljs-function"><span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">clone</span><span class="hljs-params">(<span class="hljs-keyword">int</span> p)</span></span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt;(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(p));
+&#125;</code></pre>
+<ol>
+<li>使用一个内置指针来访问一个智能指针所负责的对象是很危险的，因为我们无法知道对象何时会被销毁</li>
+<li><code>get</code>用来将指针的访问权限传递给代码，只有在确定代码不会<code>delete</code>指针的情况下，才能使用get。</li>
+<li><p>永远不要用<code>get</code>初始化另一个智能指针或者为另一个智能指针赋值</p>
+</li>
+<li><p>其他<code>shared_ptr</code>操作</p>
+<ul>
+<li>用<code>reset</code>来将一个新的指针赋予一个<code>shared_ptr</code></li>
+</ul>
+</li>
+</ol>
+<pre><code class="hljs cpp">p.reset(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">1024</span>));	<span class="hljs-comment">//p 指向一个新对象</span></code></pre>
+<ul>
+<li>与<code>unique</code>一起使用，控制多个<code>shared_ptr</code>共享的对象</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span>(!p.unique())
+	p.reset(<span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>(*p));	<span class="hljs-comment">//我们不是唯一用户；分配新的拷贝</span>
+*p += newVal;	<span class="hljs-comment">//现在知道我们是唯一的用户，可以改变对象的值</span></code></pre>
+<p><strong>12.1.4 智能指针和异常</strong></p>
+<ol>
+<li>使用异常处理的程序能在异常发生后令程序流程继续，这种程序需要确保在异常发生后资源被正确的释放</li>
+<li>一个简单的确保资源被释放的方法是<code>使用智能指针</code></li>
+<li>智能指针和哑类<ul>
+<li>为 C 和 C++ 两种语言设计的类，通常都要求用户显式地释放所使用地任何资源</li>
+<li>定义一个<strong>删除器(deleter)</strong>函数完成对shared_ptr中保存地指针进行释放操作</li>
+</ul>
+</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">end_connection</span><span class="hljs-params">(connection *p)</span> </span>&#123;disconnect(*p);&#125;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span><span class="hljs-params">(destination &amp;d <span class="hljs-comment">/* 其他参数 */</span>)</span></span>
+<span class="hljs-function"></span>&#123;
+    connection c = connect(&amp;d);
+    <span class="hljs-function"><span class="hljs-built_in">shared_ptr</span>&lt;connection&gt; <span class="hljs-title">p</span><span class="hljs-params">(&amp;c, end_connection)</span></span>;
+    <span class="hljs-comment">//使用连接</span>
+    <span class="hljs-comment">//当 f 退出时（即使由于异常退出），connection 会被正确关闭</span>
+&#125;</code></pre>
+<ol>
+<li>正确使用智能指针的基本规范<ul>
+<li>不使用相同的内置指针初始化（或 reset）多个智能指针</li>
+<li>不 delete get()返回的指针</li>
+<li>不使用 get() 初始化或 reset 另一个智能指针</li>
+<li>如果你使用 get() 返回的指针，记住当最后一个对应的智能指针销毁后，你的指针就变成无效了。</li>
+<li>如果你使用智能指针管理的资源不是 new 分配的内存，记住传递给它一个删除器</li>
+</ul>
+</li>
+</ol>
+<p><strong>12.1.5 unique_ptr</strong></p>
+<ol>
+<li>某个时刻只能有一个<code>unique_ptr</code>指向一个给定的对象</li>
+<li><code>unique_ptr</code>不支持普通的拷贝或赋值操作</li>
+<li>可以通过<code>release</code> 或 <code>reset</code>将指针的所有权从一个（非cosnt）unique_ptr 转移给另一个 unique</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">p1</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>(<span class="hljs-string">"Stegosaurus"</span>))</span></span>;	<span class="hljs-comment">//p2指向一个值为42的int</span>
+<span class="hljs-comment">//unique_ptr&lt;string&gt; p2(p1);	//错误</span>
+<span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; p3;
+<span class="hljs-comment">//p3 = p2;	//错误</span>
+<span class="hljs-comment">//将所有权从p1转移给p2</span>
+<span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">p2</span><span class="hljs-params">(p1.release())</span></span>;	<span class="hljs-comment">//release 将 p1 置空</span>
+<span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">p3</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>(<span class="hljs-string">"Trex"</span>))</span></span>;
+<span class="hljs-comment">//将所有权从p3转移给p2</span>
+p2.reset(p3.release());	<span class="hljs-comment">//reset 释放了p2原来指向的内存</span></code></pre>
+<ol>
+<li>传递<code>unique_ptr</code>参数和返回<code>unique_ptr</code></li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-comment">//从函数返回一个unique_ptr</span>
+<span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">clone</span><span class="hljs-params">(<span class="hljs-keyword">int</span> p)</span></span>&#123;
+	<span class="hljs-keyword">return</span> <span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt;(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(p));
+&#125;
+<span class="hljs-comment">//返回一个局部对象的拷贝</span>
+<span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">clone</span><span class="hljs-params">(<span class="hljs-keyword">int</span> p)</span></span>&#123;
+    <span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">ret</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(p))</span></span>;
+    <span class="hljs-comment">//...</span>
+    <span class="hljs-keyword">return</span> ret;
+&#125;</code></pre>
+<ol>
+<li>向<code>unique_ptr</code>传递删除器</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-comment">//p 指向一个类型为objT的对象，并使用一个类型为delT的对象释放objT对象</span>
+<span class="hljs-comment">//它会调用一个名为fcn的delT对象</span>
+unique_ptr&lt;objT, delT&gt; p(new objT, fcn);
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span><span class="hljs-params">(destination &amp;d <span class="hljs-comment">/* 其他需要的参数 */</span>)</span></span>
+<span class="hljs-function"></span>&#123;
+    connection c = connect(&amp;d);	<span class="hljs-comment">//打开连接</span>
+    <span class="hljs-comment">//当p被销毁时，连接将会关闭</span>
+    unique_ptr&lt;connection, decltype(end_connection)*&gt; p(&amp;c, end_connection);
+    <span class="hljs-comment">//使用连接</span>
+    <span class="hljs-comment">//当 f 退出时（即使由于异常退出），connection 会被正确关闭</span>
+&#125;</code></pre>
+<p><strong>12.1.6 weak_ptr</strong></p>
+<ul>
+<li>指向由一个<code>shared_ptr</code>管理的对象</li>
+<li>将一个<code>weak_ptr</code>绑定到一个<code>shared_ptr</code>不会改变<code>shared_ptr</code>的引用计数</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-keyword">auto</span> p = make_shared&lt;<span class="hljs-keyword">int</span>&gt;(<span class="hljs-number">42</span>);
+<span class="hljs-function">weak_ptr&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">wp</span><span class="hljs-params">(p)</span></span>;
+<span class="hljs-keyword">if</span>(<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; np = wp.lock())&#123;	<span class="hljs-comment">//如果 np 不为空则条件成立</span>
+    <span class="hljs-comment">//在 if 中，np 与 p 共享对象</span>
+&#125;</code></pre>
+<ol>
+<li>检查指针类</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-comment">//对于访问一个不存在元素的尝试，StrBlobPtr 抛出一个异常</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StrBlobPtr</span>&#123;</span>
+<span class="hljs-keyword">public</span>:
+	StrBlobPtr(): curr(<span class="hljs-number">0</span>) &#123; &#125;
+    StrBlobPtr(StrBlob &amp;a, <span class="hljs-keyword">size_t</span> sz = <span class="hljs-number">0</span>) : wptr(a.data), curr(sz) &#123;&#125;
+    <span class="hljs-function"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; <span class="hljs-title">deref</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span>;
+    <span class="hljs-function">StrBlobPtr&amp; <span class="hljs-title">incr</span><span class="hljs-params">()</span></span>;	<span class="hljs-comment">//前缀递增</span>
+<span class="hljs-keyword">private</span>:
+    <span class="hljs-comment">//若检查成功，check 返回一个指向 vector 的 shared_ptr</span>
+    <span class="hljs-function"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt;&gt; <span class="hljs-title">check</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span>, <span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp;)</span> <span class="hljs-keyword">const</span></span>;
+    <span class="hljs-comment">//保存一个weak_ptr，意味着底层vector可能会被销毁</span>
+    <span class="hljs-built_in">std</span>::weak_ptr&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt;&gt; wptr;
+    <span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> curr;	<span class="hljs-comment">//在数组中的当前位置</span>
+&#125;
+
+<span class="hljs-function"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt;&gt; <span class="hljs-title">check</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> i, <span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> &amp;msg)</span> <span class="hljs-keyword">const</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">auto</span> ret = wptr.lock();	<span class="hljs-comment">//vector还存在吗</span>
+    <span class="hljs-keyword">if</span>(!ret)
+        <span class="hljs-keyword">throw</span> <span class="hljs-built_in">std</span>::runtime_error(<span class="hljs-string">"unbound StrBlobPtr"</span>);
+    <span class="hljs-keyword">if</span>(i &gt;= ret-&gt;size())
+        <span class="hljs-keyword">throw</span> <span class="hljs-built_in">std</span>::out_of_range(msg);
+    <span class="hljs-keyword">return</span> ret;	<span class="hljs-comment">//否则，返回指向vector的share_ptr</span>
+&#125;</code></pre>
+<ol>
+<li>指针操作</li>
+</ol>
+<ul>
+<li>定义函数<code>deref</code> 用来解引用<code>StrBlobPtr</code>    </li>
+<li><code>incur</code>递增<code>StrBlobPtr</code>    </li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; <span class="hljs-title">StrBlobPtr::deref</span><span class="hljs-params">()</span> cosnt</span>
+<span class="hljs-function"></span>&#123;
+	<span class="hljs-keyword">auto</span> p = check(curr, <span class="hljs-string">"dereference past end"</span>);
+    <span class="hljs-keyword">return</span> (*p)[curr];	<span class="hljs-comment">//(*p)是对象所指向的vector</span>
+&#125;
+<span class="hljs-comment">//前缀递增：返回递增后的对象的引用</span>
+<span class="hljs-function">StrBlobPtr&amp; <span class="hljs-title">StrBlobPtr::incr</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-comment">//如果curr已经指向容器的尾后位置，就不能递增它</span>
+    check(curr, <span class="hljs-string">"increment past end of StrBlobPtr"</span>);
+    ++curr;	<span class="hljs-comment">//推进当前位置</span>
+    <span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StrBlobPtr</span>;</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StrBlob</span>&#123;</span>
+    <span class="hljs-keyword">friend</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StrBlobPtr</span>;</span>
+    
+    <span class="hljs-function">StrBlobPtr <span class="hljs-title">begin</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-keyword">return</span> StrBlobPtr(*<span class="hljs-keyword">this</span>);&#125;
+    <span class="hljs-function">StrBlobPtr <span class="hljs-title">end</span><span class="hljs-params">()</span></span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">auto</span> ret = StrBlobPtr(*<span class="hljs-keyword">this</span>, data-&gt;size());
+        <span class="hljs-keyword">return</span> ret;
+    &#125;
+&#125;</code></pre>
+<h3 id="12-2-动态数组"><a href="#12-2-动态数组" class="headerlink" title="12.2 动态数组"></a>12.2 动态数组</h3><ul>
+<li>大多数应用应该使用标准库容器而不是动态分配的数组。使用容器更为简单、更不容器出现内存管理错误并且有可能有更好的性能。</li>
+</ul>
+<p><strong>12.2.1 new 和数组</strong></p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">int</span> *pia = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[get_size()];	<span class="hljs-comment">//pia 指向第一个 int</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">int</span> arrT[<span class="hljs-number">42</span>];	<span class="hljs-comment">//arrT表示42个int的数组类型</span>
+<span class="hljs-keyword">int</span> *p = <span class="hljs-keyword">new</span> arrT;		<span class="hljs-comment">//分配一个42个int的数组；p指向第一个 int</span></code></pre>
+<ol>
+<li>分配一个数组会得到一个元素类型的指针<ul>
+<li>动态数组并不是数组类型</li>
+</ul>
+</li>
+<li>初始化动态分配对象的数组<ul>
+<li>new 表达式失败会抛出一个类型为<code>bad_array_new_length</code>的异常</li>
+<li>头文件：<code>new</code></li>
+</ul>
+</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-keyword">int</span> *pia = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">10</span>];		<span class="hljs-comment">//10个未初始化的int</span>
+<span class="hljs-keyword">int</span> *pia2 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">10</span>]();	<span class="hljs-comment">//10个值初始化为0的int</span>
+<span class="hljs-comment">//新标准</span>
+<span class="hljs-keyword">int</span> *pia3 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">10</span>]&#123;<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>&#125;;</code></pre>
+<ol>
+<li>动态分配一个空数组是合法的</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-comment">//char arr[0];	//错误：不能定义长度为0的数组</span>
+<span class="hljs-keyword">char</span> *cp = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[<span class="hljs-number">0</span>];	<span class="hljs-comment">//正确：但cp不能解引用</span></code></pre>
+<ol>
+<li>释放动态数组</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-keyword">delete</span> p;		<span class="hljs-comment">//p必须指向一个动态分配的对象或为空</span>
+<span class="hljs-keyword">delete</span> [] pa;	<span class="hljs-comment">//pa必须指向一个动态分配的数组或为空</span>
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">int</span> arrT[<span class="hljs-number">42</span>];	<span class="hljs-comment">//arrT是42个int的数组的类型别名</span>
+<span class="hljs-keyword">int</span> *p = <span class="hljs-keyword">new</span> arrT;		<span class="hljs-comment">//分配一个42个int的数组，p指向第一个元素</span>
+<span class="hljs-keyword">delete</span> [] p;			<span class="hljs-comment">//方括号是必须的</span></code></pre>
+<ol>
+<li>智能指针和动态数组</li>
+</ol>
+<ul>
+<li><code>unique_ptr</code><ul>
+<li>不能使用点和箭头成员运算符</li>
+<li>可以使用下标运算符来访问数组中的元素</li>
+</ul>
+</li>
+</ul>
+<pre><code class="hljs cpp">unique_ptr&lt;int[]&gt; up(new int[10]);	//up指向一个包含10个未初始化int的数组
+up.release();	<span class="hljs-comment">//自动用 delete[] 销毁其指针</span>
+
+<span class="hljs-keyword">for</span>(<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i != <span class="hljs-number">10</span>; ++i)
+    up[i] = i;</code></pre>
+<ul>
+<li><code>shared_ptr</code><ul>
+<li>必须提供自己定义的删除器</li>
+</ul>
+</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">sp</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">10</span>], [](<span class="hljs-keyword">int</span> *p)&#123;<span class="hljs-keyword">delete</span> [] p; &#125;)</span></span>;
+sp.reset();
+
+<span class="hljs-keyword">for</span>(<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i != <span class="hljs-number">10</span>; ++i)
+    *(sp.get() + i) = i;	<span class="hljs-comment">//使用get获取一个内置指针</span></code></pre>
+<p><strong>12.2.2 allocator类</strong></p>
+<ul>
+<li>分配单个对象时，希望将内存分配和对象初始化组合在一起</li>
+<li>分配一大块内存时，通常计划在这块内存上按需构造对象，此时希望将内存分配和对象构造分开</li>
+</ul>
+<ol>
+<li>allocator类<ul>
+<li>头文件：<code>memory</code></li>
+<li>帮助我们将内存分配和对象构造分离开</li>
+<li>提供一种类型感知的内存分配方法</li>
+<li>分配的内存是原始的、未构造的</li>
+</ul>
+</li>
+</ol>
+<pre><code class="hljs cpp">allocator&lt;<span class="hljs-built_in">string</span>&gt; alloc;			<span class="hljs-comment">//可以分配 string 的 allocator 对象</span>
+<span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span> p = alloc.allocate(n);	<span class="hljs-comment">//分配 n 个未初始化的 string</span></code></pre>
+<ol>
+<li>allocator 分配未构造的内存<ul>
+<li>为了使用 allocate 返回的内存，必须用<code>construct</code>构造对象</li>
+<li>使用未构造的内存，其行为是未定义的</li>
+<li>函数<code>destory</code>接受一个指针，对指向的对象执行析构函数</li>
+<li>释放内存通过调用<code>deallocate</code>来完成</li>
+</ul>
+</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-keyword">auto</span> q = p;	<span class="hljs-comment">//q指向最后构造的元素之后的位置</span>
+alloc.construct(q++);			<span class="hljs-comment">//*q为空字符串</span>
+alloc.construct(q++, <span class="hljs-number">10</span>, <span class="hljs-string">'c'</span>);	<span class="hljs-comment">//*q为 cccccccccc</span>
+alloc.construct(q++, <span class="hljs-string">"hi"</span>);		<span class="hljs-comment">//*q为hi</span>
+
+<span class="hljs-built_in">cout</span> &lt;&lt; *p &lt;&lt; <span class="hljs-built_in">endl</span>;	<span class="hljs-comment">//正确：使用 string 的输出运算符</span>
+<span class="hljs-comment">//cout &lt;&lt; *q &lt;&lt; endl; //灾难：q 指向未构造的内存！</span>
+
+<span class="hljs-keyword">while</span>(q != p)
+    alloc.destory(--q);	<span class="hljs-comment">//释放真正构造的string</span>
+
+alloc.deallocate(p, n);</code></pre>
+<ol>
+<li>拷贝和填充未初始化内存的算法</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-comment">//分配比 vi 中元素所占用空间大一倍的动态内存</span>
+<span class="hljs-keyword">auto</span> p = alloc.allocate(vi.size() * <span class="hljs-number">2</span>);
+<span class="hljs-comment">//通过拷贝 vi 中的元素来构造从p开始的元素</span>
+<span class="hljs-keyword">auto</span> q = uninitialized_copy(vi.begin(), vi.end(), p)；
+<span class="hljs-comment">//将剩余元素初始化为42</span>
+ uninitialzed_fill_n(q, vi.size(), <span class="hljs-number">42</span>);</code></pre>
+<h3 id="12-3-使用标准库：文本查询程序"><a href="#12-3-使用标准库：文本查询程序" class="headerlink" title="12.3 使用标准库：文本查询程序"></a>12.3 使用标准库：文本查询程序</h3><ul>
+<li>允许用户在一个给定文件中查询单词</li>
+<li>查询结果是单词在文件中出现的次数及其所在行的列表</li>
+<li>如果一个单词在一行中多次出现，此行只列一次</li>
+<li>行按照升序输出</li>
+</ul>
+<p><strong>12.3.1 文本查询程序设计</strong></p>
+<ol>
+<li>数据结构<ul>
+<li>保存输入文件的类<code>TextQuery</code></li>
+<li><code>vector</code>保存输入文件的文本</li>
+<li><code>map</code>关联每个单词和它出现的行号的<code>set</code></li>
+<li>类<code>QueryResult</code>：保存查询结果，完成结果打印工作</li>
+</ul>
+</li>
+<li>在类之间共享数据<ul>
+<li><code>shared_ptr</code></li>
+</ul>
+</li>
+<li>使用<code>TextQuery</code>类<ul>
+<li>当我们设计一个类时，在真正实现成员之前先编写程序使用这个类，是一种非常有用的方法</li>
+</ul>
+</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">runQueries</span><span class="hljs-params">(ifstream &amp;infile)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-comment">// infile 是一个 ifstream，指向我们要处理的文件</span>
+    <span class="hljs-function">TextQuery <span class="hljs-title">tq</span><span class="hljs-params">(infile)</span></span>;	<span class="hljs-comment">//保存文件并建立查询map</span>
+    <span class="hljs-comment">//与用户交互：提示用户输入要查询的单词，完成查询并打印结果</span>
+    <span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>)&#123;
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"enter word to look for ,or q to quit:"</span>;
+        <span class="hljs-built_in">string</span> s;
+        <span class="hljs-comment">//若遇到文件尾或用户输入了'q'时循环终止</span>
+        <span class="hljs-keyword">if</span>(!(<span class="hljs-built_in">cin</span> &gt;&gt; s) || s == <span class="hljs-string">"q"</span>) <span class="hljs-keyword">break</span>;
+        <span class="hljs-comment">//指向查询并打印结果</span>
+        print(<span class="hljs-built_in">cout</span>, tq.query(s)) &lt;&lt; <span class="hljs-built_in">endl</span>;
+    &#125;
+&#125;</code></pre>
+<p><strong>12.3.2 文本查询类的定义</strong></p>
+<pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">QueryResult</span>;</span>	<span class="hljs-comment">//为了定义函数 query 的返回类型，这个定义是必需的</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TextQuery</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+	
+	TextQuery(<span class="hljs-built_in">std</span>::ifstream&amp;);
+	<span class="hljs-function">QueryResult <span class="hljs-title">query</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp;)</span> <span class="hljs-keyword">const</span></span>;
+<span class="hljs-keyword">private</span>:
+	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt;&gt; file;	<span class="hljs-comment">//输入文件</span>
+	<span class="hljs-comment">//每个单词到它所在的行号的集合的映射</span>
+	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">map</span> &lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>, <span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">set</span>&lt;line_no&gt;&gt;&gt; wm;
+&#125;;</code></pre>
+<ol>
+<li>TextQuery 构造函数</li>
+</ol>
+<pre><code class="hljs cpp">TextQuery::TextQuery(ifstream&amp; is) : file(<span class="hljs-keyword">new</span> <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">string</span>&gt;)
+&#123;
+	<span class="hljs-built_in">string</span> text;
+	<span class="hljs-keyword">while</span> (getline(is, text))		<span class="hljs-comment">//对文件中的每一行</span>
+	&#123;
+		file-&gt;push_back(text);		<span class="hljs-comment">//保存此行文本</span>
+		<span class="hljs-keyword">int</span> n = file-&gt;size() - <span class="hljs-number">1</span>;	<span class="hljs-comment">//当前行号</span>
+		<span class="hljs-function"><span class="hljs-built_in">istringstream</span> <span class="hljs-title">line</span><span class="hljs-params">(text)</span></span>;	<span class="hljs-comment">//将行文本分解为单词</span>
+		<span class="hljs-built_in">string</span> word;
+		<span class="hljs-keyword">while</span> (line &gt;&gt; word) &#123;		<span class="hljs-comment">//对行中每个单词</span>
+			<span class="hljs-comment">//如果单词不再wm中，以之为下标在wm中添加一项</span>
+			<span class="hljs-keyword">auto</span>&amp; lines = wm[word];	<span class="hljs-comment">//lines是一个shared_ptr</span>
+			<span class="hljs-keyword">if</span> (!lines)				<span class="hljs-comment">//在我们第一次遇到这个单词时，此指针为空</span>
+				lines.reset(<span class="hljs-keyword">new</span> <span class="hljs-built_in">set</span>&lt;line_no&gt;);	<span class="hljs-comment">//分配一个新的set</span>
+			lines-&gt;insert(n);		<span class="hljs-comment">//将此行号插入set中</span>
+		&#125;
+	&#125;
+&#125;</code></pre>
+<ol>
+<li>QueryResult类</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">QueryResult</span> &#123;</span>
+	<span class="hljs-function"><span class="hljs-keyword">friend</span> <span class="hljs-built_in">std</span>::ostream&amp; <span class="hljs-title">print</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::ostream&amp;, <span class="hljs-keyword">const</span> QueryResult&amp;)</span></span>;
+<span class="hljs-keyword">public</span>:
+	QueryResult(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> s, <span class="hljs-built_in">std</span>::<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">set</span>&lt;line_no&gt;&gt;p, <span class="hljs-built_in">std</span>::<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt;&gt; f):
+		sought(s), lines(p),file(f)&#123;&#125;
+<span class="hljs-keyword">private</span>:
+	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> sought;		<span class="hljs-comment">//查询单词</span>
+	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">set</span>&lt;line_no&gt;&gt; lines;		<span class="hljs-comment">//出现的行号</span>
+	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt;&gt; file;	<span class="hljs-comment">//输入文件</span>
+&#125;;</code></pre>
+<ol>
+<li>query函数</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-function">QueryResult <span class="hljs-title">TextQuery::query</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span>&amp; sought)</span> <span class="hljs-keyword">const</span></span>
+<span class="hljs-function"></span>&#123;
+	<span class="hljs-comment">//如果未找到sought，返回一个指向此 set 的指针</span>
+	<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">set</span>&lt;line_no&gt;&gt; <span class="hljs-title">nodata</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-built_in">set</span>&lt;line_no&gt;)</span></span>;
+	<span class="hljs-comment">//使用find而不是下标运算来查找单词，避免将单词添加到wm中</span>
+	<span class="hljs-keyword">auto</span> loc = wm.find(sought);
+	<span class="hljs-keyword">if</span> (loc == wm.end())
+		<span class="hljs-keyword">return</span> QueryResult(sought, nodata, file);	<span class="hljs-comment">//未找到</span>
+	<span class="hljs-keyword">else</span>
+		<span class="hljs-keyword">return</span> QueryResult(sought, loc-&gt;second, file);
+&#125;</code></pre>
+<ol>
+<li>打印结果</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-function">ostream&amp; <span class="hljs-title">print</span><span class="hljs-params">(ostream&amp; os, <span class="hljs-keyword">const</span> QueryResult&amp; qr)</span></span>
+<span class="hljs-function"></span>&#123;
+	<span class="hljs-comment">//如果找到了单词，打印出现次数和所有出现的位置</span>
+	os &lt;&lt; qr.sought &lt;&lt; <span class="hljs-string">" occurs "</span> &lt;&lt; qr.lines-&gt;size() &lt;&lt; <span class="hljs-string">" "</span>
+		&lt;&lt; make_plural(qr.lines-&gt;size(), <span class="hljs-string">"times"</span>, <span class="hljs-string">"s"</span>) &lt;&lt; <span class="hljs-built_in">endl</span>;
+	<span class="hljs-comment">//打印单词出现的每一行</span>
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> num : *qr.lines)	<span class="hljs-comment">//对 set 中每个单词</span>
+		<span class="hljs-comment">//避免行号从0开始给用户带来困惑</span>
+		os &lt;&lt; <span class="hljs-string">"\t(line "</span> &lt;&lt; num + <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-string">" )"</span> &lt;&lt; *(qr.file-&gt;begin() + num) &lt;&lt; <span class="hljs-built_in">endl</span>;
+	<span class="hljs-keyword">return</span> os;
+&#125;</code></pre>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/c/">c++</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/06/05/Code/ROS/%5B%E4%BB%A3%E7%A0%81%E5%A4%8D%E7%8E%B0%5Damr-lmpcc_%E5%A4%8D%E7%8E%B0%E8%BF%87%E7%A8%8B/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【代码复现】amr-lmpcc 复现过程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/05/15/Code/ROS/%5B%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%5Damr-lmpcc_01/">
+                        <span class="hidden-mobile">【源码学习】amr-lmpcc 源码分析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "C++Primerd第五版：第十二章 动态内存&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

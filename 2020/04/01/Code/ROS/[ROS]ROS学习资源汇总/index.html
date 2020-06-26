@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="gaoyangu">
+  <meta name="keywords" content="">
+  <title>ROS学习资源汇总 - gaoyangu</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/googlecode.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>gaoyangu</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-04-01 07:57">
+      2020年4月1日 早上
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      545 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      5
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h2 id="1-重要网站"><a href="#1-重要网站" class="headerlink" title="1. 重要网站"></a>1. 重要网站</h2><ol>
+<li><a href="http://wiki.ros.org/Documentation" target="_blank" rel="noopener">ROS Wiki</a>：官方网站，不多说</li>
+<li><a href="https://www.ncnynl.com/" target="_blank" rel="noopener">创客制造</a>：几乎相当于中文版的ROS Wiki，但是内容要更加丰富一些</li>
+<li><a href="https://answers.ros.org/questions/" target="_blank" rel="noopener">ROS answers</a>：问答网站，遇到的问题几乎都有，请用英文搜索</li>
+<li><a href="https://www.guyuehome.com/" target="_blank" rel="noopener">古月居</a>：胡春旭的博客</li>
+</ol>
+<h2 id="2-学习教程"><a href="#2-学习教程" class="headerlink" title="2. 学习教程"></a>2. 学习教程</h2><h3 id="2-1-入门视频教程"><a href="#2-1-入门视频教程" class="headerlink" title="2.1 入门视频教程"></a>2.1 入门视频教程</h3><ol>
+<li><p><a href="https://www.icourse163.org/course/ISCAS-1002580008" target="_blank" rel="noopener">中科院软件所-机器人操作系统入门</a></p>
+<ul>
+<li>总时长：5个小时左右</li>
+<li>记得使用中国第一大视频学习网站：b站</li>
+<li>视频内容为介绍+演示，时间不长但是比较全面，学了一段时间再回过头来看，还是有很多收获</li>
+<li>课程讲义：<a href="https://legacy.gitbook.com/book/sychaichangkun/ros-tutorial-icourse163/details" target="_blank" rel="noopener">Gitbook</a></li>
+<li>代码示例：<a href="https://github.com/DroidAITech/ROS-Academy-for-Beginners" target="_blank" rel="noopener">Github</a></li>
+</ul>
+</li>
+<li><p><a href="https://www.bilibili.com/video/BV1zt411G7Vn?from=search&amp;seid=15813581696522640900" target="_blank" rel="noopener">古月居：ROS入门21讲</a></p>
+<ul>
+<li>总时长：7个小时左右</li>
+<li>从安装Linux系统开始，手把手教学，涵盖了ROS Wiki核心教程入门阶段的所有内容</li>
+<li>课件&amp;源码：<a href="https://github.com/huchunxu/ros_21_tutorials" target="_blank" rel="noopener">Github</a></li>
+</ul>
+</li>
+<li><p>古月居：ROS理论与实践</p>
+<ul>
+<li>总时长：20个小时左右</li>
+<li>相比于入门教程，这个教程的内容更加的丰富和具体，涵盖的内容也是方方面面，比如机器人建模，视觉处理，SLAM建图等</li>
+<li>学习资源就需要大家发挥主观能动性了</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-2-文字版教程"><a href="#2-2-文字版教程" class="headerlink" title="2.2 文字版教程"></a>2.2 文字版教程</h3><ol>
+<li><a href="https://tr-ros-tutorial.readthedocs.io/zh_CN/latest/index.html#" target="_blank" rel="noopener">ROS培训教程(第2期)</a>：onyrobotics(汤尼机器人)推出的ROS系列教程</li>
+<li><a href="https://github.com/ncnynl/books" target="_blank" rel="noopener">ROS学习相关电子书</a>：古月的视频教程中也提到了这些书，实体书不好买，可以作为参考</li>
+</ol>
+<h2 id="3-其他"><a href="#3-其他" class="headerlink" title="3. 其他"></a>3. 其他</h2><h3 id="3-1-博客"><a href="#3-1-博客" class="headerlink" title="3.1 博客"></a>3.1 博客</h3><ol>
+<li><a href="https://gaoyichao.com/Xiaotu/" target="_blank" rel="noopener">无处不在的小土</a>：偶然发现的一个宝藏博客，博主写了很多ROS方面的系列教程，相对完整而且细致入微。</li>
+<li><a href="http://blog.exbot.net/" target="_blank" rel="noopener">易科机器人实验室</a>：智能移动机器人开发者精英自发组建的开放、开源、协作组织，但是许久不更新了</li>
+</ol>
+<h3 id="3-2-IDE"><a href="#3-2-IDE" class="headerlink" title="3.2 IDE"></a>3.2 IDE</h3><p><a href="https://github.com/tonyrobotics/roboware-studio" target="_blank" rel="noopener">RoboWare Studio</a>：基于VScode为ROS设计的，代码自动提示功能真的好用</p>
+<p><a href="https://www.mobibrw.com/wp-content/uploads/2017/08/RoboWare%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8Cv0.7.1.pdf" target="_blank" rel="noopener">RoboWare使用手册v0.7.1</a>：软件上手其实不难，不过碰巧找到了手册</p>
+<h3 id="3-3-视频"><a href="#3-3-视频" class="headerlink" title="3.3 视频"></a>3.3 视频</h3><ol>
+<li><a href="https://www.bilibili.com/video/BV18J411a7rx?p=1" target="_blank" rel="noopener">ROSCon 2019 机器人操作系统开发者大会视频集</a></li>
+<li><a href="https://www.youtube.com/channel/UCt6Lag-vv25fTX3e11mVY1Q" target="_blank" rel="noopener">The Construct</a>：西班牙的一家做ROS培训的机构</li>
+</ol>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ros/">ros</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BD%91%E7%AB%99%E6%B1%87%E6%80%BB/">网站汇总</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/05/07/Code/c++/%5BC++Primerd%E7%AC%AC%E4%BA%94%E7%89%88%5D%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%B3%9B%E5%9E%8B%E7%AE%97%E6%B3%95/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">C++Primer第五版：第十章 泛型算法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/03/12/Code/git/">
+                        <span class="hidden-mobile">git 学习笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "ROS学习资源汇总&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

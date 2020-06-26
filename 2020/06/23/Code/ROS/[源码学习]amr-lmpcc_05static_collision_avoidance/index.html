@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="gaoyangu">
+  <meta name="keywords" content="">
+  <title>【源码学习】amr-lmpcc_05 - gaoyangu</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/googlecode.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>gaoyangu</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-06-23 15:52">
+      2020年6月23日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      39
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h2 id="package-static-collision-avoidance"><a href="#package-static-collision-avoidance" class="headerlink" title="package: static_collision_avoidance"></a>package: <code>static_collision_avoidance</code></h2><h2 id="5-1-launch文件"><a href="#5-1-launch文件" class="headerlink" title="5.1 launch文件"></a>5.1 launch文件</h2><pre><code class="hljs cpp">\amr-lmpcc\static_collision_avoidance\launch
+└── static_collision_avoidance.launch
+
+file: <span class="hljs-number">1</span></code></pre>
+<p>文件的开始时一些调试参数的设置</p>
+<pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- Debug Info --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">arg</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"debug"</span> <span class="hljs-attr">default</span>=<span class="hljs-string">"false"</span> /&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">arg</span> <span class="hljs-attr">unless</span>=<span class="hljs-string">"$(arg debug)"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"launch_prefix"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">""</span> /&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">arg</span>     <span class="hljs-attr">if</span>=<span class="hljs-string">"$(arg debug)"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"launch_prefix"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"gdb --ex run --args"</span> /&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">arg</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"debug_config_parameter"</span> <span class="hljs-attr">default</span>=<span class="hljs-string">"false"</span>/&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">arg</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"debug_kinematic_cal"</span> <span class="hljs-attr">default</span>=<span class="hljs-string">"false"</span>/&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">arg</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"debug_collision_detection"</span> <span class="hljs-attr">default</span>=<span class="hljs-string">"false"</span>/&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">arg</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"config"</span> <span class="hljs-attr">default</span>=<span class="hljs-string">"$(find mobile_robot_state_publisher)"</span>/&gt;</span></code></pre>
+<p>然后是两个<code>param</code>参数</p>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"collision_avoidance/local_map"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"true"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"bool"</span> /&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"simulation_mode"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"bool"</span> /&gt;</span></code></pre>
+<p>为了可视化启动的<code>costmap_2d_markers</code>节点</p>
+<pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- Publishes the voxel grid to rviz for display --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"costmap_2d"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"costmap_2d_markers"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"voxel_visualizer"</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">remap</span> <span class="hljs-attr">from</span>=<span class="hljs-string">"voxel_grid"</span> <span class="hljs-attr">to</span>=<span class="hljs-string">"costmap/voxel_grid"</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">node</span>&gt;</span></code></pre>
+<p>代价地图节点<code>costmap_2d_node</code></p>
+<pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- Run the costmap node --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"costmap_node"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"costmap_2d"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"costmap_2d_node"</span> &gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">rosparam</span> <span class="hljs-attr">file</span>=<span class="hljs-string">"$(find static_collision_avoidance)/config/local_map_params.yaml"</span> <span class="hljs-attr">command</span>=<span class="hljs-string">"load"</span> <span class="hljs-attr">ns</span>=<span class="hljs-string">"costmap"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">node</span>&gt;</span></code></pre>
+<p>处理静态障碍物的<code>static_collision_avoidance_node</code>节点</p>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">rosparam</span> <span class="hljs-attr">file</span>=<span class="hljs-string">"$(find static_collision_avoidance)/config/static_avoidance_config.yaml"</span> <span class="hljs-attr">command</span>=<span class="hljs-string">"load"</span>/&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"static_collision_avoidance"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"static_collision_avoidance_node"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"static_collision_avoidance_node"</span> <span class="hljs-attr">cwd</span>=<span class="hljs-string">"node"</span> <span class="hljs-attr">respawn</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">output</span>=<span class="hljs-string">"screen"</span>/&gt;</span></code></pre>
+<h2 id="5-2-yaml"><a href="#5-2-yaml" class="headerlink" title="5.2 yaml"></a>5.2 yaml</h2><h3 id="5-2-1-local-map-params-yaml"><a href="#5-2-1-local-map-params-yaml" class="headerlink" title="5.2.1 local_map_params.yaml"></a>5.2.1 local_map_params.yaml</h3><p>该文件主要包含地图，雷达等相关信息</p>
+<h3 id="5-2-2-static-avoidance-config-yaml"><a href="#5-2-2-static-avoidance-config-yaml" class="headerlink" title="5.2.2 static_avoidance_config.yaml"></a>5.2.2 static_avoidance_config.yaml</h3><p>该文件主要包含机器人的描述信息，发布和订阅的话题名，避障的相关信息</p>
+<h2 id="5-3-头文件"><a href="#5-3-头文件" class="headerlink" title="5.3 头文件"></a>5.3 头文件</h2><pre><code class="hljs cpp">\amr-lmpcc\static_collision_avoidance\include\static_collision_avoidance
+└── static_environment.h
+
+file: <span class="hljs-number">1</span></code></pre>
+<p>在头文件中只定义了一个类<code>StaticEnvironment</code></p>
+<h2 id="5-4-源文件"><a href="#5-4-源文件" class="headerlink" title="5.4 源文件"></a>5.4 源文件</h2><pre><code class="hljs cpp">\amr-lmpcc\static_collision_avoidance\src
+├── static_collision_avoidance_node.cpp
+└── static_environment.cpp
+
+file: <span class="hljs-number">2</span></code></pre>
+<h3 id="5-4-1-static-collision-avoidance-node-cpp"><a href="#5-4-1-static-collision-avoidance-node-cpp" class="headerlink" title="5.4.1 static_collision_avoidance_node.cpp"></a>5.4.1 static_collision_avoidance_node.cpp</h3><p>在该函数中定义着<code>main</code>函数</p>
+<p>文件的开头分别是ROS节点的初始化</p>
+<pre><code class="hljs cpp">ros::init(argc, argv, ros::this_node::getName());</code></pre>
+<p>创建类<code>StaticEnvironment</code>的实例化对象<code>node_</code></p>
+<pre><code class="hljs cpp">StaticEnvironment node_;</code></pre>
+<p>调用成员函数<code>node_.initialize()</code>进行初始化</p>
+<pre><code class="hljs awk"><span class="hljs-regexp">//</span> initialize predictive control node
+<span class="hljs-keyword">if</span> (!node_.initialize())
+&#123;
+	ROS_ERROR_STREAM_NAMED(<span class="hljs-string">"FAILED TO INITIALIZE %s"</span>, ros::this_node::getName().c_str());
+	<span class="hljs-keyword">exit</span>(<span class="hljs-number">1</span>);
+&#125;
+<span class="hljs-keyword">else</span>
+&#123;
+	<span class="hljs-regexp">//</span> spin node, till ROS node is running on
+	ROS_INFO_STREAM_NAMED(<span class="hljs-string">"%s INITIALIZE SUCCESSFULLY!!"</span>, ros::this_node::getName().c_str());
+	ros::spin();
+&#125;</code></pre>
+<h3 id="5-4-2-static-environment-cpp"><a href="#5-4-2-static-environment-cpp" class="headerlink" title="5.4.2 static_environment.cpp"></a>5.4.2 static_environment.cpp</h3><h4 id="1-成员函数：StaticEnvironment-initialize"><a href="#1-成员函数：StaticEnvironment-initialize" class="headerlink" title="1. 成员函数：StaticEnvironment::initialize()"></a>1. 成员函数：<code>StaticEnvironment::initialize()</code></h4><p>订阅的话题</p>
+<ul>
+<li><code>costmap_node/costmap/costmap</code>：包<code>costmap_2d</code>发布</li>
+<li><code>costmap_node/costmap/costmap_updates</code>：包<code>costmap_2d</code>发布</li>
+<li><code>predicted_trajectory</code>：包<code>lmpcc</code>发布</li>
+</ul>
+<p>发布的话题</p>
+<ul>
+<li><code>collision_free_area</code>：可视化工具<code>rviz</code>使用</li>
+<li><code>collision_constraints</code>：包<code>lmpcc</code>使用</li>
+<li><code>my_map</code></li>
+</ul>
+<pre><code class="hljs cpp">local_map_sub_ = nh_.subscribe(<span class="hljs-string">"costmap_node/costmap/costmap"</span>, <span class="hljs-number">1</span>, &amp;StaticEnvironment::LocalMapCallBack, <span class="hljs-keyword">this</span>);
+local_map_updates_sub_ = nh_.subscribe(<span class="hljs-string">"costmap_node/costmap/costmap_updates"</span>, <span class="hljs-number">1</span>, &amp;StaticEnvironment::LocalMapUpdatesCallBack, <span class="hljs-keyword">this</span>);
+pred_traj_sub_ = nh_.subscribe(<span class="hljs-string">"predicted_trajectory"</span>, <span class="hljs-number">1</span>, &amp;StaticEnvironment::PredictedTrajectoryCallback, <span class="hljs-keyword">this</span>);
+
+collision_free_pub_ = nh_.advertise&lt;visualization_msgs::MarkerArray&gt;(<span class="hljs-string">"collision_free_area"</span>,<span class="hljs-number">1</span>);
+collision_constraint_pub_ = nh_.advertise&lt;static_collision_avoidance::collision_free_polygon&gt;(<span class="hljs-string">"collision_constraints"</span>,<span class="hljs-number">1</span>);
+local_map_pub_ = nh_.advertise&lt;nav_msgs::OccupancyGrid&gt;(<span class="hljs-string">"my_map"</span>,<span class="hljs-number">1</span>);</code></pre>
+<p>启动的服务</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">/** Services **/</span>
+map_service_ = nh_.serviceClient&lt;nav_msgs::GetMap&gt;(<span class="hljs-string">"static_map"</span>);</code></pre>
+<p>加载参数，这里仅展示部分</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (!nh_.getParam (<span class="hljs-string">"collision_avoidance/map_resolution"</span>, map_resolution_) )
+&#123;
+	ROS_WARN(<span class="hljs-string">" Parameter '/collision_avoidance/map_resolution not set on %s node"</span> , ros::this_node::getName().c_str());
+	<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+&#125;</code></pre>
+<p>可视化设置</p>
+<pre><code class="hljs cpp">cube1.type = visualization_msgs::Marker::CUBE;
+cube1.id = <span class="hljs-number">60</span>;
+cube1.color.r = <span class="hljs-number">0.5</span>;
+cube1.color.g = <span class="hljs-number">0.5</span>;
+cube1.color.b = <span class="hljs-number">0.0</span>;
+cube1.color.a = <span class="hljs-number">0.1</span>;
+cube1.header.frame_id = planning_frame_;
+cube1.ns = <span class="hljs-string">"trajectory"</span>;
+cube1.action = visualization_msgs::Marker::ADD;
+cube1.lifetime = ros::Duration(<span class="hljs-number">1</span>);</code></pre>
+<p>无障碍区域初始化，注意到这里初始化的大小为<code>prediction_steps_</code>（25）</p>
+<pre><code class="hljs cpp">collision_free_C1.resize(prediction_steps_);
+collision_free_C2.resize(prediction_steps_);
+collision_free_C3.resize(prediction_steps_);
+collision_free_C4.resize(prediction_steps_);
+
+collision_free_a1x.resize(prediction_steps_);
+collision_free_a1y.resize(prediction_steps_);
+collision_free_a2x.resize(prediction_steps_);
+collision_free_a2y.resize(prediction_steps_);
+collision_free_a3x.resize(prediction_steps_);
+collision_free_a3y.resize(prediction_steps_);
+collision_free_a4x.resize(prediction_steps_);
+collision_free_a4y.resize(prediction_steps_);
+
+collision_free_xmin.resize(prediction_steps_);
+collision_free_xmax.resize(prediction_steps_);
+collision_free_ymin.resize(prediction_steps_);
+collision_free_ymax.resize(prediction_steps_);</code></pre>
+<p>获取<code>global_map_</code>地图信息，该服务由<code>map_server</code>提供</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">/** Request static environment map **/</span>
+<span class="hljs-keyword">if</span> (map_service_.call(map_srv_))
+&#123;
+	ROS_ERROR(<span class="hljs-string">"Service GetMap succeeded."</span>);
+	global_map_ = map_srv_.response.<span class="hljs-built_in">map</span>;
+&#125;</code></pre>
+<h4 id="2-成员函数：StaticEnvironment-LocalMapCallBack"><a href="#2-成员函数：StaticEnvironment-LocalMapCallBack" class="headerlink" title="2. 成员函数：StaticEnvironment::LocalMapCallBack()"></a>2. 成员函数：<code>StaticEnvironment::LocalMapCallBack()</code></h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StaticEnvironment::LocalMapCallBack</span><span class="hljs-params">(<span class="hljs-keyword">const</span> nav_msgs::OccupancyGrid local_map)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">if</span> (use_local_map_ ) &#123;
+        <span class="hljs-comment">//ROS_WARN("StaticEnvironment::LocalMapCallBack");</span>
+        local_map_ = local_map;
+        local_map_pub_.publish(local_map_);
+        ROS_INFO(<span class="hljs-string">"local map update received!"</span>);
+    &#125;
+&#125;</code></pre>
+<h4 id="3-成员函数：StaticEnvironment-LocalMapUpdatesCallBack"><a href="#3-成员函数：StaticEnvironment-LocalMapUpdatesCallBack" class="headerlink" title="3. 成员函数：StaticEnvironment::LocalMapUpdatesCallBack()"></a>3. 成员函数：<code>StaticEnvironment::LocalMapUpdatesCallBack()</code></h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StaticEnvironment::LocalMapUpdatesCallBack</span><span class="hljs-params">(<span class="hljs-keyword">const</span> map_msgs::OccupancyGridUpdate local_map_update)</span></span>
+<span class="hljs-function"></span>&#123;
+	<span class="hljs-keyword">if</span> (use_local_map_ ) &#123;
+		ROS_ERROR(<span class="hljs-string">"StaticEnvironment::LocalMapUpdatesCallBack"</span>);
+		<span class="hljs-keyword">int</span> index = <span class="hljs-number">0</span>;
+		geometry_msgs::Pose obs;
+		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> y = local_map_update.y; y &lt; local_map_update.y + local_map_update.height; y++) &#123;
+			<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> x = local_map_update.x; x &lt; local_map_update.x + local_map_update.width; x++) &#123;
+				local_map_.data[local_map_.info.width * y + x] = local_map_update.data[index++];
+			&#125;
+		&#125;
+    	local_map_pub_.publish(local_map_);    
+    &#125;
+<span class="hljs-comment">//    ROS_INFO("local map update received!");</span>
+&#125;</code></pre>
+<h4 id="4-（重要）成员函数：StaticEnvironment-PredictedTrajectoryCallback"><a href="#4-（重要）成员函数：StaticEnvironment-PredictedTrajectoryCallback" class="headerlink" title="4. （重要）成员函数：StaticEnvironment::PredictedTrajectoryCallback()"></a>4. （重要）成员函数：<code>StaticEnvironment::PredictedTrajectoryCallback()</code></h4><p>函数原型</p>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StaticEnvironment::PredictedTrajectoryCallback</span><span class="hljs-params">(<span class="hljs-keyword">const</span> nav_msgs::Path msg)</span></span>&#123;&#125;</code></pre>
+<p>首先是传入参数的类型<code>nav_msgs::Path</code></p>
+<pre><code class="hljs cpp">std_msgs/Header header
+  uint32 seq
+  time stamp
+  <span class="hljs-built_in">string</span> frame_id
+geometry_msgs/PoseStamped[] poses
+  std_msgs/Header header
+    uint32 seq
+    time stamp
+    <span class="hljs-built_in">string</span> frame_id
+  geometry_msgs/Pose pose
+    geometry_msgs/Point position
+      float64 x
+      float64 y
+      float64 z
+    geometry_msgs/Quaternion orientation
+      float64 x
+      float64 y
+      float64 z
+      float64 w</code></pre>
+<p>并且结合<code>LMPCC::publishPredictedTrajectory</code>注意到传入参数中有<code>ACADO_N</code>个（15个）位置坐标，所含信息如下</p>
+<pre><code class="hljs cpp">pred_traj_.poses[i].pose.position.x = acadoVariables.x[i * ACADO_NX + <span class="hljs-number">0</span>]; <span class="hljs-comment">//x</span>
+pred_traj_.poses[i].pose.position.y = acadoVariables.x[i * ACADO_NX + <span class="hljs-number">1</span>]; <span class="hljs-comment">//y</span>
+pred_traj_.poses[i].pose.orientation.z = acadoVariables.x[i * ACADO_NX + <span class="hljs-number">2</span>]; <span class="hljs-comment">//theta</span></code></pre>
+<p>函数的开始是局部变量的定义和参数的初始化</p>
+<pre><code class="hljs cpp">static_collision_avoidance::collision_free_polygon constraint_msg;
+pred_traj_ = msg;</code></pre>
+<p>然后调用了成员函数<code>StaticEnvironment::ComputeCollisionFreeArea()</code></p>
+<pre><code class="hljs cpp">ComputeCollisionFreeArea();</code></pre>
+<p>参数的传递和发布（这里仅展示部分）</p>
+<pre><code class="hljs cpp">constraint_msg.collision_free_a1x = collision_free_a1x;
+constraint_msg.collision_free_a1y = collision_free_a1y;
+constraint_msg.collision_free_a2x = collision_free_a2x;
+constraint_msg.collision_free_a2y = collision_free_a2y;
+<span class="hljs-comment">/* ...... */</span>
+collision_constraint_pub_.publish(constraint_msg);</code></pre>
+<p>可视化</p>
+<pre><code class="hljs cpp">publishPosConstraint();</code></pre>
+<h4 id="5-（重要）成员函数：StaticEnvironment-ComputeCollisionFreeArea"><a href="#5-（重要）成员函数：StaticEnvironment-ComputeCollisionFreeArea" class="headerlink" title="5. （重要）成员函数：StaticEnvironment::ComputeCollisionFreeArea()"></a>5. （重要）成员函数：<code>StaticEnvironment::ComputeCollisionFreeArea()</code></h4><p>函数原型</p>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StaticEnvironment::ComputeCollisionFreeArea</span><span class="hljs-params">()</span></span>&#123;&#125;</code></pre>
+<p>首先获取当前的时间</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">auto</span> start = <span class="hljs-built_in">std</span>::chrono::steady_clock::now();</code></pre>
+<p>局部变量的定义</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">int</span> x_path_i, y_path_i;		<span class="hljs-comment">//index</span>
+<span class="hljs-keyword">double</span> x_path, y_path, psi_path, theta_search, r;	<span class="hljs-comment">//r没有被使用</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; C_N;
+
+<span class="hljs-keyword">int</span> search_steps = <span class="hljs-number">10</span>;</code></pre>
+<p>地图的选择</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (use_local_map_ )&#123;
+	static_map_ = local_map_;
+&#125;
+<span class="hljs-keyword">else</span>&#123;
+	static_map_ = global_map_;
+&#125;</code></pre>
+<p>初始角度（collision<em>free_delta_min</em> = 2），但是没有被使用过</p>
+<pre><code class="hljs cpp">collision_free_delta_min_ = collision_free_delta_max_;</code></pre>
+<p>计算预测路径上的每个位置坐标处的限制条件</p>
+<p>❗❗❗注意此处<code>prediction_steps_</code>为25，但是根据上面的分析，预测的路径中只有15个位置坐标。</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">// Iterate over points in prediction horizon to search for collision free circles</span>
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; prediction_steps_; i++)&#123;
+&#125;</code></pre>
+<p>首先获取一个坐标位置</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">// Current search point of prediction horizon</span>
+x_path = pred_traj_.poses[i].pose.position.x;
+y_path = pred_traj_.poses[i].pose.position.y;
+psi_path = pred_traj_.poses[i].pose.orientation.z;</code></pre>
+<p>计算这个坐标 x 方向和 y 方向相对于原点的<code>index</code></p>
+<pre><code class="hljs cpp"><span class="hljs-comment">// Find corresponding index of the point in the occupancy grid map</span>
+x_path_i = (<span class="hljs-keyword">int</span>) round((x_path - static_map_.info.origin.position.x)/static_map_.info.resolution);
+y_path_i = (<span class="hljs-keyword">int</span>) round((y_path - static_map_.info.origin.position.y)/static_map_.info.resolution);</code></pre>
+<p>调用成员函数<code>computeConstraint()</code>计算每个位置坐标的约束条件</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">// Compute the constraint</span>
+computeConstraint(x_path_i,y_path_i,x_path, y_path, psi_path, i);</code></pre>
+<p>获取结束时间，并计算时间间隔</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">auto</span> end = <span class="hljs-built_in">std</span>::chrono::steady_clock::now();
+
+te_collision_free_ = <span class="hljs-keyword">double</span>(<span class="hljs-built_in">std</span>::chrono::duration_cast &lt;<span class="hljs-built_in">std</span>::chrono::milliseconds&gt; (end-start).count());</code></pre>
+<p>输出提示信息</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (activate_timing_output_)
+	ROS_INFO_STREAM(<span class="hljs-string">"Free space solve time "</span> &lt;&lt; te_collision_free_  &lt;&lt; <span class="hljs-string">" ms"</span>);</code></pre>
+<h4 id="6-（重要）成员函数：StaticEnvironment-computeConstraint"><a href="#6-（重要）成员函数：StaticEnvironment-computeConstraint" class="headerlink" title="6. （重要）成员函数：StaticEnvironment::computeConstraint()"></a>6. （重要）成员函数：<code>StaticEnvironment::computeConstraint()</code></h4><p>函数原型：</p>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StaticEnvironment::computeConstraint</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x_i, <span class="hljs-keyword">int</span> y_i, <span class="hljs-keyword">double</span> x_path, <span class="hljs-keyword">double</span> y_path, <span class="hljs-keyword">double</span> psi_path, <span class="hljs-keyword">int</span> N)</span></span>&#123;&#125;</code></pre>
+<p>首先进行局部变量的定义和初始化</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">// Initialize linear constraint normal vectors</span>
+std::vector&lt;double&gt; t1(2, 0), t2(2, 0), t3(2, 0), t4(2, 0);
+
+<span class="hljs-comment">// Declare search iterators</span>
+<span class="hljs-keyword">int</span> x_min, x_max, y_min, y_max;
+<span class="hljs-keyword">int</span> search_x, search_y;
+<span class="hljs-keyword">int</span> r_max_i_min, r_max_i_max;</code></pre>
+<p>计算搜索范围</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">// define maximum search distance in occupancy grid cells, based on discretization</span>
+r_max_i_min = (<span class="hljs-keyword">int</span>) round(-collision_free_delta_max_ /static_map_.info.resolution);		<span class="hljs-comment">//-40</span>
+r_max_i_max = (<span class="hljs-keyword">int</span>) round(collision_free_delta_max_/static_map_.info.resolution);		<span class="hljs-comment">//40</span>
+
+<span class="hljs-comment">// Initialize found rectangle values with maxium search distance</span>
+x_min = r_max_i_min;
+x_max = r_max_i_max;
+y_min = r_max_i_min;
+y_max = r_max_i_max;</code></pre>
+<p>初始化搜索的距离，注意这里的<code>search_distance = 2</code>可以理解为<code>栅格地图</code>上的两个格，而不是两米。</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">// Initialize search distance iterator</span>
+<span class="hljs-keyword">int</span> search_distance = <span class="hljs-number">2</span>;
+<span class="hljs-comment">// Initialize boolean that indicates whether the region has been found</span>
+<span class="hljs-keyword">bool</span> search_region = <span class="hljs-literal">true</span>;</code></pre>
+<p>分别在x的正方向和负方向，y的正方向和负方向上进行搜索，四个方向的处理方式一样，这里仅展示一个</p>
+<p>在第一轮循环中</p>
+<ul>
+<li><p><code>if</code>语句对应<code>x_min</code>是否改变</p>
+</li>
+<li><p><code>for</code>语句对应<code>y</code>方向上下<code>2</code>格的地方</p>
+</li>
+<li>如果遇到了障碍物，<code>x_min</code>即为2，此时<code>xmin</code>的值发生改变，不会再进入<code>if</code>语句</li>
+<li>否则，递增<code>search_distance</code>，判断是否满足结束条件</li>
+<li>不满足的话，会再次进入<code>if</code>语句</li>
+</ul>
+<p>注意以下程序是在一个<code>while</code>循环中</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">// Only search in x_min direction if no value has been found yet</span>
+<span class="hljs-keyword">if</span> (x_min == r_max_i_min)
+&#123;
+	search_x = -search_distance;
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> search_y_it = <span class="hljs-built_in">std</span>::max(-search_distance,y_min); search_y_it &lt; <span class="hljs-built_in">std</span>::min(search_distance,y_max); search_y_it++)
+	&#123;
+		<span class="hljs-comment">// Assign value if occupied cell is found</span>
+		<span class="hljs-keyword">if</span> (getRotatedOccupancy(x_i, search_x, y_i, search_y_it, psi_path) &gt; occupied_threshold_)
+		&#123;
+			x_min = search_x;
+		&#125;
+	&#125;
+&#125; <span class="hljs-comment">//else &#123;ROS_INFO_STREAM("Already found x_min = " &lt;&lt; x_min);&#125;</span>
+
+<span class="hljs-comment">// Increase search distance</span>
+search_distance++;
+<span class="hljs-comment">// Determine whether the search is finished</span>
+search_region = (search_distance &lt; r_max_i_max) &amp;&amp; ( x_min == r_max_i_min || x_max == r_max_i_max || y_min == r_max_i_min || y_max == r_max_i_max );</code></pre>
+<p>❗❗❗计算过程没有看懂</p>
+<p>主要是角度如何理解</p>
+<p>猜测此处的<code>0.35</code>为用一个圆表示机器人时的机器人半径（计算值为：<code>0.32</code>），如果猜测正确，那么该值应该设置为<strong>变量</strong>。</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">// Assign the rectangle values</span>
+collision_free_xmin[N] = x_min*static_map_.info.resolution + <span class="hljs-number">0.35</span>;
+collision_free_xmax[N] = x_max*static_map_.info.resolution - <span class="hljs-number">0.35</span>;
+collision_free_ymin[N] = y_min*static_map_.info.resolution + <span class="hljs-number">0.35</span>;
+collision_free_ymax[N] = y_max*static_map_.info.resolution - <span class="hljs-number">0.35</span>;
+
+std::vector&lt;double&gt; sqx(4,0), sqy(4,0);
+
+sqx[<span class="hljs-number">0</span>] = x_path + <span class="hljs-built_in">cos</span>(psi_path)*collision_free_xmin[N] - <span class="hljs-built_in">sin</span>(psi_path)*collision_free_ymin[N];
+sqx[<span class="hljs-number">1</span>] = x_path + <span class="hljs-built_in">cos</span>(psi_path)*collision_free_xmin[N] - <span class="hljs-built_in">sin</span>(psi_path)*collision_free_ymax[N];
+sqx[<span class="hljs-number">2</span>] = x_path + <span class="hljs-built_in">cos</span>(psi_path)*collision_free_xmax[N] - <span class="hljs-built_in">sin</span>(psi_path)*collision_free_ymax[N];
+sqx[<span class="hljs-number">3</span>] = x_path + <span class="hljs-built_in">cos</span>(psi_path)*collision_free_xmax[N] - <span class="hljs-built_in">sin</span>(psi_path)*collision_free_ymin[N];
+
+sqy[<span class="hljs-number">0</span>] = y_path + <span class="hljs-built_in">sin</span>(psi_path)*collision_free_xmin[N] + <span class="hljs-built_in">cos</span>(psi_path)*collision_free_ymin[N];
+sqy[<span class="hljs-number">1</span>] = y_path + <span class="hljs-built_in">sin</span>(psi_path)*collision_free_xmin[N] + <span class="hljs-built_in">cos</span>(psi_path)*collision_free_ymax[N];
+sqy[<span class="hljs-number">2</span>] = y_path + <span class="hljs-built_in">sin</span>(psi_path)*collision_free_xmax[N] + <span class="hljs-built_in">cos</span>(psi_path)*collision_free_ymax[N];
+sqy[<span class="hljs-number">3</span>] = y_path + <span class="hljs-built_in">sin</span>(psi_path)*collision_free_xmax[N] + <span class="hljs-built_in">cos</span>(psi_path)*collision_free_ymin[N];
+
+t1[<span class="hljs-number">0</span>] = (sqx[<span class="hljs-number">1</span>] - sqx[<span class="hljs-number">0</span>])/<span class="hljs-built_in">sqrt</span>((sqx[<span class="hljs-number">1</span>] - sqx[<span class="hljs-number">0</span>])*(sqx[<span class="hljs-number">1</span>] - sqx[<span class="hljs-number">0</span>]) + (sqy[<span class="hljs-number">1</span>] - sqy[<span class="hljs-number">0</span>])*(sqy[<span class="hljs-number">1</span>] - sqy[<span class="hljs-number">0</span>]));
+t2[<span class="hljs-number">0</span>] = (sqx[<span class="hljs-number">2</span>] - sqx[<span class="hljs-number">1</span>])/<span class="hljs-built_in">sqrt</span>((sqx[<span class="hljs-number">2</span>] - sqx[<span class="hljs-number">1</span>])*(sqx[<span class="hljs-number">2</span>] - sqx[<span class="hljs-number">1</span>]) + (sqy[<span class="hljs-number">2</span>] - sqy[<span class="hljs-number">1</span>])*(sqy[<span class="hljs-number">2</span>] - sqy[<span class="hljs-number">1</span>]));
+t3[<span class="hljs-number">0</span>] = (sqx[<span class="hljs-number">3</span>] - sqx[<span class="hljs-number">2</span>])/<span class="hljs-built_in">sqrt</span>((sqx[<span class="hljs-number">3</span>] - sqx[<span class="hljs-number">2</span>])*(sqx[<span class="hljs-number">3</span>] - sqx[<span class="hljs-number">2</span>]) + (sqy[<span class="hljs-number">3</span>] - sqy[<span class="hljs-number">2</span>])*(sqy[<span class="hljs-number">3</span>] - sqy[<span class="hljs-number">2</span>]));
+t4[<span class="hljs-number">0</span>] = (sqx[<span class="hljs-number">0</span>] - sqx[<span class="hljs-number">3</span>])/<span class="hljs-built_in">sqrt</span>((sqx[<span class="hljs-number">0</span>] - sqx[<span class="hljs-number">3</span>])*(sqx[<span class="hljs-number">0</span>] - sqx[<span class="hljs-number">3</span>]) + (sqy[<span class="hljs-number">0</span>] - sqy[<span class="hljs-number">3</span>])*(sqy[<span class="hljs-number">0</span>] - sqy[<span class="hljs-number">3</span>]));
+
+t1[<span class="hljs-number">1</span>] = (sqy[<span class="hljs-number">1</span>] - sqy[<span class="hljs-number">0</span>])/<span class="hljs-built_in">sqrt</span>((sqx[<span class="hljs-number">1</span>] - sqx[<span class="hljs-number">0</span>])*(sqx[<span class="hljs-number">1</span>] - sqx[<span class="hljs-number">0</span>]) + (sqy[<span class="hljs-number">1</span>] - sqy[<span class="hljs-number">0</span>])*(sqy[<span class="hljs-number">1</span>] - sqy[<span class="hljs-number">0</span>]));
+t2[<span class="hljs-number">1</span>] = (sqy[<span class="hljs-number">2</span>] - sqy[<span class="hljs-number">1</span>])/<span class="hljs-built_in">sqrt</span>((sqx[<span class="hljs-number">2</span>] - sqx[<span class="hljs-number">1</span>])*(sqx[<span class="hljs-number">2</span>] - sqx[<span class="hljs-number">1</span>]) + (sqy[<span class="hljs-number">2</span>] - sqy[<span class="hljs-number">1</span>])*(sqy[<span class="hljs-number">2</span>] - sqy[<span class="hljs-number">1</span>]));
+t3[<span class="hljs-number">1</span>] = (sqy[<span class="hljs-number">3</span>] - sqy[<span class="hljs-number">2</span>])/<span class="hljs-built_in">sqrt</span>((sqx[<span class="hljs-number">3</span>] - sqx[<span class="hljs-number">2</span>])*(sqx[<span class="hljs-number">3</span>] - sqx[<span class="hljs-number">2</span>]) + (sqy[<span class="hljs-number">3</span>] - sqy[<span class="hljs-number">2</span>])*(sqy[<span class="hljs-number">3</span>] - sqy[<span class="hljs-number">2</span>]));
+t4[<span class="hljs-number">1</span>] = (sqy[<span class="hljs-number">0</span>] - sqy[<span class="hljs-number">3</span>])/<span class="hljs-built_in">sqrt</span>((sqx[<span class="hljs-number">0</span>] - sqx[<span class="hljs-number">3</span>])*(sqx[<span class="hljs-number">0</span>] - sqx[<span class="hljs-number">3</span>]) + (sqy[<span class="hljs-number">0</span>] - sqy[<span class="hljs-number">3</span>])*(sqy[<span class="hljs-number">0</span>] - sqy[<span class="hljs-number">3</span>]));
+
+collision_free_a1x[N] = t1[<span class="hljs-number">1</span>];
+collision_free_a2x[N] = t2[<span class="hljs-number">1</span>];
+collision_free_a3x[N] = t3[<span class="hljs-number">1</span>];
+collision_free_a4x[N] = t4[<span class="hljs-number">1</span>];
+
+collision_free_a1y[N] = -t1[<span class="hljs-number">0</span>];
+collision_free_a2y[N] = -t2[<span class="hljs-number">0</span>];
+collision_free_a3y[N] = -t3[<span class="hljs-number">0</span>];
+collision_free_a4y[N] = -t4[<span class="hljs-number">0</span>];
+
+collision_free_C1[N] = sqx[<span class="hljs-number">0</span>]*collision_free_a1x[N] + sqy[<span class="hljs-number">0</span>]*collision_free_a1y[N];
+collision_free_C2[N] = sqx[<span class="hljs-number">1</span>]*collision_free_a2x[N] + sqy[<span class="hljs-number">1</span>]*collision_free_a2y[N];
+collision_free_C3[N] = sqx[<span class="hljs-number">2</span>]*collision_free_a3x[N] + sqy[<span class="hljs-number">2</span>]*collision_free_a3y[N];
+collision_free_C4[N] = sqx[<span class="hljs-number">3</span>]*collision_free_a4x[N] + sqy[<span class="hljs-number">3</span>]*collision_free_a4y[N];</code></pre>
+<h4 id="7-成员函数：StaticEnvironment-getRotatedOccupancy"><a href="#7-成员函数：StaticEnvironment-getRotatedOccupancy" class="headerlink" title="7. 成员函数：StaticEnvironment::getRotatedOccupancy()"></a>7. 成员函数：<code>StaticEnvironment::getRotatedOccupancy()</code></h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">StaticEnvironment::getRotatedOccupancy</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x_i, <span class="hljs-keyword">int</span> search_x, <span class="hljs-keyword">int</span> y_i, <span class="hljs-keyword">int</span> search_y, <span class="hljs-keyword">double</span> psi)</span> </span>&#123;
+    <span class="hljs-comment">//ROS_INFO_STREAM("getRotatedOccupancy");</span>
+    <span class="hljs-keyword">int</span> x_search_rotated = (<span class="hljs-keyword">int</span>) round(<span class="hljs-built_in">cos</span>(psi) * search_x - <span class="hljs-built_in">sin</span>(psi) * search_y);
+    <span class="hljs-keyword">int</span> y_search_rotated = (<span class="hljs-keyword">int</span>) round(<span class="hljs-built_in">sin</span>(psi) * search_x + <span class="hljs-built_in">cos</span>(psi) * search_y);
+
+    <span class="hljs-keyword">if</span> ((x_i + x_search_rotated) &gt; static_map_.info.width || (y_i + y_search_rotated) &gt; static_map_.info.height ||
+        (x_i + x_search_rotated) &lt; <span class="hljs-number">0</span> || (y_i + y_search_rotated) &lt; <span class="hljs-number">0</span>) &#123;
+        <span class="hljs-keyword">return</span> (<span class="hljs-keyword">int</span>) <span class="hljs-number">100</span>;
+    &#125;
+    <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-keyword">return</span> static_map_.data[static_map_.info.width * (y_i + y_search_rotated) + (x_i + x_search_rotated)];
+    &#125;
+&#125;</code></pre>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ROS/">ROS</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">源码学习</a>
+                    
+                      <a class="hover-with-bg" href="/tags/LMPCC/">LMPCC</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/06/22/Code/ROS/%5B%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%5Damr-lmpcc_04lmpcc_obstacle_feed/">
+                        <span class="hidden-mobile">【源码学习】amr-lmpcc_04</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "【源码学习】amr-lmpcc_05&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

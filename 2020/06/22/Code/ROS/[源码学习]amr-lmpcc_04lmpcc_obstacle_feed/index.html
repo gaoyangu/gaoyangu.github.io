@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="gaoyangu">
+  <meta name="keywords" content="">
+  <title>【源码学习】amr-lmpcc_04 - gaoyangu</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/googlecode.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>gaoyangu</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-06-22 14:21">
+      2020年6月22日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.9k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      48
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h2 id="package-lmpcc-obastacle-feed"><a href="#package-lmpcc-obastacle-feed" class="headerlink" title="package:lmpcc_obastacle_feed"></a>package:<code>lmpcc_obastacle_feed</code></h2><h2 id="4-1-launch文件"><a href="#4-1-launch文件" class="headerlink" title="4.1 launch文件"></a>4.1 launch文件</h2><pre><code class="hljs cpp">\amr-lmpcc\lmpcc_obstacle_feed\launch
+├── lmpcc_obstacle_feed.launch
+└── map_lmpcc_obstacle_feed.launch
+
+file: <span class="hljs-number">2</span></code></pre>
+<h4 id="4-1-1-lmpcc-obstacle-feed-launch"><a href="#4-1-1-lmpcc-obstacle-feed-launch" class="headerlink" title="4.1.1 lmpcc_obstacle_feed.launch"></a>4.1.1 lmpcc_obstacle_feed.launch</h4><p>该文件用于仿真环境，内容也很简单，分别是加载参数文件和启动<code>lmpcc_obstacle_feed_node</code>节点</p>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">rosparam</span> <span class="hljs-attr">command</span>=<span class="hljs-string">"load"</span> <span class="hljs-attr">file</span>=<span class="hljs-string">"$(find lmpcc_obstacle_feed)/config/lmpcc_obstacle_feed_config.yaml"</span>/&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"lmpcc_obstacle_feed"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"lmpcc_obstacle_feed_node"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"lmpcc_obstacle_feed_node"</span> <span class="hljs-attr">cwd</span>=<span class="hljs-string">"node"</span> <span class="hljs-attr">respawn</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">output</span>=<span class="hljs-string">"screen"</span>/&gt;</span></code></pre>
+<h4 id="4-1-2-map-lmpcc-obstacle-feed-launch"><a href="#4-1-2-map-lmpcc-obstacle-feed-launch" class="headerlink" title="4.1.2 map_lmpcc_obstacle_feed.launch"></a>4.1.2 map_lmpcc_obstacle_feed.launch</h4><p>该文件与<code>4.1.1 lmpcc_obstacle_feed.launch</code>基本相同，这里仅展示不同的部分</p>
+<p>首先启动了<code>map_server</code>节点</p>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">arg</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"map_file"</span> <span class="hljs-attr">default</span>=<span class="hljs-string">"$(find lmpcc_obstacle_feed)/maps/faculty.yaml"</span>/&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"map_server"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"map_server"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"map_server"</span> <span class="hljs-attr">args</span>=<span class="hljs-string">"$(arg map_file)"</span> /&gt;</span></code></pre>
+<p>还有一行<strong>注释掉</strong>的用于<code>map</code>和<code>odom</code>之间的<code>tf</code>变换</p>
+<pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- &lt;node pkg="tf" type="static_transform_publisher" name="map_odom" args="1.5 2.7 0 0 0 0 map odom 100"/&gt; --&gt;</span></code></pre>
+<h4 id="4-1-3-小结"><a href="#4-1-3-小结" class="headerlink" title="4.1.3 小结"></a>4.1.3 小结</h4><p>map_lmpcc_obstacle_feed.launch启动的节点有：</p>
+<ul>
+<li><code>map_server</code></li>
+<li><code>lmpcc_obstacle_feed_node</code></li>
+</ul>
+<p>除此之外还有<strong>注释掉</strong>的<code>map</code>和<code>odom</code>之间的<code>tf</code>变换。</p>
+<h2 id="4-2-lmpcc-obstacle-feed-config-yaml"><a href="#4-2-lmpcc-obstacle-feed-config-yaml" class="headerlink" title="4.2 lmpcc_obstacle_feed_config.yaml"></a>4.2 lmpcc_obstacle_feed_config.yaml</h2><p>该文件中主要配置了发布者，订阅者，障碍物的检测标准以及提前定义的障碍物信息。</p>
+<h2 id="4-3-头文件"><a href="#4-3-头文件" class="headerlink" title="4.3 头文件"></a>4.3 头文件</h2><pre><code class="hljs cpp">\amr-lmpcc\lmpcc_obstacle_feed\include\lmpcc_obstacle_feed
+├── lmpcc_obstacle_feed.h
+├── lmpcc_obstacle_feed_configuration.h
+└── obstacle_prediction.h
+
+file: <span class="hljs-number">3</span></code></pre>
+<p>在这些头文件中分别定义了三个类：</p>
+<ul>
+<li><code>ObstacleFeed</code></li>
+<li><code>lmpcc_obstacle_feed_configuration</code></li>
+<li><code>Obstacle_Prediction</code></li>
+</ul>
+<h2 id="4-4-源文件"><a href="#4-4-源文件" class="headerlink" title="4.4 源文件"></a>4.4 源文件</h2><pre><code class="hljs cpp">\amr-lmpcc\lmpcc_obstacle_feed\src
+├── lmpcc_obstacle_feed.cpp
+├── lmpcc_obstacle_feed_configuration.cpp
+├── lmpcc_obstacle_feed_node.cpp
+└── obstacle_prediction.cpp
+
+file: <span class="hljs-number">4</span></code></pre>
+<h3 id="4-4-1-lmpcc-obstacle-feed-node-cpp"><a href="#4-4-1-lmpcc-obstacle-feed-node-cpp" class="headerlink" title="4.4.1 lmpcc_obstacle_feed_node.cpp"></a>4.4.1 lmpcc_obstacle_feed_node.cpp</h3><p>该文件中定义着主函数<code>main</code>。</p>
+<p>文件的开头分别是ROS节点的初始化，创建ROS句柄</p>
+<pre><code class="hljs cpp">ros::init(argc, argv,<span class="hljs-string">"lmpcc_obstacle_feed"</span>);
+ros::NodeHandle n;</code></pre>
+<p>创建类<code>ObstacleFeed</code>的实例化对象<code>obstacles</code>，注意此时会调用构造函数<code>ObstacleFeed()</code>，在构造函数中重启了<code>reconfigure server</code></p>
+<pre><code class="hljs cpp">ObstacleFeed obstacles;</code></pre>
+<p>调用成员函数<code>obstacles.initialize()</code>完成初始化</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span>(!obstacles.initialize())
+&#123;
+	ROS_ERROR_STREAM_NAMED(<span class="hljs-string">"FAILED TO INITIALIZE %s"</span>, ros::this_node::getName().c_str());
+	<span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+&#125;
+<span class="hljs-keyword">else</span>&#123;
+	ROS_INFO_STREAM_NAMED(<span class="hljs-string">"%s INITIALIZED SUCCESSFULLY!"</span>, ros::this_node::getName().c_str());
+	<span class="hljs-keyword">while</span> (n.ok()) &#123;
+		ros::Duration(<span class="hljs-number">0.05</span>).sleep();
+		ros::spinOnce();
+	&#125;
+&#125;</code></pre>
+<h3 id="4-4-2-lmpcc-obstacle-feed-cpp"><a href="#4-4-2-lmpcc-obstacle-feed-cpp" class="headerlink" title="4.4.2 lmpcc_obstacle_feed.cpp"></a>4.4.2 lmpcc_obstacle_feed.cpp</h3><h4 id="1-成员函数：ObstacleFeed-initialize"><a href="#1-成员函数：ObstacleFeed-initialize" class="headerlink" title="1. 成员函数：ObstacleFeed::initialize()"></a>1. 成员函数：<code>ObstacleFeed::initialize()</code></h4><p>首先确保ROS节点仍在运行</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (ros::ok())&#123;&#125;</code></pre>
+<p>创建类<code>lmpcc_obstacle_feed_configuration</code>的实例化对象<code>lmpcc_obstacle_feed_config_</code>，注意此时会调用构造函数<code>lmpcc_obstacle_feed_configuration()</code>，在构造函数中将标志位<code>initialize_success_</code>设置为<code>false</code>。</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">// initialize parameter configuration class</span>
+lmpcc_obstacle_feed_config_.reset(<span class="hljs-keyword">new</span> lmpcc_obstacle_feed_configuration());</code></pre>
+<p>调用类<code>lmpcc_obstacle_feed_configuration</code>的成员函数：<code>lmpcc_obstacle_feed_config_-&gt;initialize()</code>，该函数将在<code>4.4.3 lmpcc_obstacle_feed_configuration.cpp</code>中进行分析，如果初始化失败则打印错误信息</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">bool</span> lmpcc_obstacle_feed_config_success = lmpcc_obstacle_feed_config_-&gt;initialize();
+<span class="hljs-keyword">if</span> (lmpcc_obstacle_feed_config_success == <span class="hljs-literal">false</span>)
+&#123;
+	ROS_ERROR(<span class="hljs-string">"OBSTACLE FEED: FAILED TO INITIALIZE!!"</span>);
+	<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+&#125;</code></pre>
+<p>参数初始化</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">/** Initialize reconfigurable parameters **/</span>
+minV_ = lmpcc_obstacle_feed_config_-&gt;min_obstacle_volume_;
+maxV_ = lmpcc_obstacle_feed_config_-&gt;max_obstacle_volume_;
+N_obstacles_ = lmpcc_obstacle_feed_config_-&gt;obstacle_number_;
+distance_ = lmpcc_obstacle_feed_config_-&gt;distance_threshold_;
+obstacle_size_ = lmpcc_obstacle_feed_config_-&gt;obstacle_size_;
+
+dt_ = lmpcc_obstacle_feed_config_-&gt;prediction_horizon_/lmpcc_obstacle_feed_config_-&gt;discretization_steps_;</code></pre>
+<p>发布的话题</p>
+<ul>
+<li><code>ellipse_objects_feed</code>：包<code>lmpcc</code>订阅</li>
+<li><code>/people</code></li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-comment">/** Initialize publisher of ellipsoid obstacles **/</span>
+obstacles_pub = nh_.advertise&lt;lmpcc_msgs::lmpcc_obstacle_array&gt;(lmpcc_obstacle_feed_config_-&gt;pub_obstacles_,<span class="hljs-number">1</span>);
+people_pub = nh_.advertise&lt;people_msgs::People&gt;(lmpcc_obstacle_feed_config_-&gt;pub_people_,<span class="hljs-number">1</span>);</code></pre>
+<p><code>people_msg_</code>的数目和<code>frame_id</code>，主要在使用包<code>pedsim_ros</code>模拟行人时使用</p>
+<pre><code class="hljs cpp">people_msg_.people.resize(lmpcc_obstacle_feed_config_-&gt;obstacle_number_);
+people_msg_.header.frame_id=<span class="hljs-string">"map"</span>;</code></pre>
+<p>发布的话题，在使用包<code>pedsim_ros</code>模拟行人时使用</p>
+<ul>
+<li><code>ped_link_*</code></li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-comment">/** Pedstrian twist publisher **/</span>
+link_pubs_.resize(lmpcc_obstacle_feed_config_-&gt;obstacle_number_);
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> obst_it = <span class="hljs-number">1</span>; obst_it &lt; lmpcc_obstacle_feed_config_-&gt;obstacle_number_+<span class="hljs-number">1</span>; obst_it++)&#123;
+	link_pubs_[obst_it<span class="hljs-number">-1</span>] = <span class="hljs-keyword">new</span> ros::Publisher(nh_.advertise&lt;geometry_msgs::PoseStamped&gt;(<span class="hljs-string">"ped_link_"</span>+<span class="hljs-built_in">std</span>::to_string(obst_it),<span class="hljs-number">1</span>));
+&#125;</code></pre>
+<p>障碍物的可视化设置</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">/** Initialize obstacle visualization **/</span>
+<span class="hljs-keyword">if</span> (lmpcc_obstacle_feed_config_-&gt;activate_visualization_) &#123;
+	visualize_obstacles_pub = nh_.advertise&lt;visualization_msgs::MarkerArray&gt;(lmpcc_obstacle_feed_config_-&gt;pub_obstacles_vis_,<span class="hljs-number">1</span>);
+	obst1_path_pub = nh_.advertise&lt;nav_msgs::Path&gt;(<span class="hljs-string">"obst1_path"</span>,<span class="hljs-number">1</span>);
+	obst2_path_pub = nh_.advertise&lt;nav_msgs::Path&gt;(<span class="hljs-string">"obst2_path"</span>,<span class="hljs-number">1</span>);
+	obst3_path_pub = nh_.advertise&lt;nav_msgs::Path&gt;(<span class="hljs-string">"obst3_path"</span>,<span class="hljs-number">1</span>);
+	obst4_path_pub = nh_.advertise&lt;nav_msgs::Path&gt;(<span class="hljs-string">"obst4_path"</span>,<span class="hljs-number">1</span>);
+&#125;</code></pre>
+<p>设置参数服务器</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">/** Setting up dynamic_reconfigure server for the ObstacleFeedConfig parameters **/</span>
+<span class="hljs-function">ros::NodeHandle <span class="hljs-title">nh_obstacle</span><span class="hljs-params">(<span class="hljs-string">"lmpcc_obstacle_feed"</span>)</span></span>;
+reconfigure_server_.reset(<span class="hljs-keyword">new</span> dynamic_reconfigure::Server&lt;lmpcc_obstacle_feed::ObstacleFeedConfig&gt;(reconfig_mutex_, nh_obstacle));
+reconfigure_server_-&gt;setCallback(boost::bind(&amp;ObstacleFeed::reconfigureCallback,<span class="hljs-keyword">this</span>,_1,_2));</code></pre>
+<p>重置障碍物的数目</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">// setting resize value</span>
+obstacles_.lmpcc_obstacles.resize(lmpcc_obstacle_feed_config_-&gt;obstacle_number_);  <span class="hljs-comment">//resize according to number of obstacles</span>
+obstacles_.header.stamp = ros::Time::now();
+obstacles_.header.frame_id = lmpcc_obstacle_feed_config_-&gt;planning_frame_;</code></pre>
+<p>重置<code>filters_</code>的数目</p>
+<pre><code class="hljs cpp">filters_.resize(lmpcc_obstacle_feed_config_-&gt;obstacle_number_);</code></pre>
+<p>初始化障碍物的信息，注意此处为每个障碍物都创建了类<code>Obstacle_Prediction</code>的实例化对象<code>filters_[obst_it]</code></p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> obst_it = <span class="hljs-number">0</span>; obst_it &lt; obstacles_.lmpcc_obstacles.size(); obst_it++)
+&#123;
+	filters_[obst_it] =  <span class="hljs-keyword">new</span> Obstacle_Prediction(dt,lmpcc_obstacle_feed_config_-&gt;discretization_steps_);
+	obstacles_.lmpcc_obstacles[obst_it].trajectory.poses.resize(lmpcc_obstacle_feed_config_-&gt;discretization_steps_);
+	obstacles_.lmpcc_obstacles[obst_it].trajectory.header.stamp = ros::Time::now();
+	obstacles_.lmpcc_obstacles[obst_it].trajectory.header.frame_id = lmpcc_obstacle_feed_config_-&gt;planning_frame_;
+
+	<span class="hljs-comment">//initializing obstacles</span>
+	obstacles_.lmpcc_obstacles[obst_it].pose.position.x = DEFAULT_OBSTACLE_DISTANCE ;  		
+	obstacles_.lmpcc_obstacles[obst_it].pose.position.y = DEFAULT_OBSTACLE_DISTANCE;
+	obstacles_.lmpcc_obstacles[obst_it].pose.orientation.z = <span class="hljs-number">0</span>;
+
+	obstacles_.lmpcc_obstacles[obst_it].minor_semiaxis.resize(lmpcc_obstacle_feed_config_-&gt;discretization_steps_); <span class="hljs-comment">//resize according to time horizon</span>
+	obstacles_.lmpcc_obstacles[obst_it].major_semiaxis.resize(lmpcc_obstacle_feed_config_-&gt;discretization_steps_);
+
+	obstacles_.lmpcc_obstacles[obst_it].minor_semiaxis[<span class="hljs-number">0</span>] = DEFAULT_OBSTACLE_SIZE;
+	obstacles_.lmpcc_obstacles[obst_it].major_semiaxis[<span class="hljs-number">0</span>] = DEFAULT_OBSTACLE_SIZE;
+
+
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> traj_it = <span class="hljs-number">0</span>; traj_it &lt; lmpcc_obstacle_feed_config_-&gt;discretization_steps_; traj_it++)
+	&#123;
+		obstacles_.lmpcc_obstacles[obst_it].trajectory.poses[traj_it].header.stamp = ros::Time::now();
+		obstacles_.lmpcc_obstacles[obst_it].trajectory.poses[traj_it].header.frame_id = lmpcc_obstacle_feed_config_-&gt;planning_frame_;
+		obstacles_.lmpcc_obstacles[obst_it].trajectory.poses[traj_it].pose.position.x = DEFAULT_OBSTACLE_DISTANCE;
+		obstacles_.lmpcc_obstacles[obst_it].trajectory.poses[traj_it].pose.position.y = DEFAULT_OBSTACLE_DISTANCE;
+
+		obstacles_.lmpcc_obstacles[obst_it].trajectory.poses[traj_it].pose.orientation.z = <span class="hljs-number">0</span>;
+	&#125;
+&#125;</code></pre>
+<p>接下来是四种工作模式</p>
+<ul>
+<li>0 = sensor mode</li>
+<li>1 = OptiTrack mode</li>
+<li>2 = predefined obstacles</li>
+<li>4 = Pedsim</li>
+</ul>
+<p>当处于第二种模式时，障碍物为预定义的</p>
+<p>首先设置<code>ObstacleFeed::updateObstacles()</code>的调用频率，并创建对应的定时器</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">int</span> update_rate = lmpcc_obstacle_feed_config_-&gt;update_rate_;
+
+loop_timer = nh_.createTimer(ros::Duration((<span class="hljs-keyword">double</span>)<span class="hljs-number">1</span>/update_rate), &amp;ObstacleFeed::updateObstacles, <span class="hljs-keyword">this</span>);</code></pre>
+<p>然后是两个服务</p>
+<pre><code class="hljs cpp">update_service = nh_.advertiseService(<span class="hljs-string">"update_trigger"</span>, &amp;ObstacleFeed::UpdateCallback, <span class="hljs-keyword">this</span>);
+update_service_int = nh_.advertiseService(<span class="hljs-string">"update_trigger_int"</span>, &amp;ObstacleFeed::UpdateCallbackInt, <span class="hljs-keyword">this</span>);</code></pre>
+<p>检查障碍物的信息</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">// Check predefined obstacles for errors</span>
+<span class="hljs-keyword">if</span> (!(lmpcc_obstacle_feed_config_-&gt;obst_pose_x_.size() == lmpcc_obstacle_feed_config_-&gt;obst_pose_y_.size() &amp;&amp; lmpcc_obstacle_feed_config_-&gt;obst_pose_x_.size() == lmpcc_obstacle_feed_config_-&gt;obst_pose_heading_.size() &amp;&amp; lmpcc_obstacle_feed_config_-&gt;obst_pose_x_.size() == lmpcc_obstacle_feed_config_-&gt;obst_dim_minor_.size() &amp;&amp; lmpcc_obstacle_feed_config_-&gt;obst_pose_x_.size() == lmpcc_obstacle_feed_config_-&gt;obst_dim_major_.size()))
+&#123;
+	ROS_ERROR(<span class="hljs-string">"Predefined obstacle arrays are not of the same length!"</span>);
+
+	<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</code></pre>
+<h4 id="2-成员函数：ObstacleFeed-updateObstacles"><a href="#2-成员函数：ObstacleFeed-updateObstacles" class="headerlink" title="2. 成员函数：ObstacleFeed::updateObstacles()"></a>2. 成员函数：<code>ObstacleFeed::updateObstacles()</code></h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ObstacleFeed::updateObstacles</span><span class="hljs-params">(<span class="hljs-keyword">const</span> ros::TimerEvent&amp; event)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">if</span> (lmpcc_obstacle_feed_config_-&gt;obstacle_feed_mode_ == <span class="hljs-number">2</span>)
+    &#123;
+        UpdateCallback();
+    &#125;
+    <span class="hljs-comment">// Publish ellipsoid obstacles</span>
+    publishObstacles(obstacles_);
+    <span class="hljs-comment">// Visualize ellipsoid obstacles</span>
+    visualizeObstacles(obstacles_);
+&#125;</code></pre>
+<h4 id="3-成员函数：ObstacleFeed-UpdateCallback"><a href="#3-成员函数：ObstacleFeed-UpdateCallback" class="headerlink" title="3. 成员函数：ObstacleFeed::UpdateCallback()"></a>3. 成员函数：<code>ObstacleFeed::UpdateCallback()</code></h4><p>由于是自己预定义的障碍物，所以直接将<code>trajectory</code>中的信息放在<code>pose</code>中即可，然后更新<code>trajectory</code>信息。</p>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">ObstacleFeed::UpdateCallback</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> obst_it = <span class="hljs-number">0</span>; obst_it &lt; obstacles_.lmpcc_obstacles.size(); obst_it++)
+    &#123;
+        obstacles_.lmpcc_obstacles[obst_it].trajectory.header.stamp = ros::Time::now();
+
+        obstacles_.lmpcc_obstacles[obst_it].pose = obstacles_.lmpcc_obstacles[obst_it].trajectory.poses[<span class="hljs-number">1</span>].pose;
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> traj_it = <span class="hljs-number">0</span>; traj_it &lt; lmpcc_obstacle_feed_config_-&gt;discretization_steps_; traj_it++)
+        &#123;
+            obstacles_.lmpcc_obstacles[obst_it].trajectory.poses[traj_it].header.stamp = ros::Time::now();
+            obstacles_.lmpcc_obstacles[obst_it].trajectory.poses[traj_it].header.frame_id = lmpcc_obstacle_feed_config_-&gt;planning_frame_;
+
+            obstacles_.lmpcc_obstacles[obst_it].trajectory.poses[traj_it].header.stamp = ros::Time::now();
+            obstacles_.lmpcc_obstacles[obst_it].trajectory.poses[traj_it].pose.position.x = obstacles_.lmpcc_obstacles[obst_it].pose.position.x + dt_*traj_it*lmpcc_obstacle_feed_config_-&gt;v_x_.at(obst_it);
+            obstacles_.lmpcc_obstacles[obst_it].trajectory.poses[traj_it].pose.position.y = obstacles_.lmpcc_obstacles[obst_it].pose.position.y + dt_*traj_it*lmpcc_obstacle_feed_config_-&gt;v_y_.at(obst_it);
+        &#125;
+    &#125;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+&#125;</code></pre>
+<h4 id="4-成员函数：ObstacleFeed-UpdateCallbackInt"><a href="#4-成员函数：ObstacleFeed-UpdateCallbackInt" class="headerlink" title="4. 成员函数：ObstacleFeed::UpdateCallbackInt()"></a>4. 成员函数：<code>ObstacleFeed::UpdateCallbackInt()</code></h4><p>更新障碍物的位置，并根据该位置更新<code>trajectory</code>信息。</p>
+<p>与<code>3. 成员函数：ObstacleFeed::UpdateCallback()</code>大同小异，只是速率可以自定义。</p>
+<h4 id="5-成员函数：ObstacleFeed-publishObstacles"><a href="#5-成员函数：ObstacleFeed-publishObstacles" class="headerlink" title="5. 成员函数：ObstacleFeed::publishObstacles()"></a>5. 成员函数：<code>ObstacleFeed::publishObstacles()</code></h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ObstacleFeed::publishObstacles</span><span class="hljs-params">(<span class="hljs-keyword">const</span> lmpcc_msgs::lmpcc_obstacle_array&amp; obstacles)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-comment">//ROS_INFO_STREAM("publishObstacles");</span>
+    obstacles_pub.publish(obstacles);
+&#125;</code></pre>
+<h4 id="6-（重要）成员函数：ObstacleFeed-pedestriansCallback"><a href="#6-（重要）成员函数：ObstacleFeed-pedestriansCallback" class="headerlink" title="6. （重要）成员函数：ObstacleFeed::pedestriansCallback()"></a>6. （重要）成员函数：<code>ObstacleFeed::pedestriansCallback()</code></h4><p>当使用模式0时，该函数为对应的回调函数</p>
+<p>函数的开头是变量的定义和初始化</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">double</span> Xp, Yp;
+<span class="hljs-keyword">double</span> q1, q2, q3, q4;
+<span class="hljs-keyword">double</span> mag_q, distance;
+<span class="hljs-keyword">float</span> major_semiaxis, minor_semiaxis, z_rotation;
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">uint32_t</span>&gt; objectIds;
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; objectDistances;
+lmpcc_msgs::lmpcc_obstacle_array filter_obstacles;
+lmpcc_msgs::lmpcc_obstacle obst;
+lmpcc_msgs::lmpcc_obstacle obst1;
+lmpcc_msgs::lmpcc_obstacle_array local_obstacles;
+lmpcc_msgs::lmpcc_obstacle_array ellipses;
+lmpcc_msgs::lmpcc_obstacle_array local_ellipses;
+lmpcc_msgs::lmpcc_obstacle ellipse;
+<span class="hljs-keyword">double</span> f = lmpcc_obstacle_feed_config_-&gt;prediction_horizon_/lmpcc_obstacle_feed_config_-&gt;discretization_steps_;
+
+<span class="hljs-comment">//resize the vectors</span>
+ellipse.trajectory.poses.resize(lmpcc_obstacle_feed_config_-&gt;discretization_steps_);
+obst.trajectory.poses.resize(lmpcc_obstacle_feed_config_-&gt;discretization_steps_);
+obst.major_semiaxis.resize(lmpcc_obstacle_feed_config_-&gt;discretization_steps_);
+obst.minor_semiaxis.resize(lmpcc_obstacle_feed_config_-&gt;discretization_steps_);
+obst1.trajectory.poses.resize(lmpcc_obstacle_feed_config_-&gt;discretization_steps_);
+obst1.major_semiaxis.resize(lmpcc_obstacle_feed_config_-&gt;discretization_steps_);
+obst1.minor_semiaxis.resize(lmpcc_obstacle_feed_config_-&gt;discretization_steps_);</code></pre>
+<p>然后将接受到的<code>person</code>信息保存在<code>obst</code>中</p>
+<p>首先是位姿</p>
+<pre><code class="hljs cpp">obst.pose=person.tracks[person_it].pose.pose;</code></pre>
+<p>然后确保四元数的大小为1</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">//ensure magnitude of quaternion is one</span>
+q1 = obst.pose.orientation.x;
+q2 = obst.pose.orientation.y;
+q3 = obst.pose.orientation.z;
+q4 = obst.pose.orientation.w;
+mag_q = <span class="hljs-built_in">sqrt</span>((q1 * q1) + (q2 * q2) + (q3 * q3) + (q4 * q4));
+
+<span class="hljs-keyword">if</span> (mag_q != <span class="hljs-number">1</span>) &#123;
+	<span class="hljs-comment">//ROS_WARN("Quaternion magnitude not equal to one, making required modifications");</span>
+	obst.pose.orientation.x = <span class="hljs-number">0</span>;
+	obst.pose.orientation.y = <span class="hljs-number">0</span>;
+	obst.pose.orientation.z = <span class="hljs-number">0</span>;
+	obst.pose.orientation.w = <span class="hljs-number">1</span>;
+&#125;</code></pre>
+<p>获得主轴和副轴的值</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">//getting the major and minor semi axis values</span>
+obst.minor_semiaxis[<span class="hljs-number">0</span>]= lmpcc_obstacle_feed_config_-&gt;obst_dim_major_[<span class="hljs-number">0</span>];
+obst.major_semiaxis[<span class="hljs-number">0</span>]= lmpcc_obstacle_feed_config_-&gt;obst_dim_minor_[<span class="hljs-number">0</span>];
+obst.trajectory.poses[<span class="hljs-number">0</span>].pose = obst.pose;</code></pre>
+<p>如果没有使用<code>kalman_</code>，则通过如下方式获得移动障碍物的<code>trajectory</code></p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; lmpcc_obstacle_feed_config_-&gt;discretization_steps_; i++)&#123;
+	obst.trajectory.poses[i].pose.position.x = obst.trajectory.poses[i<span class="hljs-number">-1</span>].pose.position.x+person.tracks[person_it].twist.twist.linear.x*f;
+	obst.trajectory.poses[i].pose.position.y = obst.trajectory.poses[i<span class="hljs-number">-1</span>].pose.position.y+person.tracks[person_it].twist.twist.linear.y*f;
+	obst.trajectory.poses[i].pose.orientation = obst.trajectory.poses[i<span class="hljs-number">-1</span>].pose.orientation;
+	obst.minor_semiaxis[i] = obst.minor_semiaxis[<span class="hljs-number">0</span>];
+	obst.major_semiaxis[i] = obst.major_semiaxis[<span class="hljs-number">0</span>];
+&#125;</code></pre>
+<p>否则，调用类<code>Obstacle_Prediction</code>的成员函数<code>updateFilter()</code>，该函数将在<code>4.4.4 obstacle_prediction.cpp</code>中进行分析。</p>
+<pre><code class="hljs cpp">obst.trajectory = filters_[person_it]-&gt;updateFilter(obst.trajectory.poses[<span class="hljs-number">0</span>].pose);</code></pre>
+<p>最终将障碍物的信息保存在<code>local_obstacles</code>中</p>
+<pre><code class="hljs cpp">local_obstacles.lmpcc_obstacles.push_back(obst);</code></pre>
+<p>接下来处理<code>local_obstacles</code>中的每个障碍物</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i&lt; local_obstacles.lmpcc_obstacles.size(); i++) &#123;&#125;</code></pre>
+<p>首先进行坐标变换</p>
+<p>❗❗❗<code>base_link</code>实际使用时需要更改</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">// transform the pose to base_link in order to calculate the distance to the obstacle</span>
+transformPose(person.header.frame_id, <span class="hljs-string">"base_link"</span>, local_obstacles.lmpcc_obstacles[i].pose);</code></pre>
+<p>然后获取障碍物的坐标并计算距离原点的距离</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">//get obstacle coordinates in base_link frame</span>
+Xp = local_obstacles.lmpcc_obstacles[i].pose.position.x;
+Yp = local_obstacles.lmpcc_obstacles[i].pose.position.y;
+
+<span class="hljs-comment">//distance between the Prius and the obstacle</span>
+distance = <span class="hljs-built_in">sqrt</span>(<span class="hljs-built_in">pow</span>(Xp, <span class="hljs-number">2</span>) + <span class="hljs-built_in">pow</span>(Yp, <span class="hljs-number">2</span>));</code></pre>
+<p>再将坐标系转换至<code>planning_frame_</code></p>
+<pre><code class="hljs cpp"><span class="hljs-comment">//transform the pose back to planning_frame for further calculations</span>
+transformPose(<span class="hljs-string">"base_link"</span>, lmpcc_obstacle_feed_config_-&gt;planning_frame_, local_obstacles.lmpcc_obstacles[i].pose);</code></pre>
+<p>获得障碍物的主轴和副轴信息</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">//get the bounding box pose measurements for the obstacle</span>
+obst1.pose = local_obstacles.lmpcc_obstacles[i].pose;
+<span class="hljs-comment">//get the major and minor semi axis readings of the stored obstacles</span>
+<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>; j&lt; obst1.major_semiaxis.size(); j++)&#123;
+	obst1.major_semiaxis[j] = local_obstacles.lmpcc_obstacles[i].major_semiaxis[j];
+	obst1.minor_semiaxis[j] = local_obstacles.lmpcc_obstacles[i].minor_semiaxis[j];
+&#125;</code></pre>
+<p>获得障碍物的<code>pose</code>信息</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">//get the trajectory pose readings of the stored obstacles</span>
+<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k=<span class="hljs-number">0</span>; k&lt; lmpcc_obstacle_feed_config_-&gt;discretization_steps_; k++)&#123;
+	obst1.trajectory.poses[k].pose = local_obstacles.lmpcc_obstacles[i].trajectory.poses[k].pose;
+	<span class="hljs-comment">//obst1.trajectory.poses[k].pose.position.y = local_obstacles.lmpcc_obstacles[i].trajectory.poses[k].pose.position.y;</span>
+	<span class="hljs-comment">//transform the pose back to planning_frame for further calculations</span>
+	<span class="hljs-keyword">if</span>(person.header.frame_id!=lmpcc_obstacle_feed_config_-&gt;planning_frame_)
+	transformPose(person.header.frame_id, lmpcc_obstacle_feed_config_-&gt;planning_frame_,obst1.trajectory.poses[k].pose);
+&#125;</code></pre>
+<p>去除距离太远的障碍物</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">//filter out the obstacles that are farther away than the threshold distance value</span>
+<span class="hljs-keyword">if</span> (distance &lt; distance_) &#123;
+	filter_obstacles.lmpcc_obstacles.push_back(obst1);
+	objectDistances.push_back(distance);
+&#125;</code></pre>
+<p>将障碍物的信息填充到椭圆中</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">//fit the ellipse to the obstacles</span>
+<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> filt_obst_it = <span class="hljs-number">0</span>; filt_obst_it &lt; filter_obstacles.lmpcc_obstacles.size(); filt_obst_it ++) &#123;
+	<span class="hljs-comment">//fitting the ellipse</span>
+	ellipse = FitEllipse(filter_obstacles.lmpcc_obstacles[filt_obst_it], objectDistances[filt_obst_it]);
+
+	<span class="hljs-comment">//estimating the ellipse trajectory over the defined horizon</span>
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> traj_it = <span class="hljs-number">0</span>; traj_it &lt; lmpcc_obstacle_feed_config_-&gt;discretization_steps_; traj_it++) &#123;
+		ellipse.trajectory.poses[traj_it].header.stamp = ros::Time::now();
+		ellipse.trajectory.poses[traj_it].header.frame_id = lmpcc_obstacle_feed_config_-&gt;planning_frame_;
+		ellipse.trajectory.header.frame_id = lmpcc_obstacle_feed_config_-&gt;planning_frame_;
+		ellipse.trajectory.poses[traj_it].pose = filter_obstacles.lmpcc_obstacles[filt_obst_it].trajectory.poses[traj_it].pose;
+	&#125;
+
+	<span class="hljs-comment">//store the calculated ellipse</span>
+	ellipses.lmpcc_obstacles.push_back(ellipse);
+&#125;</code></pre>
+<p>将椭圆进行排序</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">//order the stored ellipses with the closest one being first</span>
+OrderObstacles(ellipses);</code></pre>
+<p>将椭圆信息保存在<code>local_ellipses</code>中</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">//find the minimum out of the number of detected obstacles and the default number of eligible obstacles to implement the algorithm</span>
+<span class="hljs-keyword">int</span> n = <span class="hljs-built_in">std</span>::min(<span class="hljs-keyword">int</span>(ellipses.lmpcc_obstacles.size()),N_obstacles_);
+<span class="hljs-comment">//ROS_INFO_STREAM("Publish and visualize obstacles: " &lt;&lt; n);</span>
+<span class="hljs-comment">// store the ordered ellipses in a vector local_ellipses</span>
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> ellipses_it = <span class="hljs-number">0</span>; ellipses_it &lt; n; ellipses_it++) &#123;
+	local_ellipses.lmpcc_obstacles.push_back(ellipses.lmpcc_obstacles[ellipses_it]);
+&#125;</code></pre>
+<p>如果探测到的障碍物小于默认数值，将剩余的障碍进行随机初始化</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">//if the number of detected obstacle is less than the default number, randomly initialize the remaining number of required obstacles</span>
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> ellipses_it = n; ellipses_it &lt; N_obstacles_ ; ellipses_it++)
+&#123;
+	ellipse.pose.position.x = <span class="hljs-number">1000</span>;
+	ellipse.pose.position.y = <span class="hljs-number">1000</span>;
+	ellipse.minor_semiaxis.resize(lmpcc_obstacle_feed_config_-&gt;discretization_steps_);
+	ellipse.major_semiaxis.resize(lmpcc_obstacle_feed_config_-&gt;discretization_steps_);
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> traj_it = <span class="hljs-number">0</span>; traj_it &lt; lmpcc_obstacle_feed_config_-&gt;discretization_steps_; traj_it++)
+	&#123;
+		ellipse.trajectory.poses[traj_it].header.stamp = ros::Time::now();
+		ellipse.trajectory.poses[traj_it].header.frame_id = lmpcc_obstacle_feed_config_-&gt;planning_frame_;
+		ellipse.trajectory.header.frame_id = lmpcc_obstacle_feed_config_-&gt;planning_frame_;
+		ellipse.trajectory.poses[traj_it].pose.position.x = <span class="hljs-number">1000</span>;
+		ellipse.trajectory.poses[traj_it].pose.position.y = <span class="hljs-number">1000</span>;
+	&#125;
+	local_ellipses.lmpcc_obstacles.push_back(ellipse);
+&#125;</code></pre>
+<p>发布障碍物信息</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">//publish and visualize the detected obstacles</span>
+<span class="hljs-keyword">if</span>(local_ellipses.lmpcc_obstacles.size()&gt;<span class="hljs-number">0</span>)&#123;
+	publishObstacles(local_ellipses);
+	visualizeObstacles(local_ellipses);
+&#125;</code></pre>
+<h4 id="7-成员函数：ObstacleFeed-publishObstacles"><a href="#7-成员函数：ObstacleFeed-publishObstacles" class="headerlink" title="7. 成员函数：ObstacleFeed::publishObstacles()"></a>7. 成员函数：<code>ObstacleFeed::publishObstacles()</code></h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ObstacleFeed::publishObstacles</span><span class="hljs-params">(<span class="hljs-keyword">const</span> lmpcc_msgs::lmpcc_obstacle_array&amp; obstacles)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-comment">//ROS_INFO_STREAM("publishObstacles");</span>
+    obstacles_pub.publish(obstacles);
+&#125;</code></pre>
+<h3 id="4-4-3-lmpcc-obstacle-feed-configuration-cpp"><a href="#4-4-3-lmpcc-obstacle-feed-configuration-cpp" class="headerlink" title="4.4.3 lmpcc_obstacle_feed_configuration.cpp"></a>4.4.3 lmpcc_obstacle_feed_configuration.cpp</h3><p>主要用于处理<code>lmpcc_obstacle_feed_config.yaml</code>中的数据，这里仅罗列部分</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (!nh.getParam (<span class="hljs-string">"obstacle_feed_mode"</span>, obstacle_feed_mode_) )
+&#123;
+	ROS_WARN(<span class="hljs-string">" Parameter 'obstacle_feed_mode_' not set on %s node "</span> , ros::this_node::getName().c_str());
+	<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+&#125;</code></pre>
+<h3 id="4-4-4-obstacle-prediction-cpp"><a href="#4-4-4-obstacle-prediction-cpp" class="headerlink" title="4.4.4 obstacle_prediction.cpp"></a>4.4.4 obstacle_prediction.cpp</h3><h4 id="1-成员函数：Obstacle-Prediction-Obstacle-Predictio"><a href="#1-成员函数：Obstacle-Prediction-Obstacle-Predictio" class="headerlink" title="1. 成员函数：Obstacle_Prediction::Obstacle_Predictio()"></a>1. 成员函数：<code>Obstacle_Prediction::Obstacle_Predictio()</code></h4><pre><code class="hljs cpp">Obstacle_Prediction::Obstacle_Prediction(<span class="hljs-keyword">double</span> <span class="hljs-keyword">delta_t</span>, <span class="hljs-keyword">int</span> horizon_N): delta_t_(<span class="hljs-keyword">delta_t</span>), horizon_N_(horizon_N)
+&#123;
+    ROS_INFO(<span class="hljs-string">"In class constructor of Obstacle_Prediction"</span>);
+
+    <span class="hljs-comment">// Initialization the state covariance, this is important for starting the Kalman filter</span>
+    <span class="hljs-keyword">double</span> cov_pos = <span class="hljs-number">1</span>^<span class="hljs-number">2</span>;
+    <span class="hljs-keyword">double</span> cov_vel = <span class="hljs-number">1</span>^<span class="hljs-number">2</span>;
+    state_cov_estimated_.setZero();
+    state_cov_estimated_(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>) = cov_pos;
+    state_cov_estimated_(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>) = cov_pos;
+    state_cov_estimated_(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>) = cov_pos;
+    state_cov_estimated_(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>) = cov_vel;
+    state_cov_estimated_(<span class="hljs-number">4</span>, <span class="hljs-number">4</span>) = cov_vel;
+    state_cov_estimated_(<span class="hljs-number">5</span>, <span class="hljs-number">5</span>) = cov_vel;
+
+    <span class="hljs-comment">// Other initialization</span>
+    pos_measured_.setZero();
+    state_estimated_.setZero();
+
+    time_stamp_ = ros::Time::now();
+    time_stamp_previous_ = ros::Time::now();
+
+    <span class="hljs-comment">// discrete time using in the filter, delta_t</span>
+<span class="hljs-comment">//     dt_ = 1.0 / node_rate_;</span>
+&#125;</code></pre>
+<h4 id="2-（重要）成员函数：Obstacle-Prediction-updateFilter"><a href="#2-（重要）成员函数：Obstacle-Prediction-updateFilter" class="headerlink" title="2. （重要）成员函数：Obstacle_Prediction::updateFilter()"></a>2. （重要）成员函数：<code>Obstacle_Prediction::updateFilter()</code></h4><blockquote>
+<p>Given the measured position data of each obstacle, we estimate their future positions and uncertainties with a linear Kalman filter [24].  </p>
+</blockquote>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ROS/">ROS</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">源码学习</a>
+                    
+                      <a class="hover-with-bg" href="/tags/LMPCC/">LMPCC</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/06/23/Code/ROS/%5B%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%5Damr-lmpcc_05static_collision_avoidance/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【源码学习】amr-lmpcc_05</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/06/21/Code/ROS/%5B%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%5Damr-lmpcc_03mobile_robot_state_publisher/">
+                        <span class="hidden-mobile">【源码学习】amr-lmpcc_03</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "【源码学习】amr-lmpcc_04&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
