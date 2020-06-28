@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.5k 字
+      3.9k 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      56
+      62
        分钟
     </span>
   
@@ -204,7 +204,14 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="package-lmpcc"><a href="#package-lmpcc" class="headerlink" title="package: lmpcc"></a>package: <code>lmpcc</code></h2><h2 id="2-1-launch文件"><a href="#2-1-launch文件" class="headerlink" title="2.1 launch文件"></a>2.1 launch文件</h2><pre><code class="hljs cpp">\amr-lmpcc\lmpcc\launch
+              <div class="note note-primary">
+            <p>本文最后更新于：2020年6月28日 上午</p>
+          </div>
+<h2 id="package-lmpcc"><a href="#package-lmpcc" class="headerlink" title="package: lmpcc"></a>package: <code>lmpcc</code></h2><h2 id="2-0-代办事项"><a href="#2-0-代办事项" class="headerlink" title="2.0 代办事项"></a>2.0 代办事项</h2><ul>
+<li><code>reference_path.cpp</code>分析</li>
+<li><code>ACADO</code>求解器的使用方法</li>
+</ul>
+<h2 id="2-1-launch文件"><a href="#2-1-launch文件" class="headerlink" title="2.1 launch文件"></a>2.1 launch文件</h2><pre><code class="hljs cpp">\amr-lmpcc\lmpcc\launch
 ├── lmpcc.launch
 ├── lmpcc.launch.orig
 └── robot_lmpcc.launch</code></pre>
@@ -302,7 +309,7 @@ directory: <span class="hljs-number">2</span> file: <span class="hljs-number">6<
 <h3 id="2-4-1-lmpcc-node-cpp"><a href="#2-4-1-lmpcc-node-cpp" class="headerlink" title="2.4.1 lmpcc_node.cpp"></a>2.4.1 lmpcc_node.cpp</h3><p>该文件中定义着主函数<code>main</code>。</p>
 <p>文件的开头分别是ROS节点的初始化，</p>
 <pre><code class="hljs cpp">ros::init(argc, argv, ros::this_node::getName());</code></pre>
-<p>创建类<code>LMPCC</code>的实例化对象<code>controller_</code>，注意此时会调用构造函数<code>LMPCC()</code>，在构造函数中重启了<code>reconfigure server</code></p>
+<p>创建类<code>LMPCC</code>的实例化对象<code>controller_</code>，注意此时会调用构造函数<code>LMPCC()</code>，在构造函数中重启了<code>reconfigure_server_</code></p>
 <pre><code class="hljs cpp">LMPCC controller_;</code></pre>
 <p>然后调用成员函数：<code>controller_.initialize()</code>进行初始化。</p>
 <pre><code class="hljs cpp"><span class="hljs-comment">// initialize predictive control node</span>
@@ -317,7 +324,8 @@ directory: <span class="hljs-number">2</span> file: <span class="hljs-number">6<
 	ROS_INFO_STREAM_NAMED(<span class="hljs-string">"%s INITIALIZE SUCCESSFULLY!!"</span>, ros::this_node::getName().c_str());
 	ros::spin();
 &#125;</code></pre>
-<h3 id="2-4-2-lmpcc-controller-cpp"><a href="#2-4-2-lmpcc-controller-cpp" class="headerlink" title="2.4.2 lmpcc_controller.cpp"></a>2.4.2 lmpcc_controller.cpp</h3><h4 id="1-成员函数：LMPCC-initialize"><a href="#1-成员函数：LMPCC-initialize" class="headerlink" title="1. 成员函数：LMPCC::initialize()"></a>1. 成员函数：<code>LMPCC::initialize()</code></h4><p>首先确保ROS节点仍在运行</p>
+<h3 id="2-4-2-lmpcc-controller-cpp"><a href="#2-4-2-lmpcc-controller-cpp" class="headerlink" title="2.4.2 lmpcc_controller.cpp"></a>2.4.2 lmpcc_controller.cpp</h3><h4 id="1-成员函数：LMPCC-initialize"><a href="#1-成员函数：LMPCC-initialize" class="headerlink" title="1. 成员函数：LMPCC::initialize()"></a>1. 成员函数：<code>LMPCC::initialize()</code></h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">LMPCC::initialize</span><span class="hljs-params">()</span></span>&#123;&#125;</code></pre>
+<p>首先确保ROS节点仍在运行</p>
 <pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (ros::ok())&#123;&#125;</code></pre>
 <p>创建类<code>LMPCC_configuration</code>的实例化对象<code>lmpcc_config_</code>，注意此时会调用构造函数<code>LMPCC_configuration()</code>，在构造函数中将标志位<code>initialize_success_</code>设置为<code>false</code>。</p>
 <pre><code class="hljs cpp"><span class="hljs-comment">// initialize parameter configuration class</span>
@@ -401,6 +409,7 @@ cost_pub_ = nh.advertise&lt;std_msgs::Float64&gt;(<span class="hljs-string">"cos
 contour_error_pub_ = nh.advertise&lt;std_msgs::Float64MultiArray&gt;(<span class="hljs-string">"contour_error"</span>,<span class="hljs-number">1</span>);
 feedback_pub_ = nh.advertise&lt;lmpcc_msgs::lmpcc_feedback&gt;(<span class="hljs-string">"controller_feedback"</span>,<span class="hljs-number">1</span>);</code></pre>
 <p>提供的服务，第一个用于<code>gazebo</code>，第二个用于<code>rviz</code>（猜测）</p>
+<p>❗❗❗在<code>rviz</code>中进行验证</p>
 <pre><code class="hljs cpp">reset_simulation_client_ = nh.serviceClient&lt;std_srvs::Empty&gt;(<span class="hljs-string">"/gazebo/reset_world"</span>);
 reset_ekf_client_ = nh.serviceClient&lt;robot_localization::SetPose&gt;(<span class="hljs-string">"/set_pose"</span>);</code></pre>
 <p>定时启动控制循环（重要）</p>
@@ -438,7 +447,7 @@ pred_traj_.header.frame_id = lmpcc_config_-&gt;planning_frame_;
 &#125;</code></pre>
 <p>计算在地图用圆形表示机器人时的半径</p>
 <pre><code class="hljs cpp">computeEgoDiscs();</code></pre>
-<p>无碰撞区域初始化</p>
+<p>无碰撞区域初始化（<code>ACADO_N</code>= 15）</p>
 <pre><code class="hljs cpp">collision_free_C1.resize(ACADO_N);
 collision_free_C2.resize(ACADO_N);
 collision_free_C3.resize(ACADO_N);
@@ -467,7 +476,9 @@ collision_free_ymax.resize(ACADO_N);</code></pre>
 <span class="hljs-keyword">if</span> (lmpcc_config_-&gt;activate_visualization_) &#123;
 	initialize_visuals();
 &#125;</code></pre>
-<h4 id="2-成员函数：LMPCC-StateCallBack"><a href="#2-成员函数：LMPCC-StateCallBack" class="headerlink" title="2. 成员函数：LMPCC::StateCallBack()"></a>2. 成员函数：<code>LMPCC::StateCallBack()</code></h4><pre><code class="hljs cpp"><span class="hljs-comment">// read current position and velocity of robot joints</span>
+<h4 id="2-成员函数：LMPCC-StateCallBack"><a href="#2-成员函数：LMPCC-StateCallBack" class="headerlink" title="2. 成员函数：LMPCC::StateCallBack()"></a>2. 成员函数：<code>LMPCC::StateCallBack()</code></h4><p>当订阅的话题<code>robot_state</code>接收到数据时的回调函数。</p>
+<p>注意<code>msg-&gt;position.z</code>为速度信息，详情请参考<code>[源码学习]amr-lmpcc_03</code></p>
+<pre><code class="hljs cpp"><span class="hljs-comment">// read current position and velocity of robot joints</span>
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LMPCC::StateCallBack</span><span class="hljs-params">(<span class="hljs-keyword">const</span> geometry_msgs::Pose::ConstPtr&amp; msg)</span></span>
 <span class="hljs-function"></span>&#123;
     last_state_ = current_state_;
@@ -479,11 +490,12 @@ collision_free_ymax.resize(ACADO_N);</code></pre>
 &#125;</code></pre>
 <h4 id="3-成员函数：LMPCC-ObstacleCallBack"><a href="#3-成员函数：LMPCC-ObstacleCallBack" class="headerlink" title="3. 成员函数：LMPCC::ObstacleCallBack()"></a>3. 成员函数：<code>LMPCC::ObstacleCallBack()</code></h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LMPCC::ObstacleCallBack</span><span class="hljs-params">(<span class="hljs-keyword">const</span> lmpcc_msgs::lmpcc_obstacle_array&amp; received_obstacles)</span></span>&#123;
 &#125;</code></pre>
+<p>当订阅的话题<code>ellipse_objects_feed</code>接收到数据时的回调函数。</p>
 <p>首先初始化障碍物的数目，存储接收的障碍物</p>
 <pre><code class="hljs cpp">lmpcc_msgs::lmpcc_obstacle_array total_obstacles;
 total_obstacles.lmpcc_obstacles.resize(lmpcc_config_-&gt;n_obstacles_);
 total_obstacles.lmpcc_obstacles = received_obstacles.lmpcc_obstacles;</code></pre>
-<p>如果接受的障碍物数目小于<code>lmpcc_config_-&gt;n_obstacles_</code>，初始化剩余的障碍物信息</p>
+<p>如果接受的障碍物数目小于<code>lmpcc_config_-&gt;n_obstacles_</code>(4)，初始化剩余的障碍物信息</p>
 <pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (received_obstacles.lmpcc_obstacles.size() &lt; lmpcc_config_-&gt;n_obstacles_)
 &#123;
 	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> obst_it = received_obstacles.lmpcc_obstacles.size(); obst_it &lt; lmpcc_config_-&gt;n_obstacles_; obst_it++)
@@ -507,7 +519,8 @@ total_obstacles.lmpcc_obstacles = received_obstacles.lmpcc_obstacles;</code></pr
 &#123;
 	obstacles_.lmpcc_obstacles[total_obst_it] = total_obstacles.lmpcc_obstacles[total_obst_it];
 &#125;</code></pre>
-<h4 id="4-成员函数：LMPCC-FreeAreaCallBack"><a href="#4-成员函数：LMPCC-FreeAreaCallBack" class="headerlink" title="4. 成员函数：LMPCC::FreeAreaCallBack()"></a>4. 成员函数：<code>LMPCC::FreeAreaCallBack()</code></h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LMPCC::FreeAreaCallBack</span><span class="hljs-params">(<span class="hljs-keyword">const</span> static_collision_avoidance::collision_free_polygon&amp; msg)</span></span>&#123;
+<h4 id="4-成员函数：LMPCC-FreeAreaCallBack"><a href="#4-成员函数：LMPCC-FreeAreaCallBack" class="headerlink" title="4. 成员函数：LMPCC::FreeAreaCallBack()"></a>4. 成员函数：<code>LMPCC::FreeAreaCallBack()</code></h4><p>当订阅的话题<code>collision_constraints</code>接收到数据时的回调函数。</p>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LMPCC::FreeAreaCallBack</span><span class="hljs-params">(<span class="hljs-keyword">const</span> static_collision_avoidance::collision_free_polygon&amp; msg)</span></span>&#123;
     <span class="hljs-comment">//ROS_INFO("LMPCC::FreeAreaCallBack");</span>
     collision_free_a1x = msg.collision_free_a1x;
     collision_free_a1y = msg.collision_free_a1y;
@@ -537,7 +550,7 @@ acado_tic( &amp;t );
 
 acado_initializeSolver( );</code></pre>
 <p>如果<code>plan_</code>标志位为真，则执行以下操作</p>
-<p>首先是变量的赋值</p>
+<p>首先是<code>ACADO</code>相关变量的赋值</p>
 <pre><code class="hljs cpp">acadoVariables.x[<span class="hljs-number">0</span>] = current_state_(<span class="hljs-number">0</span>);
 acadoVariables.x[<span class="hljs-number">1</span>] = current_state_(<span class="hljs-number">1</span>);
 acadoVariables.x[<span class="hljs-number">2</span>] = current_state_(<span class="hljs-number">2</span>);
@@ -548,14 +561,14 @@ acadoVariables.u[<span class="hljs-number">0</span>] = controlled_velocity_.line
 acadoVariables.u[<span class="hljs-number">1</span>] = controlled_velocity_.angular.z;
 acadoVariables.u[<span class="hljs-number">2</span>] = <span class="hljs-number">0.0000001</span>;           <span class="hljs-comment">//slack variable</span>
 acadoVariables.u[<span class="hljs-number">3</span>] = <span class="hljs-number">0.0000001</span>;           <span class="hljs-comment">//slack variable</span></code></pre>
-<p>❓没有看懂的判断条件</p>
+<p>❓❓❓没有看懂的判断条件</p>
 <pre><code class="hljs cpp"><span class="hljs-keyword">if</span>(acadoVariables.x[<span class="hljs-number">3</span>] &gt; ss[<span class="hljs-number">2</span>]) &#123;&#125;</code></pre>
-<p>然后是判断是否到达目标点的判断，如果的距离与15米相差不超过1米，或者当前位置与原点的距离已超过15米。</p>
+<p>然后是判断是否到达目标点的判断，如果距离与15米相差不超过1米，或者当前位置的x坐标已超过15。</p>
 <pre><code class="hljs cpp"><span class="hljs-keyword">if</span>((<span class="hljs-built_in">std</span>::<span class="hljs-built_in">sqrt</span>(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">pow</span>(current_state_(<span class="hljs-number">0</span>)<span class="hljs-number">-15</span>,<span class="hljs-number">2</span>)+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">pow</span>(current_state_(<span class="hljs-number">1</span>),<span class="hljs-number">2</span>))&lt;<span class="hljs-number">1</span>) || (current_state_(<span class="hljs-number">0</span>)&gt;<span class="hljs-number">15</span>))&#123;&#125;</code></pre>
 <p>则认为已经到达目标</p>
 <pre><code class="hljs cpp">goal_reached_ = <span class="hljs-literal">true</span>;
 ROS_ERROR_STREAM(<span class="hljs-string">"GOAL REACHED"</span>);</code></pre>
-<p>如果启用循环模式<code>loop_mode_</code>，则重新初始化以下信息，对应成员函数<code>LMPCC::initialize()</code>中的两个服务</p>
+<p>在达到目标后，如果启用循环模式<code>loop_mode_</code>，则重新初始化以下信息，对应成员函数<code>LMPCC::initialize()</code>中的两个服务</p>
 <pre><code class="hljs cpp">reset_simulation_client_.call(reset_msg_);		<span class="hljs-comment">//gazebo/reset_world</span>
 reset_ekf_client_.call(reset_pose_msg_);		<span class="hljs-comment">//set_pose</span></code></pre>
 <p>重新初始化本地参考路径</p>
@@ -563,12 +576,14 @@ reset_ekf_client_.call(reset_pose_msg_);		<span class="hljs-comment">//set_pose<
 referencePath.InitLocalRefPath(lmpcc_config_-&gt;n_local_,lmpcc_config_-&gt;n_poly_per_clothoid_,ss,xx,yy,vv);
 reset_solver();
 acadoVariables.x[<span class="hljs-number">3</span>] = referencePath.GetS0();</code></pre>
-<p>如果没有启用循环模式<code>loop_mode_</code>，则更新本地路径</p>
-<p>注：猜测<code>acadoVariables.x[3]</code>为 $\theta_0$</p>
+<p>如果没有到达目标位置，则更新本地路径</p>
+<p>❗❗❗注：猜测<code>acadoVariables.x[3]</code>为论文中的 $\theta_0$</p>
 <pre><code class="hljs cpp">segment_counter++;
 referencePath.UpdateLocalRefPath(segment_counter, ss, xx, yy, vv);
 acadoVariables.x[<span class="hljs-number">3</span>] = referencePath.GetS0();</code></pre>
-<p>关于<code>reference</code>的成员函数将在<code>2.4.4 reference_path.cpp</code>中详细介绍。</p>
+<div class="note note-warning">
+            <p>关于<code>reference</code>的成员函数将在<code>2.4.4 reference_path.cpp</code>中详细介绍。</p>
+          </div>
 <p>如果使能输出<code>enable_output_</code></p>
 <pre><code class="hljs cpp"><span class="hljs-keyword">if</span>(enable_output_) &#123;
 	<span class="hljs-keyword">double</span> smin;
@@ -616,7 +631,8 @@ acadoVariables.x0[ <span class="hljs-number">5</span> ] = <span class="hljs-numb
 <pre><code class="hljs cpp">acado_preparationStep();
 acado_feedbackStep();</code></pre>
 <p>如果<code>acado_getKKT()</code>没有达到最小限制且没有达到最大的迭代次数</p>
-<pre><code class="hljs cpp"><span class="hljs-keyword">while</span> (acado_getKKT() &gt; lmpcc_config_-&gt;kkt_tolerance_ &amp;&amp; j &lt; n_iterations_)&#123;
+<pre><code class="hljs cpp"><span class="hljs-keyword">int</span> j=<span class="hljs-number">1</span>;
+<span class="hljs-keyword">while</span> (acado_getKKT() &gt; lmpcc_config_-&gt;kkt_tolerance_ &amp;&amp; j &lt; n_iterations_)&#123;
     acado_preparationStep();
 	acado_feedbackStep();
 &#125;</code></pre>
@@ -672,14 +688,66 @@ controlled_velocity_.angular.z = acadoVariables.u[<span class="hljs-number">1</s
 <span class="hljs-keyword">else</span> &#123;
 	controlled_velocity_pub_.publish(controlled_velocity_);
 &#125;</code></pre>
-<h4 id="6-成员函数：LMPCC-publishPredictedTrajectory"><a href="#6-成员函数：LMPCC-publishPredictedTrajectory" class="headerlink" title="6. 成员函数：LMPCC::publishPredictedTrajectory"></a>6. 成员函数：<code>LMPCC::publishPredictedTrajectory</code></h4><h3 id="2-4-3-lmpcc-configuration-cpp"><a href="#2-4-3-lmpcc-configuration-cpp" class="headerlink" title="2.4.3 lmpcc_configuration.cpp"></a>2.4.3 lmpcc_configuration.cpp</h3><h4 id="1-成员函数：LMPCC-configuration-initialize"><a href="#1-成员函数：LMPCC-configuration-initialize" class="headerlink" title="1. 成员函数：LMPCC_configuration::initialize()"></a>1. 成员函数：<code>LMPCC_configuration::initialize()</code></h4><p>该函数主要用于处理<code>lmpcc_config_parameter.yaml</code>中的参数</p>
+<h4 id="6-成员函数：LMPCC-publishPredictedTrajectory"><a href="#6-成员函数：LMPCC-publishPredictedTrajectory" class="headerlink" title="6. 成员函数：LMPCC::publishPredictedTrajectory()"></a>6. 成员函数：<code>LMPCC::publishPredictedTrajectory()</code></h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LMPCC::publishPredictedTrajectory</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-comment">//ROS_INFO("LMPCC::publishPredictedTrajectory");</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; ACADO_N; i++)
+    &#123;
+        pred_traj_.poses[i].pose.position.x = acadoVariables.x[i * ACADO_NX + <span class="hljs-number">0</span>]; <span class="hljs-comment">//x</span>
+        pred_traj_.poses[i].pose.position.y = acadoVariables.x[i * ACADO_NX + <span class="hljs-number">1</span>]; <span class="hljs-comment">//y</span>
+		pred_traj_.poses[i].pose.orientation.z = acadoVariables.x[i * ACADO_NX + <span class="hljs-number">2</span>]; <span class="hljs-comment">//theta</span>
+    &#125;
+
+	pred_traj_pub_.publish(pred_traj_);
+&#125;</code></pre>
+<h4 id="7-成员函数：LMPCC-reconfigureCallback"><a href="#7-成员函数：LMPCC-reconfigureCallback" class="headerlink" title="7. 成员函数：LMPCC::reconfigureCallback()"></a>7. 成员函数：<code>LMPCC::reconfigureCallback()</code></h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LMPCC::reconfigureCallback</span><span class="hljs-params">(lmpcc::LmpccConfig&amp; config, <span class="hljs-keyword">uint32_t</span> level)</span></span>&#123;&#125;</code></pre>
+<p>首先是变量的初始化</p>
+<pre><code class="hljs cpp">cost_contour_weight_factors_(<span class="hljs-number">0</span>) = config.Wcontour;
+cost_contour_weight_factors_(<span class="hljs-number">1</span>) = config.Wlag;
+cost_control_weight_factors_(<span class="hljs-number">0</span>) = config.Kv;
+cost_control_weight_factors_(<span class="hljs-number">1</span>) = config.Kw;
+
+slack_weight_= config.Ws;
+repulsive_weight_ = config.WR;
+
+reference_velocity_ = config.vRef;
+
+enable_output_ = config.enable_output;
+loop_mode_ = config.loop_mode;
+n_iterations_ = config.n_iterations;
+
+<span class="hljs-comment">//Search window parameters</span>
+window_size_ = config.window_size;
+n_search_points_ = config.n_search_points;
+plan_ = config.plan;</code></pre>
+<p>如果<code>plan_</code>为真</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span>(plan_)&#123;&#125;</code></pre>
+<p>初始化求解器</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">/** Initialize constant Online Data Variables **/</span>
+reset_solver();
+<span class="hljs-comment">/** Set task flags and counters **/</span>
+segment_counter = <span class="hljs-number">0</span>;
+goal_reached_ = <span class="hljs-literal">false</span>;</code></pre>
+<p>初始化局部参考路径</p>
+<pre><code class="hljs cpp">referencePath.InitLocalRefPath(lmpcc_config_-&gt;n_local_,lmpcc_config_-&gt;n_poly_per_clothoid_,ss,xx,yy,vv);</code></pre>
+<p>打印输出</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (lmpcc_config_-&gt;activate_debug_output_)
+	referencePath.PrintLocalPath(ss,xx,yy);     <span class="hljs-comment">// Print local reference path</span>
+<span class="hljs-keyword">if</span> (lmpcc_config_-&gt;activate_visualization_)
+&#123;
+	publishLocalRefPath();                      <span class="hljs-comment">// Publish local reference path for visualization</span>
+	publishGlobalPlan();                        <span class="hljs-comment">// Publish global reference path for visualization</span>
+&#125;</code></pre>
+<p>重置<code>plan_</code></p>
+<pre><code class="hljs cpp">config.plan = <span class="hljs-literal">false</span>;</code></pre>
+<h3 id="2-4-3-lmpcc-configuration-cpp"><a href="#2-4-3-lmpcc-configuration-cpp" class="headerlink" title="2.4.3 lmpcc_configuration.cpp"></a>2.4.3 lmpcc_configuration.cpp</h3><h4 id="1-成员函数：LMPCC-configuration-initialize"><a href="#1-成员函数：LMPCC-configuration-initialize" class="headerlink" title="1. 成员函数：LMPCC_configuration::initialize()"></a>1. 成员函数：<code>LMPCC_configuration::initialize()</code></h4><p>该函数主要用于处理<code>lmpcc_config_parameter.yaml</code>中的参数</p>
 <p>对于没有默认值的参数，按照如下方式处理</p>
 <pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (!nh.getParam (<span class="hljs-string">"simulation_mode"</span>, simulation_mode_) )
 &#123;
 	ROS_WARN(<span class="hljs-string">" Parameter 'simulation_mode' not set on %s node "</span> , ros::this_node::getName().c_str());
 	<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
 &#125;</code></pre>
-<p>对于有默认值的参数</p>
+<p>对于有默认值的参数，按照如下方式处理</p>
 <pre><code class="hljs cpp"><span class="hljs-comment">/** Debug modes **/</span>
 nh.param(<span class="hljs-string">"activate_output"</span>, activate_output_, <span class="hljs-keyword">bool</span>(<span class="hljs-literal">true</span>));</code></pre>
 <h3 id="2-4-4-reference-path-cpp"><a href="#2-4-4-reference-path-cpp" class="headerlink" title="2.4.4 reference_path.cpp"></a>2.4.4 reference_path.cpp</h3><h4 id="1-成员函数：ReferencePath-SetGlobalPath"><a href="#1-成员函数：ReferencePath-SetGlobalPath" class="headerlink" title="1. 成员函数：ReferencePath::SetGlobalPath"></a>1. 成员函数：<code>ReferencePath::SetGlobalPath</code></h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ReferencePath::SetGlobalPath</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; X, <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; Y, <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; Theta)</span></span>
@@ -705,8 +773,7 @@ nh.param(<span class="hljs-string">"activate_output"</span>, activate_output_, <
     ROS_INFO_STREAM(<span class="hljs-string">"Initialized global path of length "</span> &lt;&lt; X_global.size());
 &#125;</code></pre>
 <h4 id="2-成员函数：ReferencePath-InitLocalRefPath"><a href="#2-成员函数：ReferencePath-InitLocalRefPath" class="headerlink" title="2. 成员函数：ReferencePath::InitLocalRefPath"></a>2. 成员函数：<code>ReferencePath::InitLocalRefPath</code></h4><p>首先我们看一下该函数被调用是的语句</p>
-<pre><code class="hljs cpp">referencePath.InitLocalRefPath(lmpcc_config_-&gt;n_local_,lmpcc_config_-&gt;n_poly_per_clothoid_,ss,xx,yy,vv);</code></pre>
-<p><code>clothoid</code>  </p>
+<pre><code class="hljs cpp">referencePath.InitLocalRefPath(lmpcc_config_-&gt;n_local_,lmpcc_config_-&gt;n_poly_per_clothoid_,ss,xx,yy,vv)</code></pre>
 <h4 id="3-成员函数：ReferencePath-UpdateLocalRefPath"><a href="#3-成员函数：ReferencePath-UpdateLocalRefPath" class="headerlink" title="3. 成员函数：ReferencePath::UpdateLocalRefPath"></a>3. 成员函数：<code>ReferencePath::UpdateLocalRefPath</code></h4><pre><code class="hljs cpp">referencePath.UpdateLocalRefPath(segment_counter, ss, xx, yy, vv);</code></pre>
 <h4 id="4-成员函数：ReferencePath-ClosestPointOnPath"><a href="#4-成员函数：ReferencePath-ClosestPointOnPath" class="headerlink" title="4. 成员函数：ReferencePath::ClosestPointOnPath"></a>4. 成员函数：<code>ReferencePath::ClosestPointOnPath</code></h4><pre><code class="hljs cpp">smin = referencePath.ClosestPointOnPath(current_state_, ss[<span class="hljs-number">1</span>], <span class="hljs-number">100</span>, acadoVariables.x[<span class="hljs-number">3</span>], window_size_, n_search_points_);</code></pre>
 

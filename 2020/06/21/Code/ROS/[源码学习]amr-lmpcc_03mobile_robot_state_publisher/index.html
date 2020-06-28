@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      783 字
+      833 字
     </span>
   
 
@@ -204,7 +204,10 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="package-mobile-robot-state-publisher"><a href="#package-mobile-robot-state-publisher" class="headerlink" title="package:mobile_robot_state_publisher"></a>package:<code>mobile_robot_state_publisher</code></h2><h2 id="3-1-launch文件"><a href="#3-1-launch文件" class="headerlink" title="3.1 launch文件"></a>3.1 launch文件</h2><pre><code class="hljs applescript">/amr-lmpcc/mobile_robot_state_publisher/<span class="hljs-built_in">launch</span>
+              <div class="note note-primary">
+            <p>本文最后更新于：2020年6月28日 上午</p>
+          </div>
+<h2 id="package-mobile-robot-state-publisher"><a href="#package-mobile-robot-state-publisher" class="headerlink" title="package:mobile_robot_state_publisher"></a>package:<code>mobile_robot_state_publisher</code></h2><h2 id="3-1-launch文件"><a href="#3-1-launch文件" class="headerlink" title="3.1 launch文件"></a>3.1 launch文件</h2><pre><code class="hljs applescript">/amr-lmpcc/mobile_robot_state_publisher/<span class="hljs-built_in">launch</span>
 └── mobile_robot_publisher.<span class="hljs-built_in">launch</span>
 
 <span class="hljs-built_in">file</span>: <span class="hljs-number">1</span></code></pre>
@@ -260,18 +263,12 @@ tf2_ros::Buffer tfBuffer;
 └── mobile_robot_state_publisher_node.cpp~
 
 file: <span class="hljs-number">2</span></code></pre>
-<h3 id="3-4-1-mobile-robot-state-publisher-node-cpp"><a href="#3-4-1-mobile-robot-state-publisher-node-cpp" class="headerlink" title="3.4.1 mobile_robot_state_publisher_node.cpp"></a>3.4.1 mobile_robot_state_publisher_node.cpp</h3><ol>
-<li><strong>main函数</strong></li>
-</ol>
-<p>主函数开头初始化<code>mobile_robot_state_publisher_node</code>节点，创建句柄<code>n</code>和订阅者<code>robot_state_sub_</code></p>
-<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> **argv)</span></span>
-<span class="hljs-function"></span>&#123;
-    ros::init(argc, argv, <span class="hljs-string">"mobile_robot_state_publisher_node"</span>);
-	ros::NodeHandle n;
-	ros::Subscriber robot_state_sub_;
-&#125;</code></pre>
+<h3 id="3-4-1-mobile-robot-state-publisher-node-cpp"><a href="#3-4-1-mobile-robot-state-publisher-node-cpp" class="headerlink" title="3.4.1 mobile_robot_state_publisher_node.cpp"></a>3.4.1 mobile_robot_state_publisher_node.cpp</h3><h4 id="1-main函数"><a href="#1-main函数" class="headerlink" title="1. main函数"></a>1. main函数</h4><p>主函数开头初始化<code>mobile_robot_state_publisher_node</code>节点，创建句柄<code>n</code>和订阅者<code>robot_state_sub_</code></p>
+<pre><code class="hljs cpp">ros::init(argc, argv, <span class="hljs-string">"mobile_robot_state_publisher_node"</span>);
+ros::NodeHandle n;
+ros::Subscriber robot_state_sub_;</code></pre>
 <p>然后是用于获取<code>jackal.yaml</code>中的参数的代码，此处仅放一个作为示例。</p>
-<p>注：这些代码应该是要写在成员函数<code>initialize()</code>中的。</p>
+<p>❗❗❗注：这些代码应该是打算写在成员函数<code>initialize()</code>中的。</p>
 <pre><code class="hljs cpp"><span class="hljs-keyword">double</span> node_rate;
 <span class="hljs-keyword">if</span> (!n.getParam(ros::this_node::getName()+<span class="hljs-string">"/rate"</span>, node_rate))&#123;
 	ROS_ERROR_STREAM(<span class="hljs-string">"mobile_robot_state_publisher_node Parameter "</span> &lt;&lt; ros::this_node::getName()+<span class="hljs-string">"/rate not set"</span>);
@@ -291,6 +288,9 @@ geometry_msgs::Pose pose_msg;
 <span class="hljs-keyword">double</span> ysqr, t3, t4;
 geometry_msgs::TransformStamped transformStamped;</code></pre>
 <p>在循环<code>while (n.ok())</code>中的try-catch语句，通过frame ID获取两帧之间的变换。</p>
+<ul>
+<li><code>base_link</code> -&gt; <code>map</code>的坐标变换</li>
+</ul>
 <pre><code class="hljs cpp"><span class="hljs-keyword">try</span>&#123;
     <span class="hljs-comment">//Get the transform between two frames by frame ID</span>
     <span class="hljs-comment">//void 	lookupTransform (const std::string &amp;target_frame, const std::string &amp;source_frame, const ros::Time &amp;time, StampedTransform &amp;transform) const</span>
@@ -310,17 +310,12 @@ pose_msg.position.z = vel;
 state_pub_.publish(pose_msg);</code></pre>
 <p>最后是ROS的回旋函数</p>
 <pre><code class="hljs cpp">ros::spinOnce();</code></pre>
-<ol>
-<li><strong>VelocityCallBack()</strong></li>
-</ol>
-<p>订阅者<code>robot_state_sub_</code>的回调函数</p>
+<h4 id="2-VelocityCallBack"><a href="#2-VelocityCallBack" class="headerlink" title="2. VelocityCallBack()"></a>2. <code>VelocityCallBack()</code></h4><p>订阅者<code>robot_state_sub_</code>的回调函数</p>
 <pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">VelocityCallBack</span><span class="hljs-params">(<span class="hljs-keyword">const</span> nav_msgs::Odometry&amp; msg)</span></span>&#123;
 	vel = <span class="hljs-built_in">sqrt</span>(<span class="hljs-built_in">pow</span>(msg.twist.twist.linear.x,<span class="hljs-number">2</span>)+<span class="hljs-built_in">pow</span>(msg.twist.twist.linear.y,<span class="hljs-number">2</span>));
 &#125;</code></pre>
-<ol>
-<li><strong>QuatToJointAngle()</strong></li>
-</ol>
-<p>四元数(Quaternion)到角度的转换，<code>atan2</code>返回以弧度表示的 t4/t3 的反正切。</p>
+<h4 id="3-QuatToJointAngle"><a href="#3-QuatToJointAngle" class="headerlink" title="3. QuatToJointAngle()"></a>3. <code>QuatToJointAngle()</code></h4><p>四元数(Quaternion)到角度的转换，<code>atan2</code>返回以弧度表示的 t4/t3 的反正切。</p>
+<p>具体可参考：<strong>中国大学MOOC《机器人操作系统入门》讲义第八章附录3三维空间刚体运动</strong></p>
 <pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">QuatToJointAngle</span><span class="hljs-params">(<span class="hljs-keyword">const</span> geometry_msgs::TransformStamped transformStamped)</span></span>
 <span class="hljs-function"></span>&#123;
     <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> ysqr = transformStamped.transform.rotation.y * transformStamped.transform.rotation.y;

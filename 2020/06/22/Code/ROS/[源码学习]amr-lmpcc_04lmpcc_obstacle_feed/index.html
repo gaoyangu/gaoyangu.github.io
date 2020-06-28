@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      48
+      49
        分钟
     </span>
   
@@ -204,7 +204,14 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="package-lmpcc-obastacle-feed"><a href="#package-lmpcc-obastacle-feed" class="headerlink" title="package:lmpcc_obastacle_feed"></a>package:<code>lmpcc_obastacle_feed</code></h2><h2 id="4-1-launch文件"><a href="#4-1-launch文件" class="headerlink" title="4.1 launch文件"></a>4.1 launch文件</h2><pre><code class="hljs cpp">\amr-lmpcc\lmpcc_obstacle_feed\launch
+              <div class="note note-primary">
+            <p>本文最后更新于：2020年6月28日 上午</p>
+          </div>
+<h2 id="package-lmpcc-obastacle-feed"><a href="#package-lmpcc-obastacle-feed" class="headerlink" title="package:lmpcc_obastacle_feed"></a>package:<code>lmpcc_obastacle_feed</code></h2><h2 id="4-0-代办事项"><a href="#4-0-代办事项" class="headerlink" title="4.0 代办事项"></a>4.0 代办事项</h2><ul>
+<li><code>Obstacle_Prediction::updateFilter()</code>分析</li>
+<li>如何从雷达数据获得行人信息</li>
+</ul>
+<h2 id="4-1-launch文件"><a href="#4-1-launch文件" class="headerlink" title="4.1 launch文件"></a>4.1 launch文件</h2><pre><code class="hljs cpp">\amr-lmpcc\lmpcc_obstacle_feed\launch
 ├── lmpcc_obstacle_feed.launch
 └── map_lmpcc_obstacle_feed.launch
 
@@ -249,7 +256,7 @@ file: <span class="hljs-number">4</span></code></pre>
 <p>文件的开头分别是ROS节点的初始化，创建ROS句柄</p>
 <pre><code class="hljs cpp">ros::init(argc, argv,<span class="hljs-string">"lmpcc_obstacle_feed"</span>);
 ros::NodeHandle n;</code></pre>
-<p>创建类<code>ObstacleFeed</code>的实例化对象<code>obstacles</code>，注意此时会调用构造函数<code>ObstacleFeed()</code>，在构造函数中重启了<code>reconfigure server</code></p>
+<p>创建类<code>ObstacleFeed</code>的实例化对象<code>obstacles</code>，注意此时会调用构造函数<code>ObstacleFeed()</code>，在构造函数中重启了<code>reconfigure_server_</code></p>
 <pre><code class="hljs cpp">ObstacleFeed obstacles;</code></pre>
 <p>调用成员函数<code>obstacles.initialize()</code>完成初始化</p>
 <pre><code class="hljs cpp"><span class="hljs-keyword">if</span>(!obstacles.initialize())
@@ -288,7 +295,7 @@ dt_ = lmpcc_obstacle_feed_config_-&gt;prediction_horizon_/lmpcc_obstacle_feed_co
 <p>发布的话题</p>
 <ul>
 <li><code>ellipse_objects_feed</code>：包<code>lmpcc</code>订阅</li>
-<li><code>/people</code></li>
+<li><code>/people</code>：在使用包<code>pedsim_ros</code>模拟行人时使用</li>
 </ul>
 <pre><code class="hljs cpp"><span class="hljs-comment">/** Initialize publisher of ellipsoid obstacles **/</span>
 obstacles_pub = nh_.advertise&lt;lmpcc_msgs::lmpcc_obstacle_array&gt;(lmpcc_obstacle_feed_config_-&gt;pub_obstacles_,<span class="hljs-number">1</span>);
@@ -305,7 +312,7 @@ link_pubs_.resize(lmpcc_obstacle_feed_config_-&gt;obstacle_number_);
 <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> obst_it = <span class="hljs-number">1</span>; obst_it &lt; lmpcc_obstacle_feed_config_-&gt;obstacle_number_+<span class="hljs-number">1</span>; obst_it++)&#123;
 	link_pubs_[obst_it<span class="hljs-number">-1</span>] = <span class="hljs-keyword">new</span> ros::Publisher(nh_.advertise&lt;geometry_msgs::PoseStamped&gt;(<span class="hljs-string">"ped_link_"</span>+<span class="hljs-built_in">std</span>::to_string(obst_it),<span class="hljs-number">1</span>));
 &#125;</code></pre>
-<p>障碍物的可视化设置</p>
+<p>障碍物路径的可视化设置</p>
 <pre><code class="hljs cpp"><span class="hljs-comment">/** Initialize obstacle visualization **/</span>
 <span class="hljs-keyword">if</span> (lmpcc_obstacle_feed_config_-&gt;activate_visualization_) &#123;
 	visualize_obstacles_pub = nh_.advertise&lt;visualization_msgs::MarkerArray&gt;(lmpcc_obstacle_feed_config_-&gt;pub_obstacles_vis_,<span class="hljs-number">1</span>);
@@ -371,7 +378,7 @@ loop_timer = nh_.createTimer(ros::Duration((<span class="hljs-keyword">double</s
 <p>然后是两个服务</p>
 <pre><code class="hljs cpp">update_service = nh_.advertiseService(<span class="hljs-string">"update_trigger"</span>, &amp;ObstacleFeed::UpdateCallback, <span class="hljs-keyword">this</span>);
 update_service_int = nh_.advertiseService(<span class="hljs-string">"update_trigger_int"</span>, &amp;ObstacleFeed::UpdateCallbackInt, <span class="hljs-keyword">this</span>);</code></pre>
-<p>检查障碍物的信息</p>
+<p>检查障碍物的数据格式</p>
 <pre><code class="hljs cpp"><span class="hljs-comment">// Check predefined obstacles for errors</span>
 <span class="hljs-keyword">if</span> (!(lmpcc_obstacle_feed_config_-&gt;obst_pose_x_.size() == lmpcc_obstacle_feed_config_-&gt;obst_pose_y_.size() &amp;&amp; lmpcc_obstacle_feed_config_-&gt;obst_pose_x_.size() == lmpcc_obstacle_feed_config_-&gt;obst_pose_heading_.size() &amp;&amp; lmpcc_obstacle_feed_config_-&gt;obst_pose_x_.size() == lmpcc_obstacle_feed_config_-&gt;obst_dim_minor_.size() &amp;&amp; lmpcc_obstacle_feed_config_-&gt;obst_pose_x_.size() == lmpcc_obstacle_feed_config_-&gt;obst_dim_major_.size()))
 &#123;
@@ -389,7 +396,7 @@ update_service_int = nh_.advertiseService(<span class="hljs-string">"update_trig
     <span class="hljs-comment">// Visualize ellipsoid obstacles</span>
     visualizeObstacles(obstacles_);
 &#125;</code></pre>
-<h4 id="3-成员函数：ObstacleFeed-UpdateCallback"><a href="#3-成员函数：ObstacleFeed-UpdateCallback" class="headerlink" title="3. 成员函数：ObstacleFeed::UpdateCallback()"></a>3. 成员函数：<code>ObstacleFeed::UpdateCallback()</code></h4><p>由于是自己预定义的障碍物，所以直接将<code>trajectory</code>中的信息放在<code>pose</code>中即可，然后更新<code>trajectory</code>信息。</p>
+<h4 id="3-成员函数：ObstacleFeed-UpdateCallback"><a href="#3-成员函数：ObstacleFeed-UpdateCallback" class="headerlink" title="3. 成员函数：ObstacleFeed::UpdateCallback()"></a>3. 成员函数：<code>ObstacleFeed::UpdateCallback()</code></h4><p>由于是自己预定义的障碍物，所以更新数据时直接将<code>trajectory</code>中的信息放在<code>pose</code>中即可，然后更新<code>trajectory</code>信息。</p>
 <pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">ObstacleFeed::UpdateCallback</span><span class="hljs-params">()</span></span>
 <span class="hljs-function"></span>&#123;
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> obst_it = <span class="hljs-number">0</span>; obst_it &lt; obstacles_.lmpcc_obstacles.size(); obst_it++)
@@ -418,7 +425,7 @@ update_service_int = nh_.advertiseService(<span class="hljs-string">"update_trig
     <span class="hljs-comment">//ROS_INFO_STREAM("publishObstacles");</span>
     obstacles_pub.publish(obstacles);
 &#125;</code></pre>
-<h4 id="6-（重要）成员函数：ObstacleFeed-pedestriansCallback"><a href="#6-（重要）成员函数：ObstacleFeed-pedestriansCallback" class="headerlink" title="6. （重要）成员函数：ObstacleFeed::pedestriansCallback()"></a>6. （重要）成员函数：<code>ObstacleFeed::pedestriansCallback()</code></h4><p>当使用模式0时，该函数为对应的回调函数</p>
+<h4 id="6-（重要）成员函数：ObstacleFeed-pedestriansCallback"><a href="#6-（重要）成员函数：ObstacleFeed-pedestriansCallback" class="headerlink" title="6. （重要）成员函数：ObstacleFeed::pedestriansCallback()"></a>6. （重要）成员函数：<code>ObstacleFeed::pedestriansCallback()</code></h4><p>当使用<strong>模式0</strong>时，该函数为对应的回调函数</p>
 <p>函数的开头是变量的定义和初始化</p>
 <pre><code class="hljs cpp"><span class="hljs-keyword">double</span> Xp, Yp;
 <span class="hljs-keyword">double</span> q1, q2, q3, q4;
@@ -446,7 +453,7 @@ obst1.minor_semiaxis.resize(lmpcc_obstacle_feed_config_-&gt;discretization_steps
 <p>然后将接受到的<code>person</code>信息保存在<code>obst</code>中</p>
 <p>首先是位姿</p>
 <pre><code class="hljs cpp">obst.pose=person.tracks[person_it].pose.pose;</code></pre>
-<p>然后确保四元数的大小为1</p>
+<p>然后确保四元数为单位四元数</p>
 <pre><code class="hljs cpp"><span class="hljs-comment">//ensure magnitude of quaternion is one</span>
 q1 = obst.pose.orientation.x;
 q2 = obst.pose.orientation.y;
@@ -517,7 +524,7 @@ obst1.pose = local_obstacles.lmpcc_obstacles[i].pose;
 	filter_obstacles.lmpcc_obstacles.push_back(obst1);
 	objectDistances.push_back(distance);
 &#125;</code></pre>
-<p>将障碍物的信息填充到椭圆中</p>
+<p>将经过选择后的障碍物的信息填充到椭圆中</p>
 <pre><code class="hljs cpp"><span class="hljs-comment">//fit the ellipse to the obstacles</span>
 <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> filt_obst_it = <span class="hljs-number">0</span>; filt_obst_it &lt; filter_obstacles.lmpcc_obstacles.size(); filt_obst_it ++) &#123;
 	<span class="hljs-comment">//fitting the ellipse</span>
@@ -534,7 +541,7 @@ obst1.pose = local_obstacles.lmpcc_obstacles[i].pose;
 	<span class="hljs-comment">//store the calculated ellipse</span>
 	ellipses.lmpcc_obstacles.push_back(ellipse);
 &#125;</code></pre>
-<p>将椭圆进行排序</p>
+<p>将椭圆按照距离由近到远的顺序进行排序</p>
 <pre><code class="hljs cpp"><span class="hljs-comment">//order the stored ellipses with the closest one being first</span>
 OrderObstacles(ellipses);</code></pre>
 <p>将椭圆信息保存在<code>local_ellipses</code>中</p>
@@ -605,7 +612,8 @@ OrderObstacles(ellipses);</code></pre>
     <span class="hljs-comment">// discrete time using in the filter, delta_t</span>
 <span class="hljs-comment">//     dt_ = 1.0 / node_rate_;</span>
 &#125;</code></pre>
-<h4 id="2-（重要）成员函数：Obstacle-Prediction-updateFilter"><a href="#2-（重要）成员函数：Obstacle-Prediction-updateFilter" class="headerlink" title="2. （重要）成员函数：Obstacle_Prediction::updateFilter()"></a>2. （重要）成员函数：<code>Obstacle_Prediction::updateFilter()</code></h4><blockquote>
+<h4 id="2-（重要）成员函数：Obstacle-Prediction-updateFilter"><a href="#2-（重要）成员函数：Obstacle-Prediction-updateFilter" class="headerlink" title="2. （重要）成员函数：Obstacle_Prediction::updateFilter()"></a>2. （重要）成员函数：<code>Obstacle_Prediction::updateFilter()</code></h4><pre><code class="hljs cpp"><span class="hljs-function">nav_msgs::Path <span class="hljs-title">Obstacle_Prediction::updateFilter</span><span class="hljs-params">(<span class="hljs-keyword">const</span> geometry_msgs::Pose &amp;msg)</span></span>&#123;&#125;</code></pre>
+<blockquote>
 <p>Given the measured position data of each obstacle, we estimate their future positions and uncertainties with a linear Kalman filter [24].  </p>
 </blockquote>
 

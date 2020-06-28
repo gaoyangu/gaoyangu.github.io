@@ -204,7 +204,13 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="package-static-collision-avoidance"><a href="#package-static-collision-avoidance" class="headerlink" title="package: static_collision_avoidance"></a>package: <code>static_collision_avoidance</code></h2><h2 id="5-1-launch文件"><a href="#5-1-launch文件" class="headerlink" title="5.1 launch文件"></a>5.1 launch文件</h2><pre><code class="hljs cpp">\amr-lmpcc\static_collision_avoidance\launch
+              <div class="note note-primary">
+            <p>本文最后更新于：2020年6月28日 上午</p>
+          </div>
+<h2 id="package-static-collision-avoidance"><a href="#package-static-collision-avoidance" class="headerlink" title="package: static_collision_avoidance"></a>package: <code>static_collision_avoidance</code></h2><h2 id="5-0-代办事项"><a href="#5-0-代办事项" class="headerlink" title="5.0 代办事项"></a>5.0 代办事项</h2><ul>
+<li><code>StaticEnvironment::computeConstraint()</code>分析</li>
+</ul>
+<h2 id="5-1-launch文件"><a href="#5-1-launch文件" class="headerlink" title="5.1 launch文件"></a>5.1 launch文件</h2><pre><code class="hljs cpp">\amr-lmpcc\static_collision_avoidance\launch
 └── static_collision_avoidance.launch
 
 file: <span class="hljs-number">1</span></code></pre>
@@ -234,7 +240,7 @@ file: <span class="hljs-number">1</span></code></pre>
 <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">rosparam</span> <span class="hljs-attr">file</span>=<span class="hljs-string">"$(find static_collision_avoidance)/config/static_avoidance_config.yaml"</span> <span class="hljs-attr">command</span>=<span class="hljs-string">"load"</span>/&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"static_collision_avoidance"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"static_collision_avoidance_node"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"static_collision_avoidance_node"</span> <span class="hljs-attr">cwd</span>=<span class="hljs-string">"node"</span> <span class="hljs-attr">respawn</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">output</span>=<span class="hljs-string">"screen"</span>/&gt;</span></code></pre>
-<h2 id="5-2-yaml"><a href="#5-2-yaml" class="headerlink" title="5.2 yaml"></a>5.2 yaml</h2><h3 id="5-2-1-local-map-params-yaml"><a href="#5-2-1-local-map-params-yaml" class="headerlink" title="5.2.1 local_map_params.yaml"></a>5.2.1 local_map_params.yaml</h3><p>该文件主要包含地图，雷达等相关信息</p>
+<h2 id="5-2-yaml文件"><a href="#5-2-yaml文件" class="headerlink" title="5.2 yaml文件"></a>5.2 yaml文件</h2><h3 id="5-2-1-local-map-params-yaml"><a href="#5-2-1-local-map-params-yaml" class="headerlink" title="5.2.1 local_map_params.yaml"></a>5.2.1 local_map_params.yaml</h3><p>该文件主要包含地图，雷达等相关信息</p>
 <h3 id="5-2-2-static-avoidance-config-yaml"><a href="#5-2-2-static-avoidance-config-yaml" class="headerlink" title="5.2.2 static_avoidance_config.yaml"></a>5.2.2 static_avoidance_config.yaml</h3><p>该文件主要包含机器人的描述信息，发布和订阅的话题名，避障的相关信息</p>
 <h2 id="5-3-头文件"><a href="#5-3-头文件" class="headerlink" title="5.3 头文件"></a>5.3 头文件</h2><pre><code class="hljs cpp">\amr-lmpcc\static_collision_avoidance\include\static_collision_avoidance
 └── static_environment.h
@@ -252,15 +258,15 @@ file: <span class="hljs-number">2</span></code></pre>
 <p>创建类<code>StaticEnvironment</code>的实例化对象<code>node_</code></p>
 <pre><code class="hljs cpp">StaticEnvironment node_;</code></pre>
 <p>调用成员函数<code>node_.initialize()</code>进行初始化</p>
-<pre><code class="hljs awk"><span class="hljs-regexp">//</span> initialize predictive control node
+<pre><code class="hljs cpp"><span class="hljs-comment">// initialize predictive control node</span>
 <span class="hljs-keyword">if</span> (!node_.initialize())
 &#123;
 	ROS_ERROR_STREAM_NAMED(<span class="hljs-string">"FAILED TO INITIALIZE %s"</span>, ros::this_node::getName().c_str());
-	<span class="hljs-keyword">exit</span>(<span class="hljs-number">1</span>);
+	<span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
 &#125;
 <span class="hljs-keyword">else</span>
 &#123;
-	<span class="hljs-regexp">//</span> spin node, till ROS node is running on
+	<span class="hljs-comment">// spin node, till ROS node is running on</span>
 	ROS_INFO_STREAM_NAMED(<span class="hljs-string">"%s INITIALIZE SUCCESSFULLY!!"</span>, ros::this_node::getName().c_str());
 	ros::spin();
 &#125;</code></pre>
@@ -353,8 +359,7 @@ collision_free_ymax.resize(prediction_steps_);</code></pre>
     &#125;
 <span class="hljs-comment">//    ROS_INFO("local map update received!");</span>
 &#125;</code></pre>
-<h4 id="4-（重要）成员函数：StaticEnvironment-PredictedTrajectoryCallback"><a href="#4-（重要）成员函数：StaticEnvironment-PredictedTrajectoryCallback" class="headerlink" title="4. （重要）成员函数：StaticEnvironment::PredictedTrajectoryCallback()"></a>4. （重要）成员函数：<code>StaticEnvironment::PredictedTrajectoryCallback()</code></h4><p>函数原型</p>
-<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StaticEnvironment::PredictedTrajectoryCallback</span><span class="hljs-params">(<span class="hljs-keyword">const</span> nav_msgs::Path msg)</span></span>&#123;&#125;</code></pre>
+<h4 id="4-（重要）成员函数：StaticEnvironment-PredictedTrajectoryCallback"><a href="#4-（重要）成员函数：StaticEnvironment-PredictedTrajectoryCallback" class="headerlink" title="4. （重要）成员函数：StaticEnvironment::PredictedTrajectoryCallback()"></a>4. （重要）成员函数：<code>StaticEnvironment::PredictedTrajectoryCallback()</code></h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StaticEnvironment::PredictedTrajectoryCallback</span><span class="hljs-params">(<span class="hljs-keyword">const</span> nav_msgs::Path msg)</span></span>&#123;&#125;</code></pre>
 <p>首先是传入参数的类型<code>nav_msgs::Path</code></p>
 <pre><code class="hljs cpp">std_msgs/Header header
   uint32 seq
@@ -393,14 +398,13 @@ constraint_msg.collision_free_a2y = collision_free_a2y;
 collision_constraint_pub_.publish(constraint_msg);</code></pre>
 <p>可视化</p>
 <pre><code class="hljs cpp">publishPosConstraint();</code></pre>
-<h4 id="5-（重要）成员函数：StaticEnvironment-ComputeCollisionFreeArea"><a href="#5-（重要）成员函数：StaticEnvironment-ComputeCollisionFreeArea" class="headerlink" title="5. （重要）成员函数：StaticEnvironment::ComputeCollisionFreeArea()"></a>5. （重要）成员函数：<code>StaticEnvironment::ComputeCollisionFreeArea()</code></h4><p>函数原型</p>
-<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StaticEnvironment::ComputeCollisionFreeArea</span><span class="hljs-params">()</span></span>&#123;&#125;</code></pre>
+<h4 id="5-（重要）成员函数：StaticEnvironment-ComputeCollisionFreeArea"><a href="#5-（重要）成员函数：StaticEnvironment-ComputeCollisionFreeArea" class="headerlink" title="5. （重要）成员函数：StaticEnvironment::ComputeCollisionFreeArea()"></a>5. （重要）成员函数：<code>StaticEnvironment::ComputeCollisionFreeArea()</code></h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StaticEnvironment::ComputeCollisionFreeArea</span><span class="hljs-params">()</span></span>&#123;&#125;</code></pre>
 <p>首先获取当前的时间</p>
 <pre><code class="hljs cpp"><span class="hljs-keyword">auto</span> start = <span class="hljs-built_in">std</span>::chrono::steady_clock::now();</code></pre>
 <p>局部变量的定义</p>
 <pre><code class="hljs cpp"><span class="hljs-keyword">int</span> x_path_i, y_path_i;		<span class="hljs-comment">//index</span>
 <span class="hljs-keyword">double</span> x_path, y_path, psi_path, theta_search, r;	<span class="hljs-comment">//r没有被使用</span>
-<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; C_N;
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; C_N;	<span class="hljs-comment">//C_N 没有被使用</span>
 
 <span class="hljs-keyword">int</span> search_steps = <span class="hljs-number">10</span>;</code></pre>
 <p>地图的选择</p>
@@ -436,8 +440,7 @@ te_collision_free_ = <span class="hljs-keyword">double</span>(<span class="hljs-
 <p>输出提示信息</p>
 <pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (activate_timing_output_)
 	ROS_INFO_STREAM(<span class="hljs-string">"Free space solve time "</span> &lt;&lt; te_collision_free_  &lt;&lt; <span class="hljs-string">" ms"</span>);</code></pre>
-<h4 id="6-（重要）成员函数：StaticEnvironment-computeConstraint"><a href="#6-（重要）成员函数：StaticEnvironment-computeConstraint" class="headerlink" title="6. （重要）成员函数：StaticEnvironment::computeConstraint()"></a>6. （重要）成员函数：<code>StaticEnvironment::computeConstraint()</code></h4><p>函数原型：</p>
-<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StaticEnvironment::computeConstraint</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x_i, <span class="hljs-keyword">int</span> y_i, <span class="hljs-keyword">double</span> x_path, <span class="hljs-keyword">double</span> y_path, <span class="hljs-keyword">double</span> psi_path, <span class="hljs-keyword">int</span> N)</span></span>&#123;&#125;</code></pre>
+<h4 id="6-（重要）成员函数：StaticEnvironment-computeConstraint"><a href="#6-（重要）成员函数：StaticEnvironment-computeConstraint" class="headerlink" title="6. （重要）成员函数：StaticEnvironment::computeConstraint()"></a>6. （重要）成员函数：<code>StaticEnvironment::computeConstraint()</code></h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StaticEnvironment::computeConstraint</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x_i, <span class="hljs-keyword">int</span> y_i, <span class="hljs-keyword">double</span> x_path, <span class="hljs-keyword">double</span> y_path, <span class="hljs-keyword">double</span> psi_path, <span class="hljs-keyword">int</span> N)</span></span>&#123;&#125;</code></pre>
 <p>首先进行局部变量的定义和初始化</p>
 <pre><code class="hljs cpp"><span class="hljs-comment">// Initialize linear constraint normal vectors</span>
 std::vector&lt;double&gt; t1(2, 0), t2(2, 0), t3(2, 0), t4(2, 0);
@@ -492,7 +495,6 @@ search_distance++;
 <span class="hljs-comment">// Determine whether the search is finished</span>
 search_region = (search_distance &lt; r_max_i_max) &amp;&amp; ( x_min == r_max_i_min || x_max == r_max_i_max || y_min == r_max_i_min || y_max == r_max_i_max );</code></pre>
 <p>❗❗❗计算过程没有看懂</p>
-<p>主要是角度如何理解</p>
 <p>猜测此处的<code>0.35</code>为用一个圆表示机器人时的机器人半径（计算值为：<code>0.32</code>），如果猜测正确，那么该值应该设置为<strong>变量</strong>。</p>
 <pre><code class="hljs cpp"><span class="hljs-comment">// Assign the rectangle values</span>
 collision_free_xmin[N] = x_min*static_map_.info.resolution + <span class="hljs-number">0.35</span>;
