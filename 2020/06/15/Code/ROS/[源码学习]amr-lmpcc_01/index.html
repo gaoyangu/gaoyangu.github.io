@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="gaoyangu">
   <meta name="keywords" content="">
-  <title>【源码学习】amr-lmpcc_01 - gaoyangu</title>
+  <title>源码学习：amr-lmpcc_01 - gaoyangu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      182 字
+      265 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      2
+      4
        分钟
     </span>
   
@@ -204,16 +204,10 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <div class="note note-primary">
+              <div class="note note-success">
             <p>本文最后更新于：2020年6月26日 下午</p>
           </div>
 <p>项目地址：<a href="https://github.com/tud-amr/amr-lmpcc" target="_blank" rel="noopener">https://github.com/tud-amr/amr-lmpcc</a></p>
-<h2 id="代办事项"><a href="#代办事项" class="headerlink" title="代办事项"></a>代办事项</h2><ul>
-<li><p>ROS：costmap_2d</p>
-</li>
-<li><p>ROS：dynamic_reconfigure（相关知识有待补充）</p>
-</li>
-</ul>
 <h2 id="1-源码目录"><a href="#1-源码目录" class="headerlink" title="1. 源码目录"></a>1. 源码目录</h2><pre><code class="hljs cpp">\amr-lmpcc
 ├── CMakeLists.txt
 ├── costmap_2d
@@ -242,6 +236,13 @@ directory: <span class="hljs-number">9</span> file: <span class="hljs-number">4<
 <li><code>vision_msgs</code>：用于ROS中的计算机视觉和对象检测工作的消息格式</li>
 </ol>
 <p>接下来将重点分析：<code>lmpcc</code>，<code>lmpcc_obstacle_feed</code>，<code>static_collision_avoidance</code>这几个包。</p>
+<h2 id="2-相关项目"><a href="#2-相关项目" class="headerlink" title="2. 相关项目"></a>2. 相关项目</h2><ul>
+<li><a href="https://github.com/alexliniger/MPCC" target="_blank" rel="noopener">MPCC</a>: Simulation environments in C++ and Matlab of the Model Predictive Contouring Controller (MPCC) for Autonomous Racing developed by the Automatic Control Lab (IfA) at ETH Zurich</li>
+<li><a href="https://github.com/srl-freiburg/pedsim_ros" target="_blank" rel="noopener">pedsim_ros</a>: ROS packages for a 2D pedestrian simulator based on social force model of <a href="http://arxiv.org/pdf/cond-mat/9805244.pdf" target="_blank" rel="noopener">Helbing et. al</a>.</li>
+<li><a href="https://github.com/spencer-project/spencer_people_tracking" target="_blank" rel="noopener">spencer_people_tracking</a>: Multi-modal ROS-based people and group detection &amp; tracking framework for mobile robots developed within the context of the EU FP7 project <a href="http://www.spencer.eu/" target="_blank" rel="noopener">SPENCER</a>.</li>
+<li><a href="https://github.com/ozymandium/g1fitting" target="_blank" rel="noopener">g1fitting</a>: Clothoid generation and sampling library, with Python wrapper</li>
+<li><a href="https://github.com/acado/acado" target="_blank" rel="noopener">acado</a>: ACADO Toolkit is a software environment and algorithm collection for automatic control and dynamic optimization. </li>
+</ul>
 
             </article>
             <hr>
@@ -278,7 +279,7 @@ directory: <span class="hljs-number">9</span> file: <span class="hljs-number">4<
                     
                       <a href="/2020/06/17/Code/ROS/%5B%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%5Damr-lmpcc_%E4%BB%BF%E7%9C%9F%E5%88%86%E6%9E%90/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【源码学习】amr-lmpcc 仿真分析</span>
+                        <span class="hidden-mobile">源码学习：amr-lmpcc 仿真分析</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -287,7 +288,7 @@ directory: <span class="hljs-number">9</span> file: <span class="hljs-number">4<
                     
                     
                       <a href="/2020/06/05/Code/ROS/%5B%E4%BB%A3%E7%A0%81%E5%A4%8D%E7%8E%B0%5Damr-lmpcc_%E5%A4%8D%E7%8E%B0%E8%BF%87%E7%A8%8B/">
-                        <span class="hidden-mobile">【代码复现】amr-lmpcc 复现过程</span>
+                        <span class="hidden-mobile">代码复现：amr-lmpcc</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -426,7 +427,7 @@ directory: <span class="hljs-number">9</span> file: <span class="hljs-number">4<
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "【源码学习】amr-lmpcc_01&nbsp;",
+        "源码学习：amr-lmpcc_01&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

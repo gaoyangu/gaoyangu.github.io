@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="gaoyangu">
   <meta name="keywords" content="">
-  <title>【源码学习】amr-lmpcc 仿真分析 - gaoyangu</title>
+  <title>源码学习：amr-lmpcc 仿真分析 - gaoyangu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -204,10 +204,10 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <div class="note note-primary">
-            <p>本文最后更新于：2020年6月27日 晚上</p>
+              <div class="note note-success">
+            <p>本文最后更新于：2020年7月6日 下午</p>
           </div>
-<p>项目地址<a href="https://github.com/tud-amr/amr-lmpcc" target="_blank" rel="noopener">https://github.com/tud-amr/amr-lmpcc</a></p>
+<p>项目地址：<a href="https://github.com/tud-amr/amr-lmpcc" target="_blank" rel="noopener">https://github.com/tud-amr/amr-lmpcc</a></p>
 <h2 id="1-Jackal-Gazebo-Simulation"><a href="#1-Jackal-Gazebo-Simulation" class="headerlink" title="1. Jackal Gazebo Simulation"></a>1. Jackal Gazebo Simulation</h2><pre><code class="hljs sh">roslaunch jackal_gazebo jackal_world.launch</code></pre>
 <h3 id="1-1-jackal-world-launch"><a href="#1-1-jackal-world-launch" class="headerlink" title="1.1 jackal_world.launch"></a>1.1 jackal_world.launch</h3><p><a href="https://github.com/tud-amr/amr-lmpcc/blob/master/jackal_simulator/jackal_gazebo/launch/jackal_world.launch" target="_blank" rel="noopener">jackal_world.launch</a></p>
 <p>在文件的开头是调试参数和环境配置</p>
@@ -243,7 +243,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">include</span> <span class="hljs-attr">file</span>=<span class="hljs-string">"$(find jackal_control)/launch/teleop.launch"</span>&gt;</span>
 	<span class="hljs-tag">&lt;<span class="hljs-name">arg</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"joystick"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"false"</span>/&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">include</span>&gt;</span></code></pre>
-<p><code>Jackal</code>仿真机器人在gazebo中的位置和模型信息</p>
+<p><code>Jackal</code>仿真机器人在 gazebo 中的位置和模型信息</p>
 <pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- Spawn Jackal --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"urdf_spawner"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"gazebo_ros"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"spawn_model"</span></span>
 <span class="hljs-tag">	<span class="hljs-attr">args</span>=<span class="hljs-string">"-urdf -model jackal -param robot_description -x 0 -y 0 -z 1.0"</span> /&gt;</span></code></pre>
@@ -416,7 +416,7 @@ roslaunch lmpcc robot_lmpcc.launch</code></pre>
 <h3 id="5-2-static-collision-avoidance"><a href="#5-2-static-collision-avoidance" class="headerlink" title="5.2 static_collision_avoidance"></a>5.2 static_collision_avoidance</h3><p><code>local_map_params.yaml</code></p>
 <ul>
 <li>此文件中有<code>footprint</code></li>
-<li>和雷达的相关配置</li>
+<li>以及雷达的相关配置</li>
 </ul>
 <pre><code class="hljs yaml"><span class="hljs-attr">global_frame:</span> <span class="hljs-string">map</span>
 <span class="hljs-attr">robot_base_frame:</span> <span class="hljs-string">base_link</span></code></pre>
@@ -471,7 +471,7 @@ roslaunch lmpcc robot_lmpcc.launch</code></pre>
                     
                       <a href="/2020/06/20/Code/ROS/%5B%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%5Damr-lmpcc_02lmpcc/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【源码学习】amr-lmpcc_02</span>
+                        <span class="hidden-mobile">源码学习：amr-lmpcc_02</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -480,7 +480,7 @@ roslaunch lmpcc robot_lmpcc.launch</code></pre>
                     
                     
                       <a href="/2020/06/15/Code/ROS/%5B%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%5Damr-lmpcc_01/">
-                        <span class="hidden-mobile">【源码学习】amr-lmpcc_01</span>
+                        <span class="hidden-mobile">源码学习：amr-lmpcc_01</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -619,7 +619,7 @@ roslaunch lmpcc robot_lmpcc.launch</code></pre>
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "【源码学习】amr-lmpcc 仿真分析&nbsp;",
+        "源码学习：amr-lmpcc 仿真分析&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

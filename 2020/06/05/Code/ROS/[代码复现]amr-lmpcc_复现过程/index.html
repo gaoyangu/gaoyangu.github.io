@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="gaoyangu">
   <meta name="keywords" content="">
-  <title>【代码复现】amr-lmpcc 复现过程 - gaoyangu</title>
+  <title>代码复现：amr-lmpcc - gaoyangu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      780 字
+      798 字
     </span>
   
 
@@ -204,8 +204,8 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <div class="note note-primary">
-            <p>本文最后更新于：2020年6月5日 下午</p>
+              <div class="note note-success">
+            <p>本文最后更新于：2020年7月6日 下午</p>
           </div>
 <p>项目地址：<a href="https://github.com/tud-amr/amr-lmpcc" target="_blank" rel="noopener">https://github.com/tud-amr/amr-lmpcc</a></p>
 <p>项目的测试环境为：<strong>gazebo仿真环境</strong>，本文为应用到<strong>实际环境</strong>测试时遇到的问题及其总结。</p>
@@ -215,14 +215,10 @@
 <li>ROS Kinetic</li>
 </ul>
 <hr>
-<h2 id="1-下载编译"><a href="#1-下载编译" class="headerlink" title="1. 下载编译"></a>1. 下载编译</h2><h3 id="1-1-下载编译过程"><a href="#1-1-下载编译过程" class="headerlink" title="1.1 下载编译过程"></a>1.1 下载编译过程</h3><ol>
-<li>先使用如下命令更新软件包</li>
-</ol>
+<h2 id="1-下载编译"><a href="#1-下载编译" class="headerlink" title="1. 下载编译"></a>1. 下载编译</h2><h3 id="1-1-下载编译过程"><a href="#1-1-下载编译过程" class="headerlink" title="1.1 下载编译过程"></a>1.1 下载编译过程</h3><p>1.先使用如下命令更新软件包</p>
 <pre><code class="hljs sh">sudo apt-get update
 sudo apt-get upgrade</code></pre>
-<ol>
-<li>下载编译</li>
-</ol>
+<p>2.下载编译</p>
 <pre><code class="hljs bash">sudo apt-get install ros-kinetic-jackal-control ros-kinetic-jackal-gazebo ros-kinetic-jackal-simulator ros-kinetic-jackal-description ros-kinetic-jackal-desktop ros-kinetic-jackal-navigation ros-kinetic-jackal-viz
 sudo apt install ros-kinetic-people-msgs
 <span class="hljs-built_in">cd</span> [workspace]/src
@@ -268,12 +264,12 @@ catkin_make -DCATKIN_WHITELIST_PACKAGES=<span class="hljs-string">""</span></cod
 <p><strong>注：</strong></p>
 <ol>
 <li>第一次编译时一定要使用<code>catkin_make -j1</code>，因为某些包可能依赖于其他包，所以最好使用<strong>单线程</strong>编译。</li>
-<li>上述编译过程是为了在实际环境中使用做的，如果要在仿真环境中运行，还需自己解决遇到的编译问题。</li>
+<li>上述编译过程是为了在实际环境中使用做的，如果要在仿真环境中运行，还需自己解决遇到的编译问题，而不是像这样直接把对应包删除。</li>
 </ol>
-<h3 id="1-2-参考资料"><a href="#1-2-参考资料" class="headerlink" title="1.2 参考资料"></a>1.2 参考资料</h3><ol>
+<h3 id="1-2-参考资料"><a href="#1-2-参考资料" class="headerlink" title="1.2 参考资料"></a>1.2 参考资料</h3><ul>
 <li><a href="http://wiki.ros.org/catkin/commands/catkin_make" target="_blank" rel="noopener">ROSwiki : catkin_make</a></li>
-</ol>
-<h2 id="2-初步测试运行"><a href="#2-初步测试运行" class="headerlink" title="2. 初步测试运行"></a>2. 初步测试运行</h2><h3 id="2-1-准备工作"><a href="#2-1-准备工作" class="headerlink" title="2.1 准备工作"></a>2.1 准备工作</h3><p>由于此次测试打算使用提前定义的障碍物，故需要修改</p>
+</ul>
+<h2 id="2-初步运行测试"><a href="#2-初步运行测试" class="headerlink" title="2. 初步运行测试"></a>2. 初步运行测试</h2><h3 id="2-1-准备工作"><a href="#2-1-准备工作" class="headerlink" title="2.1 准备工作"></a>2.1 准备工作</h3><p>由于此次测试打算使用提前定义的障碍物，故需要修改</p>
 <p><code>$(find lmpcc_obstacle_feed)/config/lmpcc_obstacle_feed_config.yaml</code></p>
 <pre><code class="hljs sh"><span class="hljs-comment"># Obstacle feed mode (0 = sensor mode, 1 = OptiTrack mode, 2 = predefined obstacles, 4 = Pedsim)</span>
 <span class="hljs-comment"># need to recompile after changing!</span>
@@ -288,16 +284,16 @@ obstacle_feed_mode: 2	<span class="hljs-comment"># before 4</span></code></pre>
 <ul>
 <li>在<code>predefined_obstacles</code>中再定义一个障碍物</li>
 </ul>
-<p>注：如果直接将<code>obstacle_number</code>改为3会导致节点<code>lmpcc</code>与节点<code>lmpcc_obstacle_feed</code>的冲突，目前还没有找到原因。</p>
+<p>注：如果直接将<code>obstacle_number</code>改为 3 会导致节点<code>lmpcc</code>与节点<code>lmpcc_obstacle_feed</code>的冲突，目前还没有找到原因。</p>
 <h3 id="2-2-运行测试"><a href="#2-2-运行测试" class="headerlink" title="2.2 运行测试"></a>2.2 运行测试</h3><p><strong>2.2.1 测试过程</strong></p>
 <p>分别在3个不同的终端运行如下命令：</p>
-<pre><code class="hljs sh">roslaunch lmpcc_obstacle_feed map_lmpcc_obstacle_feed.launch
+<pre><code class="hljs cpp">roslaunch lmpcc_obstacle_feed map_lmpcc_obstacle_feed.launch
 roslaunch static_collision_avoidance static_collision_avoidance.launch
 roslaunch lmpcc robot_lmpcc.launch</code></pre>
 <p><strong>2.2.2 运行结果</strong></p>
 <p>使用如下命令：</p>
 <pre><code class="hljs sh">rqt_graph</code></pre>
-<p>得到当前的节点图：</p>
+<p>得到当前的节点图。</p>
 
             </article>
             <hr>
@@ -334,7 +330,7 @@ roslaunch lmpcc robot_lmpcc.launch</code></pre>
                     
                       <a href="/2020/06/15/Code/ROS/%5B%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%5Damr-lmpcc_01/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【源码学习】amr-lmpcc_01</span>
+                        <span class="hidden-mobile">源码学习：amr-lmpcc_01</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -482,7 +478,7 @@ roslaunch lmpcc robot_lmpcc.launch</code></pre>
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "【代码复现】amr-lmpcc 复现过程&nbsp;",
+        "代码复现：amr-lmpcc&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
