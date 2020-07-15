@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="gaoyangu">
   <meta name="keywords" content="">
-  <title>[C++Primerd第五版]第十三章 拷贝控制 - gaoyangu</title>
+  <title>C++Primer 5th：第十四章 重载运算与类型转换 - gaoyangu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -152,8 +152,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-05-28 16:09">
-      2020年5月28日 下午
+    <time datetime="2020-07-13 20:01">
+      2020年7月13日 晚上
     </time>
   </div>
 
@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.1k 字
+      559 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      12
+      5
        分钟
     </span>
   
@@ -204,139 +204,45 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="13-1-拷贝、赋值与销毁"><a href="#13-1-拷贝、赋值与销毁" class="headerlink" title="13.1 拷贝、赋值与销毁"></a>13.1 拷贝、赋值与销毁</h2><h3 id="13-1-1-拷贝构造函数"><a href="#13-1-1-拷贝构造函数" class="headerlink" title="13.1.1 拷贝构造函数"></a>13.1.1 拷贝构造函数</h3><ul>
-<li>第一个参数是自身类类型的引用，且任何参数都有默认值</li>
-</ul>
-<pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Foo</span>&#123;</span>
-<span class="hljs-keyword">public</span>:
-    Foo();				<span class="hljs-comment">//默认构造</span>
-    Foo(<span class="hljs-keyword">const</span> Foo&amp;);	<span class="hljs-comment">//拷贝构造</span>
-&#125;；</code></pre>
-<ol>
-<li>合成拷贝构造函数</li>
+              <div class="note note-success">
+            <p>本文最后更新于：2020年7月15日 晚上</p>
+          </div>
+<h2 id="第十四章-重载运算与类型转换"><a href="#第十四章-重载运算与类型转换" class="headerlink" title="第十四章 重载运算与类型转换"></a>第十四章 重载运算与类型转换</h2><p>当运算符作用于类类型的运算对象时，可以通过运算符重载重新定义该运算符的含义。</p>
+<h2 id="14-1-基本概念"><a href="#14-1-基本概念" class="headerlink" title="14.1 基本概念"></a>14.1 基本概念</h2><ol>
+<li>重载的运算符是具有特殊名字的函数，由关键字<code>operator</code>和其后要定义的运算符号组成。</li>
+<li>除了重载的函数调用运算符<code>operator()</code>外，其他重载运算符不能含有默认参数。</li>
+<li>当一个重载的运算符是成员函数，<code>this</code>绑定到左侧运算对象，成员运算符函数的（显式）参数数量比运算对象的数量少一个。</li>
 </ol>
-<pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Sales_data</span> &#123;</span>
-<span class="hljs-keyword">public</span>:
-	<span class="hljs-comment">//与合成的拷贝构造函数等价的拷贝构造函数的声明</span>
-	Sales_data(<span class="hljs-keyword">const</span> Sales_data&amp;);
-<span class="hljs-keyword">private</span>:
-	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> bookNo;
-	<span class="hljs-keyword">int</span> units_sold = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">double</span> revenue = <span class="hljs-number">0.0</span>;
-&#125;;
-<span class="hljs-comment">//与Sales_data 的合成的拷贝构造函数等价</span>
-Sales_data::Sales_data(<span class="hljs-keyword">const</span> Sales_data&amp; orig) : 
-	bookNo(orig.bookNo), units_sold(orig.units_sold), revenue(orig.revenue)
-&#123;
-&#125;</code></pre>
-<ol>
-<li>拷贝初始化<ul>
-<li>将一个对象作为实参传递给一个非引用类型的形参</li>
-<li>从一个返回类型为非引用类型的函数返回一个对象</li>
-<li>用花括号列表初始化一个数组的元素或一个聚合类中的成员</li>
-</ul>
-</li>
-</ol>
-<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">dots</span><span class="hljs-params">(<span class="hljs-number">10</span>, <span class="hljs-string">'.'</span>)</span></span>;		<span class="hljs-comment">//直接初始化</span>
-<span class="hljs-built_in">string</span> s2 = dots;			<span class="hljs-comment">//拷贝初始化</span></code></pre>
+<p><strong>1. 直接调用一个重载的运算符函数</strong></p>
+<pre><code class="hljs cpp"><span class="hljs-comment">//一个非成员运算符函数的等价调用</span>
+data1 + data2;				<span class="hljs-comment">//普通表达式</span>
+<span class="hljs-keyword">operator</span>+(data1,data2);		<span class="hljs-comment">//等价的函数调用</span>
+<span class="hljs-comment">//成员运算符函数</span>
+data1 += data2;
+data1.<span class="hljs-keyword">operator</span>+=(data2);</code></pre>
+<p><strong>2. 某些运算符不应该被重载</strong></p>
 <ul>
-<li>当使用初始化标准库或调用其<code>insert</code>或<code>push</code>成员时，容器会对其进行拷贝初始化</li>
-<li>用<code>emplace</code>成员创建的元素都进行直接初始化</li>
+<li>通常情况下，不应该重载逗号、取地址、逻辑和逻辑或运算符。</li>
 </ul>
-<ol>
-<li><p>参数和返回值</p>
+<p><strong>3. 使用与内置类型一致的含义</strong></p>
 <ul>
-<li>在函数调用过程中，具有非引用类型的参数要进行拷贝初始化</li>
-<li>当一个函数具有非引用的返回类型时，返回值会被用来初始化调用方法的结果</li>
+<li>当在内置的运算符和我们自己的操作之间存在逻辑映射关系时，运算符重载的效果最好。</li>
+<li>只有当操作的含义对于用户来说清晰明了时才使用运算符</li>
 </ul>
-</li>
-<li><p>拷贝初始化的限制</p>
-</li>
-</ol>
-<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">v1</span><span class="hljs-params">(<span class="hljs-number">10</span>)</span></span>;		<span class="hljs-comment">//正确：直接初始化</span>
-<span class="hljs-comment">//vector&lt;int&gt; v2 = 10;	//错误：接受大小参数的构造函数是explicit的</span>
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;)</span></span>;	<span class="hljs-comment">//f的参数进行拷贝初始化</span>
-<span class="hljs-comment">//f(10);				//错误：不能用一个explicit的构造函数拷贝一个实参</span>
-f(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;(<span class="hljs-number">10</span>));		<span class="hljs-comment">//正确：一个int直接构造一个临时vector</span></code></pre>
-<ol>
-<li>编译器可以绕过拷贝构造函数<ul>
-<li>拷贝构造函数必须是存在且可访问的</li>
-</ul>
-</li>
-</ol>
-<pre><code class="hljs cpp"><span class="hljs-comment">//编译器允许将下面的代码</span>
-<span class="hljs-built_in">string</span> null_book = <span class="hljs-string">"9-999-99999-9"</span>;		<span class="hljs-comment">//拷贝初始化</span>
-<span class="hljs-comment">//改写为</span>
-<span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">null_book</span><span class="hljs-params">(<span class="hljs-string">"9-999-99999-9"</span>)</span></span>;		<span class="hljs-comment">//编译器略过了拷贝构造函数</span></code></pre>
-<h3 id="13-1-2-拷贝赋值运算符"><a href="#13-1-2-拷贝赋值运算符" class="headerlink" title="13.1.2 拷贝赋值运算符"></a>13.1.2 拷贝赋值运算符</h3><ol>
-<li>重载赋值运算符<ul>
-<li>赋值运算符通常应该返回一个指向其左侧运算对象的引用</li>
-</ul>
-</li>
-</ol>
-<pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Foo</span>&#123;</span>
-<span class="hljs-keyword">public</span>: 
-    Foo&amp; <span class="hljs-keyword">operator</span>=(<span class="hljs-keyword">const</span> Foo&amp;);		<span class="hljs-comment">//赋值运算符</span>
-&#125;；</code></pre>
-<ol>
-<li>合成拷贝赋值运算符</li>
-</ol>
-<pre><code class="hljs cpp"><span class="hljs-comment">//等价于合成拷贝赋值运算符</span>
-Sales_data&amp; Sales_data::<span class="hljs-keyword">operator</span>=(<span class="hljs-keyword">const</span> Sales_date &amp;rhs)
-&#123;
-    bookNo = rhs.bookNo;			<span class="hljs-comment">//调用string::operator=</span>
-    units_sold = rhs.units_sold;	<span class="hljs-comment">//使用内置的int赋值</span>
-    revenue = rhs.revenue;			<span class="hljs-comment">//使用内置的double赋值</span>
-    <span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;
-&#125;</code></pre>
-<h3 id="13-1-3-析构函数"><a href="#13-1-3-析构函数" class="headerlink" title="13.1.3 析构函数"></a>13.1.3 析构函数</h3><ul>
-<li>没有返回值，也不接受参数</li>
-</ul>
-<pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Foo</span>&#123;</span>
-<span class="hljs-keyword">public</span>:
-	~Foo();		<span class="hljs-comment">//析构函数</span>
-&#125;；</code></pre>
-<ol>
-<li>析构函数完成什么工作<ul>
-<li>构造函数中，成员的初始化是在函数体执行之前完成的，且按照它们在类中出现的顺序进行初始化</li>
-<li>析构函数中，首先执行函数体，然后按初始化顺序的逆序销毁成员</li>
-<li>隐式销毁一个内置指针类型的成员不会delete它所指向的对象</li>
-</ul>
-</li>
-<li>什么时候调用析构函数<ul>
-<li>变量在离开其作用域时被销毁</li>
-<li>当一个对象被销毁时，其成员被销毁</li>
-<li>容器（无论是标准库容器还是数组）被销毁时，其元素被销毁</li>
-<li>对于动态分配的对象，当对指向它的指针应用delete运算符时被销毁</li>
-<li>对于临时对象，当创建它的完整表达式结束时被销毁</li>
-</ul>
-</li>
-</ol>
-<pre><code class="hljs cpp">&#123;<span class="hljs-comment">//新作用域</span>
-    <span class="hljs-comment">//p 和 p2指向动态分配的对象</span>
-    Sales_data *p = <span class="hljs-keyword">new</span> Sales_data;			<span class="hljs-comment">//p是一个内置指针</span>
-    <span class="hljs-keyword">auto</span> p2 = make_shared&lt;Sales_data&gt;();	<span class="hljs-comment">//p2是一个shared_ptr</span>
-    <span class="hljs-function">Sales_data <span class="hljs-title">item</span><span class="hljs-params">(*p)</span></span>;	<span class="hljs-comment">//拷贝构造函数将 *p 拷贝到item中</span>
-    <span class="hljs-built_in">vector</span>&lt;Sales_data&gt; vec;	<span class="hljs-comment">//局部对象</span>
-    vec.push_back(*p2);		<span class="hljs-comment">//拷贝p2指向的对象</span>
-    <span class="hljs-keyword">delete</span> p;				<span class="hljs-comment">//对p指向的对象执行析构函数</span>
-&#125;<span class="hljs-comment">//退出局部作用域：对item、 p2 和 vec 调用析构函数</span>
-<span class="hljs-comment">//销毁p2会递减其引用计数；如果引用计数变为0，对象被释放</span>
-<span class="hljs-comment">//销毁vec会销毁它的元素</span></code></pre>
+<p><strong>4. 赋值和复合赋值运算符</strong></p>
 <ul>
-<li>当指向一个对象的引用或指针离开作用域时，析构函数不会执行</li>
+<li>如果类含有算数运算符或者位运算符，最好也提供对应的复合赋值运算符<code>+=</code></li>
 </ul>
-<ol>
-<li>合成析构函数<ul>
-<li>析构函数体自身并不直接销毁成员</li>
-</ul>
+<p><strong>5. 选择作为成员或者非成员</strong></p>
+<ul>
+<li>赋值<code>=</code>,下标<code>[]</code>, 调用<code>()</code>, 成员访问箭头<code>-&gt;</code>运算符必须是<code>成员</code></li>
+<li>复合赋值运算符一般是<code>成员</code>，但非必须</li>
+<li>改变对象状态的运算符或者与给定类型密切相关的运算符，如递增、递减和解引用运算符，通常是<code>成员</code></li>
+<li><p>具有对称性的运算符可能转换任意一端的运算对象，例如算数、相等性、关系、位运算符等，通常是<code>非成员函数</code></p>
 </li>
-</ol>
-<pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Sale_data</span>&#123;</span>
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-comment">//成员会被自动销毁，除此之外不需要做其他事情</span>
-    ~Sales_data()&#123;&#125;
-&#125;；</code></pre>
+<li><p>如果想提供含有类对象的混合类型表达式，则运算符必须定义为<code>非成员函数</code></p>
+</li>
+</ul>
 
             </article>
             <hr>
@@ -364,6 +270,23 @@ Sales_data&amp; Sales_data::<span class="hljs-keyword">operator</span>=(<span cl
               
                 <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
               
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/07/03/Code/ROS/%5BROS%5D%E5%9B%9B%E5%85%83%E6%95%B0%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9%E5%88%86%E6%9E%90/">
+                        <span class="hidden-mobile">四元数</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
               
             </div>
 
@@ -496,7 +419,7 @@ Sales_data&amp; Sales_data::<span class="hljs-keyword">operator</span>=(<span cl
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "[C++Primerd第五版]第十三章 拷贝控制&nbsp;",
+        "C++Primer 5th：第十四章 重载运算与类型转换&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

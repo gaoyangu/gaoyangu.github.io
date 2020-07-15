@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="gaoyangu">
   <meta name="keywords" content="">
-  <title>C++Primer第五版：第十章 泛型算法 - gaoyangu</title>
+  <title>C++Primerd 5th：第十章 泛型算法 - gaoyangu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -204,7 +204,10 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="第十章-泛型算法"><a href="#第十章-泛型算法" class="headerlink" title="第十章 泛型算法"></a>第十章 泛型算法</h2><h3 id="10-1-概述"><a href="#10-1-概述" class="headerlink" title="10.1 概述"></a>10.1 概述</h3><ol>
+              <div class="note note-success">
+            <p>本文最后更新于：2020年7月12日 上午</p>
+          </div>
+<h2 id="第十章-泛型算法"><a href="#第十章-泛型算法" class="headerlink" title="第十章 泛型算法"></a>第十章 泛型算法</h2><h2 id="10-1-概述"><a href="#10-1-概述" class="headerlink" title="10.1 概述"></a>10.1 概述</h2><ol>
 <li>头文件：<code>algorithm</code>，<code>numeric</code></li>
 <li>标准库算法<code>find</code></li>
 </ol>
@@ -217,8 +220,7 @@
 <li>迭代器令算法不依赖于容器，但算法依赖于元素类型的操作</li>
 <li>算法可能改变容器中保存的元素的值，也可能在容器内移动元素，但永远不会直接添加或删除元素。</li>
 </ol>
-<h3 id="10-2-初始泛型算法"><a href="#10-2-初始泛型算法" class="headerlink" title="10.2 初始泛型算法"></a>10.2 初始泛型算法</h3><p><strong>10.2.1 只读算法</strong></p>
-<ol>
+<h2 id="10-2-初始泛型算法"><a href="#10-2-初始泛型算法" class="headerlink" title="10.2 初始泛型算法"></a>10.2 初始泛型算法</h2><h3 id="10-2-1-只读算法"><a href="#10-2-1-只读算法" class="headerlink" title="10.2.1 只读算法"></a>10.2.1 只读算法</h3><ol>
 <li>只会读取其输入范围内的元素，而从不改变元素。</li>
 <li><code>find</code>，<code>count</code>，<code>accumulate</code></li>
 </ol>
@@ -236,8 +238,7 @@
 </ol>
 <pre><code class="hljs cpp"><span class="hljs-comment">//roster2中的元素数目应该至少与roster1一样多</span>
 equal(roster1.cbegin(), roster1.cend(), roster2.cbegin());</code></pre>
-<p><strong>10.2.2 写容器元素的算法</strong></p>
-<ol>
+<h3 id="10-2-2-写容器元素的算法"><a href="#10-2-2-写容器元素的算法" class="headerlink" title="10.2.2 写容器元素的算法"></a>10.2.2 写容器元素的算法</h3><ol>
 <li><code>fill</code><ul>
 <li>将给定的值赋予输入序列中的每个元素</li>
 </ul>
@@ -289,8 +290,7 @@ fill_n(back_inserter(vec), <span class="hljs-number">10</span>, <span class="hlj
 replace(ilst.begin(), ilst.end(), <span class="hljs-number">0</span> , <span class="hljs-number">42</span>);
 <span class="hljs-comment">//希望保留原序列不变</span>
 replace_copy(ilst.cbegin(), ilst.cend(), back_inserter(ivec), <span class="hljs-number">0</span>, <span class="hljs-number">42</span>);</code></pre>
-<p><strong>10.2.3 重排容器元素的算法</strong></p>
-<ol>
+<h3 id="10-2-3-重排容器元素的算法"><a href="#10-2-3-重排容器元素的算法" class="headerlink" title="10.2.3 重排容器元素的算法"></a>10.2.3 重排容器元素的算法</h3><ol>
 <li>消除重复的单词：<code>sort</code>，<code>unique</code></li>
 </ol>
 <pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">elimDups</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">string</span>&gt;&amp; words)</span></span>
@@ -303,8 +303,7 @@ replace_copy(ilst.cbegin(), ilst.cend(), back_inserter(ivec), <span class="hljs-
     <span class="hljs-comment">//使用向量操作erase删除重复单词</span>
 	words.erase(end_unique, words.end());
 &#125;</code></pre>
-<h3 id="10-3-定制操作"><a href="#10-3-定制操作" class="headerlink" title="10.3 定制操作"></a>10.3 定制操作</h3><p><strong>10.3.1 向算法传递函数</strong></p>
-<ol>
+<h2 id="10-3-定制操作"><a href="#10-3-定制操作" class="headerlink" title="10.3 定制操作"></a>10.3 定制操作</h2><h3 id="10-3-1-向算法传递函数"><a href="#10-3-1-向算法传递函数" class="headerlink" title="10.3.1 向算法传递函数"></a>10.3.1 向算法传递函数</h3><ol>
 <li>谓词（predicate）<ul>
 <li>可调用的表达式，返回结果使一个能用作条件的值</li>
 <li>一元谓词：只接受单一参数</li>
@@ -326,8 +325,7 @@ stable_sort(words.begin(), words.end(), isShorter);
 <span class="hljs-keyword">for</span>(<span class="hljs-keyword">const</span> <span class="hljs-keyword">auto</span> &amp;s : words)
 	<span class="hljs-built_in">cout</span> &lt;&lt; s &lt;&lt; <span class="hljs-string">" "</span>;
 <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">endl</span>;</code></pre>
-<p><strong>10.3.2 lambda表达式</strong></p>
-<ol>
+<h3 id="10-3-2-lambda表达式"><a href="#10-3-2-lambda表达式" class="headerlink" title="10.3.2 lambda表达式"></a>10.3.2 lambda表达式</h3><ol>
 <li><p>可以向算法传递任何类别的<code>可调用对象</code>（callable object）</p>
 </li>
 <li><p>lambda表达式的形式</p>
@@ -390,8 +388,7 @@ stable_sort(words.begin(), words.end(),
 		[](<span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span>&amp; s) &#123;<span class="hljs-built_in">cout</span> &lt;&lt; s &lt;&lt; <span class="hljs-string">" "</span>; &#125;);
 	<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
 &#125;</code></pre>
-<p><strong>10.3.3 lambda捕获和返回</strong></p>
-<ol>
+<h3 id="10-3-3-lambda捕获和返回"><a href="#10-3-3-lambda捕获和返回" class="headerlink" title="10.3.3 lambda捕获和返回"></a>10.3.3 lambda捕获和返回</h3><ol>
 <li>值捕获</li>
 </ol>
 <pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">fcn1</span><span class="hljs-params">()</span></span>
@@ -462,8 +459,7 @@ wc = find_if(words.begin(), words.end(),
 transform(vi.begin(), vi.end(), vi.begin(),
          [](<span class="hljs-keyword">int</span> i) -&gt; <span class="hljs-keyword">int</span>
           &#123;<span class="hljs-keyword">if</span>(i &lt; <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> -i; <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> i;&#125;);</code></pre>
-<p><strong>10.3.4 参数绑定</strong></p>
-<p><code>find_if</code>接受一个一元谓词，不能使用<code>check_size</code></p>
+<h3 id="10-3-4-参数绑定"><a href="#10-3-4-参数绑定" class="headerlink" title="10.3.4 参数绑定"></a>10.3.4 参数绑定</h3><p><code>find_if</code>接受一个一元谓词，不能使用<code>check_size</code></p>
 <pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">check_size</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span> &amp;s, <span class="hljs-built_in">string</span>::size_type sz)</span></span>
 <span class="hljs-function"></span>&#123;
     <span class="hljs-keyword">return</span> s.size() &gt;= sz;
@@ -528,8 +524,7 @@ sort(words.begin(), words.end(), bind(isShorter, _2, _1));</code></pre>
 <span class="hljs-comment">//错误：不能拷贝os</span>
 <span class="hljs-comment">//for_each(words.begin(), words.end(), bind(print, os, _1, ''));</span>
 for_each(words.begin(), words.end(), bind(print, ref(os), _1, ''));</code></pre>
-<h3 id="10-4-再探迭代器"><a href="#10-4-再探迭代器" class="headerlink" title="10.4 再探迭代器"></a>10.4 再探迭代器</h3><p><strong>10.4.1 插入迭代器（insert iterator）</strong></p>
-<ul>
+<h2 id="10-4-再探迭代器"><a href="#10-4-再探迭代器" class="headerlink" title="10.4 再探迭代器"></a>10.4 再探迭代器</h2><h3 id="10-4-1-插入迭代器（insert-iterator）"><a href="#10-4-1-插入迭代器（insert-iterator）" class="headerlink" title="10.4.1 插入迭代器（insert iterator）"></a>10.4.1 插入迭代器（insert iterator）</h3><ul>
 <li><code>back_inserter</code>：创建一个使用 <em>push_back</em> 的迭代器</li>
 <li><code>front_inserter</code>：创建一个使用 <em>push_front</em> 的迭代器</li>
 <li><code>inserter</code>：创建一个使用 <em>inserter</em> 的迭代器，函数第二个参数必须是一个指向给定容器的迭代器，元素被插入到给定迭代器所表示的元素之前</li>
@@ -540,8 +535,7 @@ for_each(words.begin(), words.end(), bind(print, ref(os), _1, ''));</code></pre>
 copy(lst.cbegin(), lst.cend(), front_inserter(lst2));
 <span class="hljs-comment">//lst3包含1 2 3 4</span>
 copy(lst.cbegin(), lst.cend(), inserter(lst3));</code></pre>
-<p><strong>10.4.2 iostream 迭代器</strong></p>
-<ol>
+<h3 id="10-4-2-iostream-迭代器"><a href="#10-4-2-iostream-迭代器" class="headerlink" title="10.4.2 iostream 迭代器"></a>10.4.2 iostream 迭代器</h3><ol>
 <li><code>istream_iterator</code>操作</li>
 </ol>
 <pre><code class="hljs cpp"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; vec;
@@ -598,8 +592,7 @@ Sales_item sum = *item_iter++;
 	&#125;
 &#125;
 out_iter = sum;</code></pre>
-<p><strong>10.4.3 反向迭代器</strong></p>
-<ul>
+<h3 id="10-4-3-反向迭代器"><a href="#10-4-3-反向迭代器" class="headerlink" title="10.4.3 反向迭代器"></a>10.4.3 反向迭代器</h3><ul>
 <li>递增递减操作的含义颠倒</li>
 <li>除 forward_list 外，其他容器都支持反向迭代器</li>
 </ul>
@@ -622,8 +615,7 @@ out_iter = sum;</code></pre>
 <span class="hljs-comment">//cout &lt;&lt; string(line.crbegin(), rcomma) &lt;&lt; endl;</span>
 <span class="hljs-comment">//正确:</span>
 <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">string</span>(rcomma.base(), line.cend()) &lt;&lt; <span class="hljs-built_in">endl</span>;</code></pre>
-<h3 id="10-5-泛型算法结构"><a href="#10-5-泛型算法结构" class="headerlink" title="10.5 泛型算法结构"></a>10.5 泛型算法结构</h3><p><strong>10.5.1 五类迭代器</strong></p>
-<ol>
+<h2 id="10-5-泛型算法结构"><a href="#10-5-泛型算法结构" class="headerlink" title="10.5 泛型算法结构"></a>10.5 泛型算法结构</h2><h3 id="10-5-1-五类迭代器"><a href="#10-5-1-五类迭代器" class="headerlink" title="10.5.1 五类迭代器"></a>10.5.1 五类迭代器</h3><ol>
 <li><p>输入迭代器（input iterator）</p>
 <ul>
 <li>只用于顺序访问</li>
@@ -660,8 +652,7 @@ out_iter = sum;</code></pre>
 </ul>
 </li>
 </ol>
-<p><strong>10.5.2 算法形参模式</strong></p>
-<pre><code class="hljs cpp">alg(beg, end, other args);
+<h3 id="10-5-2-算法形参模式"><a href="#10-5-2-算法形参模式" class="headerlink" title="10.5.2 算法形参模式"></a>10.5.2 算法形参模式</h3><pre><code class="hljs cpp">alg(beg, end, other args);
 alg(beg, end, dest, other args);
 alg(beg, end, beg2, other args);
 alg(beg, end, beg2, end2, other args);</code></pre>
@@ -694,7 +685,7 @@ find(beg, end, pred);</code></pre>
 </ol>
 <pre><code class="hljs cpp">reverse_(beg, end);
 reverse_copy(beg, end, dest);</code></pre>
-<h3 id="10-6-特定容器算法"><a href="#10-6-特定容器算法" class="headerlink" title="10.6 特定容器算法"></a>10.6 特定容器算法</h3><ul>
+<h2 id="10-6-特定容器算法"><a href="#10-6-特定容器算法" class="headerlink" title="10.6 特定容器算法"></a>10.6 特定容器算法</h2><ul>
 <li>对于<code>list</code> 和<code>forward</code>，优先使用成员函数版本的算法而不是通用算法</li>
 </ul>
 <pre><code class="hljs cpp">lst.merge(lst2)
@@ -749,9 +740,9 @@ lst.unique(pred)</code></pre>
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/05/07/Reading%20notes/%5B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%5D%E4%B8%BA%E4%BB%80%E4%B9%88%E7%B2%BE%E8%8B%B1%E9%83%BD%E6%98%AF%E6%97%B6%E9%97%B4%E6%8E%A7/">
+                      <a href="/2020/05/12/Code/c++/%5BC++Primerd%E7%AC%AC%E4%BA%94%E7%89%88%5D%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20%E5%85%B3%E8%81%94%E5%AE%B9%E5%99%A8/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">读书笔记：为什么精英都是时间控</span>
+                        <span class="hidden-mobile">C++Primerd 5th：第十一章 关联容器</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -759,8 +750,8 @@ lst.unique(pred)</code></pre>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/04/01/Code/ROS/%5BROS%5DROS%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90%E6%B1%87%E6%80%BB/">
-                        <span class="hidden-mobile">汇总：ROS学习资源</span>
+                      <a href="/2020/05/06/Reading%20notes/%5B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%5D%E4%B8%BA%E4%BB%80%E4%B9%88%E7%B2%BE%E8%8B%B1%E9%83%BD%E6%98%AF%E6%97%B6%E9%97%B4%E6%8E%A7/">
+                        <span class="hidden-mobile">读书笔记：为什么精英都是时间控</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -899,7 +890,7 @@ lst.unique(pred)</code></pre>
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "C++Primer第五版：第十章 泛型算法&nbsp;",
+        "C++Primerd 5th：第十章 泛型算法&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="gaoyangu">
   <meta name="keywords" content="">
-  <title>C++Primer第五版：第十一章 关联容器 - gaoyangu</title>
+  <title>C++Primerd 5th：第十一章 关联容器 - gaoyangu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      27
+      28
        分钟
     </span>
   
@@ -204,12 +204,15 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="第十一章-关联容器"><a href="#第十一章-关联容器" class="headerlink" title="第十一章 关联容器"></a>第十一章 关联容器</h2><ul>
+              <div class="note note-success">
+            <p>本文最后更新于：2020年7月12日 上午</p>
+          </div>
+<h2 id="第十一章-关联容器"><a href="#第十一章-关联容器" class="headerlink" title="第十一章 关联容器"></a>第十一章 关联容器</h2><ul>
 <li>类型<code>map</code>和<code>multimap</code>定义在头文件<code>map</code>中</li>
 <li><code>set</code>和<code>multiset</code>定义在头文件<code>set</code>中</li>
 <li><code>无序容器</code>定义在头文件<code>unorderd_map</code>和<code>unorderd_set</code>中</li>
 </ul>
-<h3 id="11-1-使用关联容器"><a href="#11-1-使用关联容器" class="headerlink" title="11.1 使用关联容器"></a>11.1 使用关联容器</h3><ol>
+<h2 id="11-1-使用关联容器"><a href="#11-1-使用关联容器" class="headerlink" title="11.1 使用关联容器"></a>11.1 使用关联容器</h2><ol>
 <li>使用<code>map</code><ul>
 <li>关键字-值对的集合</li>
 <li>关联数组（associative array）</li>
@@ -237,8 +240,7 @@
 <span class="hljs-keyword">while</span>(<span class="hljs-built_in">cin</span> &gt;&gt; word)
     <span class="hljs-keyword">if</span>(exclude.find(word) == exclude.end())
         ++word_count[word];</code></pre>
-<h3 id="11-2-关联容器概述"><a href="#11-2-关联容器概述" class="headerlink" title="11.2 关联容器概述"></a>11.2 关联容器概述</h3><p><strong>11.2.1 定义关联容器</strong></p>
-<ol>
+<h2 id="11-2-关联容器概述"><a href="#11-2-关联容器概述" class="headerlink" title="11.2 关联容器概述"></a>11.2 关联容器概述</h2><h3 id="11-2-1-定义关联容器"><a href="#11-2-1-定义关联容器" class="headerlink" title="11.2.1 定义关联容器"></a>11.2.1 定义关联容器</h3><ol>
 <li>初始化<code>multimap</code>或<code>multiset</code><ul>
 <li>允许多个元素具有相同的关键字</li>
 </ul>
@@ -254,12 +256,10 @@
 <span class="hljs-built_in">cout</span> &lt;&lt; ivec.size() &lt;&lt; <span class="hljs-built_in">endl</span>;	<span class="hljs-comment">//20</span>
 <span class="hljs-built_in">cout</span> &lt;&lt; iset.size() &lt;&lt; <span class="hljs-built_in">endl</span>;	<span class="hljs-comment">//10</span>
 <span class="hljs-built_in">cout</span> &lt;&lt; miset.size() &lt;&lt; <span class="hljs-built_in">endl</span>;	<span class="hljs-comment">//20</span></code></pre>
-<p><strong>11.2.2 关键字类型的要求</strong></p>
-<ul>
+<h3 id="11-2-2-关键字类型的要求"><a href="#11-2-2-关键字类型的要求" class="headerlink" title="11.2.2 关键字类型的要求"></a>11.2.2 关键字类型的要求</h3><ul>
 <li>对于有序容器<code>map</code>, <code>multimap</code>, <code>set</code>以及<code>multiset</code>，关键字类型必须定义元素比较的方法。</li>
 </ul>
-<p><strong>11.2.3 pair类型</strong></p>
-<ul>
+<h3 id="11-2-3-pair类型"><a href="#11-2-3-pair类型" class="headerlink" title="11.2.3 pair类型"></a>11.2.3 pair类型</h3><ul>
 <li>头文件：<code>utility</code></li>
 <li><code>pair</code>的数据成员是：<code>public</code>的</li>
 <li>两个成员分别命名为<code>first</code>和<code>second</code></li>
@@ -276,7 +276,7 @@
     <span class="hljs-keyword">else</span>
         <span class="hljs-keyword">return</span> pair&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;();
 &#125;</code></pre>
-<h3 id="11-3-关联容器操作"><a href="#11-3-关联容器操作" class="headerlink" title="11.3 关联容器操作"></a>11.3 关联容器操作</h3><p><code>key_type</code></p>
+<h2 id="11-3-关联容器操作"><a href="#11-3-关联容器操作" class="headerlink" title="11.3 关联容器操作"></a>11.3 关联容器操作</h2><p><code>key_type</code></p>
 <ul>
 <li>此容器类型的关键字类型</li>
 </ul>
@@ -289,8 +289,7 @@
 <li>对于<code>set</code>，与<code>key_type</code>相同</li>
 <li>对于<code>map</code>，为<code>pair&lt;const key_type, mapped_type&gt;</code></li>
 </ul>
-<p><strong>11.3.1 关联容器迭代器</strong></p>
-<ol>
+<h3 id="11-3-1-关联容器迭代器"><a href="#11-3-1-关联容器迭代器" class="headerlink" title="11.3.1 关联容器迭代器"></a>11.3.1 关联容器迭代器</h3><ol>
 <li><strong>map</strong></li>
 </ol>
 <pre><code class="hljs cpp"><span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">size_t</span>&gt; word_count;
@@ -323,8 +322,7 @@
 <ol>
 <li>在实际编程中，如果真要对一个关联容器使用算法，要么将它当作一个源序列，要么当作一个目的位置。</li>
 </ol>
-<p><strong>11.3.2 添加元素</strong></p>
-<ol>
+<h3 id="11-3-2-添加元素"><a href="#11-3-2-添加元素" class="headerlink" title="11.3.2 添加元素"></a>11.3.2 添加元素</h3><ol>
 <li>向<code>map</code>添加元素</li>
 </ol>
 <pre><code class="hljs cpp"><span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">size_t</span>&gt; word_count;
@@ -346,16 +344,14 @@ word_count.insert(<span class="hljs-built_in">map</span>&lt;<span class="hljs-bu
 <pre><code class="hljs cpp"><span class="hljs-built_in">multimap</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">string</span>&gt; authors;
 authors.insert(&#123;<span class="hljs-string">"Barth, John"</span>, <span class="hljs-string">"Sot-weed Factor"</span>&#125;);
 authors.insert(&#123;<span class="hljs-string">"Barth, John"</span>,<span class="hljs-string">"Lost in the Funhouse"</span>&#125;);</code></pre>
-<p><strong>11.3.3 删除元素</strong></p>
-<pre><code class="hljs cpp"><span class="hljs-comment">// 从c中删除每个关键字为K的元素</span>
+<h3 id="11-3-3-删除元素"><a href="#11-3-3-删除元素" class="headerlink" title="11.3.3 删除元素"></a>11.3.3 删除元素</h3><pre><code class="hljs cpp"><span class="hljs-comment">// 从c中删除每个关键字为K的元素</span>
 <span class="hljs-comment">//返回一个size_type值，指出删除的元素的数量</span>
 c.earse(k);
 <span class="hljs-comment">//删除迭代器p指定的元素</span>
 c.earse(p);
 <span class="hljs-comment">//删除迭代器对b和e所表示的范围中的元素</span>
 c.earse(b,e);</code></pre>
-<p><strong>11.3.4 <code>map</code>的下标操作</strong></p>
-<ol>
+<h3 id="11-3-4-map的下标操作"><a href="#11-3-4-map的下标操作" class="headerlink" title="11.3.4 map的下标操作"></a>11.3.4 <code>map</code>的下标操作</h3><ol>
 <li>使用一个不在<code>map</code>容器中的关键字作为下标，会添加一个具有此关键字的元素到<code>map</code>中</li>
 </ol>
 <pre><code class="hljs cpp"><span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">size_t</span>&gt; word_count;
@@ -369,8 +365,7 @@ word_count[<span class="hljs-string">"Anna"</span>] = <span class="hljs-number">
 <pre><code class="hljs cpp">count &lt;&lt; word_count[<span class="hljs-string">"Anna"</span>];
 ++word_count[<span class="hljs-string">"Anna"</span>];
 <span class="hljs-built_in">cout</span> &lt;&lt; word_count[<span class="hljs-string">"Anna"</span>];</code></pre>
-<p><strong>11.3.5 访问元素</strong></p>
-<ul>
+<h3 id="11-3-5-访问元素"><a href="#11-3-5-访问元素" class="headerlink" title="11.3.5 访问元素"></a>11.3.5 访问元素</h3><ul>
 <li>如果不需要计数，最好使用<code>find</code></li>
 </ul>
 <pre><code class="hljs cpp"><span class="hljs-built_in">set</span>&lt;<span class="hljs-keyword">int</span>&gt; iset = &#123; <span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span> &#125;;
@@ -407,8 +402,7 @@ beg != end; ++beg)&#123;
 <pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> pos = authors.equal_range(search_item); pos.first != pos.second; ++pos.first)&#123;
 	<span class="hljs-built_in">cout</span> &lt;&lt; pos-&gt;first-&gt;second &lt;&lt; <span class="hljs-built_in">endl</span>;
 &#125;</code></pre>
-<p><strong>11.3.6 一个单词转换的 map</strong></p>
-<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<h3 id="11-3-6-一个单词转换的-map"><a href="#11-3-6-一个单词转换的-map" class="headerlink" title="11.3.6 一个单词转换的 map"></a>11.3.6 一个单词转换的 map</h3><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;string&gt;</span></span>
 
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;map&gt;</span></span>
@@ -490,7 +484,7 @@ map&lt;string, string&gt; buildMap(ifstream&amp; map_file)
 <pre><code class="hljs properties"><span class="hljs-attr">where</span> <span class="hljs-string">r u</span>
 <span class="hljs-attr">y</span> <span class="hljs-string">dont u sent me a pic</span>
 <span class="hljs-attr">k</span> <span class="hljs-string">thk 18r</span></code></pre>
-<h3 id="11-4-无序容器"><a href="#11-4-无序容器" class="headerlink" title="11.4 无序容器"></a>11.4 无序容器</h3><ul>
+<h2 id="11-4-无序容器"><a href="#11-4-无序容器" class="headerlink" title="11.4 无序容器"></a>11.4 无序容器</h2><ul>
 <li>如果关键字类型固有就是无序的，或者性能测试发现问题可以用<code>哈希技术</code>解决，就可以使用无序容器</li>
 </ul>
 <ol>
@@ -564,7 +558,7 @@ map&lt;string, string&gt; buildMap(ifstream&amp; map_file)
                     
                       <a href="/2020/05/25/Code/c++/%5BC++Primerd%E7%AC%AC%E4%BA%94%E7%89%88%5D%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E5%8A%A8%E6%80%81%E5%86%85%E5%AD%98/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">C++Primerd第五版：第十二章 动态内存</span>
+                        <span class="hidden-mobile">C++Primerd 5th：第十二章 动态内存</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -572,8 +566,8 @@ map&lt;string, string&gt; buildMap(ifstream&amp; map_file)
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/05/07/Reading%20notes/%5B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%5D%E4%B8%BA%E4%BB%80%E4%B9%88%E7%B2%BE%E8%8B%B1%E9%83%BD%E6%98%AF%E6%97%B6%E9%97%B4%E6%8E%A7/">
-                        <span class="hidden-mobile">读书笔记：为什么精英都是时间控</span>
+                      <a href="/2020/05/07/Code/c++/%5BC++Primerd%E7%AC%AC%E4%BA%94%E7%89%88%5D%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%B3%9B%E5%9E%8B%E7%AE%97%E6%B3%95/">
+                        <span class="hidden-mobile">C++Primerd 5th：第十章 泛型算法</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -712,7 +706,7 @@ map&lt;string, string&gt; buildMap(ifstream&amp; map_file)
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "C++Primer第五版：第十一章 关联容器&nbsp;",
+        "C++Primerd 5th：第十一章 关联容器&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
