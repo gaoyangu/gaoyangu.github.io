@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="gaoyangu">
+  <meta name="keywords" content="">
+  <title>C++Primerd 5th：第十一章 关联容器 - gaoyangu</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/googlecode.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>gaoyangu</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-05-12 16:22">
+      2020年5月12日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.9k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      28
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <div class="note note-success">
+            <p>本文最后更新于：2020年7月12日 上午</p>
+          </div>
+<h2 id="第十一章-关联容器"><a href="#第十一章-关联容器" class="headerlink" title="第十一章 关联容器"></a>第十一章 关联容器</h2><ul>
+<li>类型<code>map</code>和<code>multimap</code>定义在头文件<code>map</code>中</li>
+<li><code>set</code>和<code>multiset</code>定义在头文件<code>set</code>中</li>
+<li><code>无序容器</code>定义在头文件<code>unorderd_map</code>和<code>unorderd_set</code>中</li>
+</ul>
+<h2 id="11-1-使用关联容器"><a href="#11-1-使用关联容器" class="headerlink" title="11.1 使用关联容器"></a>11.1 使用关联容器</h2><ol>
+<li>使用<code>map</code><ul>
+<li>关键字-值对的集合</li>
+<li>关联数组（associative array）</li>
+</ul>
+</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-comment">//统计每个单词在输入中出现的次数</span>
+<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">size_t</span>&gt; word_count;
+<span class="hljs-built_in">string</span> word;
+<span class="hljs-keyword">while</span> (<span class="hljs-built_in">cin</span> &gt;&gt; word)
+	++word_count[word];
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> <span class="hljs-keyword">auto</span> &amp;w : word_count)
+	<span class="hljs-built_in">cout</span> &lt;&lt; w.first &lt;&lt; <span class="hljs-string">" occures "</span> &lt;&lt; w.second
+		&lt;&lt; ((w.second &gt; <span class="hljs-number">1</span>) ? <span class="hljs-string">" times"</span> : <span class="hljs-string">" time"</span>) &lt;&lt; <span class="hljs-built_in">endl</span>;</code></pre>
+<ol>
+<li>使用<code>set</code><ul>
+<li>使用<code>set</code>保存想忽略的单词，只对不在集合中的单词统计出现次数</li>
+</ul>
+</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">size_t</span>&gt; word_count;
+<span class="hljs-built_in">set</span>&lt;<span class="hljs-built_in">string</span>&gt; exclude = &#123;<span class="hljs-string">"The"</span>, <span class="hljs-string">"But"</span>, <span class="hljs-string">"And"</span>, <span class="hljs-string">"Or"</span>, <span class="hljs-string">"An"</span>, <span class="hljs-string">"A"</span>,
+                      <span class="hljs-string">"the"</span>, <span class="hljs-string">"but"</span>, <span class="hljs-string">"and"</span>, <span class="hljs-string">"or"</span>, <span class="hljs-string">"an"</span>, <span class="hljs-string">"a"</span>&#125;;
+<span class="hljs-built_in">string</span> word;
+<span class="hljs-keyword">while</span>(<span class="hljs-built_in">cin</span> &gt;&gt; word)
+    <span class="hljs-keyword">if</span>(exclude.find(word) == exclude.end())
+        ++word_count[word];</code></pre>
+<h2 id="11-2-关联容器概述"><a href="#11-2-关联容器概述" class="headerlink" title="11.2 关联容器概述"></a>11.2 关联容器概述</h2><h3 id="11-2-1-定义关联容器"><a href="#11-2-1-定义关联容器" class="headerlink" title="11.2.1 定义关联容器"></a>11.2.1 定义关联容器</h3><ol>
+<li>初始化<code>multimap</code>或<code>multiset</code><ul>
+<li>允许多个元素具有相同的关键字</li>
+</ul>
+</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; ivec;
+<span class="hljs-keyword">for</span> (<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;::size_type i = <span class="hljs-number">0</span>; i != <span class="hljs-number">10</span>; ++i) &#123;
+	ivec.push_back(i);
+	ivec.push_back(i);
+&#125;
+<span class="hljs-function"><span class="hljs-built_in">set</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">iset</span><span class="hljs-params">(ivec.cbegin(), ivec.cend())</span></span>;
+<span class="hljs-function"><span class="hljs-built_in">multiset</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">miset</span><span class="hljs-params">(ivec.cbegin(), ivec.cend())</span></span>;
+<span class="hljs-built_in">cout</span> &lt;&lt; ivec.size() &lt;&lt; <span class="hljs-built_in">endl</span>;	<span class="hljs-comment">//20</span>
+<span class="hljs-built_in">cout</span> &lt;&lt; iset.size() &lt;&lt; <span class="hljs-built_in">endl</span>;	<span class="hljs-comment">//10</span>
+<span class="hljs-built_in">cout</span> &lt;&lt; miset.size() &lt;&lt; <span class="hljs-built_in">endl</span>;	<span class="hljs-comment">//20</span></code></pre>
+<h3 id="11-2-2-关键字类型的要求"><a href="#11-2-2-关键字类型的要求" class="headerlink" title="11.2.2 关键字类型的要求"></a>11.2.2 关键字类型的要求</h3><ul>
+<li>对于有序容器<code>map</code>, <code>multimap</code>, <code>set</code>以及<code>multiset</code>，关键字类型必须定义元素比较的方法。</li>
+</ul>
+<h3 id="11-2-3-pair类型"><a href="#11-2-3-pair类型" class="headerlink" title="11.2.3 pair类型"></a>11.2.3 pair类型</h3><ul>
+<li>头文件：<code>utility</code></li>
+<li><code>pair</code>的数据成员是：<code>public</code>的</li>
+<li>两个成员分别命名为<code>first</code>和<code>second</code></li>
+</ul>
+<pre><code class="hljs cpp">pair&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">string</span>&gt; author&#123;<span class="hljs-string">"James"</span>, <span class="hljs-string">"Joyce"</span>&#125;;</code></pre>
+<ol>
+<li>创建<code>pair</code>对象的函数</li>
+</ol>
+<pre><code class="hljs cpp">pair&lt;string, int&gt; process(vector&lt;string&gt; &amp;v)&#123;
+    <span class="hljs-keyword">if</span>(!v.empty())
+        <span class="hljs-keyword">return</span> &#123;v.back(), v.back().size()&#125;;
+    	<span class="hljs-comment">//或者使用如下形式</span>
+    	<span class="hljs-comment">//return make_pair(v.back(), v.back().size());</span>
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">return</span> pair&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;();
+&#125;</code></pre>
+<h2 id="11-3-关联容器操作"><a href="#11-3-关联容器操作" class="headerlink" title="11.3 关联容器操作"></a>11.3 关联容器操作</h2><p><code>key_type</code></p>
+<ul>
+<li>此容器类型的关键字类型</li>
+</ul>
+<p><code>mapped_type</code></p>
+<ul>
+<li>每个关键字关联的类型；只适用于<code>map</code></li>
+</ul>
+<p><code>value_type</code></p>
+<ul>
+<li>对于<code>set</code>，与<code>key_type</code>相同</li>
+<li>对于<code>map</code>，为<code>pair&lt;const key_type, mapped_type&gt;</code></li>
+</ul>
+<h3 id="11-3-1-关联容器迭代器"><a href="#11-3-1-关联容器迭代器" class="headerlink" title="11.3.1 关联容器迭代器"></a>11.3.1 关联容器迭代器</h3><ol>
+<li><strong>map</strong></li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">size_t</span>&gt; word_count;
+<span class="hljs-keyword">auto</span> map_it = word_count.begin();
+<span class="hljs-comment">// *map_it 是指向一个pair&lt;const string, size_t&gt;对象的引用</span>
+<span class="hljs-built_in">cout</span> &lt;&lt; map_it-&gt;first;			<span class="hljs-comment">//打印此元素的关键字</span>
+<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">" "</span> &lt;&lt; map_it-&gt;second;	<span class="hljs-comment">//打印此元素的值</span>
+<span class="hljs-comment">//错误：关键字是const的</span>
+<span class="hljs-comment">//map_it-&gt;first = "new key";</span>
+++map_it-&gt;second;</code></pre>
+<ol>
+<li>set 的迭代器是 const 的</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-built_in">set</span>&lt;<span class="hljs-keyword">int</span>&gt; iset = &#123; <span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span> &#125;;
+<span class="hljs-built_in">set</span>&lt;<span class="hljs-keyword">int</span>&gt;::iterator set_it = iset.begin();
+<span class="hljs-keyword">if</span> (set_it != iset.end()) &#123;
+	<span class="hljs-comment">//*set_it = 42;	//错误：set 中的关键字是只读的</span>
+	<span class="hljs-built_in">cout</span> &lt;&lt; *set_it &lt;&lt; <span class="hljs-built_in">endl</span>;
+&#125;</code></pre>
+<ol>
+<li>遍历关联容器</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">size_t</span>&gt; word_count;
+<span class="hljs-keyword">auto</span> map_it = word_count.cbegin();
+<span class="hljs-keyword">while</span> (map_it != word_count.cend())&#123;
+	<span class="hljs-built_in">cout</span> &lt;&lt; map_it-&gt;first &lt;&lt; <span class="hljs-string">" occurs "</span>
+		&lt;&lt; map_it-&gt;second &lt;&lt; <span class="hljs-string">" times"</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+	++map_it;
+&#125;</code></pre>
+<ol>
+<li>在实际编程中，如果真要对一个关联容器使用算法，要么将它当作一个源序列，要么当作一个目的位置。</li>
+</ol>
+<h3 id="11-3-2-添加元素"><a href="#11-3-2-添加元素" class="headerlink" title="11.3.2 添加元素"></a>11.3.2 添加元素</h3><ol>
+<li>向<code>map</code>添加元素</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">size_t</span>&gt; word_count;
+word_count.insert(&#123; <span class="hljs-string">"word"</span>, <span class="hljs-number">1</span> &#125;);
+word_count.insert(make_pair(<span class="hljs-string">"word"</span>, <span class="hljs-number">1</span>));
+word_count.insert(pair&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;(<span class="hljs-string">"word"</span>, <span class="hljs-number">1</span>));
+word_count.insert(<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;::value_type(<span class="hljs-string">"word"</span>, <span class="hljs-number">1</span>));</code></pre>
+<ol>
+<li>检测<code>insert</code>的返回值</li>
+</ol>
+<ul>
+<li>对于不包含重复关键字的容器，添加单一元素的<code>insert</code>返回一个<code>pair</code></li>
+<li><code>pair</code>的<code>first</code>成员是一个迭代器，指向具有给定关键字的元素</li>
+<li><code>second</code>成员是一个<code>bool</code>值</li>
+</ul>
+<ol>
+<li>向<code>multiset</code>或<code>multimap</code>添加元素</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-built_in">multimap</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">string</span>&gt; authors;
+authors.insert(&#123;<span class="hljs-string">"Barth, John"</span>, <span class="hljs-string">"Sot-weed Factor"</span>&#125;);
+authors.insert(&#123;<span class="hljs-string">"Barth, John"</span>,<span class="hljs-string">"Lost in the Funhouse"</span>&#125;);</code></pre>
+<h3 id="11-3-3-删除元素"><a href="#11-3-3-删除元素" class="headerlink" title="11.3.3 删除元素"></a>11.3.3 删除元素</h3><pre><code class="hljs cpp"><span class="hljs-comment">// 从c中删除每个关键字为K的元素</span>
+<span class="hljs-comment">//返回一个size_type值，指出删除的元素的数量</span>
+c.earse(k);
+<span class="hljs-comment">//删除迭代器p指定的元素</span>
+c.earse(p);
+<span class="hljs-comment">//删除迭代器对b和e所表示的范围中的元素</span>
+c.earse(b,e);</code></pre>
+<h3 id="11-3-4-map的下标操作"><a href="#11-3-4-map的下标操作" class="headerlink" title="11.3.4 map的下标操作"></a>11.3.4 <code>map</code>的下标操作</h3><ol>
+<li>使用一个不在<code>map</code>容器中的关键字作为下标，会添加一个具有此关键字的元素到<code>map</code>中</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">size_t</span>&gt; word_count;
+word_count[<span class="hljs-string">"Anna"</span>] = <span class="hljs-number">1</span>;</code></pre>
+<ol>
+<li>使用下标操作的返回值</li>
+</ol>
+<ul>
+<li><code>map</code>的下标运算符返回的类型与解引用<code>map</code>迭代器得到的类型不同</li>
+</ul>
+<pre><code class="hljs cpp">count &lt;&lt; word_count[<span class="hljs-string">"Anna"</span>];
+++word_count[<span class="hljs-string">"Anna"</span>];
+<span class="hljs-built_in">cout</span> &lt;&lt; word_count[<span class="hljs-string">"Anna"</span>];</code></pre>
+<h3 id="11-3-5-访问元素"><a href="#11-3-5-访问元素" class="headerlink" title="11.3.5 访问元素"></a>11.3.5 访问元素</h3><ul>
+<li>如果不需要计数，最好使用<code>find</code></li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-built_in">set</span>&lt;<span class="hljs-keyword">int</span>&gt; iset = &#123; <span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span> &#125;;
+iset.find(<span class="hljs-number">1</span>);	<span class="hljs-comment">//返回指向key==1的元素的迭代器</span>
+iset.find(<span class="hljs-number">11</span>);	<span class="hljs-comment">//返回值等于iset.end()的迭代器</span>
+iset.count(<span class="hljs-number">1</span>);	<span class="hljs-comment">//返回1</span>
+iset.count(<span class="hljs-number">11</span>);	<span class="hljs-comment">//返回0</span></code></pre>
+<ol>
+<li>对<code>map</code>使用<code>find</code>代替下标操作</li>
+<li>在<code>multimap</code>或<code>multiset</code>中查找元素</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">search_item</span><span class="hljs-params">(<span class="hljs-string">"Alain de Botton"</span>)</span></span>;		<span class="hljs-comment">//要查找的作者</span>
+<span class="hljs-keyword">auto</span> entries = author.count(search_item);	<span class="hljs-comment">//元素的数量</span>
+<span class="hljs-keyword">auto</span> iter = authors.find(search_item);		<span class="hljs-comment">//此作者的第一本书</span>
+<span class="hljs-keyword">while</span> (entries)&#123;
+	<span class="hljs-built_in">cout</span> &lt;&lt; iter-&gt;second &lt;&lt; <span class="hljs-built_in">endl</span>;
+	++iter;
+	--entries;
+&#125;</code></pre>
+<ol>
+<li>一种不同的，面向迭代器的解决方案</li>
+</ol>
+<p><code>lower_bound</code>和<code>upper_bound</code></p>
+<ul>
+<li>如果两者返回相同的迭代器，则给定的关键字不在容器中</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> beg = authors.lower_bound(search_item), end = authors.upper_bound(search_item); 
+beg != end; ++beg)&#123;
+	<span class="hljs-built_in">cout</span> &lt;&lt; beg-&gt;second &lt;&lt; <span class="hljs-built_in">endl</span>;
+&#125;</code></pre>
+<ol>
+<li><code>equal_range</code>函数</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> pos = authors.equal_range(search_item); pos.first != pos.second; ++pos.first)&#123;
+	<span class="hljs-built_in">cout</span> &lt;&lt; pos-&gt;first-&gt;second &lt;&lt; <span class="hljs-built_in">endl</span>;
+&#125;</code></pre>
+<h3 id="11-3-6-一个单词转换的-map"><a href="#11-3-6-一个单词转换的-map" class="headerlink" title="11.3.6 一个单词转换的 map"></a>11.3.6 一个单词转换的 map</h3><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;string&gt;</span></span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;map&gt;</span></span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;fstream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;sstream&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+map&lt;string, string&gt; buildMap(ifstream&amp; map_file)
+&#123;
+	<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">string</span>&gt; trans_map;	<span class="hljs-comment">//保存转换规则</span>
+	<span class="hljs-built_in">string</span> key;		<span class="hljs-comment">//要转换的单词</span>
+	<span class="hljs-built_in">string</span> value;	<span class="hljs-comment">//替换后的内容</span>
+	<span class="hljs-keyword">while</span> (map_file &gt;&gt; key &amp;&amp; getline(map_file, value))&#123;
+		<span class="hljs-keyword">if</span> (value.size() &gt; <span class="hljs-number">1</span>)	<span class="hljs-comment">//检查是否有转换规则</span>
+			trans_map[key] = value.substr(<span class="hljs-number">1</span>);	<span class="hljs-comment">//跳过前导空格</span>
+		<span class="hljs-keyword">else</span>
+			<span class="hljs-keyword">throw</span> runtime_error(<span class="hljs-string">"no rule for "</span> + key);
+	&#125;
+	<span class="hljs-keyword">return</span> trans_map;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span>&amp; <span class="hljs-title">transform</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span>&amp; s, <span class="hljs-keyword">const</span> <span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">string</span>&gt;&amp; m)</span></span>
+<span class="hljs-function"></span>&#123;
+	<span class="hljs-keyword">auto</span> map_it = m.find(s);
+	<span class="hljs-keyword">if</span> (map_it != m.cend())
+		<span class="hljs-keyword">return</span> map_it-&gt;second;
+	<span class="hljs-keyword">else</span>
+		<span class="hljs-keyword">return</span> s;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">word_transform</span><span class="hljs-params">(ifstream&amp; map_file, ifstream&amp; input)</span></span>
+<span class="hljs-function"></span>&#123;
+	<span class="hljs-keyword">auto</span> trans_map = buildMap(map_file);	<span class="hljs-comment">//保存转换规则</span>
+	<span class="hljs-built_in">string</span> text;							<span class="hljs-comment">//保存输入中的每一行</span>
+	<span class="hljs-keyword">while</span> (getline(input, text)) &#123;			<span class="hljs-comment">//读取一行输入</span>
+		<span class="hljs-function"><span class="hljs-built_in">istringstream</span> <span class="hljs-title">stream</span><span class="hljs-params">(text)</span></span>;			<span class="hljs-comment">//读取每个单词</span>
+		<span class="hljs-built_in">string</span> word;
+		<span class="hljs-keyword">bool</span> firstword = <span class="hljs-literal">true</span>;				<span class="hljs-comment">//控制是否打印空格</span>
+		<span class="hljs-keyword">while</span> (stream &gt;&gt; word) &#123;
+			<span class="hljs-keyword">if</span> (firstword)
+				firstword = <span class="hljs-literal">false</span>;
+			<span class="hljs-keyword">else</span>
+				<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">" "</span>;				<span class="hljs-comment">//在单词间打印一个空格</span>
+			<span class="hljs-built_in">cout</span> &lt;&lt; transform(word, trans_map);	<span class="hljs-comment">//打印输出</span>
+		&#125;
+		<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+	&#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+	ifstream ifs1, ifs2;
+	ifs1.open(<span class="hljs-string">"map_file.txt"</span>);
+	ifs2.open(<span class="hljs-string">"input.txt"</span>);
+
+	word_transform(ifs1, ifs2);
+
+	ifs1.close();
+	ifs2.close();
+
+	system(<span class="hljs-string">"pause"</span>);
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+<ul>
+<li>map_file.txt</li>
+</ul>
+<pre><code class="hljs properties"><span class="hljs-attr">k</span> <span class="hljs-string">okay?</span>
+<span class="hljs-attr">y</span> <span class="hljs-string">why</span>
+<span class="hljs-attr">r</span> <span class="hljs-string">are</span>
+<span class="hljs-attr">u</span> <span class="hljs-string">you</span>
+<span class="hljs-attr">pic</span> <span class="hljs-string">picture</span>
+<span class="hljs-attr">thk</span> <span class="hljs-string">thanks!</span>
+<span class="hljs-attr">18r</span> <span class="hljs-string">later</span></code></pre>
+<ul>
+<li>input.txt</li>
+</ul>
+<pre><code class="hljs properties"><span class="hljs-attr">where</span> <span class="hljs-string">r u</span>
+<span class="hljs-attr">y</span> <span class="hljs-string">dont u sent me a pic</span>
+<span class="hljs-attr">k</span> <span class="hljs-string">thk 18r</span></code></pre>
+<h2 id="11-4-无序容器"><a href="#11-4-无序容器" class="headerlink" title="11.4 无序容器"></a>11.4 无序容器</h2><ul>
+<li>如果关键字类型固有就是无序的，或者性能测试发现问题可以用<code>哈希技术</code>解决，就可以使用无序容器</li>
+</ul>
+<ol>
+<li>使用无序容器</li>
+</ol>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;unordered_map&gt;</span></span>
+<span class="hljs-comment">//统计出现的次数，但单词不会按字典序排列</span>
+<span class="hljs-built_in">unordered_map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">size_t</span>&gt; word_count;
+<span class="hljs-built_in">string</span> word;
+<span class="hljs-keyword">while</span> (<span class="hljs-built_in">cin</span> &gt;&gt; word)
+	++word_count[word];
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> <span class="hljs-keyword">auto</span>&amp; w : word_count)
+	<span class="hljs-built_in">cout</span> &lt;&lt; w.first &lt;&lt; <span class="hljs-string">" occurs "</span> &lt;&lt; w.second
+		&lt;&lt; ((w.second &gt; <span class="hljs-number">1</span>) ? <span class="hljs-string">"times"</span> : <span class="hljs-string">"time"</span>) &lt;&lt; <span class="hljs-built_in">endl</span>;</code></pre>
+<ol>
+<li>管理桶</li>
+</ol>
+<ul>
+<li>无序容器在存储组织上为一组桶，每个桶保存零个或多个元素</li>
+<li>无序容器使用一个哈希函数将元素映射到桶</li>
+</ul>
+<ol>
+<li>无序容器对关键字类型的要求</li>
+</ol>
+<ul>
+<li>默认情况下，无序容器使用关键字类型的<code>==</code>运算符比较元素</li>
+<li>使用一个hash<key_type>类型的对象来生成每个元素的哈希值</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">size_t</span> <span class="hljs-title">hasher</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Sales_data &amp;sd)</span></span>
+<span class="hljs-function"></span>&#123;
+	<span class="hljs-keyword">return</span> hash&lt;<span class="hljs-built_in">string</span>&gt;()(sd.isbn());
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">eqOp</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Sales_data &amp;lhs, <span class="hljs-keyword">const</span> Sales_data &amp;rhs)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">return</span> lhs.isbn() == rhs.isbn();
+&#125;
+
+<span class="hljs-keyword">using</span> SD_multiset = <span class="hljs-built_in">unordered_multiset</span>&lt;Sales_data, <span class="hljs-keyword">decltype</span>(hasher)*, <span class="hljs-keyword">decltype</span>(eqOp)*&gt;;
+<span class="hljs-function">SD_multiset <span class="hljs-title">bookstore</span><span class="hljs-params">(<span class="hljs-number">42</span>, hasher, eqOp)</span></span>;</code></pre>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+                    
+                      <a class="hover-with-bg" href="/tags/c/">c++</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/05/25/Code/c++/C++Primerd-5th_12_Dynamic-Memory/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">C++Primerd 5th：第十二章 动态内存</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/05/07/Code/c++/C++Primerd-5th_10_Generic-Algorithms/">
+                        <span class="hidden-mobile">C++Primerd 5th：第十章 泛型算法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "C++Primerd 5th：第十一章 关联容器&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
