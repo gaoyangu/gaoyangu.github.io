@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="gaoyangu">
+  <meta name="keywords" content="">
+  <title>ROS：二维激光雷达 - gaoyangu</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/googlecode.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>gaoyangu</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-08-05 15:54">
+      2020年8月5日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      722 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <div class="note note-success">
+            <p>本文最后更新于：2020年8月5日 下午</p>
+          </div>
+<h2 id="1-LaserScan"><a href="#1-LaserScan" class="headerlink" title="1. LaserScan"></a>1. LaserScan</h2><pre><code class="hljs sh">$ rosmsg show sensor_msgs/LaserScan</code></pre>
+<pre><code class="hljs sh">std_msgs/Header header
+  uint32 seq
+  time stamp
+  string frame_id
+float32 angle_min
+float32 angle_max
+float32 angle_increment
+float32 time_increment
+float32 scan_time
+float32 range_min
+float32 range_max
+float32[] ranges
+float32[] intensities</code></pre>
+<h3 id="1-1-ROS-Message-Headers"><a href="#1-1-ROS-Message-Headers" class="headerlink" title="1.1 ROS Message Headers"></a>1.1 ROS Message Headers</h3><p>To standardize how this information is sent, the <code>Header</code> message type is used as a field in all such messages.</p>
+<ul>
+<li><code>seq</code>: an identifier that automatically increases as Messages are sent from a given publisher</li>
+<li><code>stamp</code>: time information that should be associated with data in a Message</li>
+<li><code>frame_id</code>:  <a href="http://wiki.ros.org/tf" target="_blank" rel="noopener">tf</a> frame information that should be associated with data in a message. </li>
+</ul>
+<p>In the case of <strong>a laser scan</strong></p>
+<ul>
+<li>the <code>stamp</code> might correspond to the time at which the scan was taken</li>
+<li>the <code>frame_id</code> would be set to the frame in which the scan was taken.</li>
+</ul>
+<pre><code class="hljs sh"><span class="hljs-comment">#Standard metadata for higher-level flow data types</span>
+<span class="hljs-comment">#sequence ID: consecutively increasing ID </span>
+uint32 seq
+<span class="hljs-comment">#Two-integer timestamp that is expressed as:</span>
+<span class="hljs-comment"># * stamp.secs: seconds (stamp_secs) since epoch</span>
+<span class="hljs-comment"># * stamp.nsecs: nanoseconds since stamp_secs</span>
+<span class="hljs-comment"># time-handling sugar is provided by the client library</span>
+time stamp
+<span class="hljs-comment">#Frame this data is associated with</span>
+<span class="hljs-comment"># 0: no frame</span>
+<span class="hljs-comment"># 1: global frame</span>
+string frame_id</code></pre>
+<h3 id="1-2-The-LaserScan-Message"><a href="#1-2-The-LaserScan-Message" class="headerlink" title="1.2 The LaserScan Message"></a>1.2 The LaserScan Message</h3><pre><code class="hljs sh"><span class="hljs-comment">#</span>
+<span class="hljs-comment"># Laser scans angles are measured counter clockwise, with 0 facing forward</span>
+<span class="hljs-comment"># (along the x-axis) of the device frame</span>
+<span class="hljs-comment">#</span>
+
+Header header
+float32 angle_min        <span class="hljs-comment"># start angle of the scan [rad]</span>
+float32 angle_max        <span class="hljs-comment"># end angle of the scan [rad]</span>
+float32 angle_increment  <span class="hljs-comment"># angular distance between measurements [rad]</span>
+float32 time_increment   <span class="hljs-comment"># time between measurements [seconds]</span>
+float32 scan_time        <span class="hljs-comment"># time between scans [seconds]</span>
+float32 range_min        <span class="hljs-comment"># minimum range value [m]</span>
+float32 range_max        <span class="hljs-comment"># maximum range value [m]</span>
+float32[] ranges         <span class="hljs-comment"># range data [m] (Note: values &lt; range_min or &gt; range_max should be discarded)</span>
+float32[] intensities    <span class="hljs-comment"># intensity data [device-specific units]</span></code></pre>
+<h2 id="2-Code"><a href="#2-Code" class="headerlink" title="2. Code"></a>2. Code</h2><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;ros/ros.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;sensor_msgs/LaserScan.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span></span>&#123;
+  ros::init(argc, argv, <span class="hljs-string">"laser_scan_publisher"</span>);
+
+  ros::NodeHandle n;
+  ros::Publisher scan_pub = n.advertise&lt;sensor_msgs::LaserScan&gt;(<span class="hljs-string">"scan"</span>, <span class="hljs-number">50</span>);
+
+  <span class="hljs-comment">// set up storage for the dummy data that we're going to use to populate our scan</span>
+  <span class="hljs-comment">// A real application would pull this data from their laser driver</span>
+  <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> num_readings = <span class="hljs-number">100</span>;
+  <span class="hljs-keyword">double</span> laser_frequency = <span class="hljs-number">40</span>;
+  <span class="hljs-keyword">double</span> ranges[num_readings];
+  <span class="hljs-keyword">double</span> intensities[num_readings];
+
+  <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>;
+  <span class="hljs-function">ros::Rate <span class="hljs-title">r</span><span class="hljs-params">(<span class="hljs-number">1.0</span>)</span></span>;
+  <span class="hljs-keyword">while</span>(n.ok())&#123;
+    <span class="hljs-comment">//generate some fake data for our laser scan</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; num_readings; ++i)&#123;
+      ranges[i] = count;
+      intensities[i] = <span class="hljs-number">100</span> + count;
+    &#125;
+    ros::Time scan_time = ros::Time::now();
+
+    <span class="hljs-comment">//populate the LaserScan message</span>
+    sensor_msgs::LaserScan scan;
+    scan.header.stamp = scan_time;
+    scan.header.frame_id = <span class="hljs-string">"laser_frame"</span>;
+    scan.angle_min = <span class="hljs-number">-1.57</span>;
+    scan.angle_max = <span class="hljs-number">1.57</span>;
+    scan.angle_increment = <span class="hljs-number">3.14</span> / num_readings;
+    scan.time_increment = (<span class="hljs-number">1</span> / laser_frequency) / (num_readings);
+    scan.range_min = <span class="hljs-number">0.0</span>;
+    scan.range_max = <span class="hljs-number">100.0</span>;
+
+    scan.ranges.resize(num_readings);
+    scan.intensities.resize(num_readings);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; num_readings; ++i)&#123;
+      scan.ranges[i] = ranges[i];
+      scan.intensities[i] = intensities[i];
+    &#125;
+
+    <span class="hljs-comment">//Publish the message over ROS.</span>
+    scan_pub.publish(scan);
+    ++count;
+    r.sleep();
+  &#125;
+&#125;</code></pre>
+<h2 id="3-rplidar"><a href="#3-rplidar" class="headerlink" title="3. rplidar"></a>3. rplidar</h2><p>The rplidar ros package, support rplidar A2/A1 and A3/S1</p>
+<h3 id="3-1-Overview"><a href="#3-1-Overview" class="headerlink" title="3.1 Overview"></a>3.1 Overview</h3><p>RPLIDAR </p>
+<ul>
+<li>a low cost LIDAR sensor suitable for indoor robotic SLAM application</li>
+<li>360 degree scan field</li>
+<li>5.5hz/10hz rotating frequency</li>
+<li>8 meter ranger distance, current more than 16m for A2 and 25m for A3 </li>
+<li>RPLIDAR A3 performs high speed distance measurement with more than 16K samples per second</li>
+<li>RPLIDAR A2 performs high speed distance measurement with more than 4K/8K samples per second</li>
+<li>RPLIDAR A1 supports 2K/4K samples per second</li>
+</ul>
+<h3 id="3-2-rplidarNode"><a href="#3-2-rplidarNode" class="headerlink" title="3.2 rplidarNode"></a>3.2 rplidarNode</h3><p>rplidarNode is a driver for RPLIDAR. It reads RPLIDAR raw scan result using RPLIDAR’s SDK and convert to ROS <a href="http://wiki.ros.org/LaserScan" target="_blank" rel="noopener">LaserScan</a> message.</p>
+<p><strong>Published Topics</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>scan</th>
+<th><a href="http://docs.ros.org/api/sensor_msgs/html/msg/LaserScan.html" target="_blank" rel="noopener">sensor_msgs/LaserScan</a></th>
+<th>it publishes scan topic from the laser.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Services</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>stop_motor</th>
+<th><a href="http://docs.ros.org/api/std_srvs/html/srv/Empty.html" target="_blank" rel="noopener">std_srvs/Empty</a></th>
+<th>Call the serive to stop the motor of rplidar.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>start_motor</td>
+<td><a href="http://docs.ros.org/api/std_srvs/html/srv/Empty.html" target="_blank" rel="noopener">std_srvs/Empty</a></td>
+<td>Call the service to start the motor of rplidar.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Parameters</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>serial_port</th>
+<th><code>string</code>, default: /dev/ttyUSB0</th>
+<th>serial port name used in your system.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>serial_baudrate</td>
+<td><code>int</code>, default: 115200</td>
+<td>serial port baud rate.</td>
+</tr>
+<tr>
+<td>frame_id</td>
+<td><code>string</code>, default: laser_frame</td>
+<td>frame ID for the device.</td>
+</tr>
+<tr>
+<td>inverted</td>
+<td><code>bool</code>, default: false</td>
+<td>indicated whether the LIDAR is mounted inverted.</td>
+</tr>
+<tr>
+<td>angle_compensate</td>
+<td><code>bool</code>, default: false</td>
+<td>indicated whether the driver needs do angle compensation.</td>
+</tr>
+<tr>
+<td>scan_mode</td>
+<td><code>string</code>, default: std::string()</td>
+<td>the scan mode of lidar.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="4-References"><a href="#4-References" class="headerlink" title="4. References"></a>4. References</h2><ul>
+<li><a href="http://wiki.ros.org/navigation/Tutorials/RobotSetup/Sensors" target="_blank" rel="noopener">Publishing Sensor Streams Over ROS</a></li>
+<li><a href="http://wiki.ros.org/rplidar" target="_blank" rel="noopener">rplidar</a></li>
+</ul>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ROS/">ROS</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/08/05/Math/cplex_02_solving-an-LP/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Getting Started with CPLEX</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/07/31/Code/c++/C++Primerd-5th_15_Object-Oriented-Programming/">
+                        <span class="hidden-mobile">C++Primer 5th：第十五章 面向对象程序设计</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "ROS：二维激光雷达&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

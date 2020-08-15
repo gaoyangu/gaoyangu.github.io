@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="gaoyangu">
+  <meta name="keywords" content="">
+  <title>源码学习：obstacle-detector 02 - gaoyangu</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/googlecode.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>gaoyangu</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-08-14 15:15">
+      2020年8月14日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      19
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <div class="note note-success">
+            <p>本文最后更新于：2020年8月14日 下午</p>
+          </div>
+<p>项目地址：<a href="https://github.com/tysik/obstacle_detector" target="_blank" rel="noopener">https://github.com/tysik/obstacle_detector</a></p>
+<h2 id="1-launch"><a href="#1-launch" class="headerlink" title="1. launch"></a>1. launch</h2><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"obstacle_extractor"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"nodelet"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"nodelet"</span> <span class="hljs-attr">args</span>=<span class="hljs-string">"load obstacle_detector/ObstacleExtractor $(arg manager)"</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"active"</span>               <span class="hljs-attr">value</span>=<span class="hljs-string">"true"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"use_scan"</span>             <span class="hljs-attr">value</span>=<span class="hljs-string">"false"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"use_pcl"</span>              <span class="hljs-attr">value</span>=<span class="hljs-string">"true"</span>/&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"use_split_and_merge"</span>    <span class="hljs-attr">value</span>=<span class="hljs-string">"true"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"circles_from_visibles"</span>  <span class="hljs-attr">value</span>=<span class="hljs-string">"true"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"discard_converted_segments"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"true"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"transform_coordinates"</span>  <span class="hljs-attr">value</span>=<span class="hljs-string">"true"</span>/&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"min_group_points"</span>     <span class="hljs-attr">value</span>=<span class="hljs-string">"5"</span>/&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"max_group_distance"</span>   <span class="hljs-attr">value</span>=<span class="hljs-string">"0.1"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"distance_proportion"</span>  <span class="hljs-attr">value</span>=<span class="hljs-string">"0.00628"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"max_split_distance"</span>   <span class="hljs-attr">value</span>=<span class="hljs-string">"0.2"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"max_merge_separation"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"0.2"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"max_merge_spread"</span>     <span class="hljs-attr">value</span>=<span class="hljs-string">"0.2"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"max_circle_radius"</span>    <span class="hljs-attr">value</span>=<span class="hljs-string">"0.6"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"radius_enlargement"</span>   <span class="hljs-attr">value</span>=<span class="hljs-string">"0.3"</span>/&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"frame_id"</span>             <span class="hljs-attr">value</span>=<span class="hljs-string">"map"</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">node</span>&gt;</span></code></pre>
+<h2 id="2-src"><a href="#2-src" class="headerlink" title="2. src"></a>2. src</h2><h3 id="2-1-obatacle-exactor-node-cpp"><a href="#2-1-obatacle-exactor-node-cpp" class="headerlink" title="2.1 obatacle_exactor_node.cpp"></a>2.1 obatacle_exactor_node.cpp</h3><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span> </span>&#123;
+  ros::init(argc, argv, <span class="hljs-string">"obstacle_extractor"</span>, ros::init_options::NoRosout);
+  <span class="hljs-function">ros::NodeHandle <span class="hljs-title">nh</span><span class="hljs-params">(<span class="hljs-string">""</span>)</span></span>;
+  <span class="hljs-function">ros::NodeHandle <span class="hljs-title">nh_local</span><span class="hljs-params">(<span class="hljs-string">"~"</span>)</span></span>;
+
+  <span class="hljs-keyword">try</span> &#123;
+    ROS_INFO(<span class="hljs-string">"[Obstacle Extractor]: Initializing node"</span>);
+    <span class="hljs-function">ObstacleExtractor <span class="hljs-title">od</span><span class="hljs-params">(nh, nh_local)</span></span>;
+    ros::spin();
+  &#125;
+  <span class="hljs-keyword">catch</span> (<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* s) &#123;
+    ROS_FATAL_STREAM(<span class="hljs-string">"[Obstacle Extractor]: "</span>  &lt;&lt; s);
+  &#125;
+  <span class="hljs-keyword">catch</span> (...) &#123;
+    ROS_FATAL_STREAM(<span class="hljs-string">"[Obstacle Extractor]: Unexpected error"</span>);
+  &#125;
+
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+<h3 id="2-2-obstacle-extractor-cpp"><a href="#2-2-obstacle-extractor-cpp" class="headerlink" title="2.2 obstacle_extractor.cpp"></a>2.2 obstacle_extractor.cpp</h3><h4 id="2-2-1-ObstacleExtractor-ObstacleExtractor"><a href="#2-2-1-ObstacleExtractor-ObstacleExtractor" class="headerlink" title="2.2.1 ObstacleExtractor::ObstacleExtractor()"></a>2.2.1 ObstacleExtractor::ObstacleExtractor()</h4><pre><code class="hljs cpp">ObstacleExtractor::ObstacleExtractor(ros::NodeHandle&amp; nh, ros::NodeHandle&amp; nh_local) : nh_(nh), nh_local_(nh_local) &#123;
+  p_active_ = <span class="hljs-literal">false</span>;
+
+  params_srv_ = nh_local_.advertiseService(<span class="hljs-string">"params"</span>, &amp;ObstacleExtractor::updateParams, <span class="hljs-keyword">this</span>);
+  initialize();
+&#125;</code></pre>
+<p>设置标志位，初始化参数服务，并调用成员函数<code>initialize()</code></p>
+<h4 id="2-2-2-ObstacleExtractor-updateParams"><a href="#2-2-2-ObstacleExtractor-updateParams" class="headerlink" title="2.2.2 ObstacleExtractor::updateParams()"></a>2.2.2 ObstacleExtractor::updateParams()</h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">ObstacleExtractor::updateParams</span><span class="hljs-params">(std_srvs::Empty::Request &amp;req, std_srvs::Empty::Response &amp;res)</span> </span>&#123;&#125;</code></pre>
+<p>首先获取活动状态标志位，并加载参数</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">bool</span> prev_active = p_active_;
+
+nh_local_.param&lt;<span class="hljs-keyword">bool</span>&gt;(<span class="hljs-string">"active"</span>, p_active_, <span class="hljs-literal">true</span>);
+nh_local_.param&lt;<span class="hljs-keyword">bool</span>&gt;(<span class="hljs-string">"use_scan"</span>, p_use_scan_, <span class="hljs-literal">false</span>);
+nh_local_.param&lt;<span class="hljs-keyword">bool</span>&gt;(<span class="hljs-string">"use_pcl"</span>, p_use_pcl_, <span class="hljs-literal">true</span>);
+
+nh_local_.param&lt;<span class="hljs-keyword">bool</span>&gt;(<span class="hljs-string">"use_split_and_merge"</span>, p_use_split_and_merge_, <span class="hljs-literal">true</span>);
+nh_local_.param&lt;<span class="hljs-keyword">bool</span>&gt;(<span class="hljs-string">"circles_from_visibles"</span>, p_circles_from_visibles_, <span class="hljs-literal">true</span>);
+nh_local_.param&lt;<span class="hljs-keyword">bool</span>&gt;(<span class="hljs-string">"discard_converted_segments"</span>, p_discard_converted_segments_, <span class="hljs-literal">true</span>);
+nh_local_.param&lt;<span class="hljs-keyword">bool</span>&gt;(<span class="hljs-string">"transform_coordinates"</span>, p_transform_coordinates_, <span class="hljs-literal">true</span>);
+
+nh_local_.param&lt;<span class="hljs-keyword">int</span>&gt;(<span class="hljs-string">"min_group_points"</span>, p_min_group_points_, <span class="hljs-number">5</span>);
+
+nh_local_.param&lt;<span class="hljs-keyword">double</span>&gt;(<span class="hljs-string">"max_group_distance"</span>, p_max_group_distance_, <span class="hljs-number">0.1</span>);
+nh_local_.param&lt;<span class="hljs-keyword">double</span>&gt;(<span class="hljs-string">"distance_proportion"</span>, p_distance_proportion_, <span class="hljs-number">0.00628</span>);
+nh_local_.param&lt;<span class="hljs-keyword">double</span>&gt;(<span class="hljs-string">"max_split_distance"</span>, p_max_split_distance_, <span class="hljs-number">0.2</span>);
+nh_local_.param&lt;<span class="hljs-keyword">double</span>&gt;(<span class="hljs-string">"max_merge_separation"</span>, p_max_merge_separation_, <span class="hljs-number">0.2</span>);
+nh_local_.param&lt;<span class="hljs-keyword">double</span>&gt;(<span class="hljs-string">"max_merge_spread"</span>, p_max_merge_spread_, <span class="hljs-number">0.2</span>);
+nh_local_.param&lt;<span class="hljs-keyword">double</span>&gt;(<span class="hljs-string">"max_circle_radius"</span>, p_max_circle_radius_, <span class="hljs-number">0.6</span>);
+nh_local_.param&lt;<span class="hljs-keyword">double</span>&gt;(<span class="hljs-string">"radius_enlargement"</span>, p_radius_enlargement_, <span class="hljs-number">0.25</span>);
+
+nh_local_.param&lt;<span class="hljs-keyword">double</span>&gt;(<span class="hljs-string">"min_x_limit"</span>, p_min_x_limit_, <span class="hljs-number">-10.0</span>);
+nh_local_.param&lt;<span class="hljs-keyword">double</span>&gt;(<span class="hljs-string">"max_x_limit"</span>, p_max_x_limit_,  <span class="hljs-number">10.0</span>);
+nh_local_.param&lt;<span class="hljs-keyword">double</span>&gt;(<span class="hljs-string">"min_y_limit"</span>, p_min_y_limit_, <span class="hljs-number">-10.0</span>);
+nh_local_.param&lt;<span class="hljs-keyword">double</span>&gt;(<span class="hljs-string">"max_y_limit"</span>, p_max_y_limit_,  <span class="hljs-number">10.0</span>);
+
+nh_local_.param&lt;<span class="hljs-built_in">string</span>&gt;(<span class="hljs-string">"frame_id"</span>, p_frame_id_, <span class="hljs-string">"map"</span>);</code></pre>
+<p>判断活动状态是否发生改变</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (p_active_ != prev_active) &#123;&#125;</code></pre>
+<p>如果状态为<code>active</code>，则根据标志位订阅和发布话题</p>
+<p>订阅的话题：</p>
+<ul>
+<li><code>scan</code></li>
+<li><code>pcl</code></li>
+</ul>
+<p>发布的话题：</p>
+<ul>
+<li><code>raw_obstacle</code></li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (p_active_) &#123;
+	<span class="hljs-keyword">if</span> (p_use_scan_)
+		scan_sub_ = nh_.subscribe(<span class="hljs-string">"scan"</span>, <span class="hljs-number">10</span>, &amp;ObstacleExtractor::scanCallback, <span class="hljs-keyword">this</span>);
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (p_use_pcl_)
+        pcl_sub_ = nh_.subscribe(<span class="hljs-string">"pcl"</span>, <span class="hljs-number">10</span>, &amp;ObstacleExtractor::pclCallback, <span class="hljs-keyword">this</span>);
+
+      obstacles_pub_ = nh_.advertise&lt;obstacle_detector::Obstacles&gt;(<span class="hljs-string">"raw_obstacles"</span>, <span class="hljs-number">10</span>);
+&#125;</code></pre>
+<p>否则，关闭所有的话题</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">else</span> &#123;
+	<span class="hljs-comment">// Send empty message</span>
+	obstacle_detector::ObstaclesPtr obstacles_msg(<span class="hljs-keyword">new</span> obstacle_detector::Obstacles);
+	obstacles_msg-&gt;header.frame_id = p_frame_id_;
+	obstacles_msg-&gt;header.stamp = ros::Time::now();
+	obstacles_pub_.publish(obstacles_msg);
+
+	scan_sub_.shutdown();
+	pcl_sub_.shutdown();
+	obstacles_pub_.shutdown();
+&#125;</code></pre>
+<h4 id="2-2-3-ObstacleExtractor-scanCallback"><a href="#2-2-3-ObstacleExtractor-scanCallback" class="headerlink" title="2.2.3 ObstacleExtractor::scanCallback()"></a>2.2.3 ObstacleExtractor::scanCallback()</h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ObstacleExtractor::scanCallback</span><span class="hljs-params">(<span class="hljs-keyword">const</span> sensor_msgs::LaserScan::ConstPtr scan_msg)</span> </span>&#123;&#125;</code></pre>
+<p>首先是变量的初始化</p>
+<pre><code class="hljs cpp">base_frame_id_ = scan_msg-&gt;header.frame_id;
+stamp_ = scan_msg-&gt;header.stamp;
+
+<span class="hljs-keyword">double</span> phi = scan_msg-&gt;angle_min;</code></pre>
+<p>将保存的数据转换为<strong>极坐标</strong>的形式</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> <span class="hljs-keyword">float</span> r : scan_msg-&gt;ranges) &#123;
+	<span class="hljs-keyword">if</span> (r &gt;= scan_msg-&gt;range_min &amp;&amp; r &lt;= scan_msg-&gt;range_max)
+		input_points_.push_back(Point::fromPoolarCoords(r, phi));
+
+	phi += scan_msg-&gt;angle_increment;
+&#125;
+processPoints();</code></pre>
+<h4 id="2-2-4-ObstacleExtractor-pclCallback"><a href="#2-2-4-ObstacleExtractor-pclCallback" class="headerlink" title="2.2.4 ObstacleExtractor::pclCallback()"></a>2.2.4 ObstacleExtractor::pclCallback()</h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ObstacleExtractor::pclCallback</span><span class="hljs-params">(<span class="hljs-keyword">const</span> sensor_msgs::PointCloud::ConstPtr pcl_msg)</span> </span>&#123;
+  base_frame_id_ = pcl_msg-&gt;header.frame_id;
+  stamp_ = pcl_msg-&gt;header.stamp;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> geometry_msgs::Point32&amp; point : pcl_msg-&gt;points)
+    input_points_.push_back(Point(point.x, point.y));
+
+  processPoints();
+&#125;</code></pre>
+<h4 id="2-2-5-ObstacleExtractor-processPoints"><a href="#2-2-5-ObstacleExtractor-processPoints" class="headerlink" title="2.2.5 ObstacleExtractor::processPoints()"></a>2.2.5 ObstacleExtractor::processPoints()</h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ObstacleExtractor::processPoints</span><span class="hljs-params">()</span> </span>&#123;
+  segments_.clear();
+  circles_.clear();
+
+  groupPoints();  <span class="hljs-comment">// Grouping points simultaneously detects segments</span>
+  mergeSegments();
+
+  detectCircles();
+  mergeCircles();
+
+  publishObstacles();
+
+  input_points_.clear();
+&#125;</code></pre>
+<h4 id="2-2-6-ObstacleExtractor-groupPoints"><a href="#2-2-6-ObstacleExtractor-groupPoints" class="headerlink" title="2.2.6 ObstacleExtractor::groupPoints()"></a>2.2.6 ObstacleExtractor::groupPoints()</h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ObstacleExtractor::groupPoints</span><span class="hljs-params">()</span> </span>&#123;&#125;</code></pre>
+<p>首先是变量的初始化</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">static</span> <span class="hljs-keyword">double</span> sin_dp = <span class="hljs-built_in">sin</span>(<span class="hljs-number">2.0</span> * p_distance_proportion_);
+
+PointSet point_set;
+point_set.begin = input_points_.begin();
+point_set.end = input_points_.begin();
+point_set.num_points = <span class="hljs-number">1</span>;
+point_set.is_visible = <span class="hljs-literal">true</span>;</code></pre>
+<p>然后遍历雷达数据的每个点</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">for</span> (PointIterator point = input_points_.begin()++; point != input_points_.end(); ++point) &#123;&#125;</code></pre>
+<p>如果没有超过最大的限制，则分为一组</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (distance &lt; p_max_group_distance_ + range * p_distance_proportion_) &#123;
+	point_set.end = point;
+	point_set.num_points++;
+&#125;</code></pre>
+<p>否则为下一组</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">else</span> &#123;
+	<span class="hljs-keyword">double</span> prev_range = (*point_set.end).length();
+
+	<span class="hljs-comment">// Heron's equation</span>
+	<span class="hljs-keyword">double</span> p = (range + prev_range + distance) / <span class="hljs-number">2.0</span>;
+	<span class="hljs-keyword">double</span> S = <span class="hljs-built_in">sqrt</span>(p * (p - range) * (p - prev_range) * (p - distance));
+	<span class="hljs-keyword">double</span> sin_d = <span class="hljs-number">2.0</span> * S / (range * prev_range); <span class="hljs-comment">// Sine of angle between beams</span>
+
+	<span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> This condition can be fulfilled if the point are on the opposite sides</span>
+	<span class="hljs-comment">// of the scanner (angle = 180 deg). Needs another check.</span>
+	<span class="hljs-keyword">if</span> (<span class="hljs-built_in">abs</span>(sin_d) &lt; sin_dp &amp;&amp; range &lt; prev_range)
+		point_set.is_visible = <span class="hljs-literal">false</span>;
+
+	detectSegments(point_set);
+
+	<span class="hljs-comment">// Begin new point set</span>
+	point_set.begin = point;
+	point_set.end = point;
+	point_set.num_points = <span class="hljs-number">1</span>;
+	point_set.is_visible = (<span class="hljs-built_in">abs</span>(sin_d) &gt; sin_dp || range &lt; prev_range);
+&#125;</code></pre>
+<h4 id="2-2-7-ObstacleExtractor-detectSegments"><a href="#2-2-7-ObstacleExtractor-detectSegments" class="headerlink" title="2.2.7 ObstacleExtractor::detectSegments()"></a>2.2.7 ObstacleExtractor::detectSegments()</h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ObstacleExtractor::detectSegments</span><span class="hljs-params">(<span class="hljs-keyword">const</span> PointSet&amp; point_set)</span> </span>&#123;&#125;</code></pre>
+<p>如果点集的点数过少，则不予处理</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (point_set.num_points &lt; p_min_group_points_)
+	<span class="hljs-keyword">return</span>;</code></pre>
+<p>选择是使用迭代终点拟合（false）还是拆分并合并（true）算法来检测线段</p>
+<pre><code class="hljs cpp"><span class="hljs-function">Segment <span class="hljs-title">segment</span><span class="hljs-params">(*point_set.begin, *point_set.end)</span></span>;  <span class="hljs-comment">// Use Iterative End Point Fit</span>
+
+<span class="hljs-keyword">if</span> (p_use_split_and_merge_)
+	segment = fitSegment(point_set);</code></pre>
+<p>变量的初始化准备</p>
+<pre><code class="hljs cpp">PointIterator set_divider;
+<span class="hljs-keyword">double</span> max_distance = <span class="hljs-number">0.0</span>;
+<span class="hljs-keyword">double</span> distance     = <span class="hljs-number">0.0</span>;
+
+<span class="hljs-keyword">int</span> split_index = <span class="hljs-number">0</span>; <span class="hljs-comment">// Natural index of splitting point (counting from 1)</span>
+<span class="hljs-keyword">int</span> point_index = <span class="hljs-number">0</span>; <span class="hljs-comment">// Natural index of current point in the set</span></code></pre>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ROS/">ROS</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">源码学习</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "源码学习：obstacle-detector 02&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

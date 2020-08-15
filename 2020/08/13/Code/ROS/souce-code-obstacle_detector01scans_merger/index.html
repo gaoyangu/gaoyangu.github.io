@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="gaoyangu">
+  <meta name="keywords" content="">
+  <title>源码学习：obstacle-detector 01 - gaoyangu</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/googlecode.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>gaoyangu</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-08-13 17:28">
+      2020年8月13日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      995 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <div class="note note-success">
+            <p>本文最后更新于：2020年8月13日 下午</p>
+          </div>
+<p>项目地址：<a href="https://github.com/tysik/obstacle_detector" target="_blank" rel="noopener">https://github.com/tysik/obstacle_detector</a></p>
+<h2 id="1-launch"><a href="#1-launch" class="headerlink" title="1. launch"></a>1. launch</h2><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"scans_merger"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"obstacle_detector"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"scans_merger_node"</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"active"</span>            <span class="hljs-attr">value</span>=<span class="hljs-string">"true"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"publish_scan"</span>      <span class="hljs-attr">value</span>=<span class="hljs-string">"false"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"publish_pcl"</span>       <span class="hljs-attr">value</span>=<span class="hljs-string">"true"</span>/&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"ranges_num"</span>        <span class="hljs-attr">value</span>=<span class="hljs-string">"1000"</span>/&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"min_scanner_range"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"0.05"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"max_scanner_range"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"10.0"</span>/&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"min_x_range"</span>       <span class="hljs-attr">value</span>=<span class="hljs-string">"-10.0"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"max_x_range"</span>       <span class="hljs-attr">value</span>=<span class="hljs-string">"10.0"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"min_y_range"</span>       <span class="hljs-attr">value</span>=<span class="hljs-string">"-10.0"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"max_y_range"</span>       <span class="hljs-attr">value</span>=<span class="hljs-string">"10.0"</span>/&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"fixed_frame_id"</span>   <span class="hljs-attr">value</span>=<span class="hljs-string">"map"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"target_frame_id"</span>   <span class="hljs-attr">value</span>=<span class="hljs-string">"robot"</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">node</span>&gt;</span></code></pre>
+<h2 id="2-src"><a href="#2-src" class="headerlink" title="2. src"></a>2. src</h2><h3 id="2-1-scans-merger-node-cpp"><a href="#2-1-scans-merger-node-cpp" class="headerlink" title="2.1 scans_merger_node.cpp"></a>2.1 scans_merger_node.cpp</h3><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span> </span>&#123;
+  ros::init(argc, argv, <span class="hljs-string">"scans_merger"</span>, ros::init_options::NoRosout);
+  <span class="hljs-function">ros::NodeHandle <span class="hljs-title">nh</span><span class="hljs-params">(<span class="hljs-string">""</span>)</span></span>;
+  <span class="hljs-function">ros::NodeHandle <span class="hljs-title">nh_local</span><span class="hljs-params">(<span class="hljs-string">"~"</span>)</span></span>;
+
+  <span class="hljs-keyword">try</span> &#123;
+    ROS_INFO(<span class="hljs-string">"[Scans Merger]: Initializing node"</span>);
+    <span class="hljs-function">ScansMerger <span class="hljs-title">sm</span><span class="hljs-params">(nh, nh_local)</span></span>;
+    ros::spin();
+  &#125;
+  <span class="hljs-keyword">catch</span> (<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* s) &#123;
+    ROS_FATAL_STREAM(<span class="hljs-string">"[Scans Merger]: "</span> &lt;&lt; s);
+  &#125;
+  <span class="hljs-keyword">catch</span> (...) &#123;
+    ROS_FATAL_STREAM(<span class="hljs-string">"[Scans Merger]: Unexpected error"</span>);
+  &#125;
+
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+<h3 id="2-2-scans-merger-cpp"><a href="#2-2-scans-merger-cpp" class="headerlink" title="2.2 scans_merger.cpp"></a>2.2 scans_merger.cpp</h3><h4 id="2-2-1-ScansMerger-ScansMerger"><a href="#2-2-1-ScansMerger-ScansMerger" class="headerlink" title="2.2.1 ScansMerger::ScansMerger()"></a>2.2.1 ScansMerger::ScansMerger()</h4><pre><code class="hljs cpp">ScansMerger::ScansMerger(ros::NodeHandle&amp; nh, ros::NodeHandle&amp; nh_local) : nh_(nh), nh_local_(nh_local) &#123;&#125;</code></pre>
+<p>首先设置标志位</p>
+<pre><code class="hljs cpp">p_active_ = <span class="hljs-literal">false</span>;
+
+front_scan_received_ = <span class="hljs-literal">false</span>;
+rear_scan_received_ = <span class="hljs-literal">false</span>;
+
+front_scan_error_ = <span class="hljs-literal">false</span>;
+rear_scan_error_ = <span class="hljs-literal">false</span>;</code></pre>
+<p>初始化参数服务并调用成员函数<code>initialize()</code></p>
+<pre><code class="hljs cpp">params_srv_ = nh_local_.advertiseService(<span class="hljs-string">"params"</span>, &amp;ScansMerger::updateParams, <span class="hljs-keyword">this</span>);
+initialize();</code></pre>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">initialize</span><span class="hljs-params">()</span> </span>&#123; std_srvs::Empty empt; updateParams(empt.request, empt.response); &#125;</code></pre>
+<h4 id="2-2-2-ScansMerger-updateParam"><a href="#2-2-2-ScansMerger-updateParam" class="headerlink" title="2.2.2 ScansMerger::updateParam()"></a>2.2.2 ScansMerger::updateParam()</h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">ScansMerger::updateParams</span><span class="hljs-params">(std_srvs::Empty::Request &amp;req, std_srvs::Empty::Response &amp;res)</span></span>&#123;&#125;</code></pre>
+<p>首先获取活动状态标志位，并加载参数</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">bool</span> prev_active = p_active_;
+nh_local_.param&lt;<span class="hljs-keyword">bool</span>&gt;(<span class="hljs-string">"active"</span>, p_active_, <span class="hljs-literal">true</span>);
+nh_local_.param&lt;<span class="hljs-keyword">bool</span>&gt;(<span class="hljs-string">"publish_scan"</span>, p_publish_scan_, <span class="hljs-literal">false</span>);
+nh_local_.param&lt;<span class="hljs-keyword">bool</span>&gt;(<span class="hljs-string">"publish_pcl"</span>, p_publish_pcl_, <span class="hljs-literal">true</span>);
+
+nh_local_.param&lt;<span class="hljs-keyword">int</span>&gt;(<span class="hljs-string">"ranges_num"</span>, p_ranges_num_, <span class="hljs-number">1000</span>);
+
+nh_local_.param&lt;<span class="hljs-keyword">double</span>&gt;(<span class="hljs-string">"min_scanner_range"</span>, p_min_scanner_range_, <span class="hljs-number">0.05</span>);
+nh_local_.param&lt;<span class="hljs-keyword">double</span>&gt;(<span class="hljs-string">"max_scanner_range"</span>, p_max_scanner_range_, <span class="hljs-number">10.0</span>);
+
+nh_local_.param&lt;<span class="hljs-keyword">double</span>&gt;(<span class="hljs-string">"min_x_range"</span>, p_min_x_range_, <span class="hljs-number">-10.0</span>);
+nh_local_.param&lt;<span class="hljs-keyword">double</span>&gt;(<span class="hljs-string">"max_x_range"</span>, p_max_x_range_,  <span class="hljs-number">10.0</span>);
+nh_local_.param&lt;<span class="hljs-keyword">double</span>&gt;(<span class="hljs-string">"min_y_range"</span>, p_min_y_range_, <span class="hljs-number">-10.0</span>);
+nh_local_.param&lt;<span class="hljs-keyword">double</span>&gt;(<span class="hljs-string">"max_y_range"</span>, p_max_y_range_,  <span class="hljs-number">10.0</span>);
+
+nh_local_.param&lt;<span class="hljs-built_in">string</span>&gt;(<span class="hljs-string">"fixed_frame_id"</span>, p_fixed_frame_id_, <span class="hljs-string">"map"</span>);
+nh_local_.param&lt;<span class="hljs-built_in">string</span>&gt;(<span class="hljs-string">"target_frame_id"</span>, p_target_frame_id_, <span class="hljs-string">"robot"</span>);</code></pre>
+<p>判断活动状态是否发生改变</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (p_active_ != prev_active) &#123;&#125;</code></pre>
+<p>如果状态为<code>active</code>，则订阅和发布话题</p>
+<p>订阅的话题：</p>
+<ul>
+<li><code>front_scan</code></li>
+<li><code>rear_scan</code></li>
+</ul>
+<p>发布的话题：</p>
+<ul>
+<li><code>scan</code></li>
+<li><code>pcl</code></li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (p_active_) &#123;
+	front_scan_sub_ = nh_.subscribe(<span class="hljs-string">"front_scan"</span>, <span class="hljs-number">10</span>, &amp;ScansMerger::frontScanCallback, <span class="hljs-keyword">this</span>);
+	rear_scan_sub_ = nh_.subscribe(<span class="hljs-string">"rear_scan"</span>, <span class="hljs-number">10</span>, &amp;ScansMerger::rearScanCallback, <span class="hljs-keyword">this</span>);
+	scan_pub_ = nh_.advertise&lt;sensor_msgs::LaserScan&gt;(<span class="hljs-string">"scan"</span>, <span class="hljs-number">10</span>);
+	pcl_pub_ = nh_.advertise&lt;sensor_msgs::PointCloud&gt;(<span class="hljs-string">"pcl"</span>, <span class="hljs-number">10</span>);
+&#125;</code></pre>
+<p>否则，关闭所有的话题</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">else</span> &#123;
+	front_scan_sub_.shutdown();
+	rear_scan_sub_.shutdown();
+	scan_pub_.shutdown();
+	pcl_pub_.shutdown();
+&#125;</code></pre>
+<h4 id="2-2-3-ScansMerger-frontScanCallback"><a href="#2-2-3-ScansMerger-frontScanCallback" class="headerlink" title="2.2.3 ScansMerger::frontScanCallback()"></a>2.2.3 ScansMerger::frontScanCallback()</h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ScansMerger::frontScanCallback</span><span class="hljs-params">(<span class="hljs-keyword">const</span> sensor_msgs::LaserScan::ConstPtr front_scan)</span> </span>&#123;&#125;</code></pre>
+<p>首先进行 <code>tf</code>变换：<code>laser</code> -&gt;<code>fixed_frame_id</code>，并将<code>LaserScan</code>转换为<code>PointCloud</code></p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">try</span> &#123;
+    tf_ls_.waitForTransform(front_scan-&gt;header.frame_id, p_fixed_frame_id_,
+                            front_scan-&gt;header.stamp + ros::Duration().fromSec(front_scan-&gt;ranges.size() * front_scan-&gt;time_increment), ros::Duration(<span class="hljs-number">0.05</span>));
+    projector_.transformLaserScanToPointCloud(p_fixed_frame_id_, *front_scan, front_pcl_, tf_ls_);
+  &#125;
+  <span class="hljs-keyword">catch</span> (tf::TransformException&amp; ex) &#123;
+    front_scan_error_ = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">return</span>;
+  &#125;</code></pre>
+<p>设置标志位</p>
+<pre><code class="hljs cpp">front_scan_received_ = <span class="hljs-literal">true</span>;
+front_scan_error_ = <span class="hljs-literal">false</span>;</code></pre>
+<p>在<code>rearScan</code>成功接收到信息或者出现错误时发送信息</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (rear_scan_received_ || rear_scan_error_)
+	publishMessages();
+<span class="hljs-keyword">else</span>
+	rear_scan_error_ = <span class="hljs-literal">true</span>;</code></pre>
+<h4 id="2-2-4-ScansMerger-frontScanCallback"><a href="#2-2-4-ScansMerger-frontScanCallback" class="headerlink" title="2.2.4 ScansMerger::frontScanCallback()"></a>2.2.4 ScansMerger::frontScanCallback()</h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ScansMerger::rearScanCallback</span><span class="hljs-params">(<span class="hljs-keyword">const</span> sensor_msgs::LaserScan::ConstPtr rear_scan)</span></span>&#123;&#125;</code></pre>
+<p>与<code>2.2.3 ScansMerger::frontScanCallback()</code>大同小异</p>
+<h4 id="2-2-5-ScansMerger-publishMessages"><a href="#2-2-5-ScansMerger-publishMessages" class="headerlink" title="2.2.5 ScansMerger::publishMessages()"></a>2.2.5 ScansMerger::publishMessages()</h4><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ScansMerger::publishMessages</span><span class="hljs-params">()</span> </span>&#123;&#125;</code></pre>
+<p>首先一些临时变量的初始化</p>
+<pre><code class="hljs cpp">ros::Time now = ros::Time::now();
+
+<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">float</span>&gt; ranges;
+<span class="hljs-built_in">vector</span>&lt;geometry_msgs::Point32&gt; points;
+sensor_msgs::PointCloud new_front_pcl, new_rear_pcl;
+
+ranges.assign(p_ranges_num_, nanf(<span class="hljs-string">""</span>)); <span class="hljs-comment">// Assign nan values</span></code></pre>
+<p>如果<code>front_scan</code>没有出现错误</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (!front_scan_error_) &#123;&#125;</code></pre>
+<p>将数据进行 <code>tf</code>变换：<code>map</code> -&gt; <code>robot</code></p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">try</span> &#123;
+	tf_ls_.waitForTransform(p_target_frame_id_, now, front_pcl_.header.frame_id, front_pcl_.header.stamp, p_fixed_frame_id_, ros::Duration(<span class="hljs-number">0.05</span>));
+	tf_ls_.transformPointCloud(p_target_frame_id_, now, front_pcl_, p_fixed_frame_id_, new_front_pcl);
+&#125;
+<span class="hljs-keyword">catch</span> (tf::TransformException&amp; ex) &#123;
+	<span class="hljs-keyword">return</span>;
+&#125;</code></pre>
+<p>如果数据在设置的范围内</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (point.x &gt; p_min_x_range_ &amp;&amp; point.x &lt; p_max_x_range_ &amp;&amp;
+          point.y &gt; p_min_y_range_ &amp;&amp; point.y &lt; p_max_y_range_) &#123;
+	<span class="hljs-keyword">double</span> range = <span class="hljs-built_in">sqrt</span>(<span class="hljs-built_in">pow</span>(point.x, <span class="hljs-number">2.0</span>) + <span class="hljs-built_in">pow</span>(point.y, <span class="hljs-number">2.0</span>));
+    <span class="hljs-keyword">if</span> (range &gt; p_min_scanner_range_ &amp;&amp; range &lt; p_max_scanner_range_) &#123;&#125;
+&#125;</code></pre>
+<p>则根据标志位的信息将数据进行保存</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (p_publish_pcl_) &#123;
+	points.push_back(point);
+&#125;
+
+<span class="hljs-keyword">if</span> (p_publish_scan_) &#123;
+	<span class="hljs-keyword">double</span> angle = <span class="hljs-built_in">atan2</span>(point.y, point.x);
+
+	<span class="hljs-keyword">size_t</span> idx = <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">int</span>&gt;(p_ranges_num_ * (angle + M_PI) / (<span class="hljs-number">2.0</span> * M_PI));
+	<span class="hljs-keyword">if</span> (isnan(ranges[idx]) || range &lt; ranges[idx])
+		ranges[idx] = range;
+&#125;</code></pre>
+<p>发布<code>LaserScan</code>数据</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (p_publish_scan_) &#123;
+	<span class="hljs-function">sensor_msgs::LaserScanPtr <span class="hljs-title">scan_msg</span><span class="hljs-params">(<span class="hljs-keyword">new</span> sensor_msgs::LaserScan)</span></span>;
+
+	scan_msg-&gt;header.frame_id = p_target_frame_id_;
+	scan_msg-&gt;header.stamp = now;
+	scan_msg-&gt;angle_min = -M_PI;
+	scan_msg-&gt;angle_max = M_PI;
+	scan_msg-&gt;angle_increment = <span class="hljs-number">2.0</span> * M_PI / (p_ranges_num_ - <span class="hljs-number">1</span>);
+	scan_msg-&gt;time_increment = <span class="hljs-number">0.0</span>;
+	scan_msg-&gt;scan_time = <span class="hljs-number">0.1</span>;
+	scan_msg-&gt;range_min = p_min_scanner_range_;
+	scan_msg-&gt;range_max = p_max_scanner_range_;
+	scan_msg-&gt;ranges.assign(ranges.begin(), ranges.end());
+
+	scan_pub_.publish(scan_msg);
+&#125;</code></pre>
+<p>发布<code>PointCloud</code>数据</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (p_publish_pcl_) &#123;
+	<span class="hljs-function">sensor_msgs::PointCloudPtr <span class="hljs-title">pcl_msg</span><span class="hljs-params">(<span class="hljs-keyword">new</span> sensor_msgs::PointCloud)</span></span>;
+
+	pcl_msg-&gt;header.frame_id = p_target_frame_id_;
+	pcl_msg-&gt;header.stamp = now;
+	pcl_msg-&gt;points.assign(points.begin(), points.end());
+
+	pcl_pub_.publish(pcl_msg);
+&#125;</code></pre>
+<p>设置标志位，为下一次接收做准备</p>
+<pre><code class="hljs cpp">front_scan_received_ = <span class="hljs-literal">false</span>;
+rear_scan_received_ = <span class="hljs-literal">false</span>;</code></pre>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ROS/">ROS</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">源码学习</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/08/12/Math/how-to-use-xlnt/">
+                        <span class="hidden-mobile">c++库：xlnt</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "源码学习：obstacle-detector 01&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
