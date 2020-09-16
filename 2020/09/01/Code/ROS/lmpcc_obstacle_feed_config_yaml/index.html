@@ -17,10 +17,19 @@
   <meta name="description" content="">
   <meta name="author" content="gaoyangu">
   <meta name="keywords" content="">
-  <title>归档 - gaoyangu</title>
+  <title>lmpcc_obstacle_feed_config - gaoyangu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/googlecode.min.css" />
+  
+
+  
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
@@ -42,7 +51,7 @@
 
 
 <body>
-  <header style="height: 60vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -130,7 +139,7 @@
 </nav>
 
     <div class="view intro-2" id="background" parallax=true
-         style="background: url('/img/archive.png') no-repeat center center;
+         style="background: url('/img/default.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -138,6 +147,40 @@
             <span class="h2" id="subtitle">
               
             </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-09-01 10:25">
+      2020年9月1日 上午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      122 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      1
+       分钟
+    </span>
+  
+
+  
+  
+</div>
 
             
           </div>
@@ -150,73 +193,81 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 27 篇文章</p>
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/07/31/Code/c++/C++Primer-5th_15_Object-Oriented-Programming/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">C++Primer 5th：第十五章 面向对象程序设计</span>
-      <span style="float: right;">07-31</span>
-    </a>
-  
-    
-    <a href="/2020/07/25/Math/how-to-start-cmcm/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">研究生数学建模竞赛</span>
-      <span style="float: right;">07-25</span>
-    </a>
-  
-    
-    <a href="/2020/07/20/Code/Vscode-how-to-use-remote-ssh/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Remote - SSH 配置记录</span>
-      <span style="float: right;">07-20</span>
-    </a>
-  
-    
-    <a href="/2020/07/19/Code/ROS/how-to-run-spencer_people_tracking/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">代码复现：spencer-people-tracking</span>
-      <span style="float: right;">07-19</span>
-    </a>
-  
-    
-    <a href="/2020/07/17/Code/ROS/how-to-use-rikirobot/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">rikirobot使用记录</span>
-      <span style="float: right;">07-17</span>
-    </a>
-  
-    
-    <a href="/2020/07/13/Code/c++/C++Primer-5th_14_Overloaded-Operations/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">C++Primer 5th：第十四章 重载运算与类型转换</span>
-      <span style="float: right;">07-13</span>
-    </a>
-  
-    
-    <a href="/2020/07/03/Code/ROS/something-about-quaternion/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">ROS：四元数</span>
-      <span style="float: right;">07-03</span>
-    </a>
-  
-</div>
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <div class="note note-success">
+            <p>本文最后更新于：2020年9月1日 下午</p>
+          </div>
+<p><code>obstacle_feed_mode</code>(<code>int</code> , default : <code>2</code>) - 0 = sensor mode, 1 = OptiTrack mode, 2 = predefined obstacles, 4 = Pedsim</p>
+<p><code>activate_debug_output</code>(<code>bool</code> , default : <code>false</code>) - </p>
+<p><code>activate_visualization</code>(<code>bool</code> , default : <code>false</code>) - </p>
+<p><code>update_rate</code>(<code>int</code> , default : <code>20</code>) - </p>
+<p><code>discretization_steps</code>(<code>int</code> , default : <code>15</code>) - </p>
+<p><code>prediction_horizon</code>(<code>int</code> , default : <code>3</code>) - 单位：秒？<strong>重要！！！</strong></p>
+<p><code>kalman</code>(<code>bool</code> , default : <code>false</code>) - 是否使用卡尔曼滤波器预估障碍物将要运动的位置</p>
+<p><code>detected_obstacles/distance_threshold</code>(<code>int</code> , default : <code>50</code>) - 单位：米？默认只考虑距离机器人50米内的障碍物</p>
+<p><code>detected_obstacles/obstacle_number</code>(<code>int</code> , default : <code>4</code>) - 默认只考虑最近的4个障碍物</p>
 
-
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ROS/">ROS</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">源码学习</a>
+                    
+                      <a class="hover-with-bg" href="/tags/LMPCC/">LMPCC</a>
+                    
+                  </div>
+                
               </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
             </div>
+
+            
           </div>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
   </main>
 
@@ -294,6 +345,31 @@
 
 
 
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
 
 
   <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
@@ -301,7 +377,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "归档&nbsp;",
+        "lmpcc_obstacle_feed_config&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
@@ -316,6 +392,21 @@
 
 
 
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
 
 
   <script  src="/js/local-search.js" ></script>
@@ -329,6 +420,20 @@
   </script>
 
 
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
 
 
 

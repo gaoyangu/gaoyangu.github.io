@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="gaoyangu">
+  <meta name="keywords" content="">
+  <title>大话数据结构 01，02 - gaoyangu</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/googlecode.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>gaoyangu</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-09-16 10:01">
+      2020年9月16日 上午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      25
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <div class="note note-success">
+            <p>本文最后更新于：2020年9月16日 下午</p>
+          </div>
+<h2 id="第1章-数据结构绪论"><a href="#第1章-数据结构绪论" class="headerlink" title="第1章 数据结构绪论"></a>第1章 数据结构绪论</h2><blockquote>
+<p>数据结构：相互之间存在一种或多种特定关系的数据元素的集合</p>
+</blockquote>
+<h2 id="1-4-基本概念和术语"><a href="#1-4-基本概念和术语" class="headerlink" title="1.4 基本概念和术语"></a>1.4 基本概念和术语</h2><h3 id="1-4-1-数据"><a href="#1-4-1-数据" class="headerlink" title="1.4.1 数据"></a>1.4.1 数据</h3><blockquote>
+<p>描述客观事物的符号，是计算机可以操组的对象，是能被计算机识别，并输入给计算机处理的符号集合</p>
+</blockquote>
+<h3 id="1-4-2-数据元素"><a href="#1-4-2-数据元素" class="headerlink" title="1.4.2 数据元素"></a>1.4.2 数据元素</h3><blockquote>
+<p>组成数据的、有一定意义的基本单位，在计算机中通常作为整体处理。也被称为记录</p>
+</blockquote>
+<p>比如：人。</p>
+<h3 id="1-4-3-数据项"><a href="#1-4-3-数据项" class="headerlink" title="1.4.3 数据项"></a>1.4.3 数据项</h3><blockquote>
+<p>一个数据元素可以由若干个数据项组成</p>
+</blockquote>
+<p>比如：眼，耳，鼻，嘴，手，脚等</p>
+<ul>
+<li>数据项是数据不可分割的最小单位</li>
+<li>实际中，<code>数据元素</code>才是数据结构中建立数据模型的着眼点</li>
+</ul>
+<h3 id="1-4-4-数据对象"><a href="#1-4-4-数据对象" class="headerlink" title="1.4.4 数据对象"></a>1.4.4 数据对象</h3><blockquote>
+<p>性质相同的数据元素的集合，是数据的子集</p>
+</blockquote>
+<h3 id="1-4-5-数据结构"><a href="#1-4-5-数据结构" class="headerlink" title="1.4.5 数据结构"></a>1.4.5 数据结构</h3><blockquote>
+<p>相互之间存在一种或多种特定关系的数据元素的集合</p>
+</blockquote>
+<h2 id="1-5-逻辑结构与物理结构"><a href="#1-5-逻辑结构与物理结构" class="headerlink" title="1.5 逻辑结构与物理结构"></a>1.5 逻辑结构与物理结构</h2><h3 id="1-5-1-逻辑结构"><a href="#1-5-1-逻辑结构" class="headerlink" title="1.5.1 逻辑结构"></a>1.5.1 逻辑结构</h3><blockquote>
+<p>数据对象中数据元素之间的相互关系</p>
+</blockquote>
+<p><strong>1. 集合结构</strong></p>
+<blockquote>
+<p>集合结构中的数据元素除了同属于一个集合外，它们之间没有其他关系</p>
+</blockquote>
+<ul>
+<li>各个数据元素是“平等”的</li>
+</ul>
+<p><strong>2. 线性结构</strong></p>
+<blockquote>
+<p>数据元素之间是<code>一对一</code>的关系</p>
+</blockquote>
+<p><strong>3. 树形结构</strong></p>
+<blockquote>
+<p>数据元素之间存在一种<code>一对多</code>的层次关系</p>
+</blockquote>
+<p><strong>4. 图形结构</strong></p>
+<blockquote>
+<p>数据元素是<code>多对多</code>的关系</p>
+</blockquote>
+<h3 id="1-5-2-物理结构"><a href="#1-5-2-物理结构" class="headerlink" title="1.5.2 物理结构"></a>1.5.2 物理结构</h3><blockquote>
+<p>数据的逻辑结构在计算机中的存储形式</p>
+</blockquote>
+<p><strong>1. 顺序存储结构</strong></p>
+<blockquote>
+<p>把数据元素存放在地址连续的存储单元里，其数据间的逻辑关系和物理关系是一致的</p>
+</blockquote>
+<p><strong>2. 链式存储结构</strong></p>
+<blockquote>
+<p>把数据元素存储在任意的存储单元里，这组存储单元可以是连续的，也可以是不连续的</p>
+</blockquote>
+<h2 id="1-6-抽象数据类型"><a href="#1-6-抽象数据类型" class="headerlink" title="1.6 抽象数据类型"></a>1.6 抽象数据类型</h2><h3 id="1-6-1-数据类型"><a href="#1-6-1-数据类型" class="headerlink" title="1.6.1 数据类型"></a>1.6.1 数据类型</h3><blockquote>
+<p>一组性质相同的值的集合及定义在此集合上的一些操作的总称</p>
+</blockquote>
+<h3 id="1-6-2-抽象数据类型"><a href="#1-6-2-抽象数据类型" class="headerlink" title="1.6.2 抽象数据类型"></a>1.6.2 抽象数据类型</h3><blockquote>
+<p>一个数学模型及定义在该模型上的一组操作</p>
+</blockquote>
+<ul>
+<li>“抽象”的意义在于数据类型的数学抽象特性</li>
+<li>抽象数据类型体现了程序设计中问题分解，抽象和信息隐藏的特性</li>
+</ul>
+<h2 id="第2章-算法"><a href="#第2章-算法" class="headerlink" title="第2章 算法"></a>第2章 算法</h2><blockquote>
+<p>算法是解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表示一个或多个操作</p>
+</blockquote>
+<h2 id="2-5-算法的特性"><a href="#2-5-算法的特性" class="headerlink" title="2.5 算法的特性"></a>2.5 算法的特性</h2><h3 id="2-5-1-输入输出"><a href="#2-5-1-输入输出" class="headerlink" title="2.5.1 输入输出"></a>2.5.1 输入输出</h3><p>算法具有零个或多个输入，至少有一个或多个输出</p>
+<h3 id="2-5-2-有穷性"><a href="#2-5-2-有穷性" class="headerlink" title="2.5.2 有穷性"></a>2.5.2 有穷性</h3><p>算法在执行有限的步骤之后，自动结束而不会出现无限循环，并且每一个步骤在可接受的时间完成</p>
+<h3 id="2-5-3-确定性"><a href="#2-5-3-确定性" class="headerlink" title="2.5.3 确定性"></a>2.5.3 确定性</h3><p>算法的每一步骤都具有明确的含义，不会出现二义性</p>
+<h3 id="2-5-4-可行性"><a href="#2-5-4-可行性" class="headerlink" title="2.5.4 可行性"></a>2.5.4 可行性</h3><p>算法的每一步都必须是可行的，每一步都能够在通过执行有限次数完成</p>
+<h2 id="2-6-算法设计的要求"><a href="#2-6-算法设计的要求" class="headerlink" title="2.6 算法设计的要求"></a>2.6 算法设计的要求</h2><h3 id="2-6-1-正确性"><a href="#2-6-1-正确性" class="headerlink" title="2.6.1 正确性"></a>2.6.1 正确性</h3><p>算法至少应该具有输入、输出和加工处理无歧义性、能正确反映问题的需求、能够得到问题的正确答案</p>
+<p>“正确”大体分为四个层次：</p>
+<ol>
+<li>没有语法错误</li>
+<li>对合法的输入数据能够产生满足要求的输出结果</li>
+<li>对于非法的输入数据能够得到满足规格说明的结果</li>
+<li>对于精心选择的，甚至刁难的测试数据都有满足要求的输出结果</li>
+</ol>
+<h3 id="2-6-2-可读性"><a href="#2-6-2-可读性" class="headerlink" title="2.6.2 可读性"></a>2.6.2 可读性</h3><p>算法设计的另一目的是为了便于阅读、理解和交流</p>
+<h3 id="2-6-3-健壮性"><a href="#2-6-3-健壮性" class="headerlink" title="2.6.3 健壮性"></a>2.6.3 健壮性</h3><p>当输入数据不合法时，算法也能做出相关处理，而不产生异常或莫名奇妙的结果</p>
+<h3 id="2-6-4-时间效率高和存储量低"><a href="#2-6-4-时间效率高和存储量低" class="headerlink" title="2.6.4 时间效率高和存储量低"></a>2.6.4 时间效率高和存储量低</h3><h2 id="2-7-算法效率的度量方法"><a href="#2-7-算法效率的度量方法" class="headerlink" title="2.7 算法效率的度量方法"></a>2.7 算法效率的度量方法</h2><h3 id="2-7-1-事后统计方法"><a href="#2-7-1-事后统计方法" class="headerlink" title="2.7.1 事后统计方法"></a>2.7.1 事后统计方法</h3><blockquote>
+<p> 通过设计好的测试程序和数据，利用计算机计时器对不同算法编制的程序的运行时间进行比较，从而确定算法效率的高低</p>
+</blockquote>
+<ul>
+<li>有很多缺陷，不予采纳</li>
+</ul>
+<h3 id="2-7-2-事前分析估算方法"><a href="#2-7-2-事前分析估算方法" class="headerlink" title="2.7.2 事前分析估算方法"></a>2.7.2 事前分析估算方法</h3><blockquote>
+<p> 在计算机程序编制前，依据统计方法对算法进行估算</p>
+</blockquote>
+<p>一个高级程序语言编写的程序在计算机上运行时所消耗的时间取决于下列因素</p>
+<ol>
+<li>算法采用的策略和方法</li>
+<li>编译产生的代码质量</li>
+<li>问题的输入规模</li>
+<li>机器执行指令的速度</li>
+</ol>
+<ul>
+<li>测定运行时间最可靠的方法：计算对运行时间有消耗的基本操作的执行次数，运行时间与这个计数成正比</li>
+<li>分析程序的运行时间时，最重要的是把程序看成独立于程序设计语言的算法或一系列步骤</li>
+</ul>
+<h2 id="2-8-函数的渐近增长"><a href="#2-8-函数的渐近增长" class="headerlink" title="2.8 函数的渐近增长"></a>2.8 函数的渐近增长</h2><blockquote>
+<p>给定两个函数 f(n) 和 g(n)，如果存在一个整数 N，使得对于所有的 n &gt; N，f(n) 总是比 g(n) 大，那么，我们说 f(n) 的增长渐近快于 g(n)</p>
+</blockquote>
+<ul>
+<li>忽略加法常数</li>
+<li><p>与最高次项相乘的常数并不重要</p>
+</li>
+<li><p>判断一个算法的效率时，函数中的常数和其他次要项常常可以忽略，而更应该关注（最高阶项）的阶数</p>
+</li>
+</ul>
+<h2 id="2-9-算法时间复杂度"><a href="#2-9-算法时间复杂度" class="headerlink" title="2.9 算法时间复杂度"></a>2.9 算法时间复杂度</h2><h3 id="2-9-1-算法时间复杂度定义"><a href="#2-9-1-算法时间复杂度定义" class="headerlink" title="2.9.1 算法时间复杂度定义"></a>2.9.1 算法时间复杂度定义</h3><blockquote>
+<p>在进行算法分析时，语句总的执行次数 T(n) 是关于问题规模 n 的函数，进而分析 T(n) 随 n 的变化情况而确定 T(n) 的数量级。算法的时间复杂度，也就是算法的时间量度，记作： T(n) = O(f(n))。它表示随问题规模 n 的增大，算法执行时间的增长率和 f(n) 的增长率相同，称作算法的渐近时间复杂度，简称为时间复杂度。</p>
+</blockquote>
+<h3 id="2-9-2-推导大-O-阶方法"><a href="#2-9-2-推导大-O-阶方法" class="headerlink" title="2.9.2 推导大 O 阶方法"></a>2.9.2 推导大 O 阶方法</h3><ol>
+<li>用常数 1 取代运行时间中的所有加法常数</li>
+<li>在修改后的运行次数函数中，只保留最高阶项</li>
+<li>如果最高阶项存在且不是1，则去除这个项相乘的常数。得到的结果就是大 O 阶</li>
+</ol>
+<h3 id="2-9-3-常数阶"><a href="#2-9-3-常数阶" class="headerlink" title="2.9.3 常数阶"></a>2.9.3 常数阶</h3><ul>
+<li>时间复杂度：<code>O(1)</code></li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>, n = <span class="hljs-number">100</span>;		<span class="hljs-comment">//执行一次</span>
+sum = (<span class="hljs-number">1</span> + n) * n / <span class="hljs-number">2</span>;		<span class="hljs-comment">//执行一次</span>
+<span class="hljs-built_in">cout</span> &lt;&lt; sum &lt;&lt; <span class="hljs-built_in">endl</span>;		<span class="hljs-comment">//执行一次</span></code></pre>
+<p>单纯的分支结构（不包含在循环结构中），其时间复杂度也是 O(1)。</p>
+<h3 id="2-9-4-线性阶"><a href="#2-9-4-线性阶" class="headerlink" title="2.9.4 线性阶"></a>2.9.4 线性阶</h3><p>分析算法复杂度，关键就是要分析循环结构的运行情况</p>
+<ul>
+<li>时间复杂度：<code>O(n)</code></li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)&#123;
+    <span class="hljs-comment">//时间复杂度为 O(1) 的程序步骤序列</span>
+&#125;</code></pre>
+<h3 id="2-9-5-对数阶"><a href="#2-9-5-对数阶" class="headerlink" title="2.9.5 对数阶"></a>2.9.5 对数阶</h3><p>时间复杂度：<code>O(logn)</code></p>
+<p>$2^x = n$ 得到 $x = log_2 n$</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">int</span> count = <span class="hljs-number">1</span>;
+<span class="hljs-keyword">while</span> ( count &lt; n)
+&#123;
+    count = count * <span class="hljs-number">2</span>;
+    <span class="hljs-comment">//时间复杂度为 O(1)的程序步骤序列</span>
+&#125;</code></pre>
+<h3 id="2-9-6-平方阶"><a href="#2-9-6-平方阶" class="headerlink" title="2.9.6 平方阶"></a>2.9.6 平方阶</h3><p>时间复杂度：<code>O(n^2)</code></p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)&#123;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; n; j++)&#123;
+        <span class="hljs-comment">//时间复杂度为 O(1)的程序步骤序列</span>
+    &#125;
+&#125;</code></pre>
+<p>时间复杂度：<code>O(n^2)</code></p>
+<p>$n + (n-1)+(n-2)+…+1 = n^2/2 + n/2$</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)&#123;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = i; j &lt; n; j++)&#123;
+        <span class="hljs-comment">//时间复杂度为 O(1)的程序步骤序列</span>
+    &#125;
+&#125;</code></pre>
+<h2 id="2-10-常见的时间复杂度"><a href="#2-10-常见的时间复杂度" class="headerlink" title="2.10 常见的时间复杂度"></a>2.10 常见的时间复杂度</h2><p>常用的时间复杂度所耗费的时间从小到大依次是：</p>
+<p>$O(1)&lt;O(logn)&lt;O(n)&lt;O(nlogn)&lt;O(n^2)&lt;O(n^3)&lt;O(n!)&lt;O(n^n)$</p>
+<h2 id="2-11-最坏的情况与平均情况"><a href="#2-11-最坏的情况与平均情况" class="headerlink" title="2.11 最坏的情况与平均情况"></a>2.11 最坏的情况与平均情况</h2><ul>
+<li>除非特别指定，我们提到的运行时间都是最坏情况的运行时间</li>
+<li>平均运行时间是所有情况中最有意义的，因为它是期望的运行时间，平均运行时间很难通过分析得到，一般都是通过运行一定数量的实验数据后估算出来</li>
+</ul>
+<h2 id="2-12-算法空间复杂度"><a href="#2-12-算法空间复杂度" class="headerlink" title="2.12 算法空间复杂度"></a>2.12 算法空间复杂度</h2><blockquote>
+<p>算法的空间复杂度通过计算算法所需的存储空间实现，算法空间复杂度的计算公式记作：S(n) = O(f(n))，其中，n 为问题的规模，f(n) 为语句关于 n 所占存储空间的函数</p>
+</blockquote>
+<ul>
+<li>若算法执行时所需的辅助空间相对于输入数据量而言是个常数，则称此算法为原地工作，空间复杂度为 <code>O(1)</code>。</li>
+</ul>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">数据结构和算法</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/09/07/Code/ROS/ROS-by-example-v1-07/">
+                        <span class="hidden-mobile">ROS by example v1-07 CONTROLLING A MOBILE BASE</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "大话数据结构 01，02&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
