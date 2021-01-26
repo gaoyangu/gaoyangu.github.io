@@ -1,7 +1,7 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
-
-
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
 
 
 
@@ -26,7 +26,11 @@
   <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
 
   
-    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/googlecode.min.css" />
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+    
   
 
   
@@ -34,7 +38,7 @@
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
 
 
 
@@ -47,6 +51,7 @@
 
 
   <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 
@@ -129,8 +134,14 @@
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
       </ul>
@@ -138,25 +149,28 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="banner intro-2" id="background" parallax=true
          style="background: url('/img/default.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
+          <div class="container page-header text-center fade-in-up">
             <span class="h2" id="subtitle">
               
             </span>
 
             
-              
-  <div class="mt-3 post-meta">
-    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-08-07 16:32">
-      2020年8月7日 下午
-    </time>
-  </div>
-
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-08-07 16:32" pubdate>
+        2020年8月7日 下午
+      </time>
+    </span>
+  
+</div>
 
 <div class="mt-1">
   
@@ -201,9 +215,11 @@
     <div class="col-lg-8 nopadding-md">
       <div class="container nopadding-md" id="board-ctn">
         <div class="py-5" id="board">
-          <div class="post-content mx-auto" id="post">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">代码复现：obstacle_detector</h1>
             
-            <article class="markdown-body">
+            <div class="markdown-body" id="post-body">
               <div class="note note-success">
             <p>本文最后更新于：2020年8月7日 下午</p>
           </div>
@@ -308,7 +324,7 @@ $ roslaunch obstacle_detector demo.launch</code></pre>
 <li><a href="https://gitlab.com/conradsnicta/armadillo-code" target="_blank" rel="noopener">armadillo-code</a></li>
 </ol>
 
-            </article>
+            </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
@@ -340,7 +356,7 @@ $ roslaunch obstacle_detector demo.launch</code></pre>
             </div>
 
             
-          </div>
+          </article>
         </div>
       </div>
     </div>
@@ -427,6 +443,10 @@ $ roslaunch obstacle_detector demo.launch</code></pre>
 
 
 
+  
+
+
+
   <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
   <script  src="/js/clipboard-use.js" ></script>
 
@@ -444,7 +464,7 @@ $ roslaunch obstacle_detector demo.launch</code></pre>
 
       tocbot.init({
         tocSelector: '#tocbot',
-        contentSelector: 'article.markdown-body',
+        contentSelector: '#post-body',
         headingSelector: 'h1,h2,h3,h4,h5,h6',
         linkClass: 'tocbot-link',
         activeLinkClass: 'tocbot-active-link',

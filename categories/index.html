@@ -1,7 +1,7 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
-
-
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
 
 
 
@@ -25,7 +25,7 @@
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
 
 
 
@@ -38,6 +38,7 @@
 
 
   <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 
@@ -120,8 +121,14 @@
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
       </ul>
@@ -129,12 +136,12 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="banner intro-2" id="background" parallax=true
          style="background: url('/img/category.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
+          <div class="container page-header text-center fade-in-up">
             <span class="h2" id="subtitle">
               
             </span>
@@ -175,7 +182,7 @@
     <div class="category row">
       <a
         class="category-item collapsed list-group-item category-item-action col-10 col-md-11"
-        id="heading-ckfffxdrd00061s7sega9ejr5" role="tab" data-toggle="collapse" href="#collapse-ckfffxdrd00061s7sega9ejr5"
+        id="heading-ckkdygfwd00080k7scbd02t26" role="tab" data-toggle="collapse" href="#collapse-ckkdygfwd00080k7scbd02t26"
         aria-expanded="false"
       >
         编程
@@ -183,15 +190,43 @@
       </a>
       <a href="/categories/%E7%BC%96%E7%A8%8B/" class="category-count col-2 col-md-1">
         <i class="iconfont icon-articles"></i>
-        <span>24</span>
+        <span>27</span>
       </a>
       <div class="category-collapse">
         
           
-  <div id="collapse-ckfffxdrd00061s7sega9ejr5" class="collapse in" role="tabpanel"
-       aria-labelledby="heading-ckfffxdrd00061s7sega9ejr5">
+  <div id="collapse-ckkdygfwd00080k7scbd02t26" class="collapse in" role="tabpanel"
+       aria-labelledby="heading-ckkdygfwd00080k7scbd02t26">
     
     
+    
+      
+      
+        <a href="/2020/10/05/Code/c++/Play-with-data-structure_07/" class="list-group-item list-group-item-action">
+          <span class="category-post">大话数据结构07-图</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2020/09/28/Code/c++/Play-with-data-structure_06/" class="list-group-item list-group-item-action">
+          <span class="category-post">大话数据结构06-树</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2020/09/25/Code/c++/Play-with-data-structure_05/" class="list-group-item list-group-item-action">
+          <span class="category-post">大话数据结构05-串</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2020/09/24/Code/c++/Play-with-data-structure_04/" class="list-group-item list-group-item-action">
+          <span class="category-post">大话数据结构04-栈与队列</span>
+        </a>
+      
     
       
       
@@ -204,13 +239,6 @@
       
         <a href="/2020/09/16/Code/c++/Play-with-data-structure_0102/" class="list-group-item list-group-item-action">
           <span class="category-post">大话数据结构 01，02</span>
-        </a>
-      
-    
-      
-      
-        <a href="/2020/09/07/Code/ROS/ROS-by-example-v1-07/" class="list-group-item list-group-item-action">
-          <span class="category-post">ROS by example v1-07 CONTROLLING A MOBILE BASE</span>
         </a>
       
     
@@ -244,27 +272,6 @@
     
       
       
-        <a href="/2020/07/20/Code/Vscode-how-to-use-remote-ssh/" class="list-group-item list-group-item-action">
-          <span class="category-post">Remote - SSH 配置记录</span>
-        </a>
-      
-    
-      
-      
-        <a href="/2020/07/19/Code/ROS/how-to-run-spencer_people_tracking/" class="list-group-item list-group-item-action">
-          <span class="category-post">代码复现：spencer-people-tracking</span>
-        </a>
-      
-    
-      
-      
-        <a href="/2020/07/13/Code/c++/C++Primer-5th_14_Overloaded-Operations/" class="list-group-item list-group-item-action">
-          <span class="category-post">C++Primer 5th：第十四章 重载运算与类型转换</span>
-        </a>
-      
-    
-      
-      
         <a href="/categories/%E7%BC%96%E7%A8%8B/" class="list-group-item list-group-item-action">
           <span class="category-post">More...</span>
         </a>
@@ -280,7 +287,7 @@
     <div class="category row">
       <a
         class="category-item collapsed list-group-item category-item-action col-10 col-md-11"
-        id="heading-ckfffxdrj000b1s7s6fl35dki" role="tab" data-toggle="collapse" href="#collapse-ckfffxdrj000b1s7s6fl35dki"
+        id="heading-ckkdygfwv00130k7s48dncehx" role="tab" data-toggle="collapse" href="#collapse-ckkdygfwv00130k7s48dncehx"
         aria-expanded="false"
       >
         数学
@@ -293,8 +300,8 @@
       <div class="category-collapse">
         
           
-  <div id="collapse-ckfffxdrj000b1s7s6fl35dki" class="collapse in" role="tabpanel"
-       aria-labelledby="heading-ckfffxdrj000b1s7s6fl35dki">
+  <div id="collapse-ckkdygfwv00130k7s48dncehx" class="collapse in" role="tabpanel"
+       aria-labelledby="heading-ckkdygfwv00130k7s48dncehx">
     
     
     
@@ -323,7 +330,7 @@
     <div class="category row">
       <a
         class="category-item collapsed list-group-item category-item-action col-10 col-md-11"
-        id="heading-ckfffxdrr000m1s7s4cq04bxg" role="tab" data-toggle="collapse" href="#collapse-ckfffxdrr000m1s7s4cq04bxg"
+        id="heading-ckkdygfw700030k7sh3di9h71" role="tab" data-toggle="collapse" href="#collapse-ckkdygfw700030k7sh3di9h71"
         aria-expanded="false"
       >
         读书
@@ -336,8 +343,8 @@
       <div class="category-collapse">
         
           
-  <div id="collapse-ckfffxdrr000m1s7s4cq04bxg" class="collapse in" role="tabpanel"
-       aria-labelledby="heading-ckfffxdrr000m1s7s4cq04bxg">
+  <div id="collapse-ckkdygfw700030k7sh3di9h71" class="collapse in" role="tabpanel"
+       aria-labelledby="heading-ckkdygfw700030k7sh3di9h71">
     
     
     
@@ -359,7 +366,7 @@
     <div class="category row">
       <a
         class="category-item collapsed list-group-item category-item-action col-10 col-md-11"
-        id="heading-ckfffxdsc001n1s7s7uzhbzt7" role="tab" data-toggle="collapse" href="#collapse-ckfffxdsc001n1s7s7uzhbzt7"
+        id="heading-ckkdygfxs00230k7sdydk1wwf" role="tab" data-toggle="collapse" href="#collapse-ckkdygfxs00230k7sdydk1wwf"
         aria-expanded="false"
       >
         备忘
@@ -372,8 +379,8 @@
       <div class="category-collapse">
         
           
-  <div id="collapse-ckfffxdsc001n1s7s7uzhbzt7" class="collapse in" role="tabpanel"
-       aria-labelledby="heading-ckfffxdsc001n1s7s7uzhbzt7">
+  <div id="collapse-ckkdygfxs00230k7sdydk1wwf" class="collapse in" role="tabpanel"
+       aria-labelledby="heading-ckkdygfxs00230k7sdydk1wwf">
     
     
     
@@ -461,6 +468,10 @@
 
   
     <script  src="/js/lazyload.js" ></script>
+  
+
+
+
   
 
 

@@ -1,7 +1,7 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
-
-
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
 
 
 
@@ -25,7 +25,7 @@
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
 
 
 
@@ -38,6 +38,7 @@
 
 
   <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 
@@ -120,8 +121,14 @@
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
       </ul>
@@ -129,12 +136,12 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="banner intro-2" id="background" parallax=true
          style="background: url('/img/tag.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
+          <div class="container page-header text-center fade-in-up">
             <span class="h2" id="subtitle">
               
             </span>
@@ -160,7 +167,7 @@
                 
 
 <div class="text-center tagcloud">
-  <a href="/tags/LMPCC/" style="font-size: 22.5px; color: #779bd3">LMPCC</a> <a href="/tags/ROS/" style="font-size: 30px; color: #337ab7">ROS</a> <a href="/tags/VScode/" style="font-size: 15px; color: #bbe">VScode</a> <a href="/tags/c/" style="font-size: 20px; color: #8ea5dc">c++</a> <a href="/tags/cplex/" style="font-size: 15px; color: #bbe">cplex</a> <a href="/tags/git/" style="font-size: 15px; color: #bbe">git</a> <a href="/tags/vcpkg/" style="font-size: 15px; color: #bbe">vcpkg</a> <a href="/tags/xlnt/" style="font-size: 15px; color: #bbe">xlnt</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 27.5px; color: #4a85c0">学习笔记</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/" style="font-size: 17.5px; color: #a4b0e5">数据结构和算法</a> <a href="/tags/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/" style="font-size: 25px; color: #6090c9">源码学习</a> <a href="/tags/%E7%BD%91%E7%AB%99%E6%B1%87%E6%80%BB/" style="font-size: 15px; color: #bbe">网站汇总</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 15px; color: #bbe">读书笔记</a>
+  <a href="/tags/LMPCC/" style="font-size: 22.5px; color: #779bd3">LMPCC</a> <a href="/tags/ROS/" style="font-size: 27.5px; color: #4a85c0">ROS</a> <a href="/tags/VScode/" style="font-size: 15px; color: #bbe">VScode</a> <a href="/tags/c/" style="font-size: 20px; color: #8ea5dc">c++</a> <a href="/tags/cplex/" style="font-size: 15px; color: #bbe">cplex</a> <a href="/tags/git/" style="font-size: 15px; color: #bbe">git</a> <a href="/tags/vcpkg/" style="font-size: 15px; color: #bbe">vcpkg</a> <a href="/tags/xlnt/" style="font-size: 15px; color: #bbe">xlnt</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 30px; color: #337ab7">学习笔记</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/" style="font-size: 17.5px; color: #a4b0e5">数据结构和算法</a> <a href="/tags/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/" style="font-size: 25px; color: #6090c9">源码学习</a> <a href="/tags/%E7%BD%91%E7%AB%99%E6%B1%87%E6%80%BB/" style="font-size: 15px; color: #bbe">网站汇总</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 15px; color: #bbe">读书笔记</a>
 </div>
 
               </div>
@@ -232,6 +239,10 @@
 
   
     <script  src="/js/lazyload.js" ></script>
+  
+
+
+
   
 
 

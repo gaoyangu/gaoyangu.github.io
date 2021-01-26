@@ -1,7 +1,7 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
-
-
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
 
 
 
@@ -26,7 +26,11 @@
   <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
 
   
-    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/googlecode.min.css" />
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+    
   
 
   
@@ -34,7 +38,7 @@
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
 
 
 
@@ -47,6 +51,7 @@
 
 
   <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 
@@ -129,8 +134,14 @@
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
       </ul>
@@ -138,25 +149,28 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="banner intro-2" id="background" parallax=true
          style="background: url('/img/default.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
+          <div class="container page-header text-center fade-in-up">
             <span class="h2" id="subtitle">
               
             </span>
 
             
-              
-  <div class="mt-3 post-meta">
-    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-05-09 20:50">
-      2020年5月9日 晚上
-    </time>
-  </div>
-
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-05-09 20:50" pubdate>
+        2020年5月9日 晚上
+      </time>
+    </span>
+  
+</div>
 
 <div class="mt-1">
   
@@ -201,9 +215,11 @@
     <div class="col-lg-8 nopadding-md">
       <div class="container nopadding-md" id="board-ctn">
         <div class="py-5" id="board">
-          <div class="post-content mx-auto" id="post">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">读书笔记：自控力</h1>
             
-            <article class="markdown-body">
+            <div class="markdown-body" id="post-body">
               <h2 id="第一章：我要做，我不要，我想要"><a href="#第一章：我要做，我不要，我想要" class="headerlink" title="第一章：我要做，我不要，我想要"></a>第一章：我要做，我不要，我想要</h2><h3 id="1-记录意志力选择"><a href="#1-记录意志力选择" class="headerlink" title="1. 记录意志力选择"></a>1. 记录意志力选择</h3><ol>
 <li><p>至少选择一天，把你做的决定都记下来。</p>
 </li>
@@ -342,7 +358,7 @@
 </ol>
 <h3 id="6-深入剖析：为了你自己好，你是不是太“高瞻远瞩”了？"><a href="#6-深入剖析：为了你自己好，你是不是太“高瞻远瞩”了？" class="headerlink" title="6. 深入剖析：为了你自己好，你是不是太“高瞻远瞩”了？"></a>6. 深入剖析：为了你自己好，你是不是太“高瞻远瞩”了？</h3><p>你是否有过这样的感觉：因为总有更多的事情要做，似乎没办法放下工作休息一下？你是否对花钱产生了太多的罪恶感和焦虑感，以至于除了购买生活必需品，你觉得自己很难再去买别的东西？你有没有回头看过，自己是怎样花费时间和金钱的？你会不会希望当时你能更关注即时的快乐，而不是总去推迟享受？如果是这样的话，试一试本章提到的意志力实验，把它们当做放纵自己的方法。（别再试着推迟了，好不好？）</p>
 
-            </article>
+            </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
@@ -370,7 +386,7 @@
             </div>
 
             
-          </div>
+          </article>
         </div>
       </div>
     </div>
@@ -457,6 +473,10 @@
 
 
 
+  
+
+
+
   <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
   <script  src="/js/clipboard-use.js" ></script>
 
@@ -474,7 +494,7 @@
 
       tocbot.init({
         tocSelector: '#tocbot',
-        contentSelector: 'article.markdown-body',
+        contentSelector: '#post-body',
         headingSelector: 'h1,h2,h3,h4,h5,h6',
         linkClass: 'tocbot-link',
         activeLinkClass: 'tocbot-active-link',

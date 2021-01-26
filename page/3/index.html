@@ -1,7 +1,7 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
-
-
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
 
 
 
@@ -25,7 +25,7 @@
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
 
 
 
@@ -38,6 +38,7 @@
 
 
   <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 
@@ -120,8 +121,14 @@
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
       </ul>
@@ -129,12 +136,12 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="banner intro-2" id="background" parallax=true
          style="background: url('/img/index.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
+          <div class="container page-header text-center fade-in-up">
             <span class="h2" id="subtitle">
               
             </span>
@@ -168,26 +175,33 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/06/05/Code/ROS/how-to-run-amr-lmpcc/" target="_self">
-          <img src="/img/index_img/paper.png" srcset="/img/loading.gif" alt="代码复现：amr-lmpcc">
+        <a href="/2020/06/20/Code/ROS/source-code-amr-lmpcc_02lmpcc/" target="_self">
+          <img src="/img/index_img/chris-ried.jpg" srcset="/img/loading.gif" alt="源码学习：amr-lmpcc_02">
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/06/05/Code/ROS/how-to-run-amr-lmpcc/">代码复现：amr-lmpcc</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/06/20/Code/ROS/source-code-amr-lmpcc_02lmpcc/">源码学习：amr-lmpcc_02</a>
+      </h1>
 
-      <a href="/2020/06/05/Code/ROS/how-to-run-amr-lmpcc/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/06/20/Code/ROS/source-code-amr-lmpcc_02lmpcc/">
           
-        
-        <div>a local planning approach based on Model Predictive Contouring Control (MPCC) to safely navigate a mobile robot in dynamic, unstructured environments.</div>
-      </a>
+          
+            
+          
+          lmpcc 分析与总结
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-06-05
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-06-20 16:53" pubdate>
+              2020-06-20
+            </time>
           </div>
         
         
@@ -211,7 +225,178 @@
           </div>
         
       </div>
-    </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2020/06/17/Code/ROS/gazebo-amr-lmpcc/" target="_self">
+          <img src="/img/index_img/chris-ried.jpg" srcset="/img/loading.gif" alt="源码学习：amr-lmpcc 仿真分析">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/06/17/Code/ROS/gazebo-amr-lmpcc/">源码学习：amr-lmpcc 仿真分析</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/06/17/Code/ROS/gazebo-amr-lmpcc/">
+          
+          
+            
+          
+          在 gazebo 环境下使用时的 launch 文件分析
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-06-17 15:37" pubdate>
+              2020-06-17
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ROS/">ROS</a>
+            
+              <a href="/tags/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">源码学习</a>
+            
+              <a href="/tags/LMPCC/">LMPCC</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2020/06/15/Code/ROS/source-code-amr-lmpcc_01/" target="_self">
+          <img src="/img/index_img/amr_lmpcc.png" srcset="/img/loading.gif" alt="源码学习：amr-lmpcc_01">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/06/15/Code/ROS/source-code-amr-lmpcc_01/">源码学习：amr-lmpcc_01</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/06/15/Code/ROS/source-code-amr-lmpcc_01/">
+          
+          
+            
+          
+          amr-lmpcc 源码目录及相关项目
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-06-15 09:09" pubdate>
+              2020-06-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ROS/">ROS</a>
+            
+              <a href="/tags/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">源码学习</a>
+            
+              <a href="/tags/LMPCC/">LMPCC</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2020/06/05/Code/ROS/how-to-run-amr-lmpcc/" target="_self">
+          <img src="/img/index_img/paper.png" srcset="/img/loading.gif" alt="代码复现：amr-lmpcc">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/06/05/Code/ROS/how-to-run-amr-lmpcc/">代码复现：amr-lmpcc</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/06/05/Code/ROS/how-to-run-amr-lmpcc/">
+          
+          
+            
+          
+          a local planning approach based on Model Predictive Contouring Control (MPCC) to safely navigate a mobile robot in dynamic, unstructured environments.
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-06-05 16:26" pubdate>
+              2020-06-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ROS/">ROS</a>
+            
+              <a href="/tags/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">源码学习</a>
+            
+              <a href="/tags/LMPCC/">LMPCC</a>
+            
+          </div>
+        
+      </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
@@ -223,21 +408,28 @@
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/05/28/Code/c++/C++Primer-5th_13_Copy-Control/">C++Primer 5th：第十三章 拷贝控制</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/05/28/Code/c++/C++Primer-5th_13_Copy-Control/">C++Primer 5th：第十三章 拷贝控制</a>
+      </h1>
 
-      <a href="/2020/05/28/Code/c++/C++Primer-5th_13_Copy-Control/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/05/28/Code/c++/C++Primer-5th_13_Copy-Control/">
           
-        
-        <div>拷贝构造函数、移动构造函数、拷贝赋值运算符、移动赋值运算符以及析构函数。</div>
-      </a>
+          
+            
+          
+          拷贝构造函数、移动构造函数、拷贝赋值运算符、移动赋值运算符以及析构函数。
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-28
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-05-28 16:09" pubdate>
+              2020-05-28
+            </time>
           </div>
         
         
@@ -259,7 +451,7 @@
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
@@ -271,21 +463,28 @@
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/05/25/Code/c++/C++Primer-5th_12_Dynamic-Memory/">C++Primer 5th：第十二章 动态内存</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/05/25/Code/c++/C++Primer-5th_12_Dynamic-Memory/">C++Primer 5th：第十二章 动态内存</a>
+      </h1>
 
-      <a href="/2020/05/25/Code/c++/C++Primer-5th_12_Dynamic-Memory/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/05/25/Code/c++/C++Primer-5th_12_Dynamic-Memory/">
           
-        
-        <div>动态分配的对象的生存期与它们在哪里创建是无关的，只有当显式地被释放时，这些对象才会销毁。为了更安全地使用动态对象，标准库定义了两个智能指针来管理动态分配的对象。</div>
-      </a>
+          
+            
+          
+          动态分配的对象的生存期与它们在哪里创建是无关的，只有当显式地被释放时，这些对象才会销毁。为了更安全地使用动态对象，标准库定义了两个智能指针来管理动态分配的对象。
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-25
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-05-25 14:23" pubdate>
+              2020-05-25
+            </time>
           </div>
         
         
@@ -307,7 +506,7 @@
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
@@ -319,21 +518,28 @@
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/05/12/Code/c++/C++Primer-5th_11_Associative-Containers/">C++Primer 5th：第十一章 关联容器</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/05/12/Code/c++/C++Primer-5th_11_Associative-Containers/">C++Primer 5th：第十一章 关联容器</a>
+      </h1>
 
-      <a href="/2020/05/12/Code/c++/C++Primer-5th_11_Associative-Containers/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/05/12/Code/c++/C++Primer-5th_11_Associative-Containers/">
           
-        
-        <div>关联容器中的元素是按关键字来保存和访问的，顺序容器中的元素是按它们在容器中的位置来顺序保存和访问的。</div>
-      </a>
+          
+            
+          
+          关联容器中的元素是按关键字来保存和访问的，顺序容器中的元素是按它们在容器中的位置来顺序保存和访问的。
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-12
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-05-12 16:22" pubdate>
+              2020-05-12
+            </time>
           </div>
         
         
@@ -355,7 +561,7 @@
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
@@ -367,21 +573,28 @@
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/05/07/Code/c++/C++Primer-5th_10_Generic-Algorithms/">C++Primer 5th：第十章 泛型算法</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/05/07/Code/c++/C++Primer-5th_10_Generic-Algorithms/">C++Primer 5th：第十章 泛型算法</a>
+      </h1>
 
-      <a href="/2020/05/07/Code/c++/C++Primer-5th_10_Generic-Algorithms/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/05/07/Code/c++/C++Primer-5th_10_Generic-Algorithms/">
           
-        
-        <div>泛型算法和关于迭代器的更多细节。</div>
-      </a>
+          
+            
+          
+          泛型算法和关于迭代器的更多细节。
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-07
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-05-07 17:08" pubdate>
+              2020-05-07
+            </time>
           </div>
         
         
@@ -403,27 +616,34 @@
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/06/Reading%20notes/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%B2%BE%E8%8B%B1%E9%83%BD%E6%98%AF%E6%97%B6%E9%97%B4%E6%8E%A7/">读书笔记：为什么精英都是时间控</a>
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/05/06/Reading%20notes/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%B2%BE%E8%8B%B1%E9%83%BD%E6%98%AF%E6%97%B6%E9%97%B4%E6%8E%A7/">读书笔记：为什么精英都是时间控</a>
+      </h1>
 
-      <a href="/2020/05/06/Reading%20notes/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%B2%BE%E8%8B%B1%E9%83%BD%E6%98%AF%E6%97%B6%E9%97%B4%E6%8E%A7/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/05/06/Reading%20notes/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%B2%BE%E8%8B%B1%E9%83%BD%E6%98%AF%E6%97%B6%E9%97%B4%E6%8E%A7/">
           
-        
-        <div>作者曾是差点被精神压力打垮、被工作“忙杀”的神经科医生，在决心改变自己的生活方式后，发现了将大脑机能发挥到极致的时间管理术，实现了一天之中完成4个人才能完成的工作，还拥有一般人2倍以上的自由时间。</div>
-      </a>
+          
+            
+          
+          作者曾是差点被精神压力打垮、被工作“忙杀”的神经科医生，在决心改变自己的生活方式后，发现了将大脑机能发挥到极致的时间管理术，实现了一天之中完成4个人才能完成的工作，还拥有一般人2倍以上的自由时间。
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-06
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-05-06 20:22" pubdate>
+              2020-05-06
+            </time>
           </div>
         
         
@@ -443,21 +663,24 @@
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/04/01/Code/ROS/how-to-learn-ros/">汇总：ROS学习资源</a>
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/04/01/Code/ROS/how-to-learn-ros/">汇总：ROS学习资源</a>
+      </h1>
 
-      <a href="/2020/04/01/Code/ROS/how-to-learn-ros/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/04/01/Code/ROS/how-to-learn-ros/">
           
-        
-        <div>
+          
+            
+          
+          
             本文最后更新于：2020年4月1日 晚上
           
 1. 重要网站
@@ -470,13 +693,17 @@ ROS answers：问答网站，遇到的问题几乎都有，请用英文搜索
 中科院软件所-机器人操作系统入门
 
 总时长：5个小时左右
-记</div>
-      </a>
+记
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-04-01
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-01 07:57" pubdate>
+              2020-04-01
+            </time>
           </div>
         
         
@@ -490,82 +717,22 @@ ROS answers：问答网站，遇到的问题几乎都有，请用英文搜索
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BD%91%E7%AB%99%E6%B1%87%E6%80%BB/">网站汇总</a>
             
               <a href="/tags/ROS/">ROS</a>
             
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/03/12/Code/how-to-use-git/">git 学习笔记</a>
-
-      <a href="/2020/03/12/Code/how-to-use-git/" class="index-excerpt">
-        
-        
-          
-        
-        <div>
-            本文最后更新于：2020年3月12日 上午
-          
-一. 创建版本库
-创建一个空目录
-
-mkdir learngit
-cd learngit
-
-把这个目录变成 Git 可以管理的仓库
-
-git init
-
-把文件添加到版本库
-
-创建一个readme.md的文件
-# 把文件修改添加到暂存区
-git add readme.md
-# 把暂存区的所有内容提交到当前分</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-03-12
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
-            
-              <a href="/tags/git/">git</a>
+              <a href="/tags/%E7%BD%91%E7%AB%99%E6%B1%87%E6%80%BB/">网站汇总</a>
             
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/2/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+      <a class="extend prev" rel="prev" href="/page/2/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   
@@ -646,6 +813,10 @@ git add readme.md
 
   
     <script  src="/js/lazyload.js" ></script>
+  
+
+
+
   
 
 
