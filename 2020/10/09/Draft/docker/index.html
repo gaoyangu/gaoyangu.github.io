@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      869 字
+      872 字
     </span>
   
 
@@ -237,84 +237,10 @@
 <li>容器（container）：利用容器独立运行的一个或一组应用，容器是用镜像创建的运行实例，可以把容器看成一个简易版的 Linux 环境和运行在其中的应用程序</li>
 <li>仓库（repository）：集中存访镜像文件的场所</li>
 </ul>
-<h3 id="阿里云镜像"><a href="#阿里云镜像" class="headerlink" title="阿里云镜像"></a>阿里云镜像</h3><pre><code class="hljs sh">ps -ef | grep docker</code></pre>
-<h3 id="帮助命令"><a href="#帮助命令" class="headerlink" title="帮助命令"></a>帮助命令</h3><pre><code class="hljs sh">$ docker version
-$ docker info
-$ docker --<span class="hljs-built_in">help</span></code></pre>
-<h3 id="镜像命令"><a href="#镜像命令" class="headerlink" title="镜像命令"></a>镜像命令</h3><pre><code class="hljs sh">$ docker images
--a : 列出本地所有的镜像（含中间映像层）
--q : 只显示镜像ID
---digests : 显示镜像的摘要信息
---no-trunc : 显示完整的镜像信息
-
-$ docker search tomcat
---no-trunc : 显示完整的镜像信息
--s : 列出收藏数不小于指定值的镜像
---automated : 只列出 automated build 类型的镜像
-
-$ docker pull tomcat
-
-$ docker rmi -f hello-world
-$ docker rmi -f $(docker images -qa)</code></pre>
-<h3 id="容器命令"><a href="#容器命令" class="headerlink" title="容器命令"></a>容器命令</h3><pre><code class="hljs sh"><span class="hljs-comment"># 新建并启动容器</span>
-$ docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
---name=<span class="hljs-string">"容器新名字"</span> : 为容器指定一个名称
--d : 后台运行容器，并返回容器ID，也即启动守护式容器
--i : 以交互模式运行容器，通常与 -t 同时使用
--t : 为容器重新分配一个伪输入终端，通常与 -i 同时使用
-
-<span class="hljs-comment"># 列出当前所有正在运行的容器</span>
-$ docker ps [OPTIONS]
--a : 列出当前所有正在运行的容器 + 历史上运行过的
--l : 显示最近创建的容器
--n : 显示最近 n 个创建的容器
--q : 静默模式，只显示容器编号
---no-trunc : 显示完整的镜像信息
-
-<span class="hljs-comment"># 退出容器</span>
-<span class="hljs-built_in">exit</span>	容器停止退出
-ctrl+P+Q	容器不停止退出
-
-<span class="hljs-comment"># 启动容器</span>
-$ docker start 容器ID或容器名
-
-<span class="hljs-comment"># 重启容器</span>
-$ docker restart 容器ID或容器名
-
-<span class="hljs-comment"># 停止容器</span>
-$ docker stop 容器ID或容器名
-
-<span class="hljs-comment"># 强制停止</span>
-$ docker <span class="hljs-built_in">kill</span> 容器ID或容器名
-
-<span class="hljs-comment"># 删除已停止的容器</span>
-$ docker rm 容器ID或容器名
-<span class="hljs-comment"># 一次删除多个容器</span>
-$ docker rm -f $(docker ps -a -q)
-$ docker ps -a -q | xargs docker rm 
-
-<span class="hljs-comment"># 使用镜像以后台模式启动一个容器</span>
-$ docker run -d centos
-<span class="hljs-comment"># !!! docker 容器后台运行，就必须有一个前台进程</span>
-
-<span class="hljs-comment"># 查看容器日志</span>
-$ docker logs -f -t --tail 容器ID
--t : 加入时间戳
--f : 跟随最新的日志打印
---tail 数字 : 显示最后多少条
-
-<span class="hljs-comment"># 查看容器内运行的进程</span>
-$ docker top 容器ID
-
-<span class="hljs-comment"># 查看容器内部细节</span>
-$ docker inspect 容器ID
-
-<span class="hljs-comment"># 进入正在运行的容器并以命令行交互</span>
-$ docker attach 容器ID	<span class="hljs-comment"># 直接进入容器启动命令的终端，不会启动新的进程</span>
-$ docker <span class="hljs-built_in">exec</span> -it 容器ID bashShell	<span class="hljs-comment"># 在容器中打开新的终端，并且可以启动新的进程</span>
-
-<span class="hljs-comment"># 从容器内拷贝文件到主机上</span>
-$ docker cp 容器ID:容器内的路径 目的主机路径</code></pre>
+<h3 id="阿里云镜像"><a href="#阿里云镜像" class="headerlink" title="阿里云镜像"></a>阿里云镜像</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">ps -ef | grep docker<br></code></pre></td></tr></table></figure>
+<h3 id="帮助命令"><a href="#帮助命令" class="headerlink" title="帮助命令"></a>帮助命令</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ docker version<br>$ docker info<br>$ docker --<span class="hljs-built_in">help</span><br></code></pre></td></tr></table></figure>
+<h3 id="镜像命令"><a href="#镜像命令" class="headerlink" title="镜像命令"></a>镜像命令</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ docker images<br>-a : 列出本地所有的镜像（含中间映像层）<br>-q : 只显示镜像ID<br>--digests : 显示镜像的摘要信息<br>--no-trunc : 显示完整的镜像信息<br><br>$ docker search tomcat<br>--no-trunc : 显示完整的镜像信息<br>-s : 列出收藏数不小于指定值的镜像<br>--automated : 只列出 automated build 类型的镜像<br><br>$ docker pull tomcat<br><br>$ docker rmi -f hello-world<br>$ docker rmi -f $(docker images -qa)<br></code></pre></td></tr></table></figure>
+<h3 id="容器命令"><a href="#容器命令" class="headerlink" title="容器命令"></a>容器命令</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 新建并启动容器</span><br>$ docker run [OPTIONS] IMAGE [COMMAND] [ARG...]<br>--name=<span class="hljs-string">"容器新名字"</span> : 为容器指定一个名称<br>-d : 后台运行容器，并返回容器ID，也即启动守护式容器<br>-i : 以交互模式运行容器，通常与 -t 同时使用<br>-t : 为容器重新分配一个伪输入终端，通常与 -i 同时使用<br><br><span class="hljs-comment"># 列出当前所有正在运行的容器</span><br>$ docker ps [OPTIONS]<br>-a : 列出当前所有正在运行的容器 + 历史上运行过的<br>-l : 显示最近创建的容器<br>-n : 显示最近 n 个创建的容器<br>-q : 静默模式，只显示容器编号<br>--no-trunc : 显示完整的镜像信息<br><br><span class="hljs-comment"># 退出容器</span><br><span class="hljs-built_in">exit</span>	容器停止退出<br>ctrl+P+Q	容器不停止退出<br><br><span class="hljs-comment"># 启动容器</span><br>$ docker start 容器ID或容器名<br><br><span class="hljs-comment"># 重启容器</span><br>$ docker restart 容器ID或容器名<br><br><span class="hljs-comment"># 停止容器</span><br>$ docker stop 容器ID或容器名<br><br><span class="hljs-comment"># 强制停止</span><br>$ docker <span class="hljs-built_in">kill</span> 容器ID或容器名<br><br><span class="hljs-comment"># 删除已停止的容器</span><br>$ docker rm 容器ID或容器名<br><span class="hljs-comment"># 一次删除多个容器</span><br>$ docker rm -f $(docker ps -a -q)<br>$ docker ps -a -q | xargs docker rm <br><br><span class="hljs-comment"># 使用镜像以后台模式启动一个容器</span><br>$ docker run -d centos<br><span class="hljs-comment"># !!! docker 容器后台运行，就必须有一个前台进程</span><br><br><span class="hljs-comment"># 查看容器日志</span><br>$ docker logs -f -t --tail 容器ID<br>-t : 加入时间戳<br>-f : 跟随最新的日志打印<br>--tail 数字 : 显示最后多少条<br><br><span class="hljs-comment"># 查看容器内运行的进程</span><br>$ docker top 容器ID<br><br><span class="hljs-comment"># 查看容器内部细节</span><br>$ docker inspect 容器ID<br><br><span class="hljs-comment"># 进入正在运行的容器并以命令行交互</span><br>$ docker attach 容器ID	<span class="hljs-comment"># 直接进入容器启动命令的终端，不会启动新的进程</span><br>$ docker <span class="hljs-built_in">exec</span> -it 容器ID bashShell	<span class="hljs-comment"># 在容器中打开新的终端，并且可以启动新的进程</span><br><br><span class="hljs-comment"># 从容器内拷贝文件到主机上</span><br>$ docker cp 容器ID:容器内的路径 目的主机路径<br></code></pre></td></tr></table></figure>
 <h3 id="Docker-镜像"><a href="#Docker-镜像" class="headerlink" title="Docker 镜像"></a>Docker 镜像</h3><p><strong>1. UnionFS(联合文件系统)</strong></p>
 <ul>
 <li>一种分层、轻量级并且高性能的文件系统，支持对文件系统的修改作为一次提交来一层层的叠加</li>

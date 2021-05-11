@@ -243,30 +243,14 @@
 </li>
 </ul>
 <p>类<code>Quote</code>的对象表示按原价出售的书籍，类<code>Bulk_quote</code>表示可以打折销售的书籍</p>
-<pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Quote</span>&#123;</span>
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-function"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> <span class="hljs-title">isbn</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span>;
-    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">double</span> <span class="hljs-title">net_price</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> n)</span> <span class="hljs-keyword">const</span></span>;
-&#125;;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Quote</span>&#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> <span class="hljs-title">isbn</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span>;<br>    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">double</span> <span class="hljs-title">net_price</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> n)</span> <span class="hljs-keyword">const</span></span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
 <p>派生类必须通过使用<strong>类派生列表（class derivation list）</strong>明确指出它从哪个基类继承而来的</p>
 <p><code>override</code>显式地注明它将使用哪个成员函数改写基类的虚函数</p>
-<pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bulk_quote</span> :</span> <span class="hljs-keyword">public</span> Quote&#123;
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">net_price</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> n)</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">override</span></span>;
-&#125;;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bulk_quote</span> :</span> <span class="hljs-keyword">public</span> Quote&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">net_price</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> n)</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">override</span></span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
 <p><strong>2. 动态绑定</strong></p>
 <p>在C++语言中，当使用基类的引用（或指针）调用一个虚函数时将发生动态绑定</p>
 <p>用同一段代码分别处理<code>Quote</code>和<code>Bulk_quote</code>的对象</p>
-<pre><code class="hljs cpp"><span class="hljs-comment">//计算并打印销售给定数量的某种书籍所得的费用</span>
-<span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">print_total</span><span class="hljs-params">(ostream &amp;os, <span class="hljs-keyword">const</span> Quote &amp;item, <span class="hljs-keyword">size_t</span> n)</span></span>
-<span class="hljs-function"></span>&#123;
-    <span class="hljs-comment">//根据传入 item 形参的对象类型调用 Quote::net_price</span>
-    <span class="hljs-comment">//或者 Bulk_quote::net_price</span>
-    <span class="hljs-keyword">double</span> ret = item.net_price(n);
-    os &lt;&lt; <span class="hljs-string">"ISBN: "</span> &lt;&lt; item.isbn()		<span class="hljs-comment">//调用 Quote::isbn</span>
-        &lt;&lt; <span class="hljs-string">"# sold: "</span> &lt;&lt; n &lt;&lt; <span class="hljs-string">"total due: "</span> &lt;&lt; ret &lt;&lt; <span class="hljs-built_in">endl</span>;
-    <span class="hljs-keyword">return</span> ret;
-&#125;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//计算并打印销售给定数量的某种书籍所得的费用</span><br><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">print_total</span><span class="hljs-params">(ostream &amp;os, <span class="hljs-keyword">const</span> Quote &amp;item, <span class="hljs-keyword">size_t</span> n)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">//根据传入 item 形参的对象类型调用 Quote::net_price</span><br>    <span class="hljs-comment">//或者 Bulk_quote::net_price</span><br>    <span class="hljs-keyword">double</span> ret = item.net_price(n);<br>    os &lt;&lt; <span class="hljs-string">"ISBN: "</span> &lt;&lt; item.isbn()		<span class="hljs-comment">//调用 Quote::isbn</span><br>        &lt;&lt; <span class="hljs-string">"# sold: "</span> &lt;&lt; n &lt;&lt; <span class="hljs-string">"total due: "</span> &lt;&lt; ret &lt;&lt; <span class="hljs-built_in">endl</span>;<br>    <span class="hljs-keyword">return</span> ret;<br>&#125;<br></code></pre></td></tr></table></figure>
 <ul>
 <li>函数<code>print_total</code>的<code>item</code>形参是基类<code>Quote</code>的一个引用，既能使用基类 Quote 的对象调用该函数，也能使用派生类 Bulk_quote 的对象调用它</li>
 <li><code>print_total</code>使用引用类型调用<code>net_price</code>函数，实际传入 print_total 的对象类型将决定到底执行 net_price 的哪个版本</li>
@@ -274,20 +258,7 @@
 <h2 id="15-2-定义基类和派生类"><a href="#15-2-定义基类和派生类" class="headerlink" title="15.2 定义基类和派生类"></a>15.2 定义基类和派生类</h2><h3 id="15-2-1-定义基类"><a href="#15-2-1-定义基类" class="headerlink" title="15.2.1 定义基类"></a>15.2.1 定义基类</h3><ul>
 <li>基类通常都定义一个虚析构函数</li>
 </ul>
-<pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Quote</span>&#123;</span>
-<span class="hljs-keyword">public</span>:
-    Quote() = <span class="hljs-keyword">default</span>;
-    Quote(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> &amp;book, <span class="hljs-keyword">double</span> sales_price): bookNo(book), price(sales_price)&#123;&#125;
-    <span class="hljs-function"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> <span class="hljs-title">isbn</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span> </span>&#123;<span class="hljs-keyword">return</span> bookNo;&#125;
-    <span class="hljs-comment">//返回给定数量的书籍的销售总额</span>
-    <span class="hljs-comment">//派生类负责改写并使用不同的折扣计算方法</span>
-    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">double</span> <span class="hljs-title">net_price</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> n)</span> <span class="hljs-keyword">const</span> </span>&#123;<span class="hljs-keyword">return</span> n * price;&#125;
-    <span class="hljs-keyword">virtual</span> ~Quote() = <span class="hljs-keyword">default</span>;
-<span class="hljs-keyword">private</span>:
-    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> bookNo;
-<span class="hljs-keyword">protected</span>:
-    <span class="hljs-keyword">double</span> price = <span class="hljs-number">0.0</span>;
-&#125;;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Quote</span>&#123;</span><br><span class="hljs-keyword">public</span>:<br>    Quote() = <span class="hljs-keyword">default</span>;<br>    Quote(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> &amp;book, <span class="hljs-keyword">double</span> sales_price): bookNo(book), price(sales_price)&#123;&#125;<br>    <span class="hljs-function"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> <span class="hljs-title">isbn</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span> </span>&#123;<span class="hljs-keyword">return</span> bookNo;&#125;<br>    <span class="hljs-comment">//返回给定数量的书籍的销售总额</span><br>    <span class="hljs-comment">//派生类负责改写并使用不同的折扣计算方法</span><br>    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">double</span> <span class="hljs-title">net_price</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> n)</span> <span class="hljs-keyword">const</span> </span>&#123;<span class="hljs-keyword">return</span> n * price;&#125;<br>    <span class="hljs-keyword">virtual</span> ~Quote() = <span class="hljs-keyword">default</span>;<br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> bookNo;<br><span class="hljs-keyword">protected</span>:<br>    <span class="hljs-keyword">double</span> price = <span class="hljs-number">0.0</span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
 <p><strong>1. 成员函数与继承</strong></p>
 <p>在c++语言中，基类必须将它的两种成员函数区分开</p>
 <ul>
@@ -302,26 +273,13 @@
 <li>基类希望它的派生类有权访问该成员，同时禁止其他用户访问，我们用<strong>受保护的（protected）</strong>访问运算符说明这样的成员</li>
 </ul>
 <h3 id="15-2-2-定义派生类"><a href="#15-2-2-定义派生类" class="headerlink" title="15.2.2 定义派生类"></a>15.2.2 定义派生类</h3><p>每个基类前面可以有以下三种访问说明符中的一个：<code>public</code>, <code>protected</code>, <code>private</code></p>
-<pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bulk_quote</span> :</span> <span class="hljs-keyword">public</span> Quote &#123;
-<span class="hljs-keyword">public</span>: 
-    Bulk_quote() = <span class="hljs-keyword">default</span>;
-    Bulk_quote(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp;, <span class="hljs-keyword">double</span>, <span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span>, <span class="hljs-keyword">double</span>);
-    <span class="hljs-comment">//覆盖基类的函数版本以实现基于大量购买的折扣政策</span>
-    <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">net_price</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span>)</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">override</span></span>;
-<span class="hljs-keyword">private</span>:
-    <span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> min_qty = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">double</span> discount = <span class="hljs-number">0.0</span>;
-&#125;;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bulk_quote</span> :</span> <span class="hljs-keyword">public</span> Quote &#123;<br><span class="hljs-keyword">public</span>: <br>    Bulk_quote() = <span class="hljs-keyword">default</span>;<br>    Bulk_quote(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp;, <span class="hljs-keyword">double</span>, <span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span>, <span class="hljs-keyword">double</span>);<br>    <span class="hljs-comment">//覆盖基类的函数版本以实现基于大量购买的折扣政策</span><br>    <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">net_price</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span>)</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">override</span></span>;<br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> min_qty = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">double</span> discount = <span class="hljs-number">0.0</span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
 <p>如果一个派生是公有的，则基类的公有成员也是派生类接口的组成部分。</p>
 <p><strong>1. 派生类中的虚函数</strong></p>
 <p>派生类经常（但不总是）覆盖它继承的虚函数</p>
 <p><strong>2. 派生类对象及派生类向基类的类型转换</strong></p>
 <p>我们能把派生类的对象当成基类对象来使用，也能将基类的指针或引用绑定到派生类对象中的基类部分上、</p>
-<pre><code class="hljs cpp">Quote item;			<span class="hljs-comment">//基类对象</span>
-Bulk_quote bulk;	<span class="hljs-comment">//派生类对象</span>
-Quote *p = &amp;item;	<span class="hljs-comment">//p指向 Quote 对象</span>
-p = &amp;bulk;			<span class="hljs-comment">//p 指向 bulk 的 Quote 部分</span>
-Quote &amp;r = bulk;	<span class="hljs-comment">//r 绑定到 bulk 的 Quote 部分</span></code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp">Quote item;			<span class="hljs-comment">//基类对象</span><br>Bulk_quote bulk;	<span class="hljs-comment">//派生类对象</span><br>Quote *p = &amp;item;	<span class="hljs-comment">//p指向 Quote 对象</span><br>p = &amp;bulk;			<span class="hljs-comment">//p 指向 bulk 的 Quote 部分</span><br>Quote &amp;r = bulk;	<span class="hljs-comment">//r 绑定到 bulk 的 Quote 部分</span><br></code></pre></td></tr></table></figure>
 <p>这种转换称为<strong>派生类到基类的（derived-to-base）</strong>类型转换</p>
 <p>在派生类对象中含有与基类对应的组成部分，这一事实是继承的关键所在</p>
 <p><strong>3. 派生类构造函数</strong></p>
@@ -332,17 +290,10 @@ Quote &amp;r = bulk;	<span class="hljs-comment">//r 绑定到 bulk 的 Quote 部
 </li>
 <li>首先初始化基类的部分，然后按照声明的顺序依次初始化派生类的成员</li>
 </ul>
-<pre><code class="hljs cpp">Bulk_quote(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; book, <span class="hljs-keyword">double</span> p, <span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> qty, <span class="hljs-keyword">double</span> disc):
-	Quote(book,p), min_qty(qty), discount(disc)&#123;&#125;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">Bulk_quote(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; book, <span class="hljs-keyword">double</span> p, <span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> qty, <span class="hljs-keyword">double</span> disc):<br>	Quote(book,p), min_qty(qty), discount(disc)&#123;&#125;<br></code></pre></td></tr></table></figure>
 <p><strong>4. 派生类使用基类的成员</strong></p>
 <p>派生类可以访问基类的公有成员和受保护成员：</p>
-<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">Bulk_quote::net_price</span><span class="hljs-params">(<span class="hljs-keyword">size_t</span> cnt)</span> <span class="hljs-keyword">const</span></span>
-<span class="hljs-function"></span>&#123;
-    <span class="hljs-keyword">if</span>(cnt &gt;= min_qty)
-        <span class="hljs-keyword">return</span> cnt * (<span class="hljs-number">1</span> - discount) * price;
-    <span class="hljs-keyword">else</span>
-        <span class="hljs-keyword">return</span> cnt * price;
-&#125;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">Bulk_quote::net_price</span><span class="hljs-params">(<span class="hljs-keyword">size_t</span> cnt)</span> <span class="hljs-keyword">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span>(cnt &gt;= min_qty)<br>        <span class="hljs-keyword">return</span> cnt * (<span class="hljs-number">1</span> - discount) * price;<br>    <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">return</span> cnt * price;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p><strong>遵循基类的接口</strong></p>
 <ul>
 <li><p>每个类负责定义各自的接口，要想与类的对象交互必须使用该类的接口，即使这个对象是派生类的基类部分也是如此</p>
@@ -358,19 +309,16 @@ Quote &amp;r = bulk;	<span class="hljs-comment">//r 绑定到 bulk 的 Quote 部
 <ul>
 <li>声明中包含类名但是不包含它的派生列表</li>
 </ul>
-<pre><code class="hljs cpp"><span class="hljs-comment">//class Bulk_quote : public Quote;	//错误</span>
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bulk_quote</span>;</span></code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//class Bulk_quote : public Quote;	//错误</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bulk_quote</span>;</span><br></code></pre></td></tr></table></figure>
 <p><strong>7. 被用作基类的类</strong></p>
 <ul>
 <li>一个类不能派生它本身</li>
 </ul>
-<pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Base</span> &#123;</span><span class="hljs-comment">/* ... */</span>&#125;;
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">D1</span> :</span> <span class="hljs-keyword">public</span> Base &#123;<span class="hljs-comment">/* ... */</span>&#125;;
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">D2</span> :</span> <span class="hljs-keyword">public</span> D1 &#123;<span class="hljs-comment">/* ... */</span>&#125;;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Base</span> &#123;</span><span class="hljs-comment">/* ... */</span>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">D1</span> :</span> <span class="hljs-keyword">public</span> Base &#123;<span class="hljs-comment">/* ... */</span>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">D2</span> :</span> <span class="hljs-keyword">public</span> D1 &#123;<span class="hljs-comment">/* ... */</span>&#125;;<br></code></pre></td></tr></table></figure>
 <p>Base 是 D1 的<strong>直接基类（direct base）</strong>，同时是 D2 的<strong>间接基类（indirect base）</strong></p>
 <p><strong>8. 防止继承的发生</strong></p>
 <p>c++11 新标准提供了一种防止继承发生的方法，即在类名后跟一个关键字 <code>final</code></p>
-<pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NoDerived</span> <span class="hljs-title">final</span> &#123;</span><span class="hljs-comment">/* */</span>&#125;;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NoDerived</span> <span class="hljs-title">final</span> &#123;</span><span class="hljs-comment">/* */</span>&#125;;<br></code></pre></td></tr></table></figure>
 <h3 id="15-2-3-类型转换与继承"><a href="#15-2-3-类型转换与继承" class="headerlink" title="15.2.3 类型转换与继承"></a>15.2.3 类型转换与继承</h3><ul>
 <li>我们可以将基类的指针或引用绑定到派生类对象上</li>
 <li>和内置指针一样，智能指针类也支持派生类向基类的类型转换，这意味着我们可以将一个派生类对象的指针存储在一个基类的智能指针内</li>
@@ -409,8 +357,7 @@ Quote &amp;r = bulk;	<span class="hljs-comment">//r 绑定到 bulk 的 Quote 部
 <p>如果虚函数使用默认实参，则基类和派生类中定义地默认实参最好一致</p>
 <p><strong>5. 回避虚函数的机制</strong></p>
 <p>希望对虚函数地调用不要进行动态绑定，而是强迫其执行虚函数地某个特定版本，使用作用域运算符可以实现这一目的</p>
-<pre><code class="hljs cpp"><span class="hljs-comment">//强行调用基类中定义的函数版本而不管 baseP 的动态类型是什么</span>
-<span class="hljs-keyword">double</span> undiscounted = baseP-&gt;Quote::net_price(<span class="hljs-number">42</span>);</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//强行调用基类中定义的函数版本而不管 baseP 的动态类型是什么</span><br><span class="hljs-keyword">double</span> undiscounted = baseP-&gt;Quote::net_price(<span class="hljs-number">42</span>);<br></code></pre></td></tr></table></figure>
 <ul>
 <li>通常只有成员函数（或友元）中的代码才需要使用作用域运算符来回避虚函数的机制</li>
 <li>如果一个派生类虚函数需要调用它的基类版本，但是没有使用作用域运算符，则在运行时该调用将被解析为对派生类版本自身的调用，从而导致无限递归</li>
@@ -420,26 +367,11 @@ Quote &amp;r = bulk;	<span class="hljs-comment">//r 绑定到 bulk 的 Quote 部
 <li>可以将 net_price 定义为纯虚（prue virtual）函数从而令程序实现我们的设计意图，这样可以清晰明了地告诉用户当前这个 net_price 函数是没有实际意义的</li>
 <li>可以为传虚函数提供定义，不过函数必须定义在类的外部，不能在类的内部为一个 =0 地函数提供函数体</li>
 </ul>
-<pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Disc_quote</span> :</span> <span class="hljs-keyword">public</span> Quote&#123;
-<span class="hljs-keyword">public</span>:
-    Disc_quote() = <span class="hljs-keyword">default</span>;
-    Disc_quote(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; book, <span class="hljs-keyword">double</span> price, <span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> qty, <span class="hljs-keyword">double</span> disc):
-    	Quote(book, price), quantity(qty), discount(disc)&#123;&#125;
-    <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">net_price</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span>)</span> <span class="hljs-keyword">const</span> </span>= <span class="hljs-number">0</span>;
-<span class="hljs-keyword">protected</span>:
-    <span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> quantity = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">double</span> discount = <span class="hljs-number">0.0</span>;
-&#125;;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Disc_quote</span> :</span> <span class="hljs-keyword">public</span> Quote&#123;<br><span class="hljs-keyword">public</span>:<br>    Disc_quote() = <span class="hljs-keyword">default</span>;<br>    Disc_quote(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; book, <span class="hljs-keyword">double</span> price, <span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> qty, <span class="hljs-keyword">double</span> disc):<br>    	Quote(book, price), quantity(qty), discount(disc)&#123;&#125;<br>    <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">net_price</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span>)</span> <span class="hljs-keyword">const</span> </span>= <span class="hljs-number">0</span>;<br><span class="hljs-keyword">protected</span>:<br>    <span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> quantity = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">double</span> discount = <span class="hljs-number">0.0</span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
 <p><strong>2. 含有纯虚函数地类是抽象基类</strong></p>
 <p>我们不能创建抽象基类的对象</p>
 <p><strong>3. 派生类构造函数只初始化它的直接基类</strong></p>
-<pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bulk_quote</span> :</span> <span class="hljs-keyword">public</span> Disc_quote&#123;
-<span class="hljs-keyword">public</span>:
-    Bulk_quote() = <span class="hljs-keyword">default</span>;
-    Bulk_quote(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; book, <span class="hljs-keyword">double</span> price, <span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> qty, <span class="hljs-keyword">double</span> disc):
-    	Disc_quote(book, price, qty, disc)&#123;&#125;
-    <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">net_price</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span>)</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">override</span></span>;
-&#125;;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bulk_quote</span> :</span> <span class="hljs-keyword">public</span> Disc_quote&#123;<br><span class="hljs-keyword">public</span>:<br>    Bulk_quote() = <span class="hljs-keyword">default</span>;<br>    Bulk_quote(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; book, <span class="hljs-keyword">double</span> price, <span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> qty, <span class="hljs-keyword">double</span> disc):<br>    	Disc_quote(book, price, qty, disc)&#123;&#125;<br>    <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">net_price</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span>)</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">override</span></span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
 <p><strong>4. 重构</strong></p>
 <ul>
 <li>在 Quote 的继承体系中增加 Disc_quote 类是重构（refactoring）的一个典型示例</li>

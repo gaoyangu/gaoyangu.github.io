@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      439 字
+      434 字
     </span>
   
 
@@ -231,18 +231,12 @@
 <ul>
 <li>对常量的引用（reference to const）</li>
 </ul>
-<pre><code class="hljs cpp"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> ci = <span class="hljs-number">1024</span>;
-<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> &amp;r1 = ci;	<span class="hljs-comment">//正确：引用及其对应的对象都是常量</span>
-<span class="hljs-comment">//r1 = 42;		//错误：r1是对常量的引用</span>
-<span class="hljs-comment">//int &amp;r2 = ci;	//错误：试图让一个非常量引用指向一个常量引用</span></code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> ci = <span class="hljs-number">1024</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> &amp;r1 = ci;	<span class="hljs-comment">//正确：引用及其对应的对象都是常量</span><br><span class="hljs-comment">//r1 = 42;		//错误：r1是对常量的引用</span><br><span class="hljs-comment">//int &amp;r2 = ci;	//错误：试图让一个非常量引用指向一个常量引用</span><br></code></pre></td></tr></table></figure>
 <p><strong>2.4.2 指针和const</strong></p>
 <ul>
 <li>指向常量的指针（pointer to const）</li>
 </ul>
-<pre><code class="hljs cpp"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> pi = <span class="hljs-number">3.14</span>;
-<span class="hljs-comment">//double *ptr = &amp;pi;		//错误：ptr 是一个普通指针</span>
-<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *cptr = &amp;pi;	<span class="hljs-comment">//正确：cptr 可以指向一个双精度常量</span>
-<span class="hljs-comment">//*cptr = 42;				//错误：不能给 *cptr 赋值</span></code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> pi = <span class="hljs-number">3.14</span>;<br><span class="hljs-comment">//double *ptr = &amp;pi;		//错误：ptr 是一个普通指针</span><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *cptr = &amp;pi;	<span class="hljs-comment">//正确：cptr 可以指向一个双精度常量</span><br><span class="hljs-comment">//*cptr = 42;				//错误：不能给 *cptr 赋值</span><br></code></pre></td></tr></table></figure>
 <ol>
 <li>所谓指向常量的指针或引用，不过是指针或引用“自以为是”罢了，它们觉得自己指向了常量，所以自觉地不去改变所指对象的值。</li>
 <li>const指针<ul>
@@ -252,10 +246,7 @@
 </ul>
 </li>
 </ol>
-<pre><code class="hljs cpp"><span class="hljs-keyword">int</span> errNumb = <span class="hljs-number">0</span>;
-<span class="hljs-keyword">int</span> *<span class="hljs-keyword">const</span> curErr = &amp;errNum;	<span class="hljs-comment">//curErr 将一直指向 errNumb</span>
-<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> pi = <span class="hljs-number">3.14159</span>;
-<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *<span class="hljs-keyword">const</span> pip = &amp;pi;	<span class="hljs-comment">//pip 是一个指向常量对象的常量指针</span></code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> errNumb = <span class="hljs-number">0</span>;<br><span class="hljs-keyword">int</span> *<span class="hljs-keyword">const</span> curErr = &amp;errNum;	<span class="hljs-comment">//curErr 将一直指向 errNumb</span><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> pi = <span class="hljs-number">3.14159</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *<span class="hljs-keyword">const</span> pip = &amp;pi;	<span class="hljs-comment">//pip 是一个指向常量对象的常量指针</span><br></code></pre></td></tr></table></figure>
 <ul>
 <li><strong>从右向左阅读</strong>，有助于理解上述语句</li>
 </ul>
@@ -264,12 +255,7 @@
 <li><code>顶层cosnt</code>(top-level const) 表示指针本身是个常量</li>
 <li><code>底层const</code>(low-level const)表示指针所指的对象是一个常量</li>
 </ul>
-<pre><code class="hljs cpp"><span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;
-<span class="hljs-keyword">int</span> *<span class="hljs-keyword">const</span> p1 = &amp;i;		<span class="hljs-comment">//不能改变pi的值，这是一个顶层const</span>
-<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> ci = <span class="hljs-number">42</span>;		<span class="hljs-comment">//不能改变ci的值，这是一个顶层const</span>
-<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *p2 = &amp;ci;	<span class="hljs-comment">//允许改变p2的值，这是一个底层cosnt</span>
-<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *<span class="hljs-keyword">const</span> p3 = p2;	<span class="hljs-comment">//靠右的const是顶层const,靠左的是底层const</span>
-<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> &amp;r = ci;		<span class="hljs-comment">//用于声明引用的const都是底层const</span></code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;<br><span class="hljs-keyword">int</span> *<span class="hljs-keyword">const</span> p1 = &amp;i;		<span class="hljs-comment">//不能改变pi的值，这是一个顶层const</span><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> ci = <span class="hljs-number">42</span>;		<span class="hljs-comment">//不能改变ci的值，这是一个顶层const</span><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *p2 = &amp;ci;	<span class="hljs-comment">//允许改变p2的值，这是一个底层cosnt</span><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *<span class="hljs-keyword">const</span> p3 = p2;	<span class="hljs-comment">//靠右的const是顶层const,靠左的是底层const</span><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> &amp;r = ci;		<span class="hljs-comment">//用于声明引用的const都是底层const</span><br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>

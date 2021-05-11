@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      833 字
+      831 字
     </span>
   
 
@@ -230,17 +230,11 @@
               <div class="note note-success">
             <p>本文最后更新于：2020年6月28日 上午</p>
           </div>
-<h2 id="package-mobile-robot-state-publisher"><a href="#package-mobile-robot-state-publisher" class="headerlink" title="package:mobile_robot_state_publisher"></a>package:<code>mobile_robot_state_publisher</code></h2><h2 id="3-1-launch文件"><a href="#3-1-launch文件" class="headerlink" title="3.1 launch文件"></a>3.1 launch文件</h2><pre><code class="hljs applescript">/amr-lmpcc/mobile_robot_state_publisher/<span class="hljs-built_in">launch</span>
-└── mobile_robot_publisher.<span class="hljs-built_in">launch</span>
-
-<span class="hljs-built_in">file</span>: <span class="hljs-number">1</span></code></pre>
+<h2 id="package-mobile-robot-state-publisher"><a href="#package-mobile-robot-state-publisher" class="headerlink" title="package:mobile_robot_state_publisher"></a>package:<code>mobile_robot_state_publisher</code></h2><h2 id="3-1-launch文件"><a href="#3-1-launch文件" class="headerlink" title="3.1 launch文件"></a>3.1 launch文件</h2><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs applescript">/amr-lmpcc/mobile_robot_state_publisher/<span class="hljs-built_in">launch</span><br>└── mobile_robot_publisher.<span class="hljs-built_in">launch</span><br><br><span class="hljs-built_in">file</span>: <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
 <p>首先是<code>arg</code>参数</p>
-<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">arg</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"config"</span> <span class="hljs-attr">default</span>=<span class="hljs-string">"$(find mobile_robot_state_publisher)"</span>/&gt;</span></code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">arg</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"config"</span> <span class="hljs-attr">default</span>=<span class="hljs-string">"$(find mobile_robot_state_publisher)"</span>/&gt;</span><br></code></pre></td></tr></table></figure>
 <p>然后是用于发布机器人位姿的<code>mobile_robot_state_publisher_node</code>节点</p>
-<pre><code class="hljs xml"><span class="hljs-comment">&lt;!--Publish the mobile robot pose --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"mobile_robot_state_publisher"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"mobile_robot_state_publisher"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"mobile_robot_state_publisher_node"</span> <span class="hljs-attr">respawn</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">output</span>=<span class="hljs-string">"screen"</span>&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name">rosparam</span> <span class="hljs-attr">command</span>=<span class="hljs-string">"load"</span> <span class="hljs-attr">file</span>=<span class="hljs-string">"$(arg config)/config/jackal.yaml"</span> /&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">node</span>&gt;</span></code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--Publish the mobile robot pose --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"mobile_robot_state_publisher"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"mobile_robot_state_publisher"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"mobile_robot_state_publisher_node"</span> <span class="hljs-attr">respawn</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">output</span>=<span class="hljs-string">"screen"</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">rosparam</span> <span class="hljs-attr">command</span>=<span class="hljs-string">"load"</span> <span class="hljs-attr">file</span>=<span class="hljs-string">"$(arg config)/config/jackal.yaml"</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">node</span>&gt;</span><br></code></pre></td></tr></table></figure>
 <p><strong>小结：</strong></p>
 <p>该文件只启动了一个节点</p>
 <ul>
@@ -248,106 +242,39 @@
 </ul>
 <h2 id="3-2-jackal-yaml"><a href="#3-2-jackal-yaml" class="headerlink" title="3.2 jackal.yaml"></a>3.2 jackal.yaml</h2><p>在启动<code>mobile_robot_state_publisher_node</code>节点时加载的配置文件，主要包括：</p>
 <p>发布的频率<code>rate</code>，底盘坐标系<code>base_frame</code>，地图坐标系<code>root_frame</code>，发布的机器人状态的话题名<code>robot_state_topic</code>和订阅的里程计的话题名<code>vel_state_topic</code>。</p>
-<pre><code class="hljs yaml"><span class="hljs-comment">## Driver Parameters</span>
-
-<span class="hljs-comment">#publisher rate</span>
-<span class="hljs-attr">rate:</span> <span class="hljs-number">40</span>
-<span class="hljs-comment">#robot base frame</span>
-<span class="hljs-attr">base_frame:</span> <span class="hljs-string">base_link</span>
-<span class="hljs-comment">#map frame</span>
-<span class="hljs-attr">root_frame:</span> <span class="hljs-string">map</span>
-<span class="hljs-attr">robot_state_topic:</span> <span class="hljs-string">/robot_state</span>
-<span class="hljs-attr">vel_state_topic:</span> <span class="hljs-string">/odometry/filtered</span></code></pre>
-<h2 id="3-3-头文件"><a href="#3-3-头文件" class="headerlink" title="3.3 头文件"></a>3.3 头文件</h2><pre><code class="hljs taggerscript"><span class="hljs-symbol">\a</span>mr-lmpcc<span class="hljs-symbol">\m</span>obile_robot_state_publisher<span class="hljs-symbol">\i</span>nclude<span class="hljs-symbol">\m</span>obile_robot_state_publisher
-└── mobile_robot_state_publisher.h
-
-file: 1</code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment">## Driver Parameters</span><br><br><span class="hljs-comment">#publisher rate</span><br><span class="hljs-attr">rate:</span> <span class="hljs-number">40</span><br><span class="hljs-comment">#robot base frame</span><br><span class="hljs-attr">base_frame:</span> <span class="hljs-string">base_link</span><br><span class="hljs-comment">#map frame</span><br><span class="hljs-attr">root_frame:</span> <span class="hljs-string">map</span><br><span class="hljs-attr">robot_state_topic:</span> <span class="hljs-string">/robot_state</span><br><span class="hljs-attr">vel_state_topic:</span> <span class="hljs-string">/odometry/filtered</span><br></code></pre></td></tr></table></figure>
+<h2 id="3-3-头文件"><a href="#3-3-头文件" class="headerlink" title="3.3 头文件"></a>3.3 头文件</h2><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs taggerscript"><span class="hljs-symbol">\a</span>mr-lmpcc<span class="hljs-symbol">\m</span>obile_robot_state_publisher<span class="hljs-symbol">\i</span>nclude<span class="hljs-symbol">\m</span>obile_robot_state_publisher<br>└── mobile_robot_state_publisher.h<br><br>file: 1<br></code></pre></td></tr></table></figure>
 <h3 id="3-3-1-class-MobileRobotStatePublisher"><a href="#3-3-1-class-MobileRobotStatePublisher" class="headerlink" title="3.3.1 class MobileRobotStatePublisher"></a>3.3.1 class <code>MobileRobotStatePublisher</code></h3><p>在头文件，定义了一个类<code>MobileRobotStatePublisher</code>。</p>
 <p>类的开始定义了ROS句柄<code>nh_</code>，订阅者<code>jointstate_sub_</code>，发布者<code>robot_state_pub_</code>和用于 tf 变换的订阅者<code>tfListener(tfBuffer)</code>。</p>
-<pre><code class="hljs cpp">ros::NodeHandle nh_;
-
-ros::Subscriber jointstate_sub_;
-
-ros::Publisher robot_state_pub_;
-
-tf2_ros::Buffer tfBuffer;
-<span class="hljs-function">tf2_ros::TransformListener <span class="hljs-title">tfListener</span><span class="hljs-params">(tfBuffer)</span></span>;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp">ros::NodeHandle nh_;<br><br>ros::Subscriber jointstate_sub_;<br><br>ros::Publisher robot_state_pub_;<br><br>tf2_ros::Buffer tfBuffer;<br><span class="hljs-function">tf2_ros::TransformListener <span class="hljs-title">tfListener</span><span class="hljs-params">(tfBuffer)</span></span>;<br></code></pre></td></tr></table></figure>
 <p>然后是构造函数，析构函数和用于初始化的成员函数<code>initialize()</code></p>
-<pre><code class="hljs cpp">MobileRobotStatePublisher()&#123;
-&#125;
-
-~MobileRobotStatePublisher()&#123;
-
-&#125;
-
-<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">initialize</span><span class="hljs-params">()</span></span>;</code></pre>
-<h2 id="3-4-源文件"><a href="#3-4-源文件" class="headerlink" title="3.4 源文件"></a>3.4 源文件</h2><pre><code class="hljs cpp">\amr-lmpcc\mobile_robot_state_publisher\src
-├── mobile_robot_state_publisher_node.cpp
-└── mobile_robot_state_publisher_node.cpp~
-
-file: <span class="hljs-number">2</span></code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp">MobileRobotStatePublisher()&#123;<br>&#125;<br><br>~MobileRobotStatePublisher()&#123;<br><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">initialize</span><span class="hljs-params">()</span></span>;<br></code></pre></td></tr></table></figure>
+<h2 id="3-4-源文件"><a href="#3-4-源文件" class="headerlink" title="3.4 源文件"></a>3.4 源文件</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp">\amr-lmpcc\mobile_robot_state_publisher\src<br>├── mobile_robot_state_publisher_node.cpp<br>└── mobile_robot_state_publisher_node.cpp~<br><br>file: <span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
 <h3 id="3-4-1-mobile-robot-state-publisher-node-cpp"><a href="#3-4-1-mobile-robot-state-publisher-node-cpp" class="headerlink" title="3.4.1 mobile_robot_state_publisher_node.cpp"></a>3.4.1 mobile_robot_state_publisher_node.cpp</h3><h4 id="1-main函数"><a href="#1-main函数" class="headerlink" title="1. main函数"></a>1. main函数</h4><p>主函数开头初始化<code>mobile_robot_state_publisher_node</code>节点，创建句柄<code>n</code>和订阅者<code>robot_state_sub_</code></p>
-<pre><code class="hljs cpp">ros::init(argc, argv, <span class="hljs-string">"mobile_robot_state_publisher_node"</span>);
-ros::NodeHandle n;
-ros::Subscriber robot_state_sub_;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp">ros::init(argc, argv, <span class="hljs-string">"mobile_robot_state_publisher_node"</span>);<br>ros::NodeHandle n;<br>ros::Subscriber robot_state_sub_;<br></code></pre></td></tr></table></figure>
 <p>然后是用于获取<code>jackal.yaml</code>中的参数的代码，此处仅放一个作为示例。</p>
 <p>❗❗❗注：这些代码应该是打算写在成员函数<code>initialize()</code>中的。</p>
-<pre><code class="hljs cpp"><span class="hljs-keyword">double</span> node_rate;
-<span class="hljs-keyword">if</span> (!n.getParam(ros::this_node::getName()+<span class="hljs-string">"/rate"</span>, node_rate))&#123;
-	ROS_ERROR_STREAM(<span class="hljs-string">"mobile_robot_state_publisher_node Parameter "</span> &lt;&lt; ros::this_node::getName()+<span class="hljs-string">"/rate not set"</span>);
-	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-&#125;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">double</span> node_rate;<br><span class="hljs-keyword">if</span> (!n.getParam(ros::this_node::getName()+<span class="hljs-string">"/rate"</span>, node_rate))&#123;<br>	ROS_ERROR_STREAM(<span class="hljs-string">"mobile_robot_state_publisher_node Parameter "</span> &lt;&lt; ros::this_node::getName()+<span class="hljs-string">"/rate not set"</span>);<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>接着，订阅和发布了一些话题。</p>
-<pre><code class="hljs cpp">robot_state_sub_ = n.subscribe(vel_state_topic, <span class="hljs-number">1</span>, VelocityCallBack);
-ros::Publisher state_pub_ = n.advertise&lt;geometry_msgs::Pose&gt;(robot_state_topic, <span class="hljs-number">10</span>);
-
-tf2_ros::Buffer tfBuffer;
-<span class="hljs-function">tf2_ros::TransformListener <span class="hljs-title">tfListener</span><span class="hljs-params">(tfBuffer)</span></span>;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp">robot_state_sub_ = n.subscribe(vel_state_topic, <span class="hljs-number">1</span>, VelocityCallBack);<br>ros::Publisher state_pub_ = n.advertise&lt;geometry_msgs::Pose&gt;(robot_state_topic, <span class="hljs-number">10</span>);<br><br>tf2_ros::Buffer tfBuffer;<br><span class="hljs-function">tf2_ros::TransformListener <span class="hljs-title">tfListener</span><span class="hljs-params">(tfBuffer)</span></span>;<br></code></pre></td></tr></table></figure>
 <p>发布的频率设置</p>
-<pre><code class="hljs cpp"><span class="hljs-function">ros::Rate <span class="hljs-title">rate</span><span class="hljs-params">(node_rate)</span></span>;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">ros::Rate <span class="hljs-title">rate</span><span class="hljs-params">(node_rate)</span></span>;<br></code></pre></td></tr></table></figure>
 <p>中间变量的定义</p>
-<pre><code class="hljs cpp"><span class="hljs-comment">//Intermidiate variables</span>
-geometry_msgs::Pose pose_msg;
-<span class="hljs-keyword">double</span> ysqr, t3, t4;
-geometry_msgs::TransformStamped transformStamped;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//Intermidiate variables</span><br>geometry_msgs::Pose pose_msg;<br><span class="hljs-keyword">double</span> ysqr, t3, t4;<br>geometry_msgs::TransformStamped transformStamped;<br></code></pre></td></tr></table></figure>
 <p>在循环<code>while (n.ok())</code>中的try-catch语句，通过frame ID获取两帧之间的变换。</p>
 <ul>
 <li><code>base_link</code> -&gt; <code>map</code>的坐标变换</li>
 </ul>
-<pre><code class="hljs cpp"><span class="hljs-keyword">try</span>&#123;
-    <span class="hljs-comment">//Get the transform between two frames by frame ID</span>
-    <span class="hljs-comment">//void 	lookupTransform (const std::string &amp;target_frame, const std::string &amp;source_frame, const ros::Time &amp;time, StampedTransform &amp;transform) const</span>
-	transformStamped = tfBuffer.lookupTransform(root_frame, base_frame, ros::Time(<span class="hljs-number">0</span>));
-&#125;
-<span class="hljs-keyword">catch</span> (tf2::TransformException &amp;ex) &#123;
-	ROS_WARN(<span class="hljs-string">"%s"</span>,ex.what());
-	ros::Duration(<span class="hljs-number">1.0</span>).sleep();
-	<span class="hljs-keyword">continue</span>;
-&#125;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">try</span>&#123;<br>    <span class="hljs-comment">//Get the transform between two frames by frame ID</span><br>    <span class="hljs-comment">//void 	lookupTransform (const std::string &amp;target_frame, const std::string &amp;source_frame, const ros::Time &amp;time, StampedTransform &amp;transform) const</span><br>	transformStamped = tfBuffer.lookupTransform(root_frame, base_frame, ros::Time(<span class="hljs-number">0</span>));<br>&#125;<br><span class="hljs-keyword">catch</span> (tf2::TransformException &amp;ex) &#123;<br>	ROS_WARN(<span class="hljs-string">"%s"</span>,ex.what());<br>	ros::Duration(<span class="hljs-number">1.0</span>).sleep();<br>	<span class="hljs-keyword">continue</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>然后发布机器人位姿</p>
-<pre><code class="hljs cpp">pose_msg.orientation.z = QuatToJointAngle(transformStamped);
-
-pose_msg.position.x = transformStamped.transform.translation.x;
-pose_msg.position.y = transformStamped.transform.translation.y;
-pose_msg.position.z = vel;
-state_pub_.publish(pose_msg);</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp">pose_msg.orientation.z = QuatToJointAngle(transformStamped);<br><br>pose_msg.position.x = transformStamped.transform.translation.x;<br>pose_msg.position.y = transformStamped.transform.translation.y;<br>pose_msg.position.z = vel;<br>state_pub_.publish(pose_msg);<br></code></pre></td></tr></table></figure>
 <p>最后是ROS的回旋函数</p>
-<pre><code class="hljs cpp">ros::spinOnce();</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">ros::spinOnce();<br></code></pre></td></tr></table></figure>
 <h4 id="2-VelocityCallBack"><a href="#2-VelocityCallBack" class="headerlink" title="2. VelocityCallBack()"></a>2. <code>VelocityCallBack()</code></h4><p>订阅者<code>robot_state_sub_</code>的回调函数</p>
-<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">VelocityCallBack</span><span class="hljs-params">(<span class="hljs-keyword">const</span> nav_msgs::Odometry&amp; msg)</span></span>&#123;
-	vel = <span class="hljs-built_in">sqrt</span>(<span class="hljs-built_in">pow</span>(msg.twist.twist.linear.x,<span class="hljs-number">2</span>)+<span class="hljs-built_in">pow</span>(msg.twist.twist.linear.y,<span class="hljs-number">2</span>));
-&#125;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">VelocityCallBack</span><span class="hljs-params">(<span class="hljs-keyword">const</span> nav_msgs::Odometry&amp; msg)</span></span>&#123;<br>	vel = <span class="hljs-built_in">sqrt</span>(<span class="hljs-built_in">pow</span>(msg.twist.twist.linear.x,<span class="hljs-number">2</span>)+<span class="hljs-built_in">pow</span>(msg.twist.twist.linear.y,<span class="hljs-number">2</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
 <h4 id="3-QuatToJointAngle"><a href="#3-QuatToJointAngle" class="headerlink" title="3. QuatToJointAngle()"></a>3. <code>QuatToJointAngle()</code></h4><p>四元数(Quaternion)到角度的转换，<code>atan2</code>返回以弧度表示的 t4/t3 的反正切。</p>
 <p>具体可参考：<strong>中国大学MOOC《机器人操作系统入门》讲义第八章附录3三维空间刚体运动</strong></p>
-<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">QuatToJointAngle</span><span class="hljs-params">(<span class="hljs-keyword">const</span> geometry_msgs::TransformStamped transformStamped)</span></span>
-<span class="hljs-function"></span>&#123;
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> ysqr = transformStamped.transform.rotation.y * transformStamped.transform.rotation.y;
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> t3 = +<span class="hljs-number">2.0</span> * (transformStamped.transform.rotation.w * transformStamped.transform.rotation.z
-                 + transformStamped.transform.rotation.x * transformStamped.transform.rotation.y);
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> t4 = +<span class="hljs-number">1.0</span> - <span class="hljs-number">2.0</span> * (ysqr + transformStamped.transform.rotation.z * transformStamped.transform.rotation.z);
-
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">atan2</span>(t3, t4);
-&#125;;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">QuatToJointAngle</span><span class="hljs-params">(<span class="hljs-keyword">const</span> geometry_msgs::TransformStamped transformStamped)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> ysqr = transformStamped.transform.rotation.y * transformStamped.transform.rotation.y;<br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> t3 = +<span class="hljs-number">2.0</span> * (transformStamped.transform.rotation.w * transformStamped.transform.rotation.z<br>                 + transformStamped.transform.rotation.x * transformStamped.transform.rotation.y);<br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> t4 = +<span class="hljs-number">1.0</span> - <span class="hljs-number">2.0</span> * (ysqr + transformStamped.transform.rotation.z * transformStamped.transform.rotation.z);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">atan2</span>(t3, t4);<br>&#125;;<br></code></pre></td></tr></table></figure>
 <h2 id="3-5-总结"><a href="#3-5-总结" class="headerlink" title="3.5 总结"></a>3.5 总结</h2><ol>
 <li>这个包只有一个节点<code>mobile_robot_state_publisher_node</code>，该节点订阅话题<code>/odometry/filtered</code>，发布话题<code>/robot_state</code>。</li>
 <li>在类<code>MobileRobotStatePublisher</code>中定义的发布者和订阅者没有用到，是否是多余的定义。</li>

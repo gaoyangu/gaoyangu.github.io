@@ -234,16 +234,7 @@
 <li><a href="https://sychaichangkun.gitbooks.io/ros-tutorial-icourse163/content/chapter8old/7.1.3.html" target="_blank" rel="noopener">三维刚体运动</a></li>
 </ul>
 <h3 id="pose"><a href="#pose" class="headerlink" title="pose"></a>pose</h3><p>首先来看描述机器人位姿的<code>pose</code>，它包含一个机器人的位置坐标<code>position</code>和描述机器人旋转的<code>orientation</code></p>
-<pre><code class="hljs cpp">geometry_msgs/Pose pose
-	geometry_msgs/Point position
-		float64 x
-		float64 y
-		float64 z
-	geometry_msgs/Quaternion orientation
-		float64 x
-		float64 y
-		float64 z
-		float64 w</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp">geometry_msgs/Pose pose<br>	geometry_msgs/Point position<br>		float64 x<br>		float64 y<br>		float64 z<br>	geometry_msgs/Quaternion orientation<br>		float64 x<br>		float64 y<br>		float64 z<br>		float64 w<br></code></pre></td></tr></table></figure>
 <h3 id="position"><a href="#position" class="headerlink" title="position"></a>position</h3><p>其中位置坐标<code>position</code>包括<code>x,y,z</code>三个值，对于地面移动机器人，<code>z</code>一般为0。</p>
 <h3 id="orientation"><a href="#orientation" class="headerlink" title="orientation"></a>orientation</h3><p>描述机器人旋转的<code>orientation</code>是一个四元数，<code>w</code>为实部，<code>x,y,z</code>为虚部。</p>
 <p>在描述机器人的旋转时<strong>欧拉角</strong>是比较直观的方式，但是欧拉角存在万象锁的问题，<strong>四元数</strong>可以很好的解决这个问题。</p>

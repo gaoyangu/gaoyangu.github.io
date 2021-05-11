@@ -245,15 +245,12 @@
 <li><p>如果没有则通过终端，使用以下命令生成一个<code>SSH key pair</code></p>
 </li>
 </ul>
-<pre><code class="hljs sh">ssh-keygen -t rsa -b 4096</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">ssh-keygen -t rsa -b 4096<br></code></pre></td></tr></table></figure>
 <p><strong>2. 授权远端</strong></p>
 <p>在本地终端中运行以下命令将<code>SSH key pair</code>上传至远端，注意命令的内容要根据实际进行调整</p>
-<pre><code class="hljs sh"><span class="hljs-built_in">export</span> USER_AT_HOST=<span class="hljs-string">"your-user-name-on-host@hostname"</span>
-<span class="hljs-built_in">export</span> PUBKEYPATH=<span class="hljs-string">"<span class="hljs-variable">$HOME</span>/.ssh/id_rsa.pub"</span>
-
-ssh-copy-id -i <span class="hljs-string">"<span class="hljs-variable">$PUBKEYPATH</span>"</span> <span class="hljs-string">"<span class="hljs-variable">$USER_AT_HOST</span>"</span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">export</span> USER_AT_HOST=<span class="hljs-string">"your-user-name-on-host@hostname"</span><br><span class="hljs-built_in">export</span> PUBKEYPATH=<span class="hljs-string">"<span class="hljs-variable">$HOME</span>/.ssh/id_rsa.pub"</span><br><br>ssh-copy-id -i <span class="hljs-string">"<span class="hljs-variable">$PUBKEYPATH</span>"</span> <span class="hljs-string">"<span class="hljs-variable">$USER_AT_HOST</span>"</span><br></code></pre></td></tr></table></figure>
 <p><strong>3. 远端安装ssh-server服务</strong></p>
-<pre><code class="hljs sh">sudo apt-get install openssh-server</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">sudo apt-get install openssh-server<br></code></pre></td></tr></table></figure>
 <h3 id="2-2-问题解决"><a href="#2-2-问题解决" class="headerlink" title="2.2 问题解决"></a>2.2 问题解决</h3><ol>
 <li>错误提示：<code>Bad owner or permissions on C:\\Users\\USER/.ssh/config</code></li>
 </ol>

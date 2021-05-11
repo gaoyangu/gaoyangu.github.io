@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="gaoyangu">
   <meta name="keywords" content="">
-  <title>在ROS下使用zeroconf配置多机通信网络 - gaoyangu</title>
+  <title>windows10 + wsl + ros 环境配置 - gaoyangu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="在ROS下使用zeroconf配置多机通信网络">
+            <span class="h2" id="subtitle" title="windows10 + wsl + ros 环境配置">
               
             </span>
 
@@ -172,8 +172,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2020-10-13 19:47" pubdate>
-        2020年10月13日 晚上
+      <time datetime="2021-02-10 09:36" pubdate>
+        2021年2月10日 上午
       </time>
     </span>
   
@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      220 字
+      210 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      3
+      2
        分钟
     </span>
   
@@ -224,55 +224,63 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">在ROS下使用zeroconf配置多机通信网络</h1>
+            <h1 style="display: none">windows10 + wsl + ros 环境配置</h1>
             
             <div class="markdown-body">
               <div class="note note-success">
-            <p>本文最后更新于：2020年10月13日 晚上</p>
+            <p>本文最后更新于：2021年2月10日 下午</p>
           </div>
-<h2 id="1-问题起源"><a href="#1-问题起源" class="headerlink" title="1. 问题起源"></a>1. 问题起源</h2><p>在分别使用路由器和手机热点做测试时，ip地址的不同导致需要频繁修改<code>.bashrc</code>文件</p>
-<h2 id="2-解决方案"><a href="#2-解决方案" class="headerlink" title="2. 解决方案"></a>2. 解决方案</h2><p>系统要求：<code>ubuntu</code></p>
-<p>原理：<a href="https://en.wikipedia.org/wiki/Zero-configuration_networking" target="_blank" rel="noopener">Zeroconf</a></p>
-<h3 id="2-1-hostname"><a href="#2-1-hostname" class="headerlink" title="2.1 hostname"></a>2.1 hostname</h3><p>首先使用以下命令分别获取<strong>电脑</strong>和<strong>移动机器人</strong>的 hostname</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># on the desktop</span><br>$ hostname<br>my_desktop<br><br><span class="hljs-comment">#on the robot</span><br>$ hostname<br>robot<br></code></pre></td></tr></table></figure>
-<h3 id="2-2-Zeroconf-hostname"><a href="#2-2-Zeroconf-hostname" class="headerlink" title="2.2 Zeroconf hostname"></a>2.2 Zeroconf hostname</h3><p>电脑和移动机器人的 Zeroconf hostname 分别为</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># desktop</span><br>my_desktop.local<br><br><span class="hljs-comment">#robot</span><br>robot.local<br></code></pre></td></tr></table></figure>
-<h3 id="2-3-测试连通性"><a href="#2-3-测试连通性" class="headerlink" title="2.3 测试连通性"></a>2.3 测试连通性</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># on the desktop</span><br>$ ping robot.local<br></code></pre></td></tr></table></figure>
-<h3 id="2-4-配置-bashrc"><a href="#2-4-配置-bashrc" class="headerlink" title="2.4 配置 .bashrc"></a>2.4 配置 .bashrc</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># on the desktop</span><br>$ vim ~/.bashrc<br><span class="hljs-built_in">export</span> ROS_HOSTNAME=my_desktop.local<br><br><span class="hljs-comment">#on the robot</span><br>$ vim ~/.bashrc	<br><span class="hljs-built_in">export</span> ROS_HOSTNAME=robot.local<br><span class="hljs-built_in">export</span> ROS_MASTER_URI=http://my_desktop.local:11311<br></code></pre></td></tr></table></figure>
-<h2 id="3-参考资料"><a href="#3-参考资料" class="headerlink" title="3 参考资料"></a>3 参考资料</h2><ul>
-<li>书籍：《ros by example vol 1》4.12 Networking Between a Robot and a Desktop Computer  </li>
-<li>ROSwiki：<a href="https://wiki.ros.org/ROS/NetworkSetup" target="_blank" rel="noopener">NetworkSetup</a></li>
-<li>ROSwiki：<a href="http://wiki.ros.org/zeroconf" target="_blank" rel="noopener">zeroconf</a></li>
-<li>博客园：<a href="https://www.cnblogs.com/qiuheng/p/9133010.html" target="_blank" rel="noopener">在ROS下使用zeroconf配置多机通信</a></li>
-<li>CSDN：<a href="https://blog.csdn.net/dengjin20104042056/article/details/80462511" target="_blank" rel="noopener"> Ubuntu16.04修改主机名和查看主机名的方法</a></li>
+<p>笔者使用的环境：</p>
+<ul>
+<li>windos10(20H2)</li>
+<li>WSL(Windows Subsystem for Linux)</li>
+<li>ros-kinetic</li>
 </ul>
+<h2 id="1-WSL"><a href="#1-WSL" class="headerlink" title="1. WSL"></a>1. WSL</h2><p>1.1 软件安装</p>
+<p>在Microsoft Store下载安装<code>Ubuntu</code>和<code>Windows Terminal</code>。</p>
+<p>搜索关键字<code>ubuntu</code>可以看到三个版本：Ubuntu，Ubuntu 20.04 LTS，Ubuntu 18.04 LTS，根据自己使用的ROS版本按需下载，由于我使用的ROS版本为kinetic，需要配合<a href="https://www.microsoft.com/zh-cn/p/ubuntu-1604-lts/9pjn388hp8c9?rtc=1&amp;activetab=pivot:overviewtab" target="_blank" rel="noopener">Ubuntu 16.04 LTS</a>使用。</p>
+<p>1.2 软件源</p>
+<p>将ubuntu，ros的软件源全部换成国内的软件源。</p>
+<h2 id="2-ROS"><a href="#2-ROS" class="headerlink" title="2. ROS"></a>2. ROS</h2><p>参考<a href="http://wiki.ros.org/ROS/Installation" target="_blank" rel="noopener">ROSwiki</a>的步骤进行安装。</p>
+<p>如果遇到错误：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">sudo rosdep init ERROR: cannot download<span class="hljs-built_in"> default </span>sources list <span class="hljs-keyword">from</span>:【closed】<br></code></pre></td></tr></table></figure>
+<p>使用如下方案解决：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#打开hosts文件</span><br>sudo gedit /etc/hosts<br><span class="hljs-comment">#在文件末尾添加</span><br>151.101.84.133  raw.githubusercontent.com<br><span class="hljs-comment">#保存后退出再尝试</span><br></code></pre></td></tr></table></figure>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a href="https://janbernloehr.de/2017/06/10/ros-windows" target="_blank" rel="noopener">Running ROS on Windows 10</a></li>
+<li><p><a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10#step-6---install-your-linux-distribution-of-choice" target="_blank" rel="noopener">Windows Subsystem for Linux Installation Guide for Windows 10</a></p>
+</li>
+<li><p>CSDN<a href=""></a></p>
+</li>
+</ol>
 
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
-                  <div class="post-meta mr-3">
-                    <i class="iconfont icon-category"></i>
-                    
-                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
-                    
-                  </div>
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/ROS/">ROS</a>
-                    
-                      <a class="hover-with-bg" href="/tags/ROS%E5%B0%8F%E6%8A%80%E5%B7%A7/">ROS小技巧</a>
-                    
-                  </div>
                 
               </div>
               
                 <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
               
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/10/05/Code/c++/Play-with-data-structure_07/">
+                        <span class="hidden-mobile">大话数据结构07-图</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
               
             </div>
 

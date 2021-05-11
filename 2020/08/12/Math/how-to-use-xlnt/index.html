@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      221 字
+      223 字
     </span>
   
 
@@ -239,14 +239,13 @@
 <li><a href="https://visualstudio.microsoft.com/" target="_blank" rel="noopener">Visual Studio 2015 Update 3</a> 或更新的版本（包含<strong>英文语言包</strong>）</li>
 </ul>
 <p>首先，请下载vcpkg并执行 bootstrap.bat 脚本，建议使用例如 <code>C:\src\vcpkg</code> 或 <code>C:\dev\vcpkg</code> 的安装目录，否则您可能遇到某些库构建系统的路径问题。</p>
-<pre><code class="hljs sh">git <span class="hljs-built_in">clone</span> https://github.com/microsoft/vcpkg
-.\vcpkg\bootstrap-vcpkg.bat</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">git <span class="hljs-built_in">clone</span> https://github.com/microsoft/vcpkg<br>.\vcpkg\bootstrap-vcpkg.bat<br></code></pre></td></tr></table></figure>
 <h2 id="2-xlnt"><a href="#2-xlnt" class="headerlink" title="2. xlnt"></a>2. xlnt</h2><p>项目地址：<a href="https://github.com/tfussell/xlnt" target="_blank" rel="noopener">https://github.com/tfussell/xlnt</a></p>
 <p>读写EXCEL的库</p>
 <p>在<code>vcpkg</code>的文件夹中运行以下命令</p>
-<pre><code class="hljs sh">.\vcpkg install xlnt:x64-windows</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">.\vcpkg install xlnt:x64-windows<br></code></pre></td></tr></table></figure>
 <p>若您希望在 Visual Studio 中使用vcpkg，请运行以下命令 (首次启动需要管理员权限)</p>
-<pre><code class="hljs angelscript">.\vcpkg <span class="hljs-built_in">int</span>egrate install</code></pre>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">.\vcpkg <span class="hljs-built_in">int</span>egrate install<br></code></pre></td></tr></table></figure>
 <h2 id="3-参考资料"><a href="#3-参考资料" class="headerlink" title="3. 参考资料"></a>3. 参考资料</h2><ul>
 <li><a href="https://github.com/microsoft/vcpkg/blob/master/README_zh_CN.md" target="_blank" rel="noopener">Vcpkg总览</a></li>
 <li><a href="[https://www.cpp-prog.com/%E7%BC%96%E7%A8%8B/xlnt/](https://www.cpp-prog.com/编程/xlnt/">用XLNT库读写Excel文件</a>)</li>

@@ -240,40 +240,7 @@
 <p>$0 \leq x_1 \leq 40$</p>
 <p>$0 \leq x \leq infinity$</p>
 <p>$0 \leq x_3 \leq infinity$</p>
-<h3 id="2-Using-Concert-Technology-in-c"><a href="#2-Using-Concert-Technology-in-c" class="headerlink" title="2. Using Concert Technology in c++"></a>2. Using Concert Technology in c++</h3><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;ilcplex/ilocplex.h&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
-
-ILOSTLBEGIN
-<span class="hljs-keyword">int</span>
-main(<span class="hljs-keyword">void</span>*) &#123;
-    IloEnv env;
-    <span class="hljs-keyword">try</span> &#123;
-        <span class="hljs-function">IloModel <span class="hljs-title">model</span><span class="hljs-params">(env)</span></span>;
-        <span class="hljs-function">IloNumVarArray <span class="hljs-title">vars</span><span class="hljs-params">(env)</span></span>;
-        vars.add(IloNumVar(env, <span class="hljs-number">0.0</span>, <span class="hljs-number">40.0</span>));  <span class="hljs-comment">// 0 &lt;= x1 &lt;= 40</span>
-        vars.add(IloNumVar(env));  <span class="hljs-comment">// 0 &lt;= x2</span>
-        vars.add(IloNumVar(env));  <span class="hljs-comment">// 0 &lt;= x3</span>
-        model.add(IloMaximize(env, vars[<span class="hljs-number">0</span>] + <span class="hljs-number">2</span> * vars[<span class="hljs-number">1</span>] + <span class="hljs-number">3</span> * vars[<span class="hljs-number">2</span>])); <span class="hljs-comment">//maximize x1 + 2 x2 + 3 x3</span>
-        model.add(-vars[<span class="hljs-number">0</span>] + vars[<span class="hljs-number">1</span>] + vars[<span class="hljs-number">2</span>] &lt;= <span class="hljs-number">20</span>);<span class="hljs-comment">//subject to -x1 + x2 + x3 &lt;= 20</span>
-        model.add(vars[<span class="hljs-number">0</span>] - <span class="hljs-number">3</span> * vars[<span class="hljs-number">1</span>] + vars[<span class="hljs-number">2</span>] &lt;= <span class="hljs-number">30</span>);<span class="hljs-comment">//x1 - 3 x2 + x3 &lt;=30</span>
-        <span class="hljs-function">IloCplex <span class="hljs-title">cplex</span><span class="hljs-params">(model)</span></span>;
-        <span class="hljs-keyword">if</span> (!cplex.solve()) &#123;
-            env.error() &lt;&lt; <span class="hljs-string">"Failed to optimize LP."</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
-            <span class="hljs-keyword">throw</span>(<span class="hljs-number">-1</span>);
-        &#125;
-        <span class="hljs-function">IloNumArray <span class="hljs-title">vals</span><span class="hljs-params">(env)</span></span>;
-        env.out() &lt;&lt; <span class="hljs-string">"Solution status = "</span> &lt;&lt; cplex.getStatus() &lt;&lt; <span class="hljs-built_in">endl</span>;
-        env.out() &lt;&lt; <span class="hljs-string">"Solution value = "</span> &lt;&lt; cplex.getObjValue() &lt;&lt; <span class="hljs-built_in">endl</span>;
-        cplex.getValues(vals, vars);
-        env.out() &lt;&lt; <span class="hljs-string">"Values = "</span> &lt;&lt; vals &lt;&lt; <span class="hljs-built_in">endl</span>;
-    &#125;
-    <span class="hljs-keyword">catch</span> (IloException&amp; e) &#123; <span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">"Concert exception caught: "</span> &lt;&lt; e &lt;&lt; <span class="hljs-built_in">endl</span>; &#125;
-    <span class="hljs-keyword">catch</span> (...) &#123; <span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">"Unknown exception caught"</span> &lt;&lt; <span class="hljs-built_in">endl</span>; &#125;
-    env.end();
-    system(<span class="hljs-string">"pause"</span>);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-&#125;</code></pre>
+<h3 id="2-Using-Concert-Technology-in-c"><a href="#2-Using-Concert-Technology-in-c" class="headerlink" title="2. Using Concert Technology in c++"></a>2. Using Concert Technology in c++</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;ilcplex/ilocplex.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><br>ILOSTLBEGIN<br><span class="hljs-keyword">int</span><br>main(<span class="hljs-keyword">void</span>*) &#123;<br>    IloEnv env;<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-function">IloModel <span class="hljs-title">model</span><span class="hljs-params">(env)</span></span>;<br>        <span class="hljs-function">IloNumVarArray <span class="hljs-title">vars</span><span class="hljs-params">(env)</span></span>;<br>        vars.add(IloNumVar(env, <span class="hljs-number">0.0</span>, <span class="hljs-number">40.0</span>));  <span class="hljs-comment">// 0 &lt;= x1 &lt;= 40</span><br>        vars.add(IloNumVar(env));  <span class="hljs-comment">// 0 &lt;= x2</span><br>        vars.add(IloNumVar(env));  <span class="hljs-comment">// 0 &lt;= x3</span><br>        model.add(IloMaximize(env, vars[<span class="hljs-number">0</span>] + <span class="hljs-number">2</span> * vars[<span class="hljs-number">1</span>] + <span class="hljs-number">3</span> * vars[<span class="hljs-number">2</span>])); <span class="hljs-comment">//maximize x1 + 2 x2 + 3 x3</span><br>        model.add(-vars[<span class="hljs-number">0</span>] + vars[<span class="hljs-number">1</span>] + vars[<span class="hljs-number">2</span>] &lt;= <span class="hljs-number">20</span>);<span class="hljs-comment">//subject to -x1 + x2 + x3 &lt;= 20</span><br>        model.add(vars[<span class="hljs-number">0</span>] - <span class="hljs-number">3</span> * vars[<span class="hljs-number">1</span>] + vars[<span class="hljs-number">2</span>] &lt;= <span class="hljs-number">30</span>);<span class="hljs-comment">//x1 - 3 x2 + x3 &lt;=30</span><br>        <span class="hljs-function">IloCplex <span class="hljs-title">cplex</span><span class="hljs-params">(model)</span></span>;<br>        <span class="hljs-keyword">if</span> (!cplex.solve()) &#123;<br>            env.error() &lt;&lt; <span class="hljs-string">"Failed to optimize LP."</span> &lt;&lt; <span class="hljs-built_in">endl</span>;<br>            <span class="hljs-keyword">throw</span>(<span class="hljs-number">-1</span>);<br>        &#125;<br>        <span class="hljs-function">IloNumArray <span class="hljs-title">vals</span><span class="hljs-params">(env)</span></span>;<br>        env.out() &lt;&lt; <span class="hljs-string">"Solution status = "</span> &lt;&lt; cplex.getStatus() &lt;&lt; <span class="hljs-built_in">endl</span>;<br>        env.out() &lt;&lt; <span class="hljs-string">"Solution value = "</span> &lt;&lt; cplex.getObjValue() &lt;&lt; <span class="hljs-built_in">endl</span>;<br>        cplex.getValues(vals, vars);<br>        env.out() &lt;&lt; <span class="hljs-string">"Values = "</span> &lt;&lt; vals &lt;&lt; <span class="hljs-built_in">endl</span>;<br>    &#125;<br>    <span class="hljs-keyword">catch</span> (IloException&amp; e) &#123; <span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">"Concert exception caught: "</span> &lt;&lt; e &lt;&lt; <span class="hljs-built_in">endl</span>; &#125;<br>    <span class="hljs-keyword">catch</span> (...) &#123; <span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">"Unknown exception caught"</span> &lt;&lt; <span class="hljs-built_in">endl</span>; &#125;<br>    env.end();<br>    system(<span class="hljs-string">"pause"</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h2 id="Chapter-4-C-tutorial"><a href="#Chapter-4-C-tutorial" class="headerlink" title="Chapter 4. C++ tutorial"></a>Chapter 4. C++ tutorial</h2><ul>
 <li><p>This brief tutorial introduces the modeling and solution classes provided by Concert Technology and CPLEX.  </p>
 </li>
@@ -296,11 +263,11 @@ main(<span class="hljs-keyword">void</span>*) &#123;
 <li><code>IloEnv</code> is a handle class  </li>
 <li>the variable <code>env</code> is a pointer to an implementation object  </li>
 </ul>
-<pre><code class="hljs cpp">IloEnv env;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">IloEnv env;<br></code></pre></td></tr></table></figure>
 <ul>
 <li>When terminating the Concert Technology application, the implementation object must be destroyed as well  </li>
 </ul>
-<pre><code class="hljs cpp">env.end();</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">env.end();<br></code></pre></td></tr></table></figure>
 <h4 id="Creating-a-model-IloModel"><a href="#Creating-a-model-IloModel" class="headerlink" title="Creating a model: IloModel"></a>Creating a model: <code>IloModel</code></h4><ul>
 <li>it is the implementation objects that contain the data that specifies the optimization model  </li>
 <li>Modeling objects are also known as extractables   </li>
@@ -308,37 +275,36 @@ main(<span class="hljs-keyword">void</span>*) &#123;
 <li>The most fundamental extractable class is <code>IloModel</code></li>
 <li>Objects of this class are used to define a complete optimization model that can later be extracted to an object  </li>
 </ul>
-<pre><code class="hljs cpp"><span class="hljs-function">IloModel <span class="hljs-title">model</span><span class="hljs-params">(env)</span></span>;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">IloModel <span class="hljs-title">model</span><span class="hljs-params">(env)</span></span>;<br></code></pre></td></tr></table></figure>
 <p><strong>Modeling classes</strong></p>
 <ul>
 <li>representing modeling variables;</li>
 <li>defining constraints of the form l &lt;= expr &lt;= u, where expr is a linear expression; and representing an objective function</li>
 </ul>
-<pre><code class="hljs cpp"><span class="hljs-comment">//objects can be variable, constraint, and objective function of your optimization problem. </span>
-model.add(object);</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//objects can be variable, constraint, and objective function of your optimization problem. </span><br>model.add(object);<br></code></pre></td></tr></table></figure>
 <p><strong>Modeling variables</strong> are constructed as objects of class <code>IloNumVar</code>, by defining variables of type IloNumVar .   </p>
-<pre><code class="hljs cpp"><span class="hljs-function">IloNumVar <span class="hljs-title">x1</span><span class="hljs-params">(env, <span class="hljs-number">0.0</span>, <span class="hljs-number">40.0</span>, ILOFLOAT)</span></span>;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">IloNumVar <span class="hljs-title">x1</span><span class="hljs-params">(env, <span class="hljs-number">0.0</span>, <span class="hljs-number">40.0</span>, ILOFLOAT)</span></span>;<br></code></pre></td></tr></table></figure>
 <p>This definition creates the modeling variable x1 with lower bound 0.0, upper bound 40.0 and type ILOFLOAT</p>
 <p>ILOFLOAT: the variable is continuous</p>
 <p>ILOINT: integer variables  </p>
 <p>ILOBOOL: Boolean variables  </p>
 <p>After all the modeling variables have been constructed, they can be used to build expressions, which in turn are used to define objects of class <code>IloObjective</code> and <code>IloRange</code> .   </p>
-<pre><code class="hljs cpp">IloObjective obj = IloMinimize(env, x1 + <span class="hljs-number">2</span>*x2 + <span class="hljs-number">3</span>*x3);</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">IloObjective obj = IloMinimize(env, x1 + <span class="hljs-number">2</span>*x2 + <span class="hljs-number">3</span>*x3);<br></code></pre></td></tr></table></figure>
 <p>After an objective extractable is created, it must be added to the model.  </p>
 <p>If this is all that the variable obj is needed for, it can be written more compactly, like this:  </p>
-<pre><code class="hljs cpp">model.add(IloMinimize(env, x1 + <span class="hljs-number">2</span>*x2 + <span class="hljs-number">3</span>*x3));</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">model.add(IloMinimize(env, x1 + <span class="hljs-number">2</span>*x2 + <span class="hljs-number">3</span>*x3));<br></code></pre></td></tr></table></figure>
 <p>If in contrast, the objective function is needed later, for example, to change it and re-optimize the model when doing scenario analysis, the variable obj must be created in order to refer to the objective function.   </p>
 <p>Creating constraints and adding them to the model  </p>
-<pre><code class="hljs cpp">model.add(-x1 + x2 + x3 &lt;= <span class="hljs-number">20</span>);</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">model.add(-x1 + x2 + x3 &lt;= <span class="hljs-number">20</span>);<br></code></pre></td></tr></table></figure>
 <p>The part -x1 + x2 + x3 &lt;= 20 creates an object of class <code>IloRange</code> that is immediately added to the model by passing it to the method <code>IloModel::add</code> .  </p>
 <p>The importance of the class <code>IloExpr</code> becomes clear when expressions can no longer be fully spelled out in the source code but need instead to be built up in a loop.   </p>
 <h4 id="Solving-the-model-IloCplex"><a href="#Solving-the-model-IloCplex" class="headerlink" title="Solving the model: IloCplex"></a>Solving the model: <code>IloCplex</code></h4><p>experienced Concert users practice a shortcut that performs the construction of the cplex object and the extraction of the model in one line:  </p>
-<pre><code class="hljs cpp"><span class="hljs-function">IloCplex <span class="hljs-title">cplex</span><span class="hljs-params">(model)</span></span>;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">IloCplex <span class="hljs-title">cplex</span><span class="hljs-params">(model)</span></span>;<br></code></pre></td></tr></table></figure>
 <p>To solve the mode  </p>
-<pre><code class="hljs cpp">cplex.solve();</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">cplex.solve();<br></code></pre></td></tr></table></figure>
 <p>This method returns an <code>IloBool</code> value, where <code>IloTrue</code> indicates that cplex successfully found a feasible (yet not necessarily optimal) solution, and <code>IloFalse</code> specifies that no solution was found.  </p>
 <p>More precise information about the outcome of the last call to the method IloCplex::solve can be obtained by calling:  </p>
-<pre><code class="hljs cpp">cplex.getStatus();</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">cplex.getStatus();<br></code></pre></td></tr></table></figure>
 <p>The returned value tells you what CPLEX found out about the model  </p>
 <ul>
 <li>whether it found the optimal solution or only a feasible solution  </li>
@@ -346,9 +312,9 @@ model.add(object);</code></pre>
 <li>whether nothing at all has been proved at this point  </li>
 </ul>
 <h4 id="Querying-results"><a href="#Querying-results" class="headerlink" title="Querying results"></a>Querying results</h4><p>The following methods can be used to query the solution value for a variable or a set of variables:  </p>
-<pre><code class="hljs cpp">IloNum val1 = cplex.getValue(x1);</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">IloNum val1 = cplex.getValue(x1);<br></code></pre></td></tr></table></figure>
 <p>the objective function value of the solution can be accessed using  </p>
-<pre><code class="hljs cpp">IloNum objval = cpelx.getObjValue();</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">IloNum objval = cpelx.getObjValue();<br></code></pre></td></tr></table></figure>
 <h4 id="Handling-errors"><a href="#Handling-errors" class="headerlink" title="Handling errors"></a>Handling errors</h4><ul>
 <li><p>The first kind covers simple programming errors  </p>
 </li>
@@ -356,15 +322,9 @@ model.add(object);</code></pre>
 </li>
 </ul>
 <p>Concert Technology provides a hierarchy of exception classes that all derive from the common base class <code>IloException</code>  </p>
-<pre><code class="hljs cpp">IloEnv env;
-<span class="hljs-keyword">try</span> &#123;
-<span class="hljs-comment">// ...</span>
-&#125;
-<span class="hljs-keyword">catch</span> (IloException&amp; e) &#123; <span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">"Concert exception caught: "</span> &lt;&lt; e &lt;&lt; <span class="hljs-built_in">endl</span>; &#125;
-<span class="hljs-keyword">catch</span> (...) &#123; <span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">"Unknown exception caught"</span> &lt;&lt; <span class="hljs-built_in">endl</span>; &#125;
-env.end();</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp">IloEnv env;<br><span class="hljs-keyword">try</span> &#123;<br><span class="hljs-comment">// ...</span><br>&#125;<br><span class="hljs-keyword">catch</span> (IloException&amp; e) &#123; <span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">"Concert exception caught: "</span> &lt;&lt; e &lt;&lt; <span class="hljs-built_in">endl</span>; &#125;<br><span class="hljs-keyword">catch</span> (...) &#123; <span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">"Unknown exception caught"</span> &lt;&lt; <span class="hljs-built_in">endl</span>; &#125;<br>env.end();<br></code></pre></td></tr></table></figure>
 <h3 id="3-Building-and-solving-a-small-LP-model-in-C"><a href="#3-Building-and-solving-a-small-LP-model-in-C" class="headerlink" title="3. Building and solving a small LP model in C++"></a>3. Building and solving a small LP model in C++</h3><p>The sample illustrates three alternative approaches: modeling by <strong>rows</strong>, <strong>columns</strong>, or <strong>nonzero elements</strong>.  </p>
-<pre><code class="hljs cpp">\CPLEX_Studio1210\cplex\examples\src\cpp\ilolpex1.cpp</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">\CPLEX_Studio1210\cplex\examples\src\cpp\ilolpex1.cpp<br></code></pre></td></tr></table></figure>
 <p><code>env.out</code> which is initialized to cout by default  </p>
 <p><code>IloNumArray</code>, the Concert Technology class for an array of numerical values  </p>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>

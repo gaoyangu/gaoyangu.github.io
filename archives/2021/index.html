@@ -17,25 +17,9 @@
   <meta name="description" content="">
   <meta name="author" content="gaoyangu">
   <meta name="keywords" content="">
-  <title>在ROS下使用zeroconf配置多机通信网络 - gaoyangu</title>
+  <title>归档 - gaoyangu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
-  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
-
-  
-    
-    
-      
-      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
-    
-  
-
-  
-    <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
-  
 
 
 
@@ -63,7 +47,7 @@
 
 
 <body>
-  <header style="height: 70vh;">
+  <header style="height: 60vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -157,51 +141,14 @@
 </nav>
 
     <div class="banner" id="banner" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
+         style="background: url('/img/archive.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="在ROS下使用zeroconf配置多机通信网络">
+            <span class="h2" id="subtitle" title="归档">
               
             </span>
-
-            
-              <div class="mt-3">
-  
-  
-    <span class="post-meta">
-      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2020-10-13 19:47" pubdate>
-        2020年10月13日 晚上
-      </time>
-    </span>
-  
-</div>
-
-<div class="mt-1">
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-chart"></i>
-      220 字
-    </span>
-  
-
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-clock-fill"></i>
-      
-      
-      3
-       分钟
-    </span>
-  
-
-  
-  
-</div>
 
             
           </div>
@@ -214,88 +161,40 @@
 
   <main>
     
+      <div class="container nopadding-x-md">
+        <div class="py-5" id="board"
+          >
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+<div class="list-group">
+  <p class="h4">共计 32 篇文章</p>
+  <hr>
+  
+  
+    
       
+      <p class="h5">2021</p>
+    
+    <a href="/2021/02/10/Code/001-how-to-use-wsl-with-ros/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">windows10 + wsl + ros 环境配置</span>
+      <time style="float: right;">02-10</time>
+    </a>
+  
+</div>
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div class="py-5" id="board">
-          <article class="post-content mx-auto">
-            <!-- SEO header -->
-            <h1 style="display: none">在ROS下使用zeroconf配置多机通信网络</h1>
-            
-            <div class="markdown-body">
-              <div class="note note-success">
-            <p>本文最后更新于：2020年10月13日 晚上</p>
-          </div>
-<h2 id="1-问题起源"><a href="#1-问题起源" class="headerlink" title="1. 问题起源"></a>1. 问题起源</h2><p>在分别使用路由器和手机热点做测试时，ip地址的不同导致需要频繁修改<code>.bashrc</code>文件</p>
-<h2 id="2-解决方案"><a href="#2-解决方案" class="headerlink" title="2. 解决方案"></a>2. 解决方案</h2><p>系统要求：<code>ubuntu</code></p>
-<p>原理：<a href="https://en.wikipedia.org/wiki/Zero-configuration_networking" target="_blank" rel="noopener">Zeroconf</a></p>
-<h3 id="2-1-hostname"><a href="#2-1-hostname" class="headerlink" title="2.1 hostname"></a>2.1 hostname</h3><p>首先使用以下命令分别获取<strong>电脑</strong>和<strong>移动机器人</strong>的 hostname</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># on the desktop</span><br>$ hostname<br>my_desktop<br><br><span class="hljs-comment">#on the robot</span><br>$ hostname<br>robot<br></code></pre></td></tr></table></figure>
-<h3 id="2-2-Zeroconf-hostname"><a href="#2-2-Zeroconf-hostname" class="headerlink" title="2.2 Zeroconf hostname"></a>2.2 Zeroconf hostname</h3><p>电脑和移动机器人的 Zeroconf hostname 分别为</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># desktop</span><br>my_desktop.local<br><br><span class="hljs-comment">#robot</span><br>robot.local<br></code></pre></td></tr></table></figure>
-<h3 id="2-3-测试连通性"><a href="#2-3-测试连通性" class="headerlink" title="2.3 测试连通性"></a>2.3 测试连通性</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># on the desktop</span><br>$ ping robot.local<br></code></pre></td></tr></table></figure>
-<h3 id="2-4-配置-bashrc"><a href="#2-4-配置-bashrc" class="headerlink" title="2.4 配置 .bashrc"></a>2.4 配置 .bashrc</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># on the desktop</span><br>$ vim ~/.bashrc<br><span class="hljs-built_in">export</span> ROS_HOSTNAME=my_desktop.local<br><br><span class="hljs-comment">#on the robot</span><br>$ vim ~/.bashrc	<br><span class="hljs-built_in">export</span> ROS_HOSTNAME=robot.local<br><span class="hljs-built_in">export</span> ROS_MASTER_URI=http://my_desktop.local:11311<br></code></pre></td></tr></table></figure>
-<h2 id="3-参考资料"><a href="#3-参考资料" class="headerlink" title="3 参考资料"></a>3 参考资料</h2><ul>
-<li>书籍：《ros by example vol 1》4.12 Networking Between a Robot and a Desktop Computer  </li>
-<li>ROSwiki：<a href="https://wiki.ros.org/ROS/NetworkSetup" target="_blank" rel="noopener">NetworkSetup</a></li>
-<li>ROSwiki：<a href="http://wiki.ros.org/zeroconf" target="_blank" rel="noopener">zeroconf</a></li>
-<li>博客园：<a href="https://www.cnblogs.com/qiuheng/p/9133010.html" target="_blank" rel="noopener">在ROS下使用zeroconf配置多机通信</a></li>
-<li>CSDN：<a href="https://blog.csdn.net/dengjin20104042056/article/details/80462511" target="_blank" rel="noopener"> Ubuntu16.04修改主机名和查看主机名的方法</a></li>
-</ul>
 
-            </div>
-            <hr>
-            <div>
-              <div class="post-metas mb-3">
-                
-                  <div class="post-meta mr-3">
-                    <i class="iconfont icon-category"></i>
-                    
-                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
-                    
-                  </div>
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/ROS/">ROS</a>
-                    
-                      <a class="hover-with-bg" href="/tags/ROS%E5%B0%8F%E6%8A%80%E5%B7%A7/">ROS小技巧</a>
-                    
-                  </div>
-                
+
+
+
               </div>
-              
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
-              
-              
             </div>
-
-            
-          </article>
+          </div>
         </div>
       </div>
-    </div>
-    
-      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
-        <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-      </div>
-    
-  </div>
-</div>
-
-<!-- Custom -->
-
-
     
 
     
@@ -375,15 +274,9 @@
 
 
 
-  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
 
 
 
-  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
-
-
-
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
 
 
 

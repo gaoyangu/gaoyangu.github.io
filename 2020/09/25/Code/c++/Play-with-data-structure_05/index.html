@@ -271,23 +271,7 @@
 <li>线性表更关注的是单个元素的操作，比如查找一个元素，插入或删除一个元素</li>
 <li>串中更多的是查找子串位置、得到指定位置子串、替换子串等操作</li>
 </ul>
-<pre><code class="hljs c">ADT 串（<span class="hljs-keyword">String</span>）
-Data
-	串中元素仅由一个字符组成，相邻元素具有前驱和后继关系。
-Operation
-	StrAssign(T, *chars); 生成一个其值等于字符串常量 chars 的串 T。
-	StrCopy(T, S); 串 S 存在，由串 S 复制得到串 T。
-	ClearString(S); 串 S 存在，将串清空
-	StringEmpty(S); 若串 S 为空，返回 <span class="hljs-literal">true</span> 否则返回 <span class="hljs-literal">false</span>
-	StrLength(S); 返回串 S 的元素个数，即串的长度
-	StrCompare(S, T); 若 S&gt;T, 返回值&gt;<span class="hljs-number">0</span>， 若 S=T, 返回<span class="hljs-number">0</span>，若 S &lt; T
-	Concat(T, S1, S2); 用 T 返回由 S1 和 S2 链接而成的新串
-	SubString(Sub, s, pos, len); 串 S 存在，<span class="hljs-number">1</span> &lt;= pos &lt;= StrLength(S), 且 <span class="hljs-number">0</span>&lt;=len&lt;=StrLength(S)-pos+<span class="hljs-number">1</span>, 用 Sub 返回串 S 的第 pos 个字符起长度为 len 的子串。
-	Index(S, T, pos); 若 S 和 T 存在，T 是非空串，<span class="hljs-number">1</span>&lt;=pos&lt;=StrLength(S)。若主串 S 中存在和 T 值相同的子串，则返回它在主串中第 pos 个字符之后第一次出现的位置，否则返回<span class="hljs-number">0</span> 
-	Replace(S, T, V); 串 S T 和 V 存在，T 是非空串，用 V 替换主串 S 中出现的所有与 T 相等的不重叠的子串。 
-	StrInsert(S, pos, T); 串 S 和 T 存在，<span class="hljs-number">1</span>&lt;=pos&lt;=StrLength(S)+<span class="hljs-number">1</span>。在串 S 的第 pos 个字符之前插入串 T
-	StrDelete(S, pos, len); 串 S 存在，<span class="hljs-number">1</span>&lt;=pos&lt;=StrLength(S)-len+<span class="hljs-number">1</span>。从串 S 中删除第 pos 个字符起长度为 len 的字符串
-endADT</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c">ADT 串（<span class="hljs-keyword">String</span>）<br>Data<br>	串中元素仅由一个字符组成，相邻元素具有前驱和后继关系。<br>Operation<br>	StrAssign(T, *chars); 生成一个其值等于字符串常量 chars 的串 T。<br>	StrCopy(T, S); 串 S 存在，由串 S 复制得到串 T。<br>	ClearString(S); 串 S 存在，将串清空<br>	StringEmpty(S); 若串 S 为空，返回 <span class="hljs-literal">true</span> 否则返回 <span class="hljs-literal">false</span><br>	StrLength(S); 返回串 S 的元素个数，即串的长度<br>	StrCompare(S, T); 若 S&gt;T, 返回值&gt;<span class="hljs-number">0</span>， 若 S=T, 返回<span class="hljs-number">0</span>，若 S &lt; T<br>	Concat(T, S1, S2); 用 T 返回由 S1 和 S2 链接而成的新串<br>	SubString(Sub, s, pos, len); 串 S 存在，<span class="hljs-number">1</span> &lt;= pos &lt;= StrLength(S), 且 <span class="hljs-number">0</span>&lt;=len&lt;=StrLength(S)-pos+<span class="hljs-number">1</span>, 用 Sub 返回串 S 的第 pos 个字符起长度为 len 的子串。<br>	Index(S, T, pos); 若 S 和 T 存在，T 是非空串，<span class="hljs-number">1</span>&lt;=pos&lt;=StrLength(S)。若主串 S 中存在和 T 值相同的子串，则返回它在主串中第 pos 个字符之后第一次出现的位置，否则返回<span class="hljs-number">0</span> <br>	Replace(S, T, V); 串 S T 和 V 存在，T 是非空串，用 V 替换主串 S 中出现的所有与 T 相等的不重叠的子串。 <br>	StrInsert(S, pos, T); 串 S 和 T 存在，<span class="hljs-number">1</span>&lt;=pos&lt;=StrLength(S)+<span class="hljs-number">1</span>。在串 S 的第 pos 个字符之前插入串 T<br>	StrDelete(S, pos, len); 串 S 存在，<span class="hljs-number">1</span>&lt;=pos&lt;=StrLength(S)-len+<span class="hljs-number">1</span>。从串 S 中删除第 pos 个字符起长度为 len 的字符串<br>endADT<br></code></pre></td></tr></table></figure>
 <h2 id="5-5-串的存储结构"><a href="#5-5-串的存储结构" class="headerlink" title="5.5 串的存储结构"></a>5.5 串的存储结构</h2><p><strong>1. 串的顺序存储结构</strong></p>
 <ul>
 <li>在串值后面加一个不计入串长度的结束标记字符，”\0”表示串值的终结</li>

@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      524 字
+      506 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10
+      9
        分钟
     </span>
   
@@ -232,99 +232,28 @@
           </div>
 <p>项目地址：<a href="https://github.com/tysik/obstacle_detector" target="_blank" rel="noopener">https://github.com/tysik/obstacle_detector</a></p>
 <p>本次的测试环境：<strong>Ubuntu16.04</strong></p>
-<h2 id="1-下载编译"><a href="#1-下载编译" class="headerlink" title="1. 下载编译"></a>1. 下载编译</h2><h3 id="1-1-obstacle-detector"><a href="#1-1-obstacle-detector" class="headerlink" title="1.1 obstacle_detector"></a>1.1 obstacle_detector</h3><pre><code class="hljs sh">$ mkdir -p ~/obstacle_detector/src
-$ <span class="hljs-built_in">cd</span> ~/obstacle_detector/src
-$ git <span class="hljs-built_in">clone</span> https://github.com/tysik/obstacle_detector.git</code></pre>
-<h3 id="1-2-Armadillo"><a href="#1-2-Armadillo" class="headerlink" title="1.2 Armadillo"></a>1.2 Armadillo</h3><pre><code class="hljs sh">$ tar -Jxf armadillo-9.900.2.tar.xz
-$ <span class="hljs-built_in">cd</span> armadillo-9.900.2
-$ cmake .
-$ make
-$ sudo make install</code></pre>
-<h3 id="1-3-catkin-make"><a href="#1-3-catkin-make" class="headerlink" title="1.3 catkin_make"></a>1.3 catkin_make</h3><pre><code class="hljs sh">$ <span class="hljs-built_in">cd</span> ~/obstacle_detector/src
-$ catkin_make</code></pre>
-<h3 id="1-4-测试"><a href="#1-4-测试" class="headerlink" title="1.4 测试"></a>1.4 测试</h3><pre><code class="hljs sh">$ <span class="hljs-built_in">source</span> ~/Code/obstacle_detector/devel/setup.bash
-$ roslaunch obstacle_detector demo.launch</code></pre>
+<h2 id="1-下载编译"><a href="#1-下载编译" class="headerlink" title="1. 下载编译"></a>1. 下载编译</h2><h3 id="1-1-obstacle-detector"><a href="#1-1-obstacle-detector" class="headerlink" title="1.1 obstacle_detector"></a>1.1 obstacle_detector</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ mkdir -p ~/obstacle_detector/src<br>$ <span class="hljs-built_in">cd</span> ~/obstacle_detector/src<br>$ git <span class="hljs-built_in">clone</span> https://github.com/tysik/obstacle_detector.git<br></code></pre></td></tr></table></figure>
+<h3 id="1-2-Armadillo"><a href="#1-2-Armadillo" class="headerlink" title="1.2 Armadillo"></a>1.2 Armadillo</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ tar -Jxf armadillo-9.900.2.tar.xz<br>$ <span class="hljs-built_in">cd</span> armadillo-9.900.2<br>$ cmake .<br>$ make<br>$ sudo make install<br></code></pre></td></tr></table></figure>
+<h3 id="1-3-catkin-make"><a href="#1-3-catkin-make" class="headerlink" title="1.3 catkin_make"></a>1.3 catkin_make</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ <span class="hljs-built_in">cd</span> ~/obstacle_detector/src<br>$ catkin_make<br></code></pre></td></tr></table></figure>
+<h3 id="1-4-测试"><a href="#1-4-测试" class="headerlink" title="1.4 测试"></a>1.4 测试</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ <span class="hljs-built_in">source</span> ~/Code/obstacle_detector/devel/setup.bash<br>$ roslaunch obstacle_detector demo.launch<br></code></pre></td></tr></table></figure>
 <h2 id="2-msg"><a href="#2-msg" class="headerlink" title="2. msg"></a>2. msg</h2><h3 id="2-1-obstacle-detector"><a href="#2-1-obstacle-detector" class="headerlink" title="2.1 obstacle_detector"></a>2.1 obstacle_detector</h3><p><strong>Obstacles.msg</strong></p>
-<pre><code class="hljs yaml"><span class="hljs-string">Header</span> <span class="hljs-string">header</span>
-
-<span class="hljs-string">obstacle_detector/SegmentObstacle[]</span> <span class="hljs-string">segments</span>
-<span class="hljs-string">obstacle_detector/CircleObstacle[]</span> <span class="hljs-string">circles</span></code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">Header</span> <span class="hljs-string">header</span><br><br><span class="hljs-string">obstacle_detector/SegmentObstacle[]</span> <span class="hljs-string">segments</span><br><span class="hljs-string">obstacle_detector/CircleObstacle[]</span> <span class="hljs-string">circles</span><br></code></pre></td></tr></table></figure>
 <p><strong>SegmentObstacle.msg</strong></p>
-<pre><code class="hljs yaml"><span class="hljs-string">geometry_msgs/Point</span> <span class="hljs-string">first_point</span>  <span class="hljs-comment"># First point of the segment [m]</span>
-<span class="hljs-string">geometry_msgs/Point</span> <span class="hljs-string">last_point</span>   <span class="hljs-comment"># Last point of the segment [m]</span></code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">geometry_msgs/Point</span> <span class="hljs-string">first_point</span>  <span class="hljs-comment"># First point of the segment [m]</span><br><span class="hljs-string">geometry_msgs/Point</span> <span class="hljs-string">last_point</span>   <span class="hljs-comment"># Last point of the segment [m]</span><br></code></pre></td></tr></table></figure>
 <p><strong>CircleObstacle.msg</strong></p>
-<pre><code class="hljs yaml"><span class="hljs-string">geometry_msgs/Point</span> <span class="hljs-string">center</span>      <span class="hljs-comment"># Central point [m]</span>
-<span class="hljs-string">geometry_msgs/Vector3</span> <span class="hljs-string">velocity</span>  <span class="hljs-comment"># Linear velocity [m/s]</span>
-<span class="hljs-string">float64</span> <span class="hljs-string">radius</span>                  <span class="hljs-comment"># Radius with added margin [m]</span>
-<span class="hljs-string">float64</span> <span class="hljs-string">true_radius</span>             <span class="hljs-comment"># True measured radius [m]</span></code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">geometry_msgs/Point</span> <span class="hljs-string">center</span>      <span class="hljs-comment"># Central point [m]</span><br><span class="hljs-string">geometry_msgs/Vector3</span> <span class="hljs-string">velocity</span>  <span class="hljs-comment"># Linear velocity [m/s]</span><br><span class="hljs-string">float64</span> <span class="hljs-string">radius</span>                  <span class="hljs-comment"># Radius with added margin [m]</span><br><span class="hljs-string">float64</span> <span class="hljs-string">true_radius</span>             <span class="hljs-comment"># True measured radius [m]</span><br></code></pre></td></tr></table></figure>
 <h3 id="2-2-leg-detector"><a href="#2-2-leg-detector" class="headerlink" title="2.2 leg_detector"></a>2.2 leg_detector</h3><p><strong>PositionMeasurementArray.msg</strong></p>
-<pre><code class="hljs yaml"><span class="hljs-string">std_msgs/Header</span>          <span class="hljs-string">header</span>
-
-<span class="hljs-comment"># All of the people found</span>
-<span class="hljs-string">people_msgs/PositionMeasurement[]</span> <span class="hljs-string">people</span>
-
-<span class="hljs-comment"># The co-occurrence matrix between people</span>
-<span class="hljs-string">float32[]</span> <span class="hljs-string">cooccurrence</span></code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">std_msgs/Header</span>          <span class="hljs-string">header</span><br><br><span class="hljs-comment"># All of the people found</span><br><span class="hljs-string">people_msgs/PositionMeasurement[]</span> <span class="hljs-string">people</span><br><br><span class="hljs-comment"># The co-occurrence matrix between people</span><br><span class="hljs-string">float32[]</span> <span class="hljs-string">cooccurrence</span><br></code></pre></td></tr></table></figure>
 <p><strong>PositionMeasurement.msg</strong></p>
-<pre><code class="hljs yaml"><span class="hljs-string">std_msgs/Header</span>     <span class="hljs-string">header</span>
-<span class="hljs-comment"># The name of the detector that detected the person (i.e frontalface, profileface)</span>
-<span class="hljs-string">string</span>              <span class="hljs-string">name</span>
-<span class="hljs-string">string</span>              <span class="hljs-string">object_id</span>
-<span class="hljs-string">geometry_msgs/Point</span> <span class="hljs-string">pos</span>
-<span class="hljs-string">float64</span>             <span class="hljs-string">reliability</span>
-<span class="hljs-string">float64[9]</span>          <span class="hljs-string">covariance</span>
-<span class="hljs-string">byte</span>                <span class="hljs-string">initialization</span></code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">std_msgs/Header</span>     <span class="hljs-string">header</span><br><span class="hljs-comment"># The name of the detector that detected the person (i.e frontalface, profileface)</span><br><span class="hljs-string">string</span>              <span class="hljs-string">name</span><br><span class="hljs-string">string</span>              <span class="hljs-string">object_id</span><br><span class="hljs-string">geometry_msgs/Point</span> <span class="hljs-string">pos</span><br><span class="hljs-string">float64</span>             <span class="hljs-string">reliability</span><br><span class="hljs-string">float64[9]</span>          <span class="hljs-string">covariance</span><br><span class="hljs-string">byte</span>                <span class="hljs-string">initialization</span><br></code></pre></td></tr></table></figure>
 <h3 id="2-3-spencer-people-tracking"><a href="#2-3-spencer-people-tracking" class="headerlink" title="2.3 spencer_people_tracking"></a>2.3 spencer_people_tracking</h3><p><strong>DetectedPersons.msg</strong></p>
-<pre><code class="hljs yaml"><span class="hljs-comment"># Message with all currently detected persons</span>
-<span class="hljs-comment">#</span>
-
-<span class="hljs-string">Header</span>                  <span class="hljs-string">header</span>          <span class="hljs-comment"># Header containing timestamp etc. of this message</span>
-<span class="hljs-string">DetectedPerson[]</span>        <span class="hljs-string">detections</span>      <span class="hljs-comment"># All persons that are currently being detected</span></code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># Message with all currently detected persons</span><br><span class="hljs-comment">#</span><br><br><span class="hljs-string">Header</span>                  <span class="hljs-string">header</span>          <span class="hljs-comment"># Header containing timestamp etc. of this message</span><br><span class="hljs-string">DetectedPerson[]</span>        <span class="hljs-string">detections</span>      <span class="hljs-comment"># All persons that are currently being detected</span><br></code></pre></td></tr></table></figure>
 <p><strong>DetectedPerson.msg</strong></p>
-<pre><code class="hljs yaml"><span class="hljs-comment"># Message describing a detection of a person</span>
-<span class="hljs-comment">#</span>
-
-<span class="hljs-comment"># Unique id of the detection, monotonically increasing over time</span>
-<span class="hljs-string">uint64</span>          <span class="hljs-string">detection_id</span>
-
-<span class="hljs-comment"># (Pseudo-)probabilistic value between 0.0 and 1.0 describing the detector's confidence in the detection</span>
-<span class="hljs-string">float64</span>         <span class="hljs-string">confidence</span>
-
-<span class="hljs-comment"># 3D pose (position + orientation) of the *center* of the detection</span>
-<span class="hljs-comment"># check covariance to see which dimensions are actually set! unset dimensions shall have a covariance &gt; 9999</span>
-<span class="hljs-string">geometry_msgs/PoseWithCovariance</span>    <span class="hljs-string">pose</span>    
-
-<span class="hljs-comment"># Sensor modality / detector type, see example constants below. </span>
-<span class="hljs-comment"># used e.g. later in tracking to check which tracks have been visually confirmed</span>
-<span class="hljs-string">string</span>          <span class="hljs-string">modality</span>            
-
-                                    
-<span class="hljs-string">string</span>          <span class="hljs-string">MODALITY_GENERIC_LASER_2D</span> <span class="hljs-string">=</span> <span class="hljs-string">laser2d</span>
-<span class="hljs-string">string</span>          <span class="hljs-string">MODALITY_GENERIC_LASER_3D</span> <span class="hljs-string">=</span> <span class="hljs-string">laser3d</span>
-<span class="hljs-string">string</span>          <span class="hljs-string">MODALITY_GENERIC_MONOCULAR_VISION</span> <span class="hljs-string">=</span> <span class="hljs-string">mono</span>
-<span class="hljs-string">string</span>          <span class="hljs-string">MODALITY_GENERIC_STEREO_VISION</span> <span class="hljs-string">=</span> <span class="hljs-string">stereo</span>
-<span class="hljs-string">string</span>          <span class="hljs-string">MODALITY_GENERIC_RGBD</span> <span class="hljs-string">=</span> <span class="hljs-string">rgbd</span></code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># Message describing a detection of a person</span><br><span class="hljs-comment">#</span><br><br><span class="hljs-comment"># Unique id of the detection, monotonically increasing over time</span><br><span class="hljs-string">uint64</span>          <span class="hljs-string">detection_id</span><br><br><span class="hljs-comment"># (Pseudo-)probabilistic value between 0.0 and 1.0 describing the detector's confidence in the detection</span><br><span class="hljs-string">float64</span>         <span class="hljs-string">confidence</span><br><br><span class="hljs-comment"># 3D pose (position + orientation) of the *center* of the detection</span><br><span class="hljs-comment"># check covariance to see which dimensions are actually set! unset dimensions shall have a covariance &gt; 9999</span><br><span class="hljs-string">geometry_msgs/PoseWithCovariance</span>    <span class="hljs-string">pose</span>    <br><br><span class="hljs-comment"># Sensor modality / detector type, see example constants below. </span><br><span class="hljs-comment"># used e.g. later in tracking to check which tracks have been visually confirmed</span><br><span class="hljs-string">string</span>          <span class="hljs-string">modality</span>            <br><br>                                    <br><span class="hljs-string">string</span>          <span class="hljs-string">MODALITY_GENERIC_LASER_2D</span> <span class="hljs-string">=</span> <span class="hljs-string">laser2d</span><br><span class="hljs-string">string</span>          <span class="hljs-string">MODALITY_GENERIC_LASER_3D</span> <span class="hljs-string">=</span> <span class="hljs-string">laser3d</span><br><span class="hljs-string">string</span>          <span class="hljs-string">MODALITY_GENERIC_MONOCULAR_VISION</span> <span class="hljs-string">=</span> <span class="hljs-string">mono</span><br><span class="hljs-string">string</span>          <span class="hljs-string">MODALITY_GENERIC_STEREO_VISION</span> <span class="hljs-string">=</span> <span class="hljs-string">stereo</span><br><span class="hljs-string">string</span>          <span class="hljs-string">MODALITY_GENERIC_RGBD</span> <span class="hljs-string">=</span> <span class="hljs-string">rgbd</span><br></code></pre></td></tr></table></figure>
 <p><strong>TrackedPersons.msg</strong></p>
-<pre><code class="hljs yaml"><span class="hljs-comment"># Message with all currently tracked persons </span>
-<span class="hljs-comment">#</span>
-
-<span class="hljs-string">Header</span>              <span class="hljs-string">header</span>      <span class="hljs-comment"># Header containing timestamp etc. of this message</span>
-<span class="hljs-string">TrackedPerson[]</span>     <span class="hljs-string">tracks</span>      <span class="hljs-comment"># All persons that are currently being tracked</span></code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># Message with all currently tracked persons </span><br><span class="hljs-comment">#</span><br><br><span class="hljs-string">Header</span>              <span class="hljs-string">header</span>      <span class="hljs-comment"># Header containing timestamp etc. of this message</span><br><span class="hljs-string">TrackedPerson[]</span>     <span class="hljs-string">tracks</span>      <span class="hljs-comment"># All persons that are currently being tracked</span><br></code></pre></td></tr></table></figure>
 <p><strong>TrackedPerson.msg</strong></p>
-<pre><code class="hljs yaml"><span class="hljs-comment"># Message defining a tracked person</span>
-<span class="hljs-comment">#</span>
-
-<span class="hljs-string">uint64</span>      <span class="hljs-string">track_id</span>        <span class="hljs-comment"># unique identifier of the target, consistent over time</span>
-<span class="hljs-string">bool</span>        <span class="hljs-string">is_occluded</span>     <span class="hljs-comment"># if the track is currently not observable in a physical way</span>
-<span class="hljs-string">bool</span>        <span class="hljs-string">is_matched</span>      <span class="hljs-comment"># if the track is currently matched by a detection</span>
-<span class="hljs-string">uint64</span>      <span class="hljs-string">detection_id</span>    <span class="hljs-comment"># id of the corresponding detection in the current cycle (undefined if occluded)</span>
-<span class="hljs-string">duration</span>    <span class="hljs-string">age</span>             <span class="hljs-comment"># age of the track</span>
-
-<span class="hljs-comment"># The following fields are extracted from the Kalman state x and its covariance C</span>
-
-<span class="hljs-string">geometry_msgs/PoseWithCovariance</span>       <span class="hljs-string">pose</span>   <span class="hljs-comment"># pose of the track (z value and orientation might not be set, check if corresponding variance on diagonal is &gt; 99999)</span>
-
-<span class="hljs-string">geometry_msgs/TwistWithCovariance</span>   <span class="hljs-string">twist</span>     <span class="hljs-comment"># velocity of the track (z value and rotational velocities might not be set, check if corresponding variance on diagonal is &gt; 99999)</span></code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># Message defining a tracked person</span><br><span class="hljs-comment">#</span><br><br><span class="hljs-string">uint64</span>      <span class="hljs-string">track_id</span>        <span class="hljs-comment"># unique identifier of the target, consistent over time</span><br><span class="hljs-string">bool</span>        <span class="hljs-string">is_occluded</span>     <span class="hljs-comment"># if the track is currently not observable in a physical way</span><br><span class="hljs-string">bool</span>        <span class="hljs-string">is_matched</span>      <span class="hljs-comment"># if the track is currently matched by a detection</span><br><span class="hljs-string">uint64</span>      <span class="hljs-string">detection_id</span>    <span class="hljs-comment"># id of the corresponding detection in the current cycle (undefined if occluded)</span><br><span class="hljs-string">duration</span>    <span class="hljs-string">age</span>             <span class="hljs-comment"># age of the track</span><br><br><span class="hljs-comment"># The following fields are extracted from the Kalman state x and its covariance C</span><br><br><span class="hljs-string">geometry_msgs/PoseWithCovariance</span>       <span class="hljs-string">pose</span>   <span class="hljs-comment"># pose of the track (z value and orientation might not be set, check if corresponding variance on diagonal is &gt; 99999)</span><br><br><span class="hljs-string">geometry_msgs/TwistWithCovariance</span>   <span class="hljs-string">twist</span>     <span class="hljs-comment"># velocity of the track (z value and rotational velocities might not be set, check if corresponding variance on diagonal is &gt; 99999)</span><br></code></pre></td></tr></table></figure>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
 <li><a href="https://teddysun.com/294.html" target="_blank" rel="noopener">如何创建和解压tar.xz文件</a></li>
 <li><a href="http://arma.sourceforge.net/" target="_blank" rel="noopener">Armadillo</a>：C++ library for linear algebra &amp; scientific computing</li>

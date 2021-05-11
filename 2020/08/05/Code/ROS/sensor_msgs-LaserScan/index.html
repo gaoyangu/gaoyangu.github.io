@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      722 字
+      711 字
     </span>
   
 
@@ -230,20 +230,8 @@
               <div class="note note-success">
             <p>本文最后更新于：2020年8月5日 下午</p>
           </div>
-<h2 id="1-LaserScan"><a href="#1-LaserScan" class="headerlink" title="1. LaserScan"></a>1. LaserScan</h2><pre><code class="hljs sh">$ rosmsg show sensor_msgs/LaserScan</code></pre>
-<pre><code class="hljs sh">std_msgs/Header header
-  uint32 seq
-  time stamp
-  string frame_id
-float32 angle_min
-float32 angle_max
-float32 angle_increment
-float32 time_increment
-float32 scan_time
-float32 range_min
-float32 range_max
-float32[] ranges
-float32[] intensities</code></pre>
+<h2 id="1-LaserScan"><a href="#1-LaserScan" class="headerlink" title="1. LaserScan"></a>1. LaserScan</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ rosmsg show sensor_msgs/LaserScan<br></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs sh">std_msgs/Header header<br>  uint32 seq<br>  time stamp<br>  string frame_id<br>float32 angle_min<br>float32 angle_max<br>float32 angle_increment<br>float32 time_increment<br>float32 scan_time<br>float32 range_min<br>float32 range_max<br>float32[] ranges<br>float32[] intensities<br></code></pre></td></tr></table></figure>
 <h3 id="1-1-ROS-Message-Headers"><a href="#1-1-ROS-Message-Headers" class="headerlink" title="1.1 ROS Message Headers"></a>1.1 ROS Message Headers</h3><p>To standardize how this information is sent, the <code>Header</code> message type is used as a field in all such messages.</p>
 <ul>
 <li><code>seq</code>: an identifier that automatically increases as Messages are sent from a given publisher</li>
@@ -255,83 +243,9 @@ float32[] intensities</code></pre>
 <li>the <code>stamp</code> might correspond to the time at which the scan was taken</li>
 <li>the <code>frame_id</code> would be set to the frame in which the scan was taken.</li>
 </ul>
-<pre><code class="hljs sh"><span class="hljs-comment">#Standard metadata for higher-level flow data types</span>
-<span class="hljs-comment">#sequence ID: consecutively increasing ID </span>
-uint32 seq
-<span class="hljs-comment">#Two-integer timestamp that is expressed as:</span>
-<span class="hljs-comment"># * stamp.secs: seconds (stamp_secs) since epoch</span>
-<span class="hljs-comment"># * stamp.nsecs: nanoseconds since stamp_secs</span>
-<span class="hljs-comment"># time-handling sugar is provided by the client library</span>
-time stamp
-<span class="hljs-comment">#Frame this data is associated with</span>
-<span class="hljs-comment"># 0: no frame</span>
-<span class="hljs-comment"># 1: global frame</span>
-string frame_id</code></pre>
-<h3 id="1-2-The-LaserScan-Message"><a href="#1-2-The-LaserScan-Message" class="headerlink" title="1.2 The LaserScan Message"></a>1.2 The LaserScan Message</h3><pre><code class="hljs sh"><span class="hljs-comment">#</span>
-<span class="hljs-comment"># Laser scans angles are measured counter clockwise, with 0 facing forward</span>
-<span class="hljs-comment"># (along the x-axis) of the device frame</span>
-<span class="hljs-comment">#</span>
-
-Header header
-float32 angle_min        <span class="hljs-comment"># start angle of the scan [rad]</span>
-float32 angle_max        <span class="hljs-comment"># end angle of the scan [rad]</span>
-float32 angle_increment  <span class="hljs-comment"># angular distance between measurements [rad]</span>
-float32 time_increment   <span class="hljs-comment"># time between measurements [seconds]</span>
-float32 scan_time        <span class="hljs-comment"># time between scans [seconds]</span>
-float32 range_min        <span class="hljs-comment"># minimum range value [m]</span>
-float32 range_max        <span class="hljs-comment"># maximum range value [m]</span>
-float32[] ranges         <span class="hljs-comment"># range data [m] (Note: values &lt; range_min or &gt; range_max should be discarded)</span>
-float32[] intensities    <span class="hljs-comment"># intensity data [device-specific units]</span></code></pre>
-<h2 id="2-Code"><a href="#2-Code" class="headerlink" title="2. Code"></a>2. Code</h2><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;ros/ros.h&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;sensor_msgs/LaserScan.h&gt;</span></span>
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span></span>&#123;
-  ros::init(argc, argv, <span class="hljs-string">"laser_scan_publisher"</span>);
-
-  ros::NodeHandle n;
-  ros::Publisher scan_pub = n.advertise&lt;sensor_msgs::LaserScan&gt;(<span class="hljs-string">"scan"</span>, <span class="hljs-number">50</span>);
-
-  <span class="hljs-comment">// set up storage for the dummy data that we're going to use to populate our scan</span>
-  <span class="hljs-comment">// A real application would pull this data from their laser driver</span>
-  <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> num_readings = <span class="hljs-number">100</span>;
-  <span class="hljs-keyword">double</span> laser_frequency = <span class="hljs-number">40</span>;
-  <span class="hljs-keyword">double</span> ranges[num_readings];
-  <span class="hljs-keyword">double</span> intensities[num_readings];
-
-  <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>;
-  <span class="hljs-function">ros::Rate <span class="hljs-title">r</span><span class="hljs-params">(<span class="hljs-number">1.0</span>)</span></span>;
-  <span class="hljs-keyword">while</span>(n.ok())&#123;
-    <span class="hljs-comment">//generate some fake data for our laser scan</span>
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; num_readings; ++i)&#123;
-      ranges[i] = count;
-      intensities[i] = <span class="hljs-number">100</span> + count;
-    &#125;
-    ros::Time scan_time = ros::Time::now();
-
-    <span class="hljs-comment">//populate the LaserScan message</span>
-    sensor_msgs::LaserScan scan;
-    scan.header.stamp = scan_time;
-    scan.header.frame_id = <span class="hljs-string">"laser_frame"</span>;
-    scan.angle_min = <span class="hljs-number">-1.57</span>;
-    scan.angle_max = <span class="hljs-number">1.57</span>;
-    scan.angle_increment = <span class="hljs-number">3.14</span> / num_readings;
-    scan.time_increment = (<span class="hljs-number">1</span> / laser_frequency) / (num_readings);
-    scan.range_min = <span class="hljs-number">0.0</span>;
-    scan.range_max = <span class="hljs-number">100.0</span>;
-
-    scan.ranges.resize(num_readings);
-    scan.intensities.resize(num_readings);
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; num_readings; ++i)&#123;
-      scan.ranges[i] = ranges[i];
-      scan.intensities[i] = intensities[i];
-    &#125;
-
-    <span class="hljs-comment">//Publish the message over ROS.</span>
-    scan_pub.publish(scan);
-    ++count;
-    r.sleep();
-  &#125;
-&#125;</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#Standard metadata for higher-level flow data types</span><br><span class="hljs-comment">#sequence ID: consecutively increasing ID </span><br>uint32 seq<br><span class="hljs-comment">#Two-integer timestamp that is expressed as:</span><br><span class="hljs-comment"># * stamp.secs: seconds (stamp_secs) since epoch</span><br><span class="hljs-comment"># * stamp.nsecs: nanoseconds since stamp_secs</span><br><span class="hljs-comment"># time-handling sugar is provided by the client library</span><br>time stamp<br><span class="hljs-comment">#Frame this data is associated with</span><br><span class="hljs-comment"># 0: no frame</span><br><span class="hljs-comment"># 1: global frame</span><br>string frame_id<br></code></pre></td></tr></table></figure>
+<h3 id="1-2-The-LaserScan-Message"><a href="#1-2-The-LaserScan-Message" class="headerlink" title="1.2 The LaserScan Message"></a>1.2 The LaserScan Message</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#</span><br><span class="hljs-comment"># Laser scans angles are measured counter clockwise, with 0 facing forward</span><br><span class="hljs-comment"># (along the x-axis) of the device frame</span><br><span class="hljs-comment">#</span><br><br>Header header<br>float32 angle_min        <span class="hljs-comment"># start angle of the scan [rad]</span><br>float32 angle_max        <span class="hljs-comment"># end angle of the scan [rad]</span><br>float32 angle_increment  <span class="hljs-comment"># angular distance between measurements [rad]</span><br>float32 time_increment   <span class="hljs-comment"># time between measurements [seconds]</span><br>float32 scan_time        <span class="hljs-comment"># time between scans [seconds]</span><br>float32 range_min        <span class="hljs-comment"># minimum range value [m]</span><br>float32 range_max        <span class="hljs-comment"># maximum range value [m]</span><br>float32[] ranges         <span class="hljs-comment"># range data [m] (Note: values &lt; range_min or &gt; range_max should be discarded)</span><br>float32[] intensities    <span class="hljs-comment"># intensity data [device-specific units]</span><br></code></pre></td></tr></table></figure>
+<h2 id="2-Code"><a href="#2-Code" class="headerlink" title="2. Code"></a>2. Code</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;ros/ros.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;sensor_msgs/LaserScan.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span></span>&#123;<br>  ros::init(argc, argv, <span class="hljs-string">"laser_scan_publisher"</span>);<br><br>  ros::NodeHandle n;<br>  ros::Publisher scan_pub = n.advertise&lt;sensor_msgs::LaserScan&gt;(<span class="hljs-string">"scan"</span>, <span class="hljs-number">50</span>);<br><br>  <span class="hljs-comment">// set up storage for the dummy data that we're going to use to populate our scan</span><br>  <span class="hljs-comment">// A real application would pull this data from their laser driver</span><br>  <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> num_readings = <span class="hljs-number">100</span>;<br>  <span class="hljs-keyword">double</span> laser_frequency = <span class="hljs-number">40</span>;<br>  <span class="hljs-keyword">double</span> ranges[num_readings];<br>  <span class="hljs-keyword">double</span> intensities[num_readings];<br><br>  <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>;<br>  <span class="hljs-function">ros::Rate <span class="hljs-title">r</span><span class="hljs-params">(<span class="hljs-number">1.0</span>)</span></span>;<br>  <span class="hljs-keyword">while</span>(n.ok())&#123;<br>    <span class="hljs-comment">//generate some fake data for our laser scan</span><br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; num_readings; ++i)&#123;<br>      ranges[i] = count;<br>      intensities[i] = <span class="hljs-number">100</span> + count;<br>    &#125;<br>    ros::Time scan_time = ros::Time::now();<br><br>    <span class="hljs-comment">//populate the LaserScan message</span><br>    sensor_msgs::LaserScan scan;<br>    scan.header.stamp = scan_time;<br>    scan.header.frame_id = <span class="hljs-string">"laser_frame"</span>;<br>    scan.angle_min = <span class="hljs-number">-1.57</span>;<br>    scan.angle_max = <span class="hljs-number">1.57</span>;<br>    scan.angle_increment = <span class="hljs-number">3.14</span> / num_readings;<br>    scan.time_increment = (<span class="hljs-number">1</span> / laser_frequency) / (num_readings);<br>    scan.range_min = <span class="hljs-number">0.0</span>;<br>    scan.range_max = <span class="hljs-number">100.0</span>;<br><br>    scan.ranges.resize(num_readings);<br>    scan.intensities.resize(num_readings);<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; num_readings; ++i)&#123;<br>      scan.ranges[i] = ranges[i];<br>      scan.intensities[i] = intensities[i];<br>    &#125;<br><br>    <span class="hljs-comment">//Publish the message over ROS.</span><br>    scan_pub.publish(scan);<br>    ++count;<br>    r.sleep();<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h2 id="3-rplidar"><a href="#3-rplidar" class="headerlink" title="3. rplidar"></a>3. rplidar</h2><p>The rplidar ros package, support rplidar A2/A1 and A3/S1</p>
 <h3 id="3-1-Overview"><a href="#3-1-Overview" class="headerlink" title="3.1 Overview"></a>3.1 Overview</h3><p>RPLIDAR </p>
 <ul>

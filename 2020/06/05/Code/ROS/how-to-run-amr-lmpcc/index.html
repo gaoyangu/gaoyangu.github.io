@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      805 字
+      798 字
     </span>
   
 
@@ -260,27 +260,13 @@
 </table>
 </div>
 <h2 id="1-下载编译"><a href="#1-下载编译" class="headerlink" title="1. 下载编译"></a>1. 下载编译</h2><h3 id="1-1-下载编译过程"><a href="#1-1-下载编译过程" class="headerlink" title="1.1 下载编译过程"></a>1.1 下载编译过程</h3><p>1.先使用如下命令更新软件包</p>
-<pre><code class="hljs sh">sudo apt-get update
-sudo apt-get upgrade</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">sudo apt-get update<br>sudo apt-get upgrade<br></code></pre></td></tr></table></figure>
 <p>2.下载编译</p>
-<pre><code class="hljs bash">sudo apt-get install ros-kinetic-jackal-control ros-kinetic-jackal-gazebo ros-kinetic-jackal-simulator ros-kinetic-jackal-description ros-kinetic-jackal-desktop ros-kinetic-jackal-navigation ros-kinetic-jackal-viz
-sudo apt install ros-kinetic-people-msgs
-<span class="hljs-built_in">cd</span> [workspace]/src
-git <span class="hljs-built_in">clone</span> https://github.com/bbrito/pedsim_ros.git -b four_persons
-git <span class="hljs-built_in">clone</span> https://github.com/spencer-project/spencer_messages.git
-git <span class="hljs-built_in">clone</span> https://github.com/srl-freiburg/spencer_tracking_rviz_plugin.git
-git <span class="hljs-built_in">clone</span> https://github.com/tud-amr/amr-lmpcc.git
-<span class="hljs-built_in">cd</span> ../
-rosdep install --from-paths src --ignore-src -r -y
-catkin_make -j1</code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt-get install ros-kinetic-jackal-control ros-kinetic-jackal-gazebo ros-kinetic-jackal-simulator ros-kinetic-jackal-description ros-kinetic-jackal-desktop ros-kinetic-jackal-navigation ros-kinetic-jackal-viz<br>sudo apt install ros-kinetic-people-msgs<br><span class="hljs-built_in">cd</span> [workspace]/src<br>git <span class="hljs-built_in">clone</span> https://github.com/bbrito/pedsim_ros.git -b four_persons<br>git <span class="hljs-built_in">clone</span> https://github.com/spencer-project/spencer_messages.git<br>git <span class="hljs-built_in">clone</span> https://github.com/srl-freiburg/spencer_tracking_rviz_plugin.git<br>git <span class="hljs-built_in">clone</span> https://github.com/tud-amr/amr-lmpcc.git<br><span class="hljs-built_in">cd</span> ../<br>rosdep install --from-paths src --ignore-src -r -y<br>catkin_make -j1<br></code></pre></td></tr></table></figure>
 <ul>
 <li>然后会提示如下错误❌：</li>
 </ul>
-<pre><code class="hljs cpp">/lmpcc/catkin_ws/src/pedsim_ros/pedsim_visualizer/src/sim_visualizer.cpp:<span class="hljs-number">107</span>:<span class="hljs-number">12</span>: error: ‘spencer_tracking_msgs::TrackedPerson &#123;aka <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">spencer_tracking_msgs</span>:</span>:TrackedPerson_&lt;<span class="hljs-built_in">std</span>::allocator&lt;<span class="hljs-keyword">void</span>&gt; &gt;&#125;’ has no member named ‘goal’
-     person.goal.position.x = agent_state.goal.position.x;
-            ^
-/lmpcc/catkin_ws/src/pedsim_ros/pedsim_visualizer/src/sim_visualizer.cpp:<span class="hljs-number">108</span>:<span class="hljs-number">12</span>: error: ‘spencer_tracking_msgs::TrackedPerson &#123;aka <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">spencer_tracking_msgs</span>:</span>:TrackedPerson_&lt;<span class="hljs-built_in">std</span>::allocator&lt;<span class="hljs-keyword">void</span>&gt; &gt;&#125;’ has no member named ‘goal’
-     person.goal.position.y = agent_state.goal.position.y;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp">/lmpcc/catkin_ws/src/pedsim_ros/pedsim_visualizer/src/sim_visualizer.cpp:<span class="hljs-number">107</span>:<span class="hljs-number">12</span>: error: ‘spencer_tracking_msgs::TrackedPerson &#123;aka <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">spencer_tracking_msgs</span>:</span>:TrackedPerson_&lt;<span class="hljs-built_in">std</span>::allocator&lt;<span class="hljs-keyword">void</span>&gt; &gt;&#125;’ has no member named ‘goal’<br>     person.goal.position.x = agent_state.goal.position.x;<br>            ^<br>/lmpcc/catkin_ws/src/pedsim_ros/pedsim_visualizer/src/sim_visualizer.cpp:<span class="hljs-number">108</span>:<span class="hljs-number">12</span>: error: ‘spencer_tracking_msgs::TrackedPerson &#123;aka <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">spencer_tracking_msgs</span>:</span>:TrackedPerson_&lt;<span class="hljs-built_in">std</span>::allocator&lt;<span class="hljs-keyword">void</span>&gt; &gt;&#125;’ has no member named ‘goal’<br>     person.goal.position.y = agent_state.goal.position.y;<br></code></pre></td></tr></table></figure>
 <ul>
 <li>解决方案：</li>
 </ul>
@@ -288,7 +274,7 @@ catkin_make -j1</code></pre>
 <ul>
 <li>会提示如下错误❌：</li>
 </ul>
-<pre><code class="hljs cpp">/lmpcc/catkin_ws/src/pedsim_ros/pedsim_gazebo_plugin/src/actor_poses_plugin.cpp:<span class="hljs-number">8</span>:<span class="hljs-number">46</span>: fatal error: gazebo<span class="hljs-number">-9</span>/gazebo/physics/physics.hh: No such file <span class="hljs-keyword">or</span> directory</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">/lmpcc/catkin_ws/src/pedsim_ros/pedsim_gazebo_plugin/src/actor_poses_plugin.cpp:<span class="hljs-number">8</span>:<span class="hljs-number">46</span>: fatal error: gazebo<span class="hljs-number">-9</span>/gazebo/physics/physics.hh: No such file <span class="hljs-keyword">or</span> directory<br></code></pre></td></tr></table></figure>
 <ul>
 <li>解决方案：</li>
 </ul>
@@ -296,14 +282,12 @@ catkin_make -j1</code></pre>
 <ul>
 <li>会提示如下错误❌：</li>
 </ul>
-<pre><code class="hljs cpp">/lmpcc/catkin_ws/src/amr-lmpcc/lmpcc/include/lmpcc/lmpcc_controller.h:<span class="hljs-number">134</span>:<span class="hljs-number">31</span>: fatal error: lmpcc/LmpccConfig.h: No such file <span class="hljs-keyword">or</span> directory</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">/lmpcc/catkin_ws/src/amr-lmpcc/lmpcc/include/lmpcc/lmpcc_controller.h:<span class="hljs-number">134</span>:<span class="hljs-number">31</span>: fatal error: lmpcc/LmpccConfig.h: No such file <span class="hljs-keyword">or</span> directory<br></code></pre></td></tr></table></figure>
 <ul>
 <li>解决方案：</li>
 </ul>
 <p>在这里使用如下命令单独编译<code>lmpcc</code>包。</p>
-<pre><code class="hljs sh">catkin_make -DCATKIN_WHITELIST_PACKAGES=<span class="hljs-string">"lmpcc"</span>
-<span class="hljs-comment"># 注意使用完上述命令，一定要紧接着使用以下命令再次编译</span>
-catkin_make -DCATKIN_WHITELIST_PACKAGES=<span class="hljs-string">""</span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">catkin_make -DCATKIN_WHITELIST_PACKAGES=<span class="hljs-string">"lmpcc"</span><br><span class="hljs-comment"># 注意使用完上述命令，一定要紧接着使用以下命令再次编译</span><br>catkin_make -DCATKIN_WHITELIST_PACKAGES=<span class="hljs-string">""</span><br></code></pre></td></tr></table></figure>
 <p>至此，编译工作完成。</p>
 <p><strong>注：</strong></p>
 <ol>
@@ -315,13 +299,10 @@ catkin_make -DCATKIN_WHITELIST_PACKAGES=<span class="hljs-string">""</span></cod
 </ul>
 <h2 id="2-初步运行测试"><a href="#2-初步运行测试" class="headerlink" title="2. 初步运行测试"></a>2. 初步运行测试</h2><h3 id="2-1-准备工作"><a href="#2-1-准备工作" class="headerlink" title="2.1 准备工作"></a>2.1 准备工作</h3><p>由于此次测试打算使用提前定义的障碍物，故需要修改</p>
 <p><code>$(find lmpcc_obstacle_feed)/config/lmpcc_obstacle_feed_config.yaml</code></p>
-<pre><code class="hljs sh"><span class="hljs-comment"># Obstacle feed mode (0 = sensor mode, 1 = OptiTrack mode, 2 = predefined obstacles, 4 = Pedsim)</span>
-<span class="hljs-comment"># need to recompile after changing!</span>
-obstacle_feed_mode: 2	<span class="hljs-comment"># before 4</span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># Obstacle feed mode (0 = sensor mode, 1 = OptiTrack mode, 2 = predefined obstacles, 4 = Pedsim)</span><br><span class="hljs-comment"># need to recompile after changing!</span><br>obstacle_feed_mode: 2	<span class="hljs-comment"># before 4</span><br></code></pre></td></tr></table></figure>
 <p>此时调用<code>roslaunch lmpcc_obstacle_feed map_lmpcc_obstacle_feed.launch</code></p>
 <p>会提示如下错误❌</p>
-<pre><code class="hljs sh">terminate called after throwing an instance of <span class="hljs-string">'std::out_of_range'</span>
-  what():  vector::_M_range_check: __n (<span class="hljs-built_in">which</span> is 3) &gt;= this-&gt;size() (<span class="hljs-built_in">which</span> is 3)</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">terminate called after throwing an instance of <span class="hljs-string">'std::out_of_range'</span><br>  what():  vector::_M_range_check: __n (<span class="hljs-built_in">which</span> is 3) &gt;= this-&gt;size() (<span class="hljs-built_in">which</span> is 3)<br></code></pre></td></tr></table></figure>
 <p>这是因为<code>$(find lmpcc_obstacle_feed)/config/lmpcc_obstacle_feed_config.yaml</code></p>
 <p>中的<code>predefined_obstacles</code>只有3个障碍物，而<code>detected_obstacles</code>中的<code>obstacle_number</code>等于4</p>
 <p>故有如下解决方案：</p>
@@ -331,12 +312,10 @@ obstacle_feed_mode: 2	<span class="hljs-comment"># before 4</span></code></pre>
 <p>注：如果直接将<code>obstacle_number</code>改为 3 会导致节点<code>lmpcc</code>与节点<code>lmpcc_obstacle_feed</code>的冲突，目前还没有找到原因。</p>
 <h3 id="2-2-运行测试"><a href="#2-2-运行测试" class="headerlink" title="2.2 运行测试"></a>2.2 运行测试</h3><p><strong>2.2.1 测试过程</strong></p>
 <p>分别在3个不同的终端运行如下命令：</p>
-<pre><code class="hljs cpp">roslaunch lmpcc_obstacle_feed map_lmpcc_obstacle_feed.launch
-roslaunch static_collision_avoidance static_collision_avoidance.launch
-roslaunch lmpcc robot_lmpcc.launch</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp">roslaunch lmpcc_obstacle_feed map_lmpcc_obstacle_feed.launch<br>roslaunch static_collision_avoidance static_collision_avoidance.launch<br>roslaunch lmpcc robot_lmpcc.launch<br></code></pre></td></tr></table></figure>
 <p><strong>2.2.2 运行结果</strong></p>
 <p>使用如下命令：</p>
-<pre><code class="hljs sh">rqt_graph</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">rqt_graph<br></code></pre></td></tr></table></figure>
 <p>得到当前的节点图。</p>
 
             </div>

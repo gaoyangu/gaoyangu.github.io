@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      130 字
+      110 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      2
+      1
        分钟
     </span>
   
@@ -233,57 +233,15 @@
 <h2 id="01-shell"><a href="#01-shell" class="headerlink" title="01 shell"></a>01 shell</h2><ul>
 <li>环境变量 environment variables</li>
 </ul>
-<pre><code class="hljs sh"><span class="hljs-built_in">echo</span> <span class="hljs-variable">$PATH</span>
-<span class="hljs-built_in">which</span> <span class="hljs-built_in">echo</span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">echo</span> <span class="hljs-variable">$PATH</span><br><span class="hljs-built_in">which</span> <span class="hljs-built_in">echo</span><br></code></pre></td></tr></table></figure>
 <ul>
 <li>absolute path</li>
 <li>relative path</li>
 </ul>
-<pre><code class="hljs sh"><span class="hljs-built_in">pwd</span>
-<span class="hljs-built_in">cd</span> ..
-<span class="hljs-built_in">cd</span> ~
-<span class="hljs-built_in">cd</span> -
-ls --<span class="hljs-built_in">help</span>
-mv
-cp
-rm
-mkdir
-man ls</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">pwd</span><br><span class="hljs-built_in">cd</span> ..<br><span class="hljs-built_in">cd</span> ~<br><span class="hljs-built_in">cd</span> -<br>ls --<span class="hljs-built_in">help</span><br>mv<br>cp<br>rm<br>mkdir<br>man ls<br></code></pre></td></tr></table></figure>
 <p>Ctrl + l</p>
-<pre><code class="hljs vim"><span class="hljs-keyword">echo</span> hello &gt; hello.txt
-<span class="hljs-keyword">cat</span> hello.txt
-<span class="hljs-keyword">cat</span> &lt; hello.txt &gt; hello2.txt
-<span class="hljs-keyword">cat</span> &lt; hello.txt &gt;&gt; hello2.txt
-
-<span class="hljs-keyword">ls</span> -<span class="hljs-keyword">l</span> | tail -n1
-
-<span class="hljs-keyword">echo</span> <span class="hljs-number">1060</span> | sudo tee brightness
-
-xdg-<span class="hljs-keyword">open</span> lecture.xml</code></pre>
-<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><pre><code class="hljs sh">vim mcd.sh
-
-<span class="hljs-function"><span class="hljs-title">mcd</span></span>()&#123;
-	mkdir -p <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>
-	<span class="hljs-built_in">cd</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>
-&#125;
-
-<span class="hljs-built_in">source</span> mcd.sh
-
-<span class="hljs-built_in">cd</span> <span class="hljs-variable">$_</span>
-
-mkdir /mnt/new
-sudo !!
-
-<span class="hljs-comment"># 查看命令是否执行成功</span>
-<span class="hljs-built_in">echo</span> $?
-
-grep foobar mca.sh
-
-ls *.sh
-ls project?
-
-mkdir foo bar
-touch &#123;foo,bar&#125;/&#123;a..j&#125;</code></pre>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-keyword">echo</span> hello &gt; hello.txt<br><span class="hljs-keyword">cat</span> hello.txt<br><span class="hljs-keyword">cat</span> &lt; hello.txt &gt; hello2.txt<br><span class="hljs-keyword">cat</span> &lt; hello.txt &gt;&gt; hello2.txt<br><br><span class="hljs-keyword">ls</span> -<span class="hljs-keyword">l</span> | tail -n1<br><br><span class="hljs-keyword">echo</span> <span class="hljs-number">1060</span> | sudo tee brightness<br><br>xdg-<span class="hljs-keyword">open</span> lecture.xml<br></code></pre></td></tr></table></figure>
+<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs sh">vim mcd.sh<br><br><span class="hljs-function"><span class="hljs-title">mcd</span></span>()&#123;<br>	mkdir -p <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span><br>	<span class="hljs-built_in">cd</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span><br>&#125;<br><br><span class="hljs-built_in">source</span> mcd.sh<br><br><span class="hljs-built_in">cd</span> <span class="hljs-variable">$_</span><br><br>mkdir /mnt/new<br>sudo !!<br><br><span class="hljs-comment"># 查看命令是否执行成功</span><br><span class="hljs-built_in">echo</span> $?<br><br>grep foobar mca.sh<br><br>ls *.sh<br>ls project?<br><br>mkdir foo bar<br>touch &#123;foo,bar&#125;/&#123;a..j&#125;<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>

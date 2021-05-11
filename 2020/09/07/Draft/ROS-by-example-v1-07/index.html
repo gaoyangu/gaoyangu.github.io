@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      849 字
+      844 字
     </span>
   
 
@@ -261,58 +261,20 @@
 </ul>
 <h3 id="7-2-6-Semantic-Goals"><a href="#7-2-6-Semantic-Goals" class="headerlink" title="7.2.6 Semantic Goals"></a>7.2.6 Semantic Goals</h3><p>Finally, at the highest level of abstraction, motion goals are specified semantically such as “go to the kitchen and bring me a beer”, or simply, “bring me a beer”.   </p>
 <h3 id="7-2-7-Summary"><a href="#7-2-7-Summary" class="headerlink" title="7.2.7 Summary"></a>7.2.7 Summary</h3><h2 id="7-3-Twisting-and-Turning-with-ROS"><a href="#7-3-Twisting-and-Turning-with-ROS" class="headerlink" title="7.3 Twisting and Turning with ROS"></a>7.3 Twisting and Turning with ROS</h2><p><strong>Twist</strong></p>
-<pre><code class="hljs sh">$ rosmsg show geometry_msgs/Twist
-
-geometry_msgs/Vector3 linear
-  float64 x
-  float64 y
-  float64 z
-geometry_msgs/Vector3 angular
-  float64 x
-  float64 y
-  float64 z</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ rosmsg show geometry_msgs/Twist<br><br>geometry_msgs/Vector3 linear<br>  float64 x<br>  float64 y<br>  float64 z<br>geometry_msgs/Vector3 angular<br>  float64 x<br>  float64 y<br>  float64 z<br></code></pre></td></tr></table></figure>
 <ul>
 <li>For a differential drive robot operating in a two-dimensional plane (such as the floor), we only need the linear x component and the angular z component.   </li>
 <li>An omni-directional robot would also use the linear y component while a flying or underwater robot would use all six components.  </li>
 </ul>
-<h3 id="7-3-1-Example-Twist-Messages"><a href="#7-3-1-Example-Twist-Messages" class="headerlink" title="7.3.1 Example Twist Messages"></a>7.3.1 Example Twist Messages</h3><pre><code class="hljs cpp">'&#123;linear: &#123;x: 0.1, y: 0, z: 0&#125;, angular: &#123;x: 0, y: 0, z: 1.0&#125;&#125;'</code></pre>
-<h3 id="7-3-2-Monitoring-Robot-Motion-using-RViz"><a href="#7-3-2-Monitoring-Robot-Motion-using-RViz" class="headerlink" title="7.3.2 Monitoring Robot Motion using RViz"></a>7.3.2 Monitoring Robot Motion using RViz</h3><pre><code class="hljs sh">$ rostopic pub -r 10 /cmd_vel geometry_msgs/Twist <span class="hljs-string">'&#123;linear: &#123;x: 0.1, y: 0, z: 0&#125;, angular: &#123;x: 0, y: 0, z: -0.5&#125;&#125;'</span></code></pre>
+<h3 id="7-3-1-Example-Twist-Messages"><a href="#7-3-1-Example-Twist-Messages" class="headerlink" title="7.3.1 Example Twist Messages"></a>7.3.1 Example Twist Messages</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">'&#123;linear: &#123;x: 0.1, y: 0, z: 0&#125;, angular: &#123;x: 0, y: 0, z: 1.0&#125;&#125;'<br></code></pre></td></tr></table></figure>
+<h3 id="7-3-2-Monitoring-Robot-Motion-using-RViz"><a href="#7-3-2-Monitoring-Robot-Motion-using-RViz" class="headerlink" title="7.3.2 Monitoring Robot Motion using RViz"></a>7.3.2 Monitoring Robot Motion using RViz</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ rostopic pub -r 10 /cmd_vel geometry_msgs/Twist <span class="hljs-string">'&#123;linear: &#123;x: 0.1, y: 0, z: 0&#125;, angular: &#123;x: 0, y: 0, z: -0.5&#125;&#125;'</span><br></code></pre></td></tr></table></figure>
 <p><code>-r</code> : publish the Twist message continually at 10Hz.  </p>
-<h2 id="7-4-Calibrating-Your-Robot’s-Odometry"><a href="#7-4-Calibrating-Your-Robot’s-Odometry" class="headerlink" title="7.4 Calibrating Your Robot’s Odometry"></a>7.4 Calibrating Your Robot’s Odometry</h2><h3 id="7-4-1-Linear-Calibration"><a href="#7-4-1-Linear-Calibration" class="headerlink" title="7.4.1 Linear Calibration"></a>7.4.1 Linear Calibration</h3><h3 id="7-4-2-Angular-Calibration"><a href="#7-4-2-Angular-Calibration" class="headerlink" title="7.4.2 Angular Calibration"></a>7.4.2 Angular Calibration</h3><h2 id="7-5-Sending-Twist-Messages-to-a-Real-Robot"><a href="#7-5-Sending-Twist-Messages-to-a-Real-Robot" class="headerlink" title="7.5 Sending Twist Messages to a Real Robot"></a>7.5 Sending Twist Messages to a Real Robot</h2><pre><code class="hljs sh">$ rostopic pub -r 10 /cmd_vel geometry_msgs/Twist <span class="hljs-string">'&#123;linear: &#123;x: 0.15, y: 0, z: 0&#125;, angular: &#123;x: 0, y: 0, z: -0.4&#125;&#125;'</span></code></pre>
+<h2 id="7-4-Calibrating-Your-Robot’s-Odometry"><a href="#7-4-Calibrating-Your-Robot’s-Odometry" class="headerlink" title="7.4 Calibrating Your Robot’s Odometry"></a>7.4 Calibrating Your Robot’s Odometry</h2><h3 id="7-4-1-Linear-Calibration"><a href="#7-4-1-Linear-Calibration" class="headerlink" title="7.4.1 Linear Calibration"></a>7.4.1 Linear Calibration</h3><h3 id="7-4-2-Angular-Calibration"><a href="#7-4-2-Angular-Calibration" class="headerlink" title="7.4.2 Angular Calibration"></a>7.4.2 Angular Calibration</h3><h2 id="7-5-Sending-Twist-Messages-to-a-Real-Robot"><a href="#7-5-Sending-Twist-Messages-to-a-Real-Robot" class="headerlink" title="7.5 Sending Twist Messages to a Real Robot"></a>7.5 Sending Twist Messages to a Real Robot</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ rostopic pub -r 10 /cmd_vel geometry_msgs/Twist <span class="hljs-string">'&#123;linear: &#123;x: 0.15, y: 0, z: 0&#125;, angular: &#123;x: 0, y: 0, z: -0.4&#125;&#125;'</span><br></code></pre></td></tr></table></figure>
 <h2 id="7-6-Publishing-Twist-Messages-from-a-ROS-Node"><a href="#7-6-Publishing-Twist-Messages-from-a-ROS-Node" class="headerlink" title="7.6 Publishing Twist Messages from a ROS Node"></a>7.6 Publishing Twist Messages from a ROS Node</h2><ul>
 <li>Note that a common source of import errors is to forget to include the necessary ROS <run_depend> line in your package’s package.xml file.   </li>
 <li>Setting the queue_size parameter to a numeric value causes the publisher to behave asynchronously so that each subscriber receives messages on a separate thread an no one subscriber and lock up the whole system.  </li>
 </ul>
-<h2 id="7-7-Are-We-There-Yet-Going-the-Distance-with-Odometry"><a href="#7-7-Are-We-There-Yet-Going-the-Distance-with-Odometry" class="headerlink" title="7.7 Are We There Yet? Going the Distance with Odometry"></a>7.7 Are We There Yet? Going the Distance with Odometry</h2><pre><code class="hljs sh">$ rosmsg show nav_msgs/Odometry
-
-std_msgs/Header header
-  uint32 seq
-  time stamp
-  string frame_id
-string child_frame_id
-geometry_msgs/PoseWithCovariance pose
-  geometry_msgs/Pose pose
-    geometry_msgs/Point position
-      float64 x
-      float64 y
-      float64 z
-    geometry_msgs/Quaternion orientation
-      float64 x
-      float64 y
-      float64 z
-      float64 w
-  float64[36] covariance
-geometry_msgs/TwistWithCovariance twist
-  geometry_msgs/Twist twist
-    geometry_msgs/Vector3 linear
-      float64 x
-      float64 y
-      float64 z
-    geometry_msgs/Vector3 angular
-      float64 x
-      float64 y
-      float64 z
-  float64[36] covariance</code></pre>
+<h2 id="7-7-Are-We-There-Yet-Going-the-Distance-with-Odometry"><a href="#7-7-Are-We-There-Yet-Going-the-Distance-with-Odometry" class="headerlink" title="7.7 Are We There Yet? Going the Distance with Odometry"></a>7.7 Are We There Yet? Going the Distance with Odometry</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ rosmsg show nav_msgs/Odometry<br><br>std_msgs/Header header<br>  uint32 seq<br>  time stamp<br>  string frame_id<br>string child_frame_id<br>geometry_msgs/PoseWithCovariance pose<br>  geometry_msgs/Pose pose<br>    geometry_msgs/Point position<br>      float64 x<br>      float64 y<br>      float64 z<br>    geometry_msgs/Quaternion orientation<br>      float64 x<br>      float64 y<br>      float64 z<br>      float64 w<br>  float64[36] covariance<br>geometry_msgs/TwistWithCovariance twist<br>  geometry_msgs/Twist twist<br>    geometry_msgs/Vector3 linear<br>      float64 x<br>      float64 y<br>      float64 z<br>    geometry_msgs/Vector3 angular<br>      float64 x<br>      float64 y<br>      float64 z<br>  float64[36] covariance<br></code></pre></td></tr></table></figure>
 <ul>
 <li><p>a covariance matrix which measures the uncertainty in the various measurements.  </p>
 </li>

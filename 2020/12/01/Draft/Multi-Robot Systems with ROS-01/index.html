@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      942 字
+      950 字
     </span>
   
 
@@ -242,37 +242,29 @@
 </li>
 </ul>
 <h2 id="2-Two-Turtle-Simulators"><a href="#2-Two-Turtle-Simulators" class="headerlink" title="2. Two Turtle Simulators"></a>2. Two Turtle Simulators</h2><p><strong>1. Try to run two turtlesim nodes at the same time：</strong></p>
-<pre><code class="hljs sh"><span class="hljs-comment"># start the ROS infrastructure </span>
-$ roscore
-<span class="hljs-comment"># start the first turtle simulator node in a new terminal</span>
-$ rosrun turtlesim turtlesim_node
-<span class="hljs-comment"># run yet another turtlesim_node in a new terminal</span>
-$ rosrun turtlesim turtlesim_node</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># start the ROS infrastructure </span><br>$ roscore<br><span class="hljs-comment"># start the first turtle simulator node in a new terminal</span><br>$ rosrun turtlesim turtlesim_node<br><span class="hljs-comment"># run yet another turtlesim_node in a new terminal</span><br>$ rosrun turtlesim turtlesim_node<br></code></pre></td></tr></table></figure>
 <ul>
 <li>This naive approach <strong>does not work</strong>. Instead, the first turtle simulation terminates with a warning log and the new simulation node replaces the first one.</li>
 <li>Node names must be <strong>unique</strong> across the ROS system. </li>
 <li>If a second node is started with the same name as the first, the first will be shutdown automatically.</li>
 </ul>
 <p><strong>2. Provide a different node name for the second turtle simulator</strong></p>
-<pre><code class="hljs sh">$ rosrun turtlesim turtlesim_node __name:=turtlesim2</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ rosrun turtlesim turtlesim_node __name:=turtlesim2<br></code></pre></td></tr></table></figure>
 <ul>
 <li>In this case the two nodes publish and subscribe to the same topics</li>
 </ul>
-<pre><code class="hljs sh">$ rostopic list</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ rostopic list<br></code></pre></td></tr></table></figure>
 <ul>
 <li>you can use the same driver to control both turtle simulations</li>
 </ul>
-<pre><code class="hljs shell"><span class="hljs-meta">$</span><span class="bash"> rosrun turtlesim turtle_teleop_key</span></code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$</span><span class="bash"> rosrun turtlesim turtle_teleop_key</span><br></code></pre></td></tr></table></figure>
 <h2 id="3-ROS-Namespaces"><a href="#3-ROS-Namespaces" class="headerlink" title="3. ROS Namespaces"></a>3. ROS Namespaces</h2><ul>
 <li>A namespace can be viewed as a directory whose contents are items of different names. These items can be nodes, topics, services or even other namespaces. </li>
 <li>Each resource in ROS is defined within a namespace, which it may share with other resources. </li>
 <li>This encapsulation isolates different portions of the system from accidentally grabbing the wrong named resource or globally hijacking names.</li>
 </ul>
 <p><strong>1. Examples for resource names: </strong></p>
-<pre><code class="hljs sh">/ (the global namespace)
-/turtle1
-/bar_ilan/robot/name
-/wg/node1</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh">/ (the global namespace)<br>/turtle1<br>/bar_ilan/robot/name<br>/wg/node1<br></code></pre></td></tr></table></figure>
 <ul>
 <li>Usually topics related to a specific robot will be mapped into a namespace. </li>
 <li>For example, <strong>robot1</strong> would receive commands on the topic <code>/robot1/cmd_vel</code>, <strong>robot2</strong> on the topic <code>/robot2/cmd_vel</code>, etc.</li>
@@ -316,16 +308,7 @@ $ rosrun turtlesim turtlesim_node</code></pre>
 <li>This will ensure that the nodes have different names and also that within each simulation, nodes use different topic names.</li>
 </ul>
 <p><strong>Create the file <code>multi_turtlesim.launch</code></strong> </p>
-<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">launch</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">group</span> <span class="hljs-attr">ns</span>=<span class="hljs-string">"sim1"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"turtle"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"turtlesim"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"turtlesim_node"</span>/&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"controller"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"turtlesim"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"draw_square"</span>/&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">group</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">group</span> <span class="hljs-attr">ns</span>=<span class="hljs-string">"sim2"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"turtle"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"turtlesim"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"turtlesim_node"</span>/&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"controller"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"turtlesim"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"draw_square"</span>/&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">group</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">launch</span>&gt;</span></code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">launch</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">group</span> <span class="hljs-attr">ns</span>=<span class="hljs-string">"sim1"</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"turtle"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"turtlesim"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"turtlesim_node"</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"controller"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"turtlesim"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"draw_square"</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">group</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">group</span> <span class="hljs-attr">ns</span>=<span class="hljs-string">"sim2"</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"turtle"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"turtlesim"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"turtlesim_node"</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"controller"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"turtlesim"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"draw_square"</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">group</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">launch</span>&gt;</span><br></code></pre></td></tr></table></figure>
 <ul>
 <li>The <code>&lt;group&gt;</code> tag in a launch file is equivalent to the top-level <code>&lt;launch&gt;</code> tag and simply acts as a container for the tags within. This means that you can use any tag as you would normally use it within a <code>&lt;launch&gt;</code>tag</li>
 <li>It has an <strong>ns</strong> attribute that lets you push the group of nodes into a separate namespace.</li>
@@ -339,8 +322,7 @@ $ rosrun turtlesim turtlesim_node</code></pre>
 <li>For example, to configure turtle_teleop_key node to publish command velocities to the first turtle simulator, we first have to find out the name of the topic it publishes to </li>
 <li>This can be done by running rosnode info</li>
 </ul>
-<pre><code class="hljs sh">$ rosnode info /teleop_turtle
-$ rosrun turtlesim turtle_teleop_key /turtle1/cmd_vel:=/sim1/turtle1/cmd_vel</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ rosnode info /teleop_turtle<br>$ rosrun turtlesim turtle_teleop_key /turtle1/cmd_vel:=/sim1/turtle1/cmd_vel<br></code></pre></td></tr></table></figure>
 <p><strong>The <code>&lt;remap&gt;</code> Tag</strong> </p>
 <ul>
 <li>Remapping arguments can also be done in the launch file using the <code>&lt;remap&gt;</code> tag</li>
@@ -353,17 +335,7 @@ $ rosrun turtlesim turtle_teleop_key /turtle1/cmd_vel:=/sim1/turtle1/cmd_vel</co
 <li><p>Remapping Arguments In Launch File</p>
 </li>
 </ul>
-<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">launch</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">group</span> <span class="hljs-attr">ns</span>=<span class="hljs-string">"sim1"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"turtle"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"turtlesim"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"turtlesim_node"</span>/&gt;</span>        
-    <span class="hljs-tag">&lt;/<span class="hljs-name">group</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">group</span> <span class="hljs-attr">ns</span>=<span class="hljs-string">"sim2"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"turtle"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"turtlesim"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"turtlesim_node"</span>/&gt;</span>       
-    <span class="hljs-tag">&lt;/<span class="hljs-name">group</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"turtlesim"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"teleop"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"turtle_teleop_key"</span> <span class="hljs-attr">output</span>=<span class="hljs-string">"screen"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">remap</span> <span class="hljs-attr">from</span>=<span class="hljs-string">"/turtle1/cmd_vel"</span> <span class="hljs-attr">to</span>=<span class="hljs-string">"/sim1/turtle1/cmd_vel"</span>/&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">node</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">launch</span>&gt;</span></code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">launch</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">group</span> <span class="hljs-attr">ns</span>=<span class="hljs-string">"sim1"</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"turtle"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"turtlesim"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"turtlesim_node"</span>/&gt;</span>        <br>    <span class="hljs-tag">&lt;/<span class="hljs-name">group</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">group</span> <span class="hljs-attr">ns</span>=<span class="hljs-string">"sim2"</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"turtle"</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"turtlesim"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"turtlesim_node"</span>/&gt;</span>       <br>    <span class="hljs-tag">&lt;/<span class="hljs-name">group</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">"turtlesim"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"teleop"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"turtle_teleop_key"</span> <span class="hljs-attr">output</span>=<span class="hljs-string">"screen"</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">remap</span> <span class="hljs-attr">from</span>=<span class="hljs-string">"/turtle1/cmd_vel"</span> <span class="hljs-attr">to</span>=<span class="hljs-string">"/sim1/turtle1/cmd_vel"</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">node</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">launch</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>

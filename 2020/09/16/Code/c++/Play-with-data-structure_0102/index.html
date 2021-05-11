@@ -355,38 +355,21 @@
 <h3 id="2-9-3-常数阶"><a href="#2-9-3-常数阶" class="headerlink" title="2.9.3 常数阶"></a>2.9.3 常数阶</h3><ul>
 <li>时间复杂度：<code>O(1)</code></li>
 </ul>
-<pre><code class="hljs cpp"><span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>, n = <span class="hljs-number">100</span>;		<span class="hljs-comment">//执行一次</span>
-sum = (<span class="hljs-number">1</span> + n) * n / <span class="hljs-number">2</span>;		<span class="hljs-comment">//执行一次</span>
-<span class="hljs-built_in">cout</span> &lt;&lt; sum &lt;&lt; <span class="hljs-built_in">endl</span>;		<span class="hljs-comment">//执行一次</span></code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>, n = <span class="hljs-number">100</span>;		<span class="hljs-comment">//执行一次</span><br>sum = (<span class="hljs-number">1</span> + n) * n / <span class="hljs-number">2</span>;		<span class="hljs-comment">//执行一次</span><br><span class="hljs-built_in">cout</span> &lt;&lt; sum &lt;&lt; <span class="hljs-built_in">endl</span>;		<span class="hljs-comment">//执行一次</span><br></code></pre></td></tr></table></figure>
 <p>单纯的分支结构（不包含在循环结构中），其时间复杂度也是 O(1)。</p>
 <h3 id="2-9-4-线性阶"><a href="#2-9-4-线性阶" class="headerlink" title="2.9.4 线性阶"></a>2.9.4 线性阶</h3><p>分析算法复杂度，关键就是要分析循环结构的运行情况</p>
 <ul>
 <li>时间复杂度：<code>O(n)</code></li>
 </ul>
-<pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)&#123;
-    <span class="hljs-comment">//时间复杂度为 O(1) 的程序步骤序列</span>
-&#125;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)&#123;<br>    <span class="hljs-comment">//时间复杂度为 O(1) 的程序步骤序列</span><br>&#125;<br></code></pre></td></tr></table></figure>
 <h3 id="2-9-5-对数阶"><a href="#2-9-5-对数阶" class="headerlink" title="2.9.5 对数阶"></a>2.9.5 对数阶</h3><p>时间复杂度：<code>O(logn)</code></p>
 <p>$2^x = n$ 得到 $x = log_2 n$</p>
-<pre><code class="hljs cpp"><span class="hljs-keyword">int</span> count = <span class="hljs-number">1</span>;
-<span class="hljs-keyword">while</span> ( count &lt; n)
-&#123;
-    count = count * <span class="hljs-number">2</span>;
-    <span class="hljs-comment">//时间复杂度为 O(1)的程序步骤序列</span>
-&#125;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> count = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">while</span> ( count &lt; n)<br>&#123;<br>    count = count * <span class="hljs-number">2</span>;<br>    <span class="hljs-comment">//时间复杂度为 O(1)的程序步骤序列</span><br>&#125;<br></code></pre></td></tr></table></figure>
 <h3 id="2-9-6-平方阶"><a href="#2-9-6-平方阶" class="headerlink" title="2.9.6 平方阶"></a>2.9.6 平方阶</h3><p>时间复杂度：<code>O(n^2)</code></p>
-<pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)&#123;
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; n; j++)&#123;
-        <span class="hljs-comment">//时间复杂度为 O(1)的程序步骤序列</span>
-    &#125;
-&#125;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; n; j++)&#123;<br>        <span class="hljs-comment">//时间复杂度为 O(1)的程序步骤序列</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>时间复杂度：<code>O(n^2)</code></p>
 <p>$n + (n-1)+(n-2)+…+1 = n^2/2 + n/2$</p>
-<pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)&#123;
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = i; j &lt; n; j++)&#123;
-        <span class="hljs-comment">//时间复杂度为 O(1)的程序步骤序列</span>
-    &#125;
-&#125;</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = i; j &lt; n; j++)&#123;<br>        <span class="hljs-comment">//时间复杂度为 O(1)的程序步骤序列</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h2 id="2-10-常见的时间复杂度"><a href="#2-10-常见的时间复杂度" class="headerlink" title="2.10 常见的时间复杂度"></a>2.10 常见的时间复杂度</h2><p>常用的时间复杂度所耗费的时间从小到大依次是：</p>
 <p>$O(1)&lt;O(logn)&lt;O(n)&lt;O(nlogn)&lt;O(n^2)&lt;O(n^3)&lt;O(n!)&lt;O(n^n)$</p>
 <h2 id="2-11-最坏的情况与平均情况"><a href="#2-11-最坏的情况与平均情况" class="headerlink" title="2.11 最坏的情况与平均情况"></a>2.11 最坏的情况与平均情况</h2><ul>

@@ -256,32 +256,13 @@
 <li>插入数据和删除数据</li>
 </ul>
 <p>对于实际问题中涉及的关于线性表的更复杂的操作，可以用这些基本操作的组合来实现</p>
-<pre><code class="hljs cpp">ADT 线性表(List)
-Data
-    线性表的数据对象集合为&#123;a1,a2,...,an&#125;, 每个元素的类型均为 DataType。
-    其中除第一个元素a1外，每一个元素有且仅有一个直接前驱元素，
-    除了最后一个元素an外，每一个元素有且仅有一个直接后继元素。
-    数据元素之间的关系是一对一的关系
-Operation
-    InitList(*L):          初始化操作，建立一个空的线性表 L。
-    ListIsEmpty(L):        若线性表为空，返回 <span class="hljs-literal">true</span>, 否则返回<span class="hljs-literal">false</span>。
-    ClearList(*L);         将线性表置空
-    GetElem(L,i,*e):       将线性表 L 的第 i 个元素返回给 e。
-    LocateElem(L, e):      在线性表 L 中查找与给定值 e 相等的元素，若查找成功，返回该元素在表中序号表示成功，否则返回<span class="hljs-number">0</span>表示失败
-    ListInsert(*L,i,e):    在线性表 L 中第 i 个位置插入新元素 e。
-    ListDelete(*L,i,*e):   删除线性表中第 i 个位置的元素，并用 e 返回其值。
-    ListLength(L):         返回线性表 L 的元素个数
-endADT</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs cpp">ADT 线性表(List)<br>Data<br>    线性表的数据对象集合为&#123;a1,a2,...,an&#125;, 每个元素的类型均为 DataType。<br>    其中除第一个元素a1外，每一个元素有且仅有一个直接前驱元素，<br>    除了最后一个元素an外，每一个元素有且仅有一个直接后继元素。<br>    数据元素之间的关系是一对一的关系<br>Operation<br>    InitList(*L):          初始化操作，建立一个空的线性表 L。<br>    ListIsEmpty(L):        若线性表为空，返回 <span class="hljs-literal">true</span>, 否则返回<span class="hljs-literal">false</span>。<br>    ClearList(*L);         将线性表置空<br>    GetElem(L,i,*e):       将线性表 L 的第 i 个元素返回给 e。<br>    LocateElem(L, e):      在线性表 L 中查找与给定值 e 相等的元素，若查找成功，返回该元素在表中序号表示成功，否则返回<span class="hljs-number">0</span>表示失败<br>    ListInsert(*L,i,e):    在线性表 L 中第 i 个位置插入新元素 e。<br>    ListDelete(*L,i,*e):   删除线性表中第 i 个位置的元素，并用 e 返回其值。<br>    ListLength(L):         返回线性表 L 的元素个数<br>endADT<br></code></pre></td></tr></table></figure>
 <h2 id="3-4-线性表的顺序存储结构"><a href="#3-4-线性表的顺序存储结构" class="headerlink" title="3.4 线性表的顺序存储结构"></a>3.4 线性表的顺序存储结构</h2><p><strong>1. 顺序存储定义</strong></p>
 <blockquote>
 <p>用一段地址连续的存储单元依次存储线性表的数据元素</p>
 </blockquote>
 <p>线性表的顺序存储的结构代码：</p>
-<pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MAXSIZE 20	<span class="hljs-comment">//存储空间初始分配量</span></span>
-<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span>  &#123;</span>
-	<span class="hljs-keyword">int</span> data[MAXSIZE] = &#123;&#125;;		<span class="hljs-comment">//数组存储数据元素</span>
-	<span class="hljs-keyword">int</span> length = <span class="hljs-number">0</span>;					<span class="hljs-comment">//线性表当前长度</span>
-&#125;SqList;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MAXSIZE 20	<span class="hljs-comment">//存储空间初始分配量</span></span><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span>  &#123;</span><br>	<span class="hljs-keyword">int</span> data[MAXSIZE] = &#123;&#125;;		<span class="hljs-comment">//数组存储数据元素</span><br>	<span class="hljs-keyword">int</span> length = <span class="hljs-number">0</span>;					<span class="hljs-comment">//线性表当前长度</span><br>&#125;SqList;<br></code></pre></td></tr></table></figure>
 <p><strong>2. 顺序存储结构需要三个属性</strong></p>
 <ul>
 <li>存储空间的起始位置：数组 data，它的存储位置就是存储空间的存储位置</li>
@@ -364,11 +345,7 @@ endADT</code></pre>
 <li>线性链表的最后一个节点指针为 “空”</li>
 <li>头节点：单链表的第一个节点前附设一个节点，数据域可以不存储任何信息，也可以存储线性表长度等附加信息，指针域存储指向第一个节点的指针</li>
 </ul>
-<pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Node</span> &#123;</span>
-	<span class="hljs-keyword">int</span> data = <span class="hljs-number">0</span>;
-	Node* next = <span class="hljs-literal">NULL</span>;
-&#125;Node;
-<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Node</span>* <span class="hljs-title">LinkList</span>;</span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Node</span> &#123;</span><br>	<span class="hljs-keyword">int</span> data = <span class="hljs-number">0</span>;<br>	Node* next = <span class="hljs-literal">NULL</span>;<br>&#125;Node;<br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Node</span>* <span class="hljs-title">LinkList</span>;</span><br></code></pre></td></tr></table></figure>
 <h2 id="3-7-单链表的读取"><a href="#3-7-单链表的读取" class="headerlink" title="3.7 单链表的读取"></a>3.7 单链表的读取</h2><p><strong>1. 获取链表第 i 个数据的算法思路</strong></p>
 <ul>
 <li>声明一个结点 p 指向链表第一个节点，初始化 j 从 1 开始</li>
@@ -469,12 +446,7 @@ endADT</code></pre>
 <li>数组第一个元素，即下标为0的元素的 cur 存访备用链表的第一个结点的下标</li>
 </ul>
 <p>线性表的静态链表存储结构</p>
-<pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MAXSIZE 1000</span>
-
-<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span>&#123;</span>
-	<span class="hljs-keyword">int</span> data;
-	<span class="hljs-keyword">int</span> cur;		<span class="hljs-comment">//游标(Cursor),为0时表示无指向</span>
-&#125;Component,StaticLinkList[MAXSIZE];</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MAXSIZE 1000</span><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span>&#123;</span><br>	<span class="hljs-keyword">int</span> data;<br>	<span class="hljs-keyword">int</span> cur;		<span class="hljs-comment">//游标(Cursor),为0时表示无指向</span><br>&#125;Component,StaticLinkList[MAXSIZE];<br></code></pre></td></tr></table></figure>
 <p><strong>1. 静态链表的插入操作</strong></p>
 <p>为了辨明数组中哪些分量未被使用，将所有未被使用过的及已被删除的分量用游标链成一个备用的链表，每当进行插入时，便可以从备用链表上取得第一个结点作为待插入的新节点</p>
 <p><strong>2. 静态链表的删除操作</strong></p>
@@ -505,21 +477,11 @@ endADT</code></pre>
 </blockquote>
 <p>具有良好的对称性，使得对某个结点的前后结点的操作带来了方便，可以有效提高算法的时间性能，用空间换时间。</p>
 <p>线性表的双向链表存储结构：</p>
-<pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">DulNode</span></span>
-<span class="hljs-class">&#123;</span>
-    <span class="hljs-keyword">int</span> data;
-    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">DuLNode</span> *<span class="hljs-title">prior</span>;</span>	<span class="hljs-comment">//直接前驱指针</span>
-    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">DuLNode</span> *<span class="hljs-title">next</span>;</span>	<span class="hljs-comment">//直接后继指针</span>
-&#125;DulNode, *DuLinkList;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">DulNode</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-keyword">int</span> data;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">DuLNode</span> *<span class="hljs-title">prior</span>;</span>	<span class="hljs-comment">//直接前驱指针</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">DuLNode</span> *<span class="hljs-title">next</span>;</span>	<span class="hljs-comment">//直接后继指针</span><br>&#125;DulNode, *DuLinkList;<br></code></pre></td></tr></table></figure>
 <p>插入元素：</p>
-<pre><code class="hljs c">s-&gt;prior = p;
-s-&gt;next = p-&gt;next;
-p-&gt;next-&gt;prior = s;
-p-&gt;next = s;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c">s-&gt;prior = p;<br>s-&gt;next = p-&gt;next;<br>p-&gt;next-&gt;prior = s;<br>p-&gt;next = s;<br></code></pre></td></tr></table></figure>
 <p>删除元素：</p>
-<pre><code class="hljs c">p-&gt;prior-&gt;next = p-&gt;next;
-p-&gt;next-&gt;prior = p-&gt;prior;
-<span class="hljs-built_in">free</span>(p);</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c">p-&gt;prior-&gt;next = p-&gt;next;<br>p-&gt;next-&gt;prior = p-&gt;prior;<br><span class="hljs-built_in">free</span>(p);<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>

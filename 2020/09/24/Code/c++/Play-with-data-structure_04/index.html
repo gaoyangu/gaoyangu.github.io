@@ -242,47 +242,17 @@
 <li>栈的插入操作，叫做进栈，压栈，入栈，push</li>
 <li>栈的删除操作，叫做出栈，弹栈，pop</li>
 </ul>
-<h2 id="4-3-栈的抽象数据类型"><a href="#4-3-栈的抽象数据类型" class="headerlink" title="4.3 栈的抽象数据类型"></a>4.3 栈的抽象数据类型</h2><pre><code class="hljs cpp">ADT 栈（<span class="hljs-built_in">stack</span>）
-Data 
-	同线性表。元素具有相同的类型，相邻元素具有前驱和后继关系。
-Operation
-	InitStact(*S)	: 初始化操作，建立一个线性表 S。
-	DestroyStack(*S): 若栈存在，则销毁它。
-	ClearStack(*S): 将栈清空。
-	StackEmpty(S): 若栈为空，返回 <span class="hljs-literal">true</span>，否则返回 <span class="hljs-literal">false</span>。
-	GetTop(*S, *e): 若栈存在且非空，用 e 返回 S 的栈顶元素。
-	Push(*S, e): 若栈 S 存在，插入新元素 e 到栈 S 中并成为栈顶元素。
-	Pop(*S, *e): 删除栈 S 中栈顶元素，并用 e 返回其值。
-	StackLength(S): 返回栈 S 的元素个数
-endADT</code></pre>
+<h2 id="4-3-栈的抽象数据类型"><a href="#4-3-栈的抽象数据类型" class="headerlink" title="4.3 栈的抽象数据类型"></a>4.3 栈的抽象数据类型</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs cpp">ADT 栈（<span class="hljs-built_in">stack</span>）<br>Data <br>	同线性表。元素具有相同的类型，相邻元素具有前驱和后继关系。<br>Operation<br>	InitStact(*S)	: 初始化操作，建立一个线性表 S。<br>	DestroyStack(*S): 若栈存在，则销毁它。<br>	ClearStack(*S): 将栈清空。<br>	StackEmpty(S): 若栈为空，返回 <span class="hljs-literal">true</span>，否则返回 <span class="hljs-literal">false</span>。<br>	GetTop(*S, *e): 若栈存在且非空，用 e 返回 S 的栈顶元素。<br>	Push(*S, e): 若栈 S 存在，插入新元素 e 到栈 S 中并成为栈顶元素。<br>	Pop(*S, *e): 删除栈 S 中栈顶元素，并用 e 返回其值。<br>	StackLength(S): 返回栈 S 的元素个数<br>endADT<br></code></pre></td></tr></table></figure>
 <h2 id="4-4-栈的顺序存储结构及实现"><a href="#4-4-栈的顺序存储结构及实现" class="headerlink" title="4.4 栈的顺序存储结构及实现"></a>4.4 栈的顺序存储结构及实现</h2><ul>
 <li>下标为 0 的一端作为栈底</li>
 <li>空栈的判定条件为 top 等于 -1</li>
 </ul>
 <p><strong>1. 栈的结构定义</strong></p>
-<pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">int</span> SElemType;
-<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span>
-    SElemType data[MAXSIZE];
-    <span class="hljs-keyword">int</span> top;    <span class="hljs-comment">// 用于栈顶指针</span>
-&#125; SqStack;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">int</span> SElemType;<br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>    SElemType data[MAXSIZE];<br>    <span class="hljs-keyword">int</span> top;    <span class="hljs-comment">// 用于栈顶指针</span><br>&#125; SqStack;<br></code></pre></td></tr></table></figure>
 <p><strong>2. 进栈操作</strong></p>
-<pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">SqStackPush</span><span class="hljs-params">(SqStack *S, SElemType e)</span> </span>&#123;
-    <span class="hljs-keyword">if</span> (S-&gt;top == MAXSIZE<span class="hljs-number">-1</span>) &#123;
-        <span class="hljs-keyword">return</span> ERROR;
-    &#125;
-    S-&gt;top++;
-    S-&gt;data[S-&gt;top]=e;
-    <span class="hljs-keyword">return</span> OK;
-&#125;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">SqStackPush</span><span class="hljs-params">(SqStack *S, SElemType e)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (S-&gt;top == MAXSIZE<span class="hljs-number">-1</span>) &#123;<br>        <span class="hljs-keyword">return</span> ERROR;<br>    &#125;<br>    S-&gt;top++;<br>    S-&gt;data[S-&gt;top]=e;<br>    <span class="hljs-keyword">return</span> OK;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p><strong>3. 出栈操作</strong></p>
-<pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">SqStackPop</span><span class="hljs-params">(SqStack *S, SElemType *e)</span> </span>&#123;
-    <span class="hljs-keyword">if</span> (S-&gt;top == <span class="hljs-number">-1</span>) &#123;
-        <span class="hljs-keyword">return</span> ERROR;
-    &#125;
-    *e = S-&gt;data[S-&gt;top];
-    S-&gt;top--;
-    <span class="hljs-keyword">return</span> OK;
-&#125;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">SqStackPop</span><span class="hljs-params">(SqStack *S, SElemType *e)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (S-&gt;top == <span class="hljs-number">-1</span>) &#123;<br>        <span class="hljs-keyword">return</span> ERROR;<br>    &#125;<br>    *e = S-&gt;data[S-&gt;top];<br>    S-&gt;top--;<br>    <span class="hljs-keyword">return</span> OK;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>进栈和出栈操作都没有任何循环语句，时间复杂度为<code>O(1)</code></p>
 <h2 id="4-5-两栈共享空间"><a href="#4-5-两栈共享空间" class="headerlink" title="4.5 两栈共享空间"></a>4.5 两栈共享空间</h2><p>对于两个相同类型的栈，可以用一个数组存储，使用这样的数据结构通常都是当两个栈的空间需求有相反关系时，一个栈增长时另一个栈在缩短的情况下，这样使用两栈共享空间存储方法才有比较大的意义。</p>
 <ul>
@@ -291,79 +261,22 @@ endADT</code></pre>
 <li>两个指针之间相差 1 时，即 top1 + 1 == top2 为栈满</li>
 </ul>
 <p><strong>1. 两栈共享空间的结构</strong></p>
-<pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span>
-    SElemType data[MAXSIZE];
-    <span class="hljs-keyword">int</span> top1;    <span class="hljs-comment">// 栈1的栈顶指针</span>
-    <span class="hljs-keyword">int</span> top2;    <span class="hljs-comment">// 栈2的栈顶指针</span>
-&#125; SqDoubleStack;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>    SElemType data[MAXSIZE];<br>    <span class="hljs-keyword">int</span> top1;    <span class="hljs-comment">// 栈1的栈顶指针</span><br>    <span class="hljs-keyword">int</span> top2;    <span class="hljs-comment">// 栈2的栈顶指针</span><br>&#125; SqDoubleStack;<br></code></pre></td></tr></table></figure>
 <p><strong>2. push</strong></p>
-<pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">SqDoubleStackPush</span><span class="hljs-params">(SqDoubleStack *S, SElemType e, <span class="hljs-keyword">int</span> stackNumber)</span> </span>&#123;
-    <span class="hljs-comment">// 栈满</span>
-    <span class="hljs-keyword">if</span> (S-&gt;top1+<span class="hljs-number">1</span>==S-&gt;top2) &#123;
-        <span class="hljs-keyword">return</span> ERROR;
-    &#125;
-    <span class="hljs-keyword">if</span>(stackNumber==<span class="hljs-number">1</span>)&#123;
-        S-&gt;data[++S-&gt;top1] = e;
-    &#125;
-    <span class="hljs-keyword">if</span> (stackNumber==<span class="hljs-number">2</span>) &#123;
-        S-&gt;data[--S-&gt;top2] = e;
-    &#125;
-    <span class="hljs-keyword">return</span> OK;
-&#125;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">SqDoubleStackPush</span><span class="hljs-params">(SqDoubleStack *S, SElemType e, <span class="hljs-keyword">int</span> stackNumber)</span> </span>&#123;<br>    <span class="hljs-comment">// 栈满</span><br>    <span class="hljs-keyword">if</span> (S-&gt;top1+<span class="hljs-number">1</span>==S-&gt;top2) &#123;<br>        <span class="hljs-keyword">return</span> ERROR;<br>    &#125;<br>    <span class="hljs-keyword">if</span>(stackNumber==<span class="hljs-number">1</span>)&#123;<br>        S-&gt;data[++S-&gt;top1] = e;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (stackNumber==<span class="hljs-number">2</span>) &#123;<br>        S-&gt;data[--S-&gt;top2] = e;<br>    &#125;<br>    <span class="hljs-keyword">return</span> OK;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p><strong>3. pop</strong></p>
-<pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">SqDoubleStackPop</span><span class="hljs-params">(SqDoubleStack *S, SElemType *e, <span class="hljs-keyword">int</span> stackNumber)</span> </span>&#123;
-    <span class="hljs-keyword">if</span>(stackNumber==<span class="hljs-number">1</span>) &#123;
-        <span class="hljs-keyword">if</span> (S-&gt;top1 &lt;= <span class="hljs-number">-1</span>) &#123;
-            <span class="hljs-keyword">return</span> ERROR;
-        &#125;
-        *e = S-&gt;data[S-&gt;top1--];
-    &#125;
-    <span class="hljs-keyword">if</span> (stackNumber==<span class="hljs-number">2</span>) &#123;
-        <span class="hljs-keyword">if</span> (S-&gt;top2 &gt;= MAXSIZE) &#123;
-            <span class="hljs-keyword">return</span> ERROR;
-        &#125;
-        *e = S-&gt;data[S-&gt;top2++];
-    &#125;
-    <span class="hljs-keyword">return</span> OK;
-&#125;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">SqDoubleStackPop</span><span class="hljs-params">(SqDoubleStack *S, SElemType *e, <span class="hljs-keyword">int</span> stackNumber)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span>(stackNumber==<span class="hljs-number">1</span>) &#123;<br>        <span class="hljs-keyword">if</span> (S-&gt;top1 &lt;= <span class="hljs-number">-1</span>) &#123;<br>            <span class="hljs-keyword">return</span> ERROR;<br>        &#125;<br>        *e = S-&gt;data[S-&gt;top1--];<br>    &#125;<br>    <span class="hljs-keyword">if</span> (stackNumber==<span class="hljs-number">2</span>) &#123;<br>        <span class="hljs-keyword">if</span> (S-&gt;top2 &gt;= MAXSIZE) &#123;<br>            <span class="hljs-keyword">return</span> ERROR;<br>        &#125;<br>        *e = S-&gt;data[S-&gt;top2++];<br>    &#125;<br>    <span class="hljs-keyword">return</span> OK;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h2 id="4-6-栈的链式存储结构及实现"><a href="#4-6-栈的链式存储结构及实现" class="headerlink" title="4.6 栈的链式存储结构及实现"></a>4.6 栈的链式存储结构及实现</h2><p>链栈</p>
 <ul>
 <li>把栈顶放在单链表的头部，对于链栈来说，不需要头节点</li>
 <li>空栈：top = NULL</li>
 </ul>
 <p><strong>1. 链栈的结构</strong></p>
-<pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span>
-    SElemType data;
-    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">StackNode</span> *<span class="hljs-title">next</span>;</span>
-&#125; StackNode, *LinkStackPtr;
-
-<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span>
-    LinkStackPtr top;
-    <span class="hljs-keyword">int</span> count;
-&#125; LinkStack;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>    SElemType data;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">StackNode</span> *<span class="hljs-title">next</span>;</span><br>&#125; StackNode, *LinkStackPtr;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>    LinkStackPtr top;<br>    <span class="hljs-keyword">int</span> count;<br>&#125; LinkStack;<br></code></pre></td></tr></table></figure>
 <p><strong>2. 进栈</strong></p>
-<pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">LinkStackPush</span><span class="hljs-params">(LinkStack *S, SElemType e)</span> </span>&#123;
-    LinkStackPtr s = (LinkStackPtr)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(StackNode));
-    s-&gt;data = e;
-    s-&gt;next = S-&gt;top;
-    S-&gt;top = s;
-    S-&gt;count ++;
-    <span class="hljs-keyword">return</span> OK;
-&#125;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">LinkStackPush</span><span class="hljs-params">(LinkStack *S, SElemType e)</span> </span>&#123;<br>    LinkStackPtr s = (LinkStackPtr)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(StackNode));<br>    s-&gt;data = e;<br>    s-&gt;next = S-&gt;top;<br>    S-&gt;top = s;<br>    S-&gt;count ++;<br>    <span class="hljs-keyword">return</span> OK;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p><strong>3. 出栈</strong></p>
-<pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">LinkStackPop</span><span class="hljs-params">(LinkStack *S, SElemType *e)</span> </span>&#123;
-    LinkStackPtr p;
-    <span class="hljs-keyword">if</span> (LinkStackEmpty(*S)) &#123;
-        <span class="hljs-keyword">return</span> ERROR;
-    &#125;
-    *e = S-&gt;top-&gt;data;
-    p = S-&gt;top;
-    S-&gt;top = (StackNode *)S-&gt;top-&gt;next;
-    <span class="hljs-built_in">free</span>(p);
-    S-&gt;count--;
-    
-    <span class="hljs-keyword">return</span> OK;
-&#125;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">LinkStackPop</span><span class="hljs-params">(LinkStack *S, SElemType *e)</span> </span>&#123;<br>    LinkStackPtr p;<br>    <span class="hljs-keyword">if</span> (LinkStackEmpty(*S)) &#123;<br>        <span class="hljs-keyword">return</span> ERROR;<br>    &#125;<br>    *e = S-&gt;top-&gt;data;<br>    p = S-&gt;top;<br>    S-&gt;top = (StackNode *)S-&gt;top-&gt;next;<br>    <span class="hljs-built_in">free</span>(p);<br>    S-&gt;count--;<br>    <br>    <span class="hljs-keyword">return</span> OK;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>进栈和出栈的时间复杂度均为<code>O(1)</code></p>
 <p>空间性能：</p>
 <ul>
@@ -374,20 +287,7 @@ endADT</code></pre>
 <h2 id="4-8-栈的应用：递归"><a href="#4-8-栈的应用：递归" class="headerlink" title="4.8  栈的应用：递归"></a>4.8  栈的应用：递归</h2><p><a href="https://baike.baidu.com/item/%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97" target="_blank" rel="noopener">斐波那契数列</a>（Fibonacci sequence）</p>
 <p>1，1，2，3，5，8，13…</p>
 <p>前两项之后构成后一项</p>
-<pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">Fibonacci</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span> </span>&#123;
-    <span class="hljs-keyword">if</span> (i&lt;<span class="hljs-number">2</span>) &#123;
-        <span class="hljs-keyword">return</span> i==<span class="hljs-number">0</span>?<span class="hljs-number">0</span>:<span class="hljs-number">1</span>;
-    &#125;
-    <span class="hljs-keyword">return</span> Fibonacci(i<span class="hljs-number">-1</span>)+Fibonacci(i<span class="hljs-number">-2</span>);
-&#125;
-
-<span class="hljs-keyword">int</span> mian &#123;
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"========= FibonacciTest =========\n"</span>);
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">40</span>; i++) &#123;
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">"i: %d -- fib: %d\n"</span>, i, Fibonacci(i));
-    &#125;
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-&#125;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">Fibonacci</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (i&lt;<span class="hljs-number">2</span>) &#123;<br>        <span class="hljs-keyword">return</span> i==<span class="hljs-number">0</span>?<span class="hljs-number">0</span>:<span class="hljs-number">1</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> Fibonacci(i<span class="hljs-number">-1</span>)+Fibonacci(i<span class="hljs-number">-2</span>);<br>&#125;<br><br><span class="hljs-keyword">int</span> mian &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"========= FibonacciTest =========\n"</span>);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">40</span>; i++) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">"i: %d -- fib: %d\n"</span>, i, Fibonacci(i));<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p><strong>1. 递归的定义</strong></p>
 <blockquote>
 <p>把一个直接调用自己或者通过一系列的调用语句间接的调用自己的函数</p>
@@ -429,19 +329,7 @@ endADT</code></pre>
 </li>
 <li>队头：允许删除的一端</li>
 </ul>
-<h2 id="4-11-队列的抽象数据类型"><a href="#4-11-队列的抽象数据类型" class="headerlink" title="4.11 队列的抽象数据类型"></a>4.11 队列的抽象数据类型</h2><pre><code class="hljs c">ADT 队列(Queue)
-Data 
-	同线性表。元素具有相同的类型，相邻元素具有前驱和后继关系
-Operation
-	InitQueue(*Q); 初始化操作，建立一个空队列 Q。
-	DestroyQueue(*Q); 若队列 Q 存在，则销毁它。
-	ClearQueue(*Q); 将队列 Q 清空。
-	QueueEmpty(*Q); 若队列为空，返回 <span class="hljs-literal">true</span>，否则返回 <span class="hljs-literal">false</span>。
-	GetHead(Q, *e); 若队列 Q 存在且非空，用 e 返回队列 Q 的队头元素。
-	EnQueue(*Q, e); 若队列 Q 存在，插入新元素 e 到队列的队尾元素。
-	DeQueue(*Q, e); 删除队列的队头元素，并用 e 返回其值。
-	QueueLength(Q); 返回队列 Q 的元素个数
-endADT</code></pre>
+<h2 id="4-11-队列的抽象数据类型"><a href="#4-11-队列的抽象数据类型" class="headerlink" title="4.11 队列的抽象数据类型"></a>4.11 队列的抽象数据类型</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c">ADT 队列(Queue)<br>Data <br>	同线性表。元素具有相同的类型，相邻元素具有前驱和后继关系<br>Operation<br>	InitQueue(*Q); 初始化操作，建立一个空队列 Q。<br>	DestroyQueue(*Q); 若队列 Q 存在，则销毁它。<br>	ClearQueue(*Q); 将队列 Q 清空。<br>	QueueEmpty(*Q); 若队列为空，返回 <span class="hljs-literal">true</span>，否则返回 <span class="hljs-literal">false</span>。<br>	GetHead(Q, *e); 若队列 Q 存在且非空，用 e 返回队列 Q 的队头元素。<br>	EnQueue(*Q, e); 若队列 Q 存在，插入新元素 e 到队列的队尾元素。<br>	DeQueue(*Q, e); 删除队列的队头元素，并用 e 返回其值。<br>	QueueLength(Q); 返回队列 Q 的元素个数<br>endADT<br></code></pre></td></tr></table></figure>
 <h2 id="4-12-循环队列"><a href="#4-12-循环队列" class="headerlink" title="4.12 循环队列"></a>4.12 循环队列</h2><blockquote>
 <p>队列头尾相接的顺序存储结构</p>
 </blockquote>
@@ -459,82 +347,21 @@ endADT</code></pre>
 <p>通用的计算队列长度公式：</p>
 <p>(rear - front + QueueSize)%QueueSize</p>
 <p><strong>2. 循环队列的顺序存储结构</strong></p>
-<pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span>
-    QElemType data[MAXSIZE];
-    <span class="hljs-keyword">int</span> front;
-    <span class="hljs-keyword">int</span> rear;
-&#125; SqQueue;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>    QElemType data[MAXSIZE];<br>    <span class="hljs-keyword">int</span> front;<br>    <span class="hljs-keyword">int</span> rear;<br>&#125; SqQueue;<br></code></pre></td></tr></table></figure>
 <p><strong>3. 循环队列的初始化</strong></p>
-<pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">InitSqQueue</span><span class="hljs-params">(SqQueue *Q)</span> </span>&#123;
-    Q-&gt;front = <span class="hljs-number">0</span>;
-    Q-&gt;rear = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">return</span> OK;
-&#125;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">InitSqQueue</span><span class="hljs-params">(SqQueue *Q)</span> </span>&#123;<br>    Q-&gt;front = <span class="hljs-number">0</span>;<br>    Q-&gt;rear = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">return</span> OK;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p><strong>4. 循环队列求队列长度</strong></p>
-<pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">SqQueueLength</span><span class="hljs-params">(SqQueue Q)</span> </span>&#123;
-    <span class="hljs-keyword">return</span> (Q.rear - Q.front + MAXSIZE) % MAXSIZE;
-&#125;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">SqQueueLength</span><span class="hljs-params">(SqQueue Q)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> (Q.rear - Q.front + MAXSIZE) % MAXSIZE;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p><strong>5. 循环队列的入队操作</strong></p>
-<pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">EnSqQueue</span><span class="hljs-params">(SqQueue *Q, QElemType e)</span> </span>&#123;
-    <span class="hljs-comment">// 队列已满</span>
-    <span class="hljs-keyword">if</span> ((Q-&gt;rear+<span class="hljs-number">1</span>) % MAXSIZE == Q-&gt;front) &#123;
-        <span class="hljs-keyword">return</span> ERROR;
-    &#125;
-    Q-&gt;data[Q-&gt;rear] = e;
-    Q-&gt;rear = (Q-&gt;rear+<span class="hljs-number">1</span>)%MAXSIZE;
-    <span class="hljs-keyword">return</span> OK;
-&#125;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">EnSqQueue</span><span class="hljs-params">(SqQueue *Q, QElemType e)</span> </span>&#123;<br>    <span class="hljs-comment">// 队列已满</span><br>    <span class="hljs-keyword">if</span> ((Q-&gt;rear+<span class="hljs-number">1</span>) % MAXSIZE == Q-&gt;front) &#123;<br>        <span class="hljs-keyword">return</span> ERROR;<br>    &#125;<br>    Q-&gt;data[Q-&gt;rear] = e;<br>    Q-&gt;rear = (Q-&gt;rear+<span class="hljs-number">1</span>)%MAXSIZE;<br>    <span class="hljs-keyword">return</span> OK;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p><strong>6. 循环队列的出队列操作</strong></p>
-<pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">DeSqQueue</span><span class="hljs-params">(SqQueue *Q, QElemType *e)</span> </span>&#123;
-    <span class="hljs-comment">// 队列空</span>
-    <span class="hljs-keyword">if</span> (Q-&gt;front == Q-&gt;rear) &#123;
-        <span class="hljs-keyword">return</span> ERROR;
-    &#125;
-    *e = Q-&gt;data[Q-&gt;front];
-    Q-&gt;front = (Q-&gt;front+<span class="hljs-number">1</span>)%MAXSIZE;
-    <span class="hljs-keyword">return</span> OK;
-&#125;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">DeSqQueue</span><span class="hljs-params">(SqQueue *Q, QElemType *e)</span> </span>&#123;<br>    <span class="hljs-comment">// 队列空</span><br>    <span class="hljs-keyword">if</span> (Q-&gt;front == Q-&gt;rear) &#123;<br>        <span class="hljs-keyword">return</span> ERROR;<br>    &#125;<br>    *e = Q-&gt;data[Q-&gt;front];<br>    Q-&gt;front = (Q-&gt;front+<span class="hljs-number">1</span>)%MAXSIZE;<br>    <span class="hljs-keyword">return</span> OK;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h2 id="4-13-队列的链式存储结构及实现"><a href="#4-13-队列的链式存储结构及实现" class="headerlink" title="4.13 队列的链式存储结构及实现"></a>4.13 队列的链式存储结构及实现</h2><p><strong>1. 链队列的结构</strong></p>
-<pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">int</span> QElemType;
-
-<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">QNode</span> &#123;</span>
-    QElemType data;
-    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">QNode</span> *<span class="hljs-title">next</span>;</span>
-&#125;QNode, *QueuePtr;
-
-
-<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span>
-    QueuePtr front, rear;
-&#125; LinkQueue;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">int</span> QElemType;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">QNode</span> &#123;</span><br>    QElemType data;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">QNode</span> *<span class="hljs-title">next</span>;</span><br>&#125;QNode, *QueuePtr;<br><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>    QueuePtr front, rear;<br>&#125; LinkQueue;<br></code></pre></td></tr></table></figure>
 <p><strong>2. 入队操作</strong></p>
-<pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">EnLinkQueue</span><span class="hljs-params">(LinkQueue *Q, QElemType e)</span> </span>&#123;
-    QueuePtr s = (QueuePtr)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(QNode));
-    <span class="hljs-keyword">if</span> (!s) 
-        <span class="hljs-keyword">return</span> ERROR;
-    s-&gt;data = e;
-    s-&gt;next = <span class="hljs-literal">NULL</span>;
-    <span class="hljs-comment">// 插入队尾, 并更新队尾指针</span>
-    Q-&gt;rear-&gt;next = s;
-    Q-&gt;rear = s;
-    
-    <span class="hljs-keyword">return</span> OK;
-&#125;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">EnLinkQueue</span><span class="hljs-params">(LinkQueue *Q, QElemType e)</span> </span>&#123;<br>    QueuePtr s = (QueuePtr)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(QNode));<br>    <span class="hljs-keyword">if</span> (!s) <br>        <span class="hljs-keyword">return</span> ERROR;<br>    s-&gt;data = e;<br>    s-&gt;next = <span class="hljs-literal">NULL</span>;<br>    <span class="hljs-comment">// 插入队尾, 并更新队尾指针</span><br>    Q-&gt;rear-&gt;next = s;<br>    Q-&gt;rear = s;<br>    <br>    <span class="hljs-keyword">return</span> OK;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p><strong>3. 出队操作</strong></p>
-<pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">DeLinkQueue</span><span class="hljs-params">(LinkQueue *Q, QElemType *e)</span> </span>&#123;
-    QueuePtr p;
-    <span class="hljs-keyword">if</span> (Q-&gt;front == Q-&gt;rear) &#123;
-        <span class="hljs-keyword">return</span> ERROR;
-    &#125;
-    p = Q-&gt;front-&gt;next;
-    *e = p-&gt;data;
-    Q-&gt;front-&gt;next = p-&gt;next;
-    
-    <span class="hljs-keyword">if</span> (Q-&gt;rear == p) &#123;
-        Q-&gt;rear = Q-&gt;front;
-    &#125;
-    <span class="hljs-built_in">free</span>(p);
-    <span class="hljs-keyword">return</span> OK;    
-&#125;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function">Status <span class="hljs-title">DeLinkQueue</span><span class="hljs-params">(LinkQueue *Q, QElemType *e)</span> </span>&#123;<br>    QueuePtr p;<br>    <span class="hljs-keyword">if</span> (Q-&gt;front == Q-&gt;rear) &#123;<br>        <span class="hljs-keyword">return</span> ERROR;<br>    &#125;<br>    p = Q-&gt;front-&gt;next;<br>    *e = p-&gt;data;<br>    Q-&gt;front-&gt;next = p-&gt;next;<br>    <br>    <span class="hljs-keyword">if</span> (Q-&gt;rear == p) &#123;<br>        Q-&gt;rear = Q-&gt;front;<br>    &#125;<br>    <span class="hljs-built_in">free</span>(p);<br>    <span class="hljs-keyword">return</span> OK;    <br>&#125;<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
