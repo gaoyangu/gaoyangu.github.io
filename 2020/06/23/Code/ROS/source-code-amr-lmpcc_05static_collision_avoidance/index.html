@@ -8,15 +8,16 @@
 <head>
   <meta charset="UTF-8">
   <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="">
+  <meta name="description" content="static_obstacle_feed 分析与总结">
   <meta name="author" content="gaoyangu">
   <meta name="keywords" content="">
+  
   <title>源码学习：amr-lmpcc_05 - gaoyangu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
@@ -55,7 +56,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null},"tajs":null}};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null},"tajs":null}};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -141,13 +142,13 @@
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
                 class="iconfont icon-search"></i>&nbsp;</a>
           </li>
         
         
           <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" href="javascript:">&nbsp;<i
+            <a class="nav-link" target="_self">&nbsp;<i
                 class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
@@ -344,7 +345,7 @@
 <p>将坐标进行标准化？</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp">t1[<span class="hljs-number">0</span>] = (sqx[<span class="hljs-number">1</span>] - sqx[<span class="hljs-number">0</span>])/<span class="hljs-built_in">sqrt</span>((sqx[<span class="hljs-number">1</span>] - sqx[<span class="hljs-number">0</span>])*(sqx[<span class="hljs-number">1</span>] - sqx[<span class="hljs-number">0</span>]) + (sqy[<span class="hljs-number">1</span>] - sqy[<span class="hljs-number">0</span>])*(sqy[<span class="hljs-number">1</span>] - sqy[<span class="hljs-number">0</span>]));<br>t2[<span class="hljs-number">0</span>] = (sqx[<span class="hljs-number">2</span>] - sqx[<span class="hljs-number">1</span>])/<span class="hljs-built_in">sqrt</span>((sqx[<span class="hljs-number">2</span>] - sqx[<span class="hljs-number">1</span>])*(sqx[<span class="hljs-number">2</span>] - sqx[<span class="hljs-number">1</span>]) + (sqy[<span class="hljs-number">2</span>] - sqy[<span class="hljs-number">1</span>])*(sqy[<span class="hljs-number">2</span>] - sqy[<span class="hljs-number">1</span>]));<br>t3[<span class="hljs-number">0</span>] = (sqx[<span class="hljs-number">3</span>] - sqx[<span class="hljs-number">2</span>])/<span class="hljs-built_in">sqrt</span>((sqx[<span class="hljs-number">3</span>] - sqx[<span class="hljs-number">2</span>])*(sqx[<span class="hljs-number">3</span>] - sqx[<span class="hljs-number">2</span>]) + (sqy[<span class="hljs-number">3</span>] - sqy[<span class="hljs-number">2</span>])*(sqy[<span class="hljs-number">3</span>] - sqy[<span class="hljs-number">2</span>]));<br>t4[<span class="hljs-number">0</span>] = (sqx[<span class="hljs-number">0</span>] - sqx[<span class="hljs-number">3</span>])/<span class="hljs-built_in">sqrt</span>((sqx[<span class="hljs-number">0</span>] - sqx[<span class="hljs-number">3</span>])*(sqx[<span class="hljs-number">0</span>] - sqx[<span class="hljs-number">3</span>]) + (sqy[<span class="hljs-number">0</span>] - sqy[<span class="hljs-number">3</span>])*(sqy[<span class="hljs-number">0</span>] - sqy[<span class="hljs-number">3</span>]));<br><br>t1[<span class="hljs-number">1</span>] = (sqy[<span class="hljs-number">1</span>] - sqy[<span class="hljs-number">0</span>])/<span class="hljs-built_in">sqrt</span>((sqx[<span class="hljs-number">1</span>] - sqx[<span class="hljs-number">0</span>])*(sqx[<span class="hljs-number">1</span>] - sqx[<span class="hljs-number">0</span>]) + (sqy[<span class="hljs-number">1</span>] - sqy[<span class="hljs-number">0</span>])*(sqy[<span class="hljs-number">1</span>] - sqy[<span class="hljs-number">0</span>]));<br>t2[<span class="hljs-number">1</span>] = (sqy[<span class="hljs-number">2</span>] - sqy[<span class="hljs-number">1</span>])/<span class="hljs-built_in">sqrt</span>((sqx[<span class="hljs-number">2</span>] - sqx[<span class="hljs-number">1</span>])*(sqx[<span class="hljs-number">2</span>] - sqx[<span class="hljs-number">1</span>]) + (sqy[<span class="hljs-number">2</span>] - sqy[<span class="hljs-number">1</span>])*(sqy[<span class="hljs-number">2</span>] - sqy[<span class="hljs-number">1</span>]));<br>t3[<span class="hljs-number">1</span>] = (sqy[<span class="hljs-number">3</span>] - sqy[<span class="hljs-number">2</span>])/<span class="hljs-built_in">sqrt</span>((sqx[<span class="hljs-number">3</span>] - sqx[<span class="hljs-number">2</span>])*(sqx[<span class="hljs-number">3</span>] - sqx[<span class="hljs-number">2</span>]) + (sqy[<span class="hljs-number">3</span>] - sqy[<span class="hljs-number">2</span>])*(sqy[<span class="hljs-number">3</span>] - sqy[<span class="hljs-number">2</span>]));<br>t4[<span class="hljs-number">1</span>] = (sqy[<span class="hljs-number">0</span>] - sqy[<span class="hljs-number">3</span>])/<span class="hljs-built_in">sqrt</span>((sqx[<span class="hljs-number">0</span>] - sqx[<span class="hljs-number">3</span>])*(sqx[<span class="hljs-number">0</span>] - sqx[<span class="hljs-number">3</span>]) + (sqy[<span class="hljs-number">0</span>] - sqy[<span class="hljs-number">3</span>])*(sqy[<span class="hljs-number">0</span>] - sqy[<span class="hljs-number">3</span>]));<br></code></pre></td></tr></table></figure>
 <p>结果如下图所示：</p>
-<p><img src="/img/post/01.jpg" srcset="/img/loading.gif" alt=""></p>
+<p><img src="/img/post/01.jpg" srcset="/img/loading.gif" lazyload alt=""></p>
 <p>得到约束条件</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp">collision_free_a1x[N] = t1[<span class="hljs-number">1</span>];<br>collision_free_a2x[N] = t2[<span class="hljs-number">1</span>];<br>collision_free_a3x[N] = t3[<span class="hljs-number">1</span>];<br>collision_free_a4x[N] = t4[<span class="hljs-number">1</span>];<br><br>collision_free_a1y[N] = -t1[<span class="hljs-number">0</span>];<br>collision_free_a2y[N] = -t2[<span class="hljs-number">0</span>];<br>collision_free_a3y[N] = -t3[<span class="hljs-number">0</span>];<br>collision_free_a4y[N] = -t4[<span class="hljs-number">0</span>];<br><br>collision_free_C1[N] = sqx[<span class="hljs-number">0</span>]*collision_free_a1x[N] + sqy[<span class="hljs-number">0</span>]*collision_free_a1y[N];<br>collision_free_C2[N] = sqx[<span class="hljs-number">1</span>]*collision_free_a2x[N] + sqy[<span class="hljs-number">1</span>]*collision_free_a2y[N];<br>collision_free_C3[N] = sqx[<span class="hljs-number">2</span>]*collision_free_a3x[N] + sqy[<span class="hljs-number">2</span>]*collision_free_a3y[N];<br>collision_free_C4[N] = sqx[<span class="hljs-number">3</span>]*collision_free_a4x[N] + sqy[<span class="hljs-number">3</span>]*collision_free_a4y[N];<br></code></pre></td></tr></table></figure>
 <h4 id="7-成员函数：StaticEnvironment-getRotatedOccupancy"><a href="#7-成员函数：StaticEnvironment-getRotatedOccupancy" class="headerlink" title="7. 成员函数：StaticEnvironment::getRotatedOccupancy()"></a>7. 成员函数：<code>StaticEnvironment::getRotatedOccupancy()</code></h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">StaticEnvironment::getRotatedOccupancy</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x_i, <span class="hljs-keyword">int</span> search_x, <span class="hljs-keyword">int</span> y_i, <span class="hljs-keyword">int</span> search_y, <span class="hljs-keyword">double</span> psi)</span> </span>&#123;<br>    <span class="hljs-comment">//ROS_INFO_STREAM("getRotatedOccupancy");</span><br>    <span class="hljs-keyword">int</span> x_search_rotated = (<span class="hljs-keyword">int</span>) round(<span class="hljs-built_in">cos</span>(psi) * search_x - <span class="hljs-built_in">sin</span>(psi) * search_y);<br>    <span class="hljs-keyword">int</span> y_search_rotated = (<span class="hljs-keyword">int</span>) round(<span class="hljs-built_in">sin</span>(psi) * search_x + <span class="hljs-built_in">cos</span>(psi) * search_y);<br><br>    <span class="hljs-keyword">if</span> ((x_i + x_search_rotated) &gt; static_map_.info.width || (y_i + y_search_rotated) &gt; static_map_.info.height ||<br>        (x_i + x_search_rotated) &lt; <span class="hljs-number">0</span> || (y_i + y_search_rotated) &lt; <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">return</span> (<span class="hljs-keyword">int</span>) <span class="hljs-number">100</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> static_map_.data[static_map_.info.width * (y_i + y_search_rotated) + (x_i + x_search_rotated)];<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -375,7 +376,11 @@
                 
               </div>
               
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！
+                  
+                </p>
               
               
                 <div class="post-prevnext">
@@ -469,8 +474,9 @@
   
 </footer>
 
-<!-- SCRIPTS -->
 
+  <!-- SCRIPTS -->
+  
   <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
 
@@ -485,7 +491,6 @@
 
 <script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
 <script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
-<script  src="/js/debouncer.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
@@ -493,7 +498,7 @@
 
 
   
-    <script  src="/js/lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -538,11 +543,12 @@
   <script>
     (function () {
       var path = "/local-search.xml";
-      var inputArea = document.querySelector("#local-search-input");
-      inputArea.onclick = function () {
+      $('#local-search-input').on('click', function() {
         searchFunc(path, 'local-search-input', 'local-search-result');
-        this.onclick = null
-      }
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
     })()
   </script>
 
@@ -562,7 +568,6 @@
 
 <!-- 主题的启动项 保持在最底部 -->
 <script  src="/js/boot.js" ></script>
-
 
 
 </body>

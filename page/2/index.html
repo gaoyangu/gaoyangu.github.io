@@ -8,7 +8,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -17,6 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="gaoyangu">
   <meta name="keywords" content="">
+  
   <title>gaoyangu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
@@ -39,7 +40,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null},"tajs":null}};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null},"tajs":null}};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -125,13 +126,13 @@
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
                 class="iconfont icon-search"></i>&nbsp;</a>
           </li>
         
         
           <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" href="javascript:">&nbsp;<i
+            <a class="nav-link" target="_self">&nbsp;<i
                 class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
@@ -180,18 +181,20 @@
     
       <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2020/08/05/Code/ROS/sensor_msgs-LaserScan/" target="_self">
-          <img src="/img/index_img/scott-blake.jpg" srcset="/img/loading.gif" alt="ROS：二维激光雷达">
+          <img src="/img/index_img/scott-blake.jpg" srcset="/img/loading.gif" lazyload alt="ROS：二维激光雷达">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2020/08/05/Code/ROS/sensor_msgs-LaserScan/">ROS：二维激光雷达</a>
+        <a href="/2020/08/05/Code/ROS/sensor_msgs-LaserScan/" target="_self">
+          ROS：二维激光雷达
+        </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2020/08/05/Code/ROS/sensor_msgs-LaserScan/">
+        <a href="/2020/08/05/Code/ROS/sensor_msgs-LaserScan/" target="_self">
           
           
             
@@ -234,18 +237,20 @@
     
       <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2020/07/31/Code/c++/C++Primer-5th_15_Object-Oriented-Programming/" target="_self">
-          <img src="/img/index_img/c++primer.png" srcset="/img/loading.gif" alt="C++Primer 5th：第十五章 面向对象程序设计">
+          <img src="/img/index_img/c++primer.png" srcset="/img/loading.gif" lazyload alt="C++Primer 5th：第十五章 面向对象程序设计">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2020/07/31/Code/c++/C++Primer-5th_15_Object-Oriented-Programming/">C++Primer 5th：第十五章 面向对象程序设计</a>
+        <a href="/2020/07/31/Code/c++/C++Primer-5th_15_Object-Oriented-Programming/" target="_self">
+          C++Primer 5th：第十五章 面向对象程序设计
+        </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2020/07/31/Code/c++/C++Primer-5th_15_Object-Oriented-Programming/">
+        <a href="/2020/07/31/Code/c++/C++Primer-5th_15_Object-Oriented-Programming/" target="_self">
           
           
             
@@ -290,18 +295,20 @@
     
       <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2020/07/25/Math/how-to-start-cmcm/" target="_self">
-          <img src="/img/index_img/antoine.jpg" srcset="/img/loading.gif" alt="2020研究生数学建模竞赛-准备">
+          <img src="/img/index_img/antoine.jpg" srcset="/img/loading.gif" lazyload alt="2020研究生数学建模竞赛-准备">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2020/07/25/Math/how-to-start-cmcm/">2020研究生数学建模竞赛-准备</a>
+        <a href="/2020/07/25/Math/how-to-start-cmcm/" target="_self">
+          2020研究生数学建模竞赛-准备
+        </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2020/07/25/Math/how-to-start-cmcm/">
+        <a href="/2020/07/25/Math/how-to-start-cmcm/" target="_self">
           
           
             
@@ -344,18 +351,20 @@
     
       <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2020/07/20/Code/Vscode-how-to-use-remote-ssh/" target="_self">
-          <img src="/img/index_img/jacob-mille.jpg" srcset="/img/loading.gif" alt="Remote - SSH 配置记录">
+          <img src="/img/index_img/jacob-mille.jpg" srcset="/img/loading.gif" lazyload alt="Remote - SSH 配置记录">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2020/07/20/Code/Vscode-how-to-use-remote-ssh/">Remote - SSH 配置记录</a>
+        <a href="/2020/07/20/Code/Vscode-how-to-use-remote-ssh/" target="_self">
+          Remote - SSH 配置记录
+        </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2020/07/20/Code/Vscode-how-to-use-remote-ssh/">
+        <a href="/2020/07/20/Code/Vscode-how-to-use-remote-ssh/" target="_self">
           
           
             
@@ -398,18 +407,20 @@
     
       <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2020/07/19/Code/ROS/how-to-run-spencer_people_tracking/" target="_self">
-          <img src="/img/index_img/specer.png" srcset="/img/loading.gif" alt="代码复现：spencer-people-tracking">
+          <img src="/img/index_img/specer.png" srcset="/img/loading.gif" lazyload alt="代码复现：spencer-people-tracking">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2020/07/19/Code/ROS/how-to-run-spencer_people_tracking/">代码复现：spencer-people-tracking</a>
+        <a href="/2020/07/19/Code/ROS/how-to-run-spencer_people_tracking/" target="_self">
+          代码复现：spencer-people-tracking
+        </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2020/07/19/Code/ROS/how-to-run-spencer_people_tracking/">
+        <a href="/2020/07/19/Code/ROS/how-to-run-spencer_people_tracking/" target="_self">
           
           
             
@@ -456,18 +467,20 @@
     
       <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2020/07/17/Code/ROS/how-to-use-rikirobot/" target="_self">
-          <img src="/img/index_img/rikirobot.png" srcset="/img/loading.gif" alt="rikirobot使用记录">
+          <img src="/img/index_img/rikirobot.png" srcset="/img/loading.gif" lazyload alt="rikirobot使用记录">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2020/07/17/Code/ROS/how-to-use-rikirobot/">rikirobot使用记录</a>
+        <a href="/2020/07/17/Code/ROS/how-to-use-rikirobot/" target="_self">
+          rikirobot使用记录
+        </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2020/07/17/Code/ROS/how-to-use-rikirobot/">
+        <a href="/2020/07/17/Code/ROS/how-to-use-rikirobot/" target="_self">
           
           
             
@@ -510,18 +523,20 @@
     
       <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2020/07/13/Code/c++/C++Primer-5th_14_Overloaded-Operations/" target="_self">
-          <img src="/img/index_img/c++primer.png" srcset="/img/loading.gif" alt="C++Primer 5th：第十四章 重载运算与类型转换">
+          <img src="/img/index_img/c++primer.png" srcset="/img/loading.gif" lazyload alt="C++Primer 5th：第十四章 重载运算与类型转换">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2020/07/13/Code/c++/C++Primer-5th_14_Overloaded-Operations/">C++Primer 5th：第十四章 重载运算与类型转换</a>
+        <a href="/2020/07/13/Code/c++/C++Primer-5th_14_Overloaded-Operations/" target="_self">
+          C++Primer 5th：第十四章 重载运算与类型转换
+        </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2020/07/13/Code/c++/C++Primer-5th_14_Overloaded-Operations/">
+        <a href="/2020/07/13/Code/c++/C++Primer-5th_14_Overloaded-Operations/" target="_self">
           
           
             
@@ -566,18 +581,20 @@
     
       <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2020/07/03/Code/ROS/something-about-quaternion/" target="_self">
-          <img src="/img/index_img/andrew-palmer.jpg" srcset="/img/loading.gif" alt="ROS：四元数">
+          <img src="/img/index_img/andrew-palmer.jpg" srcset="/img/loading.gif" lazyload alt="ROS：四元数">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2020/07/03/Code/ROS/something-about-quaternion/">ROS：四元数</a>
+        <a href="/2020/07/03/Code/ROS/something-about-quaternion/" target="_self">
+          ROS：四元数
+        </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2020/07/03/Code/ROS/something-about-quaternion/">
+        <a href="/2020/07/03/Code/ROS/something-about-quaternion/" target="_self">
           
           
             
@@ -620,18 +637,20 @@
     
       <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2020/06/23/Code/ROS/source-code-amr-lmpcc_05static_collision_avoidance/" target="_self">
-          <img src="/img/index_img/chris-ried.jpg" srcset="/img/loading.gif" alt="源码学习：amr-lmpcc_05">
+          <img src="/img/index_img/chris-ried.jpg" srcset="/img/loading.gif" lazyload alt="源码学习：amr-lmpcc_05">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2020/06/23/Code/ROS/source-code-amr-lmpcc_05static_collision_avoidance/">源码学习：amr-lmpcc_05</a>
+        <a href="/2020/06/23/Code/ROS/source-code-amr-lmpcc_05static_collision_avoidance/" target="_self">
+          源码学习：amr-lmpcc_05
+        </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2020/06/23/Code/ROS/source-code-amr-lmpcc_05static_collision_avoidance/">
+        <a href="/2020/06/23/Code/ROS/source-code-amr-lmpcc_05static_collision_avoidance/" target="_self">
           
           
             
@@ -678,18 +697,20 @@
     
       <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2020/06/22/Code/ROS/source-code-amr-lmpcc_04lmpcc_obstacle_feed/" target="_self">
-          <img src="/img/index_img/chris-ried.jpg" srcset="/img/loading.gif" alt="源码学习：amr-lmpcc_04">
+          <img src="/img/index_img/chris-ried.jpg" srcset="/img/loading.gif" lazyload alt="源码学习：amr-lmpcc_04">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2020/06/22/Code/ROS/source-code-amr-lmpcc_04lmpcc_obstacle_feed/">源码学习：amr-lmpcc_04</a>
+        <a href="/2020/06/22/Code/ROS/source-code-amr-lmpcc_04lmpcc_obstacle_feed/" target="_self">
+          源码学习：amr-lmpcc_04
+        </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2020/06/22/Code/ROS/source-code-amr-lmpcc_04lmpcc_obstacle_feed/">
+        <a href="/2020/06/22/Code/ROS/source-code-amr-lmpcc_04lmpcc_obstacle_feed/" target="_self">
           
           
             
@@ -735,15 +756,9 @@
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><a class="extend next" rel="next" href="/page/3/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
-  
-  <script>
-    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
-      ele.href += '#board';
-    }
-  </script>
 
 
 
@@ -798,8 +813,9 @@
   
 </footer>
 
-<!-- SCRIPTS -->
 
+  <!-- SCRIPTS -->
+  
   <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
 
@@ -814,7 +830,6 @@
 
 <script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
 <script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
-<script  src="/js/debouncer.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
@@ -822,7 +837,7 @@
 
 
   
-    <script  src="/js/lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -861,11 +876,12 @@
   <script>
     (function () {
       var path = "/local-search.xml";
-      var inputArea = document.querySelector("#local-search-input");
-      inputArea.onclick = function () {
+      $('#local-search-input').on('click', function() {
         searchFunc(path, 'local-search-input', 'local-search-result');
-        this.onclick = null
-      }
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
     })()
   </script>
 
@@ -885,7 +901,6 @@
 
 <!-- 主题的启动项 保持在最底部 -->
 <script  src="/js/boot.js" ></script>
-
 
 
 </body>
