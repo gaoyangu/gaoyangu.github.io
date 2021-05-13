@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      5.4k 字
+      6.2k 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      69
+      79
        分钟
     </span>
   
@@ -228,7 +228,7 @@
             
             <div class="markdown-body">
               <div class="note note-success">
-            <p>本文最后更新于：2020年7月12日 上午</p>
+            <p>本文最后更新于：2021年5月13日</p>
           </div>
 <h2 id="十二章-动态内存"><a href="#十二章-动态内存" class="headerlink" title="十二章 动态内存"></a>十二章 动态内存</h2><ol>
 <li><code>静态内存</code>：保存局部static对象、类static数据成员和定义在任何函数之外的变量</li>
@@ -236,7 +236,7 @@
 <li>分配在<code>静态内存</code>或<code>栈内存</code>中的对象由编译器自动创建和销毁</li>
 <li>栈对象：仅在其定义的程序块运行时才存在</li>
 <li>static对象：在使用之前分配，程序结束时销毁</li>
-<li><code>堆（heap）</code>：自由空间（free store）存储动态分配的对象（在程序运行时分配的对象）</li>
+<li><code>堆（heap）</code>：自由空间（free store），存储动态分配的对象（在程序运行时分配的对象）</li>
 <li>当动态对象不再使用时，必须显式销毁</li>
 </ol>
 <h2 id="12-1-动态内存与智能指针"><a href="#12-1-动态内存与智能指针" class="headerlink" title="12.1 动态内存与智能指针"></a>12.1 动态内存与智能指针</h2><ul>
@@ -309,49 +309,41 @@
 <p>接受一个initializer_list的构造函数将其参数传递给对应的vector构造函数，此构造函数通过拷贝列表中的值来初始化vector的元素。</p>
 <p><strong>7. 元素访问成员函数</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StrBlob::check</span><span class="hljs-params">(size_type i, <span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; msg)</span> <span class="hljs-keyword">const</span> </span>&#123;<br>    <span class="hljs-keyword">if</span>(i &gt;= data-&gt;size())<br>        <span class="hljs-keyword">throw</span> out_of_range(msg);<br>&#125;<br><span class="hljs-function"><span class="hljs-built_in">string</span>&amp; <span class="hljs-title">StrBlob::front</span><span class="hljs-params">()</span></span>&#123;<br>    check(<span class="hljs-number">0</span>, <span class="hljs-string">"front on empty StrBlob"</span>);<br>    <span class="hljs-keyword">return</span> data-&gt;front();<br>&#125;<br><span class="hljs-function"><span class="hljs-built_in">string</span>&amp; <span class="hljs-title">StrBlob::back</span><span class="hljs-params">()</span></span>&#123;<br>    check(<span class="hljs-number">0</span>, <span class="hljs-string">"back on empty StrBlob"</span>);<br>    <span class="hljs-keyword">return</span> data-&gt;back();<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StrBlob::pop_back</span><span class="hljs-params">()</span></span>&#123;<br>    check(<span class="hljs-number">0</span>,<span class="hljs-string">"pop_back on empty StrBlob"</span>);<br>    data-&gt;pop_back();<br>&#125;<br></code></pre></td></tr></table></figure>
-<h3 id="12-1-2-直接内存管理"><a href="#12-1-2-直接内存管理" class="headerlink" title="12.1.2 直接内存管理"></a>12.1.2 直接内存管理</h3><ol>
-<li>使用<code>new</code>动态分配和初始化对象<ul>
+<h3 id="12-1-2-直接内存管理"><a href="#12-1-2-直接内存管理" class="headerlink" title="12.1.2 直接内存管理"></a>12.1.2 直接内存管理</h3><p><strong>1. 使用<code>new</code>动态分配和初始化对象</strong></p>
+<ul>
 <li>值初始化的内置类型对象有着良好定义的值</li>
 <li>默认初始化的对象的值是未定义的</li>
 <li>只有当括号中仅有单一初始化器时才可以使用 auto </li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> *pi = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;	<span class="hljs-comment">//pi指向一个动态分配的、未初始化的无名对象</span><br><span class="hljs-built_in">string</span> *ps = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>;	<span class="hljs-comment">//初始化为空 string</span><br><span class="hljs-keyword">int</span> *pi = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">1024</span>);	<span class="hljs-comment">//pi指向的对象的值为1024</span><br><span class="hljs-built_in">string</span> *ps = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>(<span class="hljs-number">10</span>, <span class="hljs-string">'9'</span>);<br><br><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; *pv = <span class="hljs-keyword">new</span> <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&#123;<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>&#125;;	<span class="hljs-comment">//新标准，列表初始化</span><br><br><span class="hljs-built_in">string</span> *ps1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>;	<span class="hljs-comment">//默认初始化为空string</span><br><span class="hljs-built_in">string</span> *ps = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>();	<span class="hljs-comment">//值初始化为空string</span><br><span class="hljs-keyword">int</span> *pi1 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;	<span class="hljs-comment">//默认初始化，*pi1的值未定义</span><br><span class="hljs-keyword">int</span> *pi2 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>; <span class="hljs-comment">//值初始化为0，*pi2的值为0</span><br><br><span class="hljs-keyword">auto</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">auto</span>(obj);<br><span class="hljs-comment">//auto p2 = new auto(a,b,c);	//错误</span><br></code></pre></td></tr></table></figure>
+<p><strong>2. 动态分配的 const 对象</strong></p>
+<ul>
+<li><p>一个动态分配内存的const对象必须进行初始化</p>
 </li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> *pi = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;	<span class="hljs-comment">//pi指向一个动态分配的、未初始化的无名对象</span><br><span class="hljs-built_in">string</span> *ps = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>;	<span class="hljs-comment">//初始化为空 string</span><br><span class="hljs-keyword">int</span> *pi = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">1024</span>);	<span class="hljs-comment">//pi指向的对象的值为1024</span><br><span class="hljs-built_in">string</span> *ps = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>();	<span class="hljs-comment">//值初始化为空 string</span><br><span class="hljs-keyword">auto</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">auto</span>(obj);<br><span class="hljs-comment">//auto p2 = new auto(a,b,c);	//错误</span><br></code></pre></td></tr></table></figure>
-<ol>
-<li>动态分配的 const 对象<ul>
-<li>对于一个定义了默认构造函数的类类型，其 const 动态对象可以隐式初始化</li>
+<li><p>对于一个定义了默认构造函数的类类型，其 const 动态对象可以隐式初始化</p>
+</li>
 <li>其他类型的对象必须显示初始化</li>
 </ul>
-</li>
-</ol>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *pci = <span class="hljs-keyword">new</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">1024</span>);<br><span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span> *pcs = <span class="hljs-keyword">new</span> <span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span>;<br></code></pre></td></tr></table></figure>
-<ol>
-<li>内存耗尽<ul>
+<p><strong>3. 内存耗尽</strong></p>
+<ul>
 <li>默认情况，如果 new 不能分配所需要的内存空间，会抛出一个类型为<code>bad_alloc</code>的异常</li>
 <li><code>bad_alloc</code>和<code>nothrow</code>定义在头文件<code>new</code>中</li>
+<li>定位new (placement new)</li>
 </ul>
-</li>
-</ol>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> *p1 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;	<span class="hljs-comment">//如果分配失败，new抛出std::bad_alloc</span><br><span class="hljs-keyword">int</span> *p2 = <span class="hljs-keyword">new</span> (nothrow) <span class="hljs-keyword">int</span>;	<span class="hljs-comment">//如果分配失败，new 返回一个空指针</span><br></code></pre></td></tr></table></figure>
-<ol>
-<li>释放动态内存<ul>
+<p><strong>4. 释放动态内存</strong></p>
+<ul>
 <li><code>delete</code></li>
 <li>销毁给定的指针指向的对象；释放对应的内存</li>
 </ul>
-</li>
-</ol>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">delete</span> p;	<span class="hljs-comment">//p 必须指向一个动态分配的对象或是一个空指针</span><br></code></pre></td></tr></table></figure>
-<ol>
-<li>指针值和 delete</li>
-</ol>
+<p><strong>5. 指针值和 delete</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> i, *pi1 = &amp;i, *pi2 = <span class="hljs-literal">nullptr</span>;<br><span class="hljs-keyword">double</span> *pd = <span class="hljs-keyword">new</span> <span class="hljs-keyword">double</span>(<span class="hljs-number">33</span>), *pd2 = pd;<br><span class="hljs-keyword">delete</span> i;	<span class="hljs-comment">//错误：i不是一个指针</span><br><span class="hljs-keyword">delete</span> pi1;	<span class="hljs-comment">//未定义：pi1指向一个局部变量</span><br><span class="hljs-keyword">delete</span> pd;	<span class="hljs-comment">//正确</span><br><span class="hljs-keyword">delete</span> pd2;	<span class="hljs-comment">//未定义：pd2指向的内存已经被释放</span><br><span class="hljs-keyword">delete</span> pi2;	<span class="hljs-comment">//正确</span><br><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *pci = <span class="hljs-keyword">new</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">1024</span>);<br><span class="hljs-keyword">delete</span> pci;	<span class="hljs-comment">//正确：释放一个const对象</span><br></code></pre></td></tr></table></figure>
-<ol>
-<li>动态对象的生存期直到被释放时为止<ul>
+<p><strong>6. 动态对象的生存期直到被释放时为止</strong></p>
+<ul>
 <li>有内置指针（而不是智能指针）管理的动态内存在被显式释放前一直都会存在</li>
 </ul>
-</li>
-</ol>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// factory返回一个指针，指向一个动态分配的对象</span><br><span class="hljs-function">Foo* <span class="hljs-title">factory</span><span class="hljs-params">(T arg)</span></span>&#123;<br>    <span class="hljs-comment">//视情况处理arg</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Foo(arg);<span class="hljs-comment">//调用者负责释放此内存</span><br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">use_factory</span><span class="hljs-params">(T arg)</span></span>&#123;<br>    Foo *p = factory(arg);<br>    <span class="hljs-comment">//使用p但是不delete它</span><br>&#125;<span class="hljs-comment">//p离开了它的作用域，但它所指向的内存没有被释放</span><br></code></pre></td></tr></table></figure>
 <ul>
 <li>正确方法：在 use_factory 中释放内存</li>
@@ -361,20 +353,18 @@
 <li>当其他代码要使用use_factory所分配的对象，修改函数让它返回一个指针，指向它分配的内存</li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">Foo* <span class="hljs-title">use_factory</span><span class="hljs-params">(T arg)</span></span>&#123;<br>    Foo *p = factory(arg);<br>    <span class="hljs-keyword">return</span> p;	<span class="hljs-comment">//调用者必须释放内存</span><br>&#125;<br></code></pre></td></tr></table></figure>
-<ol>
-<li>使用<code>new</code>和<code>delete</code>管理动态内存存在的三个常见问题：<ul>
+<p><strong>6. 使用<code>new</code>和<code>delete</code>管理动态内存存在的三个常见问题：</strong></p>
+<ul>
 <li>忘记<code>delete</code>内存，导致内存泄露</li>
 <li>使用已经释放掉的对象。通过在释放内存后将指针置为空，有时可以检测出这种错误</li>
 <li>同一块内存释放两次</li>
 </ul>
-</li>
-<li><p>坚持只是用<code>智能指针</code>可以避免所有这些问题。对于一块内存，只有在设有任何智能指针指向它的情况下，智能指针才会自动释放他。</p>
-</li>
-<li><p><code>delete</code>之后重置指针值，但这只提供了有限的保护</p>
-</li>
-</ol>
+{% note success%}
+坚持只是用`智能指针`可以避免所有这些问题。对于一块内存，只有在设有任何智能指针指向它的情况下，智能指针才会自动释放他。
+{% endnote %}
+<p><strong>7. <code>delete</code>之后重置指针值，但这只提供了有限的保护</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">int</span> *<span class="hljs-title">p</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">42</span>))</span></span>;	<span class="hljs-comment">//p 指向动态内存</span><br><span class="hljs-keyword">auto</span> q = p;	<span class="hljs-comment">//p 和 q 指向相同的内存</span><br><span class="hljs-keyword">delete</span> p;	<span class="hljs-comment">//p 和 q 均变为无效</span><br>p = <span class="hljs-literal">nullptr</span>;	<span class="hljs-comment">//指出 p 不再绑定到任何对象</span><br></code></pre></td></tr></table></figure>
-<p>注意：此时 q 变为了空悬指针（dangling pointer），指向一块曾经保存数据对象但现在已经无效的内存的指针。</p>
+<p>注意：此时 q 变为了<code>空悬指针</code>（dangling pointer），指向一块曾经保存数据对象但现在已经无效的内存的指针。</p>
 <h3 id="12-1-3-shared-ptr-和new-结合使用"><a href="#12-1-3-shared-ptr-和new-结合使用" class="headerlink" title="12.1.3 shared_ptr 和new 结合使用"></a>12.1.3 shared_ptr 和new 结合使用</h3><ul>
 <li>接受指针参数的智能指针构造函数是 <code>explicit</code>的</li>
 <li><code>explicit</code>关键字用来修饰类的构造函数，被修饰的构造函数的类，不能发生相应的隐式类型转换，只能以显示的方式进行类型转换。</li>
@@ -385,100 +375,122 @@
 <li>一个返回<code>shared_ptr</code>的函数不能在其返回语句中隐式转换一个智能指针</li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//错误：隐式转换为 shared_ptr&lt;int&gt;</span><br><span class="hljs-comment">//shared_ptr&lt;int&gt; clone(int p)&#123;</span><br><span class="hljs-comment">//    return new int(p);</span><br><span class="hljs-comment">//&#125;</span><br><br><span class="hljs-function"><span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">clone</span><span class="hljs-params">(<span class="hljs-keyword">int</span> p)</span></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt;(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(p));<br>&#125;<br></code></pre></td></tr></table></figure>
-<ol>
+<p><strong>1. 不要混合使用普通指针和智能指针</strong></p>
+<ul>
 <li>使用一个内置指针来访问一个智能指针所负责的对象是很危险的，因为我们无法知道对象何时会被销毁</li>
-<li><code>get</code>用来将指针的访问权限传递给代码，只有在确定代码不会<code>delete</code>指针的情况下，才能使用get。</li>
+</ul>
+<p><strong>2. 不要使用get初始化另一个智能指针或为智能指针赋值</strong></p>
+<ul>
+<li>get函数：返回一个内置指针，指向智能指针管理的对象</li>
+<li>使用的情况：需要先不能使用智能指针的代码传递一个内置指针</li>
+<li>使用get返回的指针的代码不能delete此指针</li>
+<li><code>get</code>用来将指针的访问权限传递给代码，只有在确定代码不会<code>delete</code>指针的情况下，才能使用get</li>
 <li><p>永远不要用<code>get</code>初始化另一个智能指针或者为另一个智能指针赋值</p>
 </li>
-<li><p>其他<code>shared_ptr</code>操作</p>
+<li><p>将另一个智能指针也绑定到get返回的指针上是错误的</p>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">p</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">42</span>))</span></span>;<br><span class="hljs-keyword">int</span> *q = p.get();<br>&#123;<br>    <span class="hljs-comment">//未定义：两个独立的shared_ptr指向相同的内存</span><br>    <span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt;(q);<br>&#125;<span class="hljs-comment">//程序块结束，q被销毁，它指向的内存被释放</span><br><span class="hljs-keyword">int</span> foo = *p;<span class="hljs-comment">//未定义：p指向的内存已经被释放了</span><br></code></pre></td></tr></table></figure>
+<p><strong>3. 其他<code>shared_ptr</code>操作</strong></p>
 <ul>
 <li>用<code>reset</code>来将一个新的指针赋予一个<code>shared_ptr</code></li>
 </ul>
-</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">p.reset(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">1024</span>));	<span class="hljs-comment">//p 指向一个新对象</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">p = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">1024</span>);	<span class="hljs-comment">//错误：不能将一个指针赋予shared_ptr</span><br>p.reset(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">1024</span>));	<span class="hljs-comment">//p 指向一个新对象</span><br></code></pre></td></tr></table></figure>
 <ul>
 <li>与<code>unique</code>一起使用，控制多个<code>shared_ptr</code>共享的对象</li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">if</span>(!p.unique())<br>	p.reset(<span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>(*p));	<span class="hljs-comment">//我们不是唯一用户；分配新的拷贝</span><br>*p += newVal;	<span class="hljs-comment">//现在知道我们是唯一的用户，可以改变对象的值</span><br></code></pre></td></tr></table></figure>
-<h3 id="12-1-4-智能指针和异常"><a href="#12-1-4-智能指针和异常" class="headerlink" title="12.1.4 智能指针和异常"></a>12.1.4 智能指针和异常</h3><ol>
-<li>使用异常处理的程序能在异常发生后令程序流程继续，这种程序需要确保在异常发生后资源被正确的释放</li>
-<li>一个简单的确保资源被释放的方法是<code>使用智能指针</code></li>
-<li>智能指针和哑类<ul>
+<h3 id="12-1-4-智能指针和异常"><a href="#12-1-4-智能指针和异常" class="headerlink" title="12.1.4 智能指针和异常"></a>12.1.4 智能指针和异常</h3><ul>
+<li><p>使用异常处理的程序能在异常发生后令程序流程继续，这种程序需要确保在异常发生后资源被正确的释放</p>
+</li>
+<li><p>一个简单的确保资源被释放的方法是<code>使用智能指针</code></p>
+</li>
+</ul>
+<p><strong>1. 智能指针和哑类</strong></p>
+<ul>
 <li>为 C 和 C++ 两种语言设计的类，通常都要求用户显式地释放所使用地任何资源</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">destination</span>;</span>	<span class="hljs-comment">//表示我们正在连接什么</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">connection</span>;</span>	<span class="hljs-comment">//使用连接所需的信息</span><br><span class="hljs-function">connection <span class="hljs-title">connect</span><span class="hljs-params">(destination*)</span></span>;<span class="hljs-comment">//打开连接</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">disconnect</span><span class="hljs-params">(connection)</span></span>;<span class="hljs-comment">//关闭给定连接</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span><span class="hljs-params">(destination &amp;d)</span></span>&#123;<br>    <span class="hljs-comment">//获得一个连接，记住使用完要关闭它</span><br>    connection c = connect(&amp;d);<br>    <span class="hljs-comment">//使用连接</span><br>    <span class="hljs-comment">//如果我们在f退出前忘记调用disconnect，就无法关闭c了</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>2. 使用我们自己的释放操作</strong></p>
+<ul>
 <li>定义一个<strong>删除器(deleter)</strong>函数完成对shared_ptr中保存地指针进行释放操作</li>
 </ul>
-</li>
-</ol>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">end_connection</span><span class="hljs-params">(connection *p)</span> </span>&#123;disconnect(*p);&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span><span class="hljs-params">(destination &amp;d <span class="hljs-comment">/* 其他参数 */</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    connection c = connect(&amp;d);<br>    <span class="hljs-function"><span class="hljs-built_in">shared_ptr</span>&lt;connection&gt; <span class="hljs-title">p</span><span class="hljs-params">(&amp;c, end_connection)</span></span>;<br>    <span class="hljs-comment">//使用连接</span><br>    <span class="hljs-comment">//当 f 退出时（即使由于异常退出），connection 会被正确关闭</span><br>&#125;<br></code></pre></td></tr></table></figure>
-<ol>
-<li>正确使用智能指针的基本规范<ul>
+<p><strong>3. 正确使用智能指针的基本规范</strong></p>
+<ul>
 <li>不使用相同的内置指针初始化（或 reset）多个智能指针</li>
 <li>不 delete get()返回的指针</li>
 <li>不使用 get() 初始化或 reset 另一个智能指针</li>
 <li>如果你使用 get() 返回的指针，记住当最后一个对应的智能指针销毁后，你的指针就变成无效了。</li>
 <li>如果你使用智能指针管理的资源不是 new 分配的内存，记住传递给它一个删除器</li>
 </ul>
+<h3 id="12-1-5-unique-ptr"><a href="#12-1-5-unique-ptr" class="headerlink" title="12.1.5 unique_ptr"></a>12.1.5 unique_ptr</h3><ul>
+<li><p>某个时刻只能有一个<code>unique_ptr</code>指向一个给定的对象</p>
 </li>
-</ol>
-<h3 id="12-1-5-unique-ptr"><a href="#12-1-5-unique-ptr" class="headerlink" title="12.1.5 unique_ptr"></a>12.1.5 unique_ptr</h3><ol>
-<li>某个时刻只能有一个<code>unique_ptr</code>指向一个给定的对象</li>
-<li><code>unique_ptr</code>不支持普通的拷贝或赋值操作</li>
-<li>可以通过<code>release</code> 或 <code>reset</code>将指针的所有权从一个（非cosnt）unique_ptr 转移给另一个 unique</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">p1</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>(<span class="hljs-string">"Stegosaurus"</span>))</span></span>;	<span class="hljs-comment">//p2指向一个值为42的int</span><br><span class="hljs-comment">//unique_ptr&lt;string&gt; p2(p1);	//错误</span><br><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; p3;<br><span class="hljs-comment">//p3 = p2;	//错误</span><br><span class="hljs-comment">//将所有权从p1转移给p2</span><br><span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">p2</span><span class="hljs-params">(p1.release())</span></span>;	<span class="hljs-comment">//release 将 p1 置空</span><br><span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">p3</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>(<span class="hljs-string">"Trex"</span>))</span></span>;<br><span class="hljs-comment">//将所有权从p3转移给p2</span><br>p2.reset(p3.release());	<span class="hljs-comment">//reset 释放了p2原来指向的内存</span><br></code></pre></td></tr></table></figure>
-<ol>
-<li>传递<code>unique_ptr</code>参数和返回<code>unique_ptr</code></li>
-</ol>
+<li><p><code>unique_ptr</code>不支持普通的拷贝或赋值操作</p>
+</li>
+<li><p>可以通过<code>release</code> 或 <code>reset</code>将指针的所有权从一个（非cosnt）unique_ptr 转移给另一个 unique</p>
+</li>
+<li>release返回的指针通常被用来初始化另一个智能指针或给另一个智能指针赋值</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">p1</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>(<span class="hljs-string">"Stegosaurus"</span>))</span></span>;	<span class="hljs-comment">//p2指向一个值为42的int</span><br><span class="hljs-comment">//unique_ptr&lt;string&gt; p2(p1);	//错误</span><br><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; p3;<br><span class="hljs-comment">//p3 = p2;	//错误</span><br><br><span class="hljs-comment">//将所有权从p1转移给p2</span><br><span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">p2</span><span class="hljs-params">(p1.release())</span></span>;	<span class="hljs-comment">//release 将 p1 置空</span><br><span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">p3</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>(<span class="hljs-string">"Trex"</span>))</span></span>;<br><span class="hljs-comment">//将所有权从p3转移给p2</span><br>p2.reset(p3.release());	<span class="hljs-comment">//reset 释放了p2原来指向的内存</span><br><br>p2.release();	<span class="hljs-comment">//错误：p2不会释放内存，而且我们丢失了指针</span><br><span class="hljs-keyword">auto</span> p = p2.release();	<span class="hljs-comment">//正确，但必须记得delete(p)</span><br></code></pre></td></tr></table></figure>
+<p><strong>1. 传递<code>unique_ptr</code>参数和返回<code>unique_ptr</code></strong></p>
+<p>例外：可以拷贝或赋值一个将要被销毁的unique_ptr，例如从函数返回一个unique_ptr</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//从函数返回一个unique_ptr</span><br><span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">clone</span><span class="hljs-params">(<span class="hljs-keyword">int</span> p)</span></span>&#123;<br>	<span class="hljs-keyword">return</span> <span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt;(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(p));<br>&#125;<br><span class="hljs-comment">//返回一个局部对象的拷贝</span><br><span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">clone</span><span class="hljs-params">(<span class="hljs-keyword">int</span> p)</span></span>&#123;<br>    <span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">ret</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(p))</span></span>;<br>    <span class="hljs-comment">//...</span><br>    <span class="hljs-keyword">return</span> ret;<br>&#125;<br></code></pre></td></tr></table></figure>
-<ol>
-<li>向<code>unique_ptr</code>传递删除器</li>
-</ol>
+<p><strong>2. 向<code>unique_ptr</code>传递删除器</strong></p>
+<ul>
+<li>dectype返回一个函数类型，添加一个*来指出我们正在使用该类型的一个指针</li>
+</ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//p 指向一个类型为objT的对象，并使用一个类型为delT的对象释放objT对象</span><br><span class="hljs-comment">//它会调用一个名为fcn的delT对象</span><br>unique_ptr&lt;objT, delT&gt; p(new objT, fcn);<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span><span class="hljs-params">(destination &amp;d <span class="hljs-comment">/* 其他需要的参数 */</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    connection c = connect(&amp;d);	<span class="hljs-comment">//打开连接</span><br>    <span class="hljs-comment">//当p被销毁时，连接将会关闭</span><br>    unique_ptr&lt;connection, decltype(end_connection)*&gt; p(&amp;c, end_connection);<br>    <span class="hljs-comment">//使用连接</span><br>    <span class="hljs-comment">//当 f 退出时（即使由于异常退出），connection 会被正确关闭</span><br>&#125;<br></code></pre></td></tr></table></figure>
 <h3 id="12-1-6-weak-ptr"><a href="#12-1-6-weak-ptr" class="headerlink" title="12.1.6 weak_ptr"></a>12.1.6 weak_ptr</h3><ul>
 <li>指向由一个<code>shared_ptr</code>管理的对象</li>
 <li>将一个<code>weak_ptr</code>绑定到一个<code>shared_ptr</code>不会改变<code>shared_ptr</code>的引用计数</li>
+<li>要用一个shared_ptr来初始化一个weak_ptr</li>
+<li>由于对象可能不存在，不能使用weak_ptr直接访问对象，必须调用lock函数</li>
 </ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">auto</span> p = make_shared&lt;<span class="hljs-keyword">int</span>&gt;(<span class="hljs-number">42</span>);<br><span class="hljs-function">weak_ptr&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">wp</span><span class="hljs-params">(p)</span></span>;<br><span class="hljs-keyword">if</span>(<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; np = wp.lock())&#123;	<span class="hljs-comment">//如果 np 不为空则条件成立</span><br>    <span class="hljs-comment">//在 if 中，np 与 p 共享对象</span><br>&#125;<br></code></pre></td></tr></table></figure>
-<ol>
-<li>检查指针类</li>
-</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">auto</span> p = make_shared&lt;<span class="hljs-keyword">int</span>&gt;(<span class="hljs-number">42</span>);<br><span class="hljs-function">weak_ptr&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">wp</span><span class="hljs-params">(p)</span></span>;<br><br><span class="hljs-keyword">if</span>(<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; np = wp.lock())&#123;	<span class="hljs-comment">//如果 np 不为空则条件成立</span><br>    <span class="hljs-comment">//在 if 中，np 与 p 共享对象</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>1. 检查指针类</strong></p>
+<ul>
+<li>weak_ptr的用途：阻止用户访问一个不再存在的vector的企图</li>
+</ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//对于访问一个不存在元素的尝试，StrBlobPtr 抛出一个异常</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StrBlobPtr</span>&#123;</span><br><span class="hljs-keyword">public</span>:<br>	StrBlobPtr(): curr(<span class="hljs-number">0</span>) &#123; &#125;<br>    StrBlobPtr(StrBlob &amp;a, <span class="hljs-keyword">size_t</span> sz = <span class="hljs-number">0</span>) : wptr(a.data), curr(sz) &#123;&#125;<br>    <span class="hljs-function"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; <span class="hljs-title">deref</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span>;<br>    <span class="hljs-function">StrBlobPtr&amp; <span class="hljs-title">incr</span><span class="hljs-params">()</span></span>;	<span class="hljs-comment">//前缀递增</span><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-comment">//若检查成功，check 返回一个指向 vector 的 shared_ptr</span><br>    <span class="hljs-function"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt;&gt; <span class="hljs-title">check</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span>, <span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp;)</span> <span class="hljs-keyword">const</span></span>;<br>    <span class="hljs-comment">//保存一个weak_ptr，意味着底层vector可能会被销毁</span><br>    <span class="hljs-built_in">std</span>::weak_ptr&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt;&gt; wptr;<br>    <span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> curr;	<span class="hljs-comment">//在数组中的当前位置</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt;&gt; <span class="hljs-title">check</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> i, <span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> &amp;msg)</span> <span class="hljs-keyword">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">auto</span> ret = wptr.lock();	<span class="hljs-comment">//vector还存在吗</span><br>    <span class="hljs-keyword">if</span>(!ret)<br>        <span class="hljs-keyword">throw</span> <span class="hljs-built_in">std</span>::runtime_error(<span class="hljs-string">"unbound StrBlobPtr"</span>);<br>    <span class="hljs-keyword">if</span>(i &gt;= ret-&gt;size())<br>        <span class="hljs-keyword">throw</span> <span class="hljs-built_in">std</span>::out_of_range(msg);<br>    <span class="hljs-keyword">return</span> ret;	<span class="hljs-comment">//否则，返回指向vector的share_ptr</span><br>&#125;<br></code></pre></td></tr></table></figure>
-<ol>
-<li>指针操作</li>
-</ol>
+<p><strong>2. 指针操作</strong></p>
 <ul>
 <li>定义函数<code>deref</code> 用来解引用<code>StrBlobPtr</code>    </li>
 <li><code>incur</code>递增<code>StrBlobPtr</code>    </li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; <span class="hljs-title">StrBlobPtr::deref</span><span class="hljs-params">()</span> cosnt</span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">auto</span> p = check(curr, <span class="hljs-string">"dereference past end"</span>);<br>    <span class="hljs-keyword">return</span> (*p)[curr];	<span class="hljs-comment">//(*p)是对象所指向的vector</span><br>&#125;<br><span class="hljs-comment">//前缀递增：返回递增后的对象的引用</span><br><span class="hljs-function">StrBlobPtr&amp; <span class="hljs-title">StrBlobPtr::incr</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">//如果curr已经指向容器的尾后位置，就不能递增它</span><br>    check(curr, <span class="hljs-string">"increment past end of StrBlobPtr"</span>);<br>    ++curr;	<span class="hljs-comment">//推进当前位置</span><br>    <span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StrBlobPtr</span>;</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StrBlob</span>&#123;</span><br>    <span class="hljs-keyword">friend</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StrBlobPtr</span>;</span><br>    <br>    <span class="hljs-function">StrBlobPtr <span class="hljs-title">begin</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-keyword">return</span> StrBlobPtr(*<span class="hljs-keyword">this</span>);&#125;<br>    <span class="hljs-function">StrBlobPtr <span class="hljs-title">end</span><span class="hljs-params">()</span></span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">auto</span> ret = StrBlobPtr(*<span class="hljs-keyword">this</span>, data-&gt;size());<br>        <span class="hljs-keyword">return</span> ret;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h2 id="12-2-动态数组"><a href="#12-2-动态数组" class="headerlink" title="12.2 动态数组"></a>12.2 动态数组</h2><ul>
-<li>大多数应用应该使用标准库容器而不是动态分配的数组。使用容器更为简单、更不容器出现内存管理错误并且有可能有更好的性能。</li>
+<li>大多数应用应该使用<strong>标准库容器</strong>而不是动态分配的数组。</li>
+<li>使用容器更为简单、更不容器出现内存管理错误并且有可能有更好的性能。</li>
+<li>参考：StrBlob类</li>
 </ul>
-<h3 id="12-2-1-new-和数组"><a href="#12-2-1-new-和数组" class="headerlink" title="12.2.1 new 和数组"></a>12.2.1 new 和数组</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> *pia = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[get_size()];	<span class="hljs-comment">//pia 指向第一个 int</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">int</span> arrT[<span class="hljs-number">42</span>];	<span class="hljs-comment">//arrT表示42个int的数组类型</span><br><span class="hljs-keyword">int</span> *p = <span class="hljs-keyword">new</span> arrT;		<span class="hljs-comment">//分配一个42个int的数组；p指向第一个 int</span><br></code></pre></td></tr></table></figure>
-<ol>
-<li>分配一个数组会得到一个元素类型的指针<ul>
-<li>动态数组并不是数组类型</li>
+<h3 id="12-2-1-new-和数组"><a href="#12-2-1-new-和数组" class="headerlink" title="12.2.1 new 和数组"></a>12.2.1 new 和数组</h3><ul>
+<li>方括号中的大小必须是整型，但不必是常量</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> *pia = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[get_size()];	<span class="hljs-comment">//pia 指向第一个 int</span><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">int</span> arrT[<span class="hljs-number">42</span>];	<span class="hljs-comment">//arrT表示42个int的数组类型</span><br><span class="hljs-keyword">int</span> *p = <span class="hljs-keyword">new</span> arrT;		<span class="hljs-comment">//分配一个42个int的数组；p指向第一个 int</span><br><span class="hljs-comment">//编译器执行如下形式</span><br><span class="hljs-keyword">int</span> *p = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">42</span>];<br></code></pre></td></tr></table></figure>
+<p><strong>1. 分配一个数组会得到一个元素类型的指针</strong></p>
+<ul>
+<li><p>通常称new T[]分配的内存为“动态数组”</p>
 </li>
-<li>初始化动态分配对象的数组<ul>
+<li><p>动态数组并不是数组类型</p>
+</li>
+<li>不能对动态数组调用begin或end</li>
+</ul>
+<p><strong>2. 初始化动态分配对象的数组</strong></p>
+<ul>
 <li>new 表达式失败会抛出一个类型为<code>bad_array_new_length</code>的异常</li>
 <li>头文件：<code>new</code></li>
 </ul>
-</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> *pia = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">10</span>];		<span class="hljs-comment">//10个未初始化的int</span><br><span class="hljs-keyword">int</span> *pia2 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">10</span>]();	<span class="hljs-comment">//10个值初始化为0的int</span><br><span class="hljs-comment">//新标准</span><br><span class="hljs-keyword">int</span> *pia3 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">10</span>]&#123;<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>&#125;;<br></code></pre></td></tr></table></figure>
-<ol>
-<li>动态分配一个空数组是合法的</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//char arr[0];	//错误：不能定义长度为0的数组</span><br><span class="hljs-keyword">char</span> *cp = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[<span class="hljs-number">0</span>];	<span class="hljs-comment">//正确：但cp不能解引用</span><br></code></pre></td></tr></table></figure>
-<ol>
-<li>释放动态数组</li>
-</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> *pia = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">10</span>];		<span class="hljs-comment">//10个未初始化的int</span><br><span class="hljs-keyword">int</span> *pia2 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">10</span>]();	<span class="hljs-comment">//值初始化：10个值初始化为0的int</span><br><span class="hljs-comment">//新标准</span><br><span class="hljs-keyword">int</span> *pia3 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">10</span>]&#123;<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>&#125;;<br></code></pre></td></tr></table></figure>
+<p><strong>3. 动态分配一个空数组是合法的</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">size_t</span> n = get_size();<br><span class="hljs-keyword">int</span>* p = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[n];<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span>* q = p; q != p+n; ++q)&#123;<br>    <span class="hljs-comment">//处理数组</span><br>&#125;<br><br><span class="hljs-comment">//char arr[0];	//错误：不能定义长度为0的数组</span><br><span class="hljs-keyword">char</span> *cp = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[<span class="hljs-number">0</span>];	<span class="hljs-comment">//正确：但cp不能解引用</span><br></code></pre></td></tr></table></figure>
+<p><strong>4. 释放动态数组</strong></p>
+<ul>
+<li>数组中的元素按逆序销毁</li>
+</ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">delete</span> p;		<span class="hljs-comment">//p必须指向一个动态分配的对象或为空</span><br><span class="hljs-keyword">delete</span> [] pa;	<span class="hljs-comment">//pa必须指向一个动态分配的数组或为空</span><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">int</span> arrT[<span class="hljs-number">42</span>];	<span class="hljs-comment">//arrT是42个int的数组的类型别名</span><br><span class="hljs-keyword">int</span> *p = <span class="hljs-keyword">new</span> arrT;		<span class="hljs-comment">//分配一个42个int的数组，p指向第一个元素</span><br><span class="hljs-keyword">delete</span> [] p;			<span class="hljs-comment">//方括号是必须的</span><br></code></pre></td></tr></table></figure>
-<ol>
-<li>智能指针和动态数组</li>
-</ol>
+<p><strong>5. 智能指针和动态数组</strong></p>
 <ul>
 <li><code>unique_ptr</code><ul>
 <li>不能使用点和箭头成员运算符</li>
@@ -493,34 +505,33 @@
 </ul>
 </li>
 </ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">sp</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">10</span>], [](<span class="hljs-keyword">int</span> *p)&#123;<span class="hljs-keyword">delete</span> [] p; &#125;)</span></span>;<br>sp.reset();<br><br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i != <span class="hljs-number">10</span>; ++i)<br>    *(sp.get() + i) = i;	<span class="hljs-comment">//使用get获取一个内置指针</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">sp</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">10</span>], [](<span class="hljs-keyword">int</span> *p)&#123;<span class="hljs-keyword">delete</span> [] p; &#125;)</span></span>;<br>sp.reset();<br><span class="hljs-comment">//shared_ptr未定义下标运算符，并且不支持指针的算数运算</span><br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i != <span class="hljs-number">10</span>; ++i)<br>    *(sp.get() + i) = i;	<span class="hljs-comment">//使用get获取一个内置指针</span><br></code></pre></td></tr></table></figure>
 <h3 id="12-2-2-allocator类"><a href="#12-2-2-allocator类" class="headerlink" title="12.2.2 allocator类"></a>12.2.2 allocator类</h3><ul>
 <li>分配单个对象时，希望将内存分配和对象初始化组合在一起</li>
 <li>分配一大块内存时，通常计划在这块内存上按需构造对象，此时希望将内存分配和对象构造分开</li>
 </ul>
-<ol>
-<li>allocator类<ul>
+<p>将内存分配和对象构造组合在一起可能会导致不必要的浪费</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">string</span> *<span class="hljs-keyword">const</span> p = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>[n];<br><span class="hljs-built_in">string</span> s;<br><span class="hljs-built_in">string</span> *q = p;<br><span class="hljs-keyword">while</span>(<span class="hljs-built_in">cin</span> &gt;&gt; s &amp;&amp; q != p+n)<br>    *q++ = s;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">size_t</span> size = q-p;<br><span class="hljs-keyword">delete</span> [] p;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>没有默认构造函数的类不能动态分配数组</li>
+</ul>
+<p><strong>1. allocator类</strong></p>
+<ul>
 <li>头文件：<code>memory</code></li>
 <li>帮助我们将内存分配和对象构造分离开</li>
 <li>提供一种类型感知的内存分配方法</li>
 <li>分配的内存是原始的、未构造的</li>
 </ul>
-</li>
-</ol>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">allocator&lt;<span class="hljs-built_in">string</span>&gt; alloc;			<span class="hljs-comment">//可以分配 string 的 allocator 对象</span><br><span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span> p = alloc.allocate(n);	<span class="hljs-comment">//分配 n 个未初始化的 string</span><br></code></pre></td></tr></table></figure>
-<ol>
-<li>allocator 分配未构造的内存<ul>
+<p><strong>2. allocator 分配未构造的内存</strong></p>
+<ul>
 <li>为了使用 allocate 返回的内存，必须用<code>construct</code>构造对象</li>
 <li>使用未构造的内存，其行为是未定义的</li>
 <li>函数<code>destory</code>接受一个指针，对指向的对象执行析构函数</li>
 <li>释放内存通过调用<code>deallocate</code>来完成</li>
 </ul>
-</li>
-</ol>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">auto</span> q = p;	<span class="hljs-comment">//q指向最后构造的元素之后的位置</span><br>alloc.construct(q++);			<span class="hljs-comment">//*q为空字符串</span><br>alloc.construct(q++, <span class="hljs-number">10</span>, <span class="hljs-string">'c'</span>);	<span class="hljs-comment">//*q为 cccccccccc</span><br>alloc.construct(q++, <span class="hljs-string">"hi"</span>);		<span class="hljs-comment">//*q为hi</span><br><br><span class="hljs-built_in">cout</span> &lt;&lt; *p &lt;&lt; <span class="hljs-built_in">endl</span>;	<span class="hljs-comment">//正确：使用 string 的输出运算符</span><br><span class="hljs-comment">//cout &lt;&lt; *q &lt;&lt; endl; //灾难：q 指向未构造的内存！</span><br><br><span class="hljs-keyword">while</span>(q != p)<br>    alloc.destory(--q);	<span class="hljs-comment">//释放真正构造的string</span><br><br>alloc.deallocate(p, n);<br></code></pre></td></tr></table></figure>
-<ol>
-<li>拷贝和填充未初始化内存的算法</li>
-</ol>
+<p><strong>3. 拷贝和填充未初始化内存的算法</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//分配比 vi 中元素所占用空间大一倍的动态内存</span><br><span class="hljs-keyword">auto</span> p = alloc.allocate(vi.size() * <span class="hljs-number">2</span>);<br><span class="hljs-comment">//通过拷贝 vi 中的元素来构造从p开始的元素</span><br><span class="hljs-keyword">auto</span> q = uninitialized_copy(vi.begin(), vi.end(), p)；<br><span class="hljs-comment">//将剩余元素初始化为42</span><br> uninitialzed_fill_n(q, vi.size(), <span class="hljs-number">42</span>);<br></code></pre></td></tr></table></figure>
 <h2 id="12-3-使用标准库：文本查询程序"><a href="#12-3-使用标准库：文本查询程序" class="headerlink" title="12.3 使用标准库：文本查询程序"></a>12.3 使用标准库：文本查询程序</h2><ul>
 <li>允许用户在一个给定文件中查询单词</li>
