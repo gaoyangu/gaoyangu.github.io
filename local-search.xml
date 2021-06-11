@@ -4,7 +4,26 @@
   
   
   <entry>
-    <title>如何在Windows10上进行ROS开发</title>
+    <title>ACADO Toolkit</title>
+    <link href="/2021/06/10/Code/how-to-use-acado/"/>
+    <url>/2021/06/10/Code/how-to-use-acado/</url>
+    
+    <content type="html"><![CDATA[<div class="note note-success">            <p>本文最后更新于：2021年6月10日 </p>          </div><p><em>Toolkit for Automatic Control and Dynamic Optimization</em></p><p>ACADO Toolkit is a software environment and algorithm collection for automatic control and dynamic optimization. It provides a general framework for using a great variety of algorithms for direct optimal control, including model predictive control, state and parameter estimation and robust optimization. </p><hr><h2 id="The-Code-Generation-Tool"><a href="#The-Code-Generation-Tool" class="headerlink" title="The Code Generation Tool"></a>The Code Generation Tool</h2><h3 id="1-Installation"><a href="#1-Installation" class="headerlink" title="1. Installation"></a>1. Installation</h3><p>首先进行ACADO的安装。</p><p>参考：<a href="http://acado.github.io/install_linux.html" target="_blank" rel="noopener">http://acado.github.io/install_linux.html</a></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo apt-get install gcc g++ cmake git gnuplot doxygen graphviz<br>git clone https://github.com/acado/acado.git -b stable ACADOtoolkit<br>cd ACADOtoolkit<br>mkdir build<br>cd build<br>cmake ..<br>make<br></code></pre></td></tr></table></figure><h3 id="2-Generating-Code"><a href="#2-Generating-Code" class="headerlink" title="2. Generating Code"></a>2. Generating Code</h3><p>参考：<a href="http://acado.sourceforge.net/doc/html/db/daf/cgt_getting_started.html" target="_blank" rel="noopener">http://acado.sourceforge.net/doc/html/db/daf/cgt_getting_started.html</a></p><ul><li><p>以<code>ACADOtoolkit/examples/code_generation/mpc_mhe/getting_started.cpp</code>为例，这个文件使用ACADO的语法描述了一个非线性模型预测控制问题，我们需要将自己的问题使用ACADO的语法进行描述，编写完成后进行编译，运行编译出来的文件来进行C代码的生成</p></li><li><p>生成的代码被放置在<code>getting_started_export</code>文件夹中</p></li></ul><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (mpc.exportCode( <span class="hljs-string">"getting_started_export"</span> ) != SUCCESSFUL_RETURN)<br><span class="hljs-built_in">exit</span>( EXIT_FAILURE );<br></code></pre></td></tr></table></figure><p>执行步骤如下</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cd</span> ACADOtoolkit/build<br>make<br><span class="hljs-built_in">cd</span> ACADOtoolkit/examples/code_generation/mpc_mhe/<br>./code_generation_getting_started<br></code></pre></td></tr></table></figure><p>上述步骤执行完成后，可以看到生成的C代码被放置在<code>getting_started_export</code>中</p><h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul><li><a href="http://acado.github.io/index.html" target="_blank" rel="noopener">ACADO Toolkit</a></li><li><a href="http://acado.sourceforge.net/doc/html/db/d4e/tutorial.html" target="_blank" rel="noopener">ACADO Toolkit: Tutorials</a></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>mpc</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>在Windows10上进行ROS开发</title>
     <link href="/2021/02/10/Code/001-how-to-use-wsl-with-ros/"/>
     <url>/2021/02/10/Code/001-how-to-use-wsl-with-ros/</url>
     
