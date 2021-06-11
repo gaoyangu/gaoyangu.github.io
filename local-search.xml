@@ -13,10 +13,16 @@
     
     <categories>
       
-      <category>MPC</category>
+      <category>编程</category>
       
     </categories>
     
+    
+    <tags>
+      
+      <tag>MPC</tag>
+      
+    </tags>
     
   </entry>
   
@@ -413,9 +419,9 @@
       
       <tag>ROS</tag>
       
-      <tag>源码学习</tag>
+      <tag>MPC</tag>
       
-      <tag>LMPCC</tag>
+      <tag>源码学习</tag>
       
     </tags>
     
@@ -519,9 +525,9 @@
       
       <tag>ROS</tag>
       
-      <tag>源码学习</tag>
-      
       <tag>MPC</tag>
+      
+      <tag>源码学习</tag>
       
     </tags>
     
@@ -548,9 +554,9 @@
       
       <tag>ROS</tag>
       
-      <tag>源码学习</tag>
-      
       <tag>MPC</tag>
+      
+      <tag>源码学习</tag>
       
     </tags>
     
@@ -577,9 +583,9 @@
       
       <tag>ROS</tag>
       
-      <tag>源码学习</tag>
-      
       <tag>MPC</tag>
+      
+      <tag>源码学习</tag>
       
     </tags>
     
@@ -606,9 +612,9 @@
       
       <tag>ROS</tag>
       
-      <tag>源码学习</tag>
-      
       <tag>MPC</tag>
+      
+      <tag>源码学习</tag>
       
     </tags>
     
@@ -635,9 +641,9 @@
       
       <tag>ROS</tag>
       
-      <tag>源码学习</tag>
+      <tag>MPC</tag>
       
-      <tag>LMPCC</tag>
+      <tag>源码学习</tag>
       
     </tags>
     
@@ -664,9 +670,9 @@
       
       <tag>ROS</tag>
       
-      <tag>源码学习</tag>
-      
       <tag>MPC</tag>
+      
+      <tag>源码学习</tag>
       
     </tags>
     
@@ -693,9 +699,9 @@
       
       <tag>ROS</tag>
       
-      <tag>源码学习</tag>
+      <tag>MPC</tag>
       
-      <tag>LMPCC</tag>
+      <tag>源码学习</tag>
       
     </tags>
     
