@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      79
+      80
        分钟
     </span>
   
@@ -297,9 +297,8 @@
 </ul>
 <p>当拷贝一个vector时，原vector和副本vector中的元素相互分离：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">string</span>&gt; v1;<br>&#123;<span class="hljs-comment">//新作用域</span><br>    <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">string</span>&gt; v2 = &#123;<span class="hljs-string">"a"</span>, <span class="hljs-string">"an"</span>, <span class="hljs-string">"the"</span>&#125;;<br>    v1 = v2;<br>&#125;<span class="hljs-comment">//v2被销毁，其中的元素也被销毁</span><br><span class="hljs-comment">//v1有三个元素，是原来v2中元素的拷贝</span><br></code></pre></td></tr></table></figure>
-<div class="note note-success">
-            <p>使用动态内存的一个常见原因：允许多个对象共享相同的状态。</p>
-          </div>
+<p class="note note-info">PS: 使用动态内存的一个常见原因：允许多个对象共享相同的状态。</p>
+
 <p><strong>5. 定义StrBlob类</strong></p>
 <ul>
 <li>类成员函数声明为const  以表明它们不修改类对象</li>
@@ -314,9 +313,8 @@
 <ul>
 <li>值初始化的内置类型对象有着良好定义的值</li>
 <li>默认初始化的对象的值是未定义的</li>
-<li>只有当括号中仅有单一初始化器时才可以使用 auto </li>
 </ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> *pi = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;	<span class="hljs-comment">//pi指向一个动态分配的、未初始化的无名对象</span><br><span class="hljs-built_in">string</span> *ps = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>;	<span class="hljs-comment">//初始化为空 string</span><br><span class="hljs-keyword">int</span> *pi = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">1024</span>);	<span class="hljs-comment">//pi指向的对象的值为1024</span><br><span class="hljs-built_in">string</span> *ps = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>(<span class="hljs-number">10</span>, <span class="hljs-string">'9'</span>);<br><br><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; *pv = <span class="hljs-keyword">new</span> <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&#123;<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>&#125;;	<span class="hljs-comment">//新标准，列表初始化</span><br><br><span class="hljs-built_in">string</span> *ps1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>;	<span class="hljs-comment">//默认初始化为空string</span><br><span class="hljs-built_in">string</span> *ps = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>();	<span class="hljs-comment">//值初始化为空string</span><br><span class="hljs-keyword">int</span> *pi1 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;	<span class="hljs-comment">//默认初始化，*pi1的值未定义</span><br><span class="hljs-keyword">int</span> *pi2 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>; <span class="hljs-comment">//值初始化为0，*pi2的值为0</span><br><br><span class="hljs-keyword">auto</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">auto</span>(obj);<br><span class="hljs-comment">//auto p2 = new auto(a,b,c);	//错误</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> *pi = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;	<span class="hljs-comment">//pi指向一个动态分配的、未初始化的无名对象</span><br><span class="hljs-built_in">string</span> *ps = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>;	<span class="hljs-comment">//初始化为空 string</span><br><span class="hljs-keyword">int</span> *pi = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">1024</span>);	<span class="hljs-comment">//pi指向的对象的值为1024</span><br><span class="hljs-built_in">string</span> *ps = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>(<span class="hljs-number">10</span>, <span class="hljs-string">'9'</span>);<br><br><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; *pv = <span class="hljs-keyword">new</span> <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&#123;<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>&#125;;	<span class="hljs-comment">//新标准，列表初始化</span><br><br><span class="hljs-built_in">string</span> *ps1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>;	<span class="hljs-comment">//默认初始化为空string</span><br><span class="hljs-built_in">string</span> *ps = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>();	<span class="hljs-comment">//值初始化为空string</span><br><span class="hljs-keyword">int</span> *pi1 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;	<span class="hljs-comment">//默认初始化，*pi1的值未定义</span><br><span class="hljs-keyword">int</span> *pi2 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(); <span class="hljs-comment">//值初始化为0，*pi2的值为0</span><br><br><span class="hljs-comment">// 只有当括号中仅有单一初始化器时才可以使用 auto </span><br><span class="hljs-keyword">auto</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">auto</span>(obj);<br><span class="hljs-comment">//auto p2 = new auto(a,b,c);	//错误</span><br></code></pre></td></tr></table></figure>
 <p><strong>2. 动态分配的 const 对象</strong></p>
 <ul>
 <li><p>一个动态分配内存的const对象必须进行初始化</p>
@@ -330,9 +328,8 @@
 <ul>
 <li>默认情况，如果 new 不能分配所需要的内存空间，会抛出一个类型为<code>bad_alloc</code>的异常</li>
 <li><code>bad_alloc</code>和<code>nothrow</code>定义在头文件<code>new</code>中</li>
-<li>定位new (placement new)</li>
 </ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> *p1 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;	<span class="hljs-comment">//如果分配失败，new抛出std::bad_alloc</span><br><span class="hljs-keyword">int</span> *p2 = <span class="hljs-keyword">new</span> (nothrow) <span class="hljs-keyword">int</span>;	<span class="hljs-comment">//如果分配失败，new 返回一个空指针</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> *p1 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;	<span class="hljs-comment">//如果分配失败，new抛出std::bad_alloc</span><br><span class="hljs-comment">//定位new (placement new)</span><br><span class="hljs-keyword">int</span> *p2 = <span class="hljs-keyword">new</span> (nothrow) <span class="hljs-keyword">int</span>;	<span class="hljs-comment">//如果分配失败，new 返回一个空指针</span><br></code></pre></td></tr></table></figure>
 <p><strong>4. 释放动态内存</strong></p>
 <ul>
 <li><code>delete</code></li>
@@ -340,6 +337,9 @@
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">delete</span> p;	<span class="hljs-comment">//p 必须指向一个动态分配的对象或是一个空指针</span><br></code></pre></td></tr></table></figure>
 <p><strong>5. 指针值和 delete</strong></p>
+<ul>
+<li>传递给delete的指针必须指向动态分配的内存或一个空指针</li>
+</ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> i, *pi1 = &amp;i, *pi2 = <span class="hljs-literal">nullptr</span>;<br><span class="hljs-keyword">double</span> *pd = <span class="hljs-keyword">new</span> <span class="hljs-keyword">double</span>(<span class="hljs-number">33</span>), *pd2 = pd;<br><span class="hljs-keyword">delete</span> i;	<span class="hljs-comment">//错误：i不是一个指针</span><br><span class="hljs-keyword">delete</span> pi1;	<span class="hljs-comment">//未定义：pi1指向一个局部变量</span><br><span class="hljs-keyword">delete</span> pd;	<span class="hljs-comment">//正确</span><br><span class="hljs-keyword">delete</span> pd2;	<span class="hljs-comment">//未定义：pd2指向的内存已经被释放</span><br><span class="hljs-keyword">delete</span> pi2;	<span class="hljs-comment">//正确</span><br><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *pci = <span class="hljs-keyword">new</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">1024</span>);<br><span class="hljs-keyword">delete</span> pci;	<span class="hljs-comment">//正确：释放一个const对象</span><br></code></pre></td></tr></table></figure>
 <p><strong>6. 动态对象的生存期直到被释放时为止</strong></p>
 <ul>
@@ -360,9 +360,8 @@
 <li>使用已经释放掉的对象。通过在释放内存后将指针置为空，有时可以检测出这种错误</li>
 <li>同一块内存释放两次</li>
 </ul>
-{% note success%}
-坚持只是用`智能指针`可以避免所有这些问题。对于一块内存，只有在设有任何智能指针指向它的情况下，智能指针才会自动释放他。
-{% endnote %}
+<p class="note note-info">PS: 坚持只是用`智能指针`可以避免所有这些问题。对于一块内存，只有在设有任何智能指针指向它的情况下，智能指针才会自动释放他。</p>
+
 <p><strong>7. <code>delete</code>之后重置指针值，但这只提供了有限的保护</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">int</span> *<span class="hljs-title">p</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">42</span>))</span></span>;	<span class="hljs-comment">//p 指向动态内存</span><br><span class="hljs-keyword">auto</span> q = p;	<span class="hljs-comment">//p 和 q 指向相同的内存</span><br><span class="hljs-keyword">delete</span> p;	<span class="hljs-comment">//p 和 q 均变为无效</span><br>p = <span class="hljs-literal">nullptr</span>;	<span class="hljs-comment">//指出 p 不再绑定到任何对象</span><br></code></pre></td></tr></table></figure>
 <p>注意：此时 q 变为了<code>空悬指针</code>（dangling pointer），指向一块曾经保存数据对象但现在已经无效的内存的指针。</p>
@@ -380,10 +379,10 @@
 <ul>
 <li>使用一个内置指针来访问一个智能指针所负责的对象是很危险的，因为我们无法知道对象何时会被销毁</li>
 </ul>
-<p><strong>2. 不要使用get初始化另一个智能指针或为智能指针赋值</strong></p>
+<p><strong>2. 不要使用<code>get</code>初始化另一个智能指针或为智能指针赋值</strong></p>
 <ul>
 <li>get函数：返回一个内置指针，指向智能指针管理的对象</li>
-<li>使用的情况：需要先不能使用智能指针的代码传递一个内置指针</li>
+<li>使用的情况：需要向不能使用智能指针的代码传递一个内置指针</li>
 <li>使用get返回的指针的代码不能delete此指针</li>
 <li><code>get</code>用来将指针的访问权限传递给代码，只有在确定代码不会<code>delete</code>指针的情况下，才能使用get</li>
 <li><p>永远不要用<code>get</code>初始化另一个智能指针或者为另一个智能指针赋值</p>
