@@ -246,9 +246,11 @@
 <script type="math/tex; mode=display">
 T(N)=1000N,f(N)=N^2</script><p><strong>大O记法</strong>：</p>
 <script type="math/tex; mode=display">
-1000N=O（N^2）(N平方级)</script><p>当我们说$T(N)=O(f(N))$时，我们是在保证函数$T(N)$在以不快于$f(N)$的速度增长。</p>
+1000N=O(N^2)(N平方级)</script><p>当我们说$T(N)=O(f(N))$时，我们是在保证函数$T(N)$在以不快于$f(N)$的速度增长。</p>
 <p><strong>典型的增长率</strong></p>
-<p>N的增长要快于log的任意的幂</p>
+<ul>
+<li>N的增长要快于log的任意的幂。</li>
+</ul>
 <div class="table-container">
 <table>
 <thead>
@@ -342,7 +344,7 @@ T(N)=1000N,f(N)=N^2</script><p><strong>大O记法</strong>：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxSubSum4</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; a)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">int</span> maxSum = <span class="hljs-number">0</span>, thisSum = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; a.size(); i++)&#123;<br>        thisSum += a[i];<br>        <br>        <span class="hljs-keyword">if</span>(thisSum &gt; maxSum)<br>            maxSum = thisSum;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(thisSum &lt; <span class="hljs-number">0</span>)<br>            thisSum = <span class="hljs-number">0</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> maxSum;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h3 id="2-4-4-运行时间中的对数"><a href="#2-4-4-运行时间中的对数" class="headerlink" title="2.4.4 运行时间中的对数"></a>2.4.4 运行时间中的对数</h3><p>如果一个算法用常数时间($O(1)$)将问题的大小削减为其一部分(通常是1/2)，那么该算法就是$O(logN)$的。</p>
 <p><strong>1. 二分搜索(binary search)</strong></p>
-<p>给定一个整数$X$和整数$A<em>0，A_1，．．．，A</em>{N-1}$，后者已经预先排序并在内存中，求下标$i$使得$A_i＝X$，如果$X$不在数据中，则返回$i＝-1$。</p>
+<p>给定一个整数$X$和整数<script type="math/tex">A_0，A_1，．．．，A_{N-1}</script>，后者已经预先排序并在内存中，求下标$i$使得$A_i＝X$，如果$X$不在数据中，则返回$i＝-1$。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> Comparable&gt;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">binarySearch</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-built_in">vector</span>&lt;Comparable&gt; &amp; a, <span class="hljs-keyword">const</span> Comparable &amp; x)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">int</span> low = <span class="hljs-number">0</span>, high = a.size() - <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">while</span> (low &lt; high)<br>    &#123;<br>        <span class="hljs-keyword">int</span> mid = (low + high) / <span class="hljs-number">2</span>;<br>        <span class="hljs-keyword">if</span>(a[mid] &lt; x)<br>            low = mid + <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(a[mid] &gt; x)<br>            high = mid - <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">else</span><br>            <span class="hljs-keyword">return</span> mid; <span class="hljs-comment">//Found</span><br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;  <span class="hljs-comment">//not_found</span><br>&#125;<br></code></pre></td></tr></table></figure>
 <p>应用场景：</p>
 <ul>
@@ -394,6 +396,12 @@ T(N)=1000N,f(N)=N^2</script><p><strong>大O记法</strong>：</p>
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2021/07/08/Code/c++/Data-structures-and-Algorithm-analysis-in-c++_03/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">数据结构与算法分析(c++描述)-03-表、栈和队列</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
