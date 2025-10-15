@@ -17,18 +17,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
-  <title>结构体的内存对齐和变长数组 - 🚧施工中...</title>
+  <title>结构体的内存对齐和变长数组 - gaoyangu</title>
 
   
     <meta name="description" content="Here&#39;s something encrypted, password is required to continue reading.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="结构体的内存对齐和变长数组">
 <meta property="og:url" content="http://example.com/2025/10/15/c99-vla/">
-<meta property="og:site_name" content="🚧施工中...">
+<meta property="og:site_name" content="gaoyangu">
 <meta property="og:description" content="Here&#39;s something encrypted, password is required to continue reading.">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-10-15T16:49:03.000Z">
-<meta property="article:modified_time" content="2025-10-15T12:27:58.953Z">
+<meta property="article:modified_time" content="2025-10-15T12:54:29.944Z">
 <meta property="article:author" content="gaoyangu">
 <meta property="article:tag" content="C语言">
 <meta name="twitter:card" content="summary">
@@ -47,7 +47,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"gaoyangu","sameAs":[]},"dateCreated":"2025-10-15T16:49:03+00:00","dateModified":"2025-10-15T12:27:58+00:00","datePublished":"2025-10-15T16:49:03+00:00","description":"Here's something encrypted, password is required to continue reading.","headline":"结构体的内存对齐和变长数组","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/10/15/c99-vla/"},"publisher":{"@type":"Organization","name":"gaoyangu","sameAs":[]},"url":"http://example.com/2025/10/15/c99-vla/","keywords":"C语言","image":[]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"gaoyangu","sameAs":[]},"dateCreated":"2025-10-15T16:49:03+00:00","dateModified":"2025-10-15T12:54:29+00:00","datePublished":"2025-10-15T16:49:03+00:00","description":"Here's something encrypted, password is required to continue reading.","headline":"结构体的内存对齐和变长数组","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/10/15/c99-vla/"},"publisher":{"@type":"Organization","name":"gaoyangu","sameAs":[]},"url":"http://example.com/2025/10/15/c99-vla/","keywords":"C语言","image":[]}</script>
   <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -55,7 +55,7 @@
 <div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
 
 
-<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="undefined" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">🚧施工中...</div></a></div></header>
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="undefined" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">gaoyangu</div></a></div></header>
 
 <div class="nav-area">
 
@@ -79,7 +79,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-10-15T16:49:03.000Z">2025-10-15</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-10-15T12:27:58.953Z">2025-10-15</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-10-15T16:49:03.000Z">2025-10-15</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-10-15T12:54:29.944Z">2025-10-15</time></span></div></div></div>
     
     <div class="bottom only-title">
       
