@@ -28,8 +28,8 @@
 <meta property="og:description" content="compile once, run everywhere (CO-RE) It allows eBPF programs to include information about the data structure layouts they were compiled with, and it provides a mechanism for adjusting how fields are a">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/touxiang.jpg">
-<meta property="article:published_time" content="2025-11-13T01:27:20.465Z">
-<meta property="article:modified_time" content="2025-11-13T01:27:20.465Z">
+<meta property="article:published_time" content="2025-11-13T02:15:29.072Z">
+<meta property="article:modified_time" content="2025-11-13T02:15:29.072Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/touxiang.jpg">
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ebpf/ebpf/">eBPF</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-11-13T01:27:20.465Z">2025-11-13</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-11-13T02:15:29.072Z">2025-11-13</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -219,7 +219,7 @@
 <h3 id="5-6-2-Optimization"><a href="#5-6-2-Optimization" class="headerlink" title="5.6.2 Optimization"></a>5.6.2 Optimization</h3><p>The -O2 optimization flag (level 2 or higher) is required for Clang to produce BPF bytecode that will pass the verifier. </p>
 <p>by default, Clang will output  callx <register> to call helper functions, but eBPF doesn’t support calling addresses from registers.</p>
 <h3 id="5-6-3-Target-Architecture"><a href="#5-6-3-Target-Architecture" class="headerlink" title="5.6.3 Target Architecture"></a>5.6.3 Target Architecture</h3><p>The libbpf header file bpf&#x2F;bpf_tracing.h defines several macros that are platform specific, such as BPF_KPROBE and BPF_KPROBE_SYSCALL.</p>
-<p>you’ll need to also tell the compiler what the target architecture is. You can do this by setting -D _<em>TARGET_ARCH</em>($ARCH) where $ARCH is an architecture name like arm64, amd64, and so on.</p>
+<p>you’ll need to also tell the compiler what the target architecture is. You can do this by setting <code>-D __TARGET_ARCH_($ARCH)</code> where $ARCH is an architecture name like arm64, amd64, and so on.</p>
 <h3 id="5-6-4-Makeile"><a href="#5-6-4-Makeile" class="headerlink" title="5.6.4 Makeile"></a>5.6.4 Makeile</h3><p>The following is an example Makefile instruction for compiling CO-RE objects:</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">hello-buffer-config.bpf.o: %.o: %.c</span><br><span class="line">    clang \</span><br><span class="line">        -target bpf \</span><br><span class="line">        -D __TARGET_ARCH_$(ARCH) \</span><br><span class="line">        -I/usr/include/$(shell <span class="built_in">uname</span> -m)-linux-gnu \</span><br><span class="line">        -Wall \</span><br><span class="line">        -O2 -g \</span><br><span class="line">        -c $&lt; -o <span class="variable">$@</span></span><br><span class="line">    llvm-strip -g <span class="variable">$@</span></span><br></pre></td></tr></table></figure>
 
