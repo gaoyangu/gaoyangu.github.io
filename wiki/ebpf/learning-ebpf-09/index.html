@@ -17,19 +17,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
-  <title>eBPF：01. What Is eBPF, and Why Is It Important? - gaoyangu</title>
+  <title>eBPF：09. eBPF for Security - gaoyangu</title>
 
   
-    <meta name="description" content="todo">
+    <meta name="description" content="9.1 Security Observability Requires Policy and Contexta security tool needs to be able to distinguish between events that are expected under normal circumstances and events that suggest malicious acti">
 <meta property="og:type" content="website">
-<meta property="og:title" content="01. What Is eBPF, and Why Is It Important?">
-<meta property="og:url" content="http://example.com/wiki/ebpf/learning-ebpf-01/">
+<meta property="og:title" content="09. eBPF for Security">
+<meta property="og:url" content="http://example.com/wiki/ebpf/learning-ebpf-09/">
 <meta property="og:site_name" content="gaoyangu">
-<meta property="og:description" content="todo">
+<meta property="og:description" content="9.1 Security Observability Requires Policy and Contexta security tool needs to be able to distinguish between events that are expected under normal circumstances and events that suggest malicious acti">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/touxiang.jpg">
-<meta property="article:published_time" content="2025-11-18T03:19:44.817Z">
-<meta property="article:modified_time" content="2025-11-18T03:19:44.817Z">
+<meta property="article:published_time" content="2025-11-18T03:19:44.818Z">
+<meta property="article:modified_time" content="2025-11-18T03:19:44.818Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/touxiang.jpg">
@@ -48,7 +48,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/ebpf/learning-ebpf-01/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/touxiang.jpg"},"name":"01. What Is eBPF, and Why Is It Important?","description":"todo","url":"http://example.com/wiki/ebpf/learning-ebpf-01/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/ebpf/learning-ebpf-09/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/touxiang.jpg"},"name":"09. eBPF for Security","description":"9.1 Security Observability Requires Policy and Contexta security tool needs to be able to distinguish between events that are expected under normal circumstances and events that suggest malicious a...","url":"http://example.com/wiki/ebpf/learning-ebpf-09/"}</script>
   <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -68,7 +68,7 @@
 <div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/ebpf/" placeholder="在 ebpf 中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
 
 
-<widget class="widget-wrapper doc-tree post-list"><div class="widget-header dis-select"><span class="name">导航</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/ebpf/#start"><span class="toc-text">index</span></a><a class="link" href="/wiki/ebpf/ebpf-install/"><span class="toc-text">WSL2 安装 BPF 工具链</span></a></div><div class="widget-header dis-select"><span class="name">工具</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/bpftool/"><span class="toc-text">bpftool</span></a></div><div class="widget-header dis-select"><span class="name">Learining eBPF</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/learning-ebpf-00/"><span class="toc-text">00. Running the example code</span></a><a class="link active" href="/wiki/ebpf/learning-ebpf-01/"><span class="toc-text">01. What Is eBPF, and Why Is It Important?</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/ebpf/learning-ebpf-02/"><span class="toc-text">02. eBPF’s “Hello World”</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-03/"><span class="toc-text">03. Anatomy of an eBPF Program</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-04/"><span class="toc-text">04. The bpf() System Call</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-05/"><span class="toc-text">05. CO-RE, BTF, and Libbpf</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-06/"><span class="toc-text">06. The eBPF Veriier</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-07/"><span class="toc-text">07. eBPF Program and Attachment Types</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-08/"><span class="toc-text">08. eBPF for Networking</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-09/"><span class="toc-text">09. eBPF for Security</span></a></div></widget>
+<widget class="widget-wrapper doc-tree post-list"><div class="widget-header dis-select"><span class="name">导航</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/ebpf/#start"><span class="toc-text">index</span></a><a class="link" href="/wiki/ebpf/ebpf-install/"><span class="toc-text">WSL2 安装 BPF 工具链</span></a></div><div class="widget-header dis-select"><span class="name">工具</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/bpftool/"><span class="toc-text">bpftool</span></a></div><div class="widget-header dis-select"><span class="name">Learining eBPF</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/learning-ebpf-00/"><span class="toc-text">00. Running the example code</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-01/"><span class="toc-text">01. What Is eBPF, and Why Is It Important?</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-02/"><span class="toc-text">02. eBPF’s “Hello World”</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-03/"><span class="toc-text">03. Anatomy of an eBPF Program</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-04/"><span class="toc-text">04. The bpf() System Call</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-05/"><span class="toc-text">05. CO-RE, BTF, and Libbpf</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-06/"><span class="toc-text">06. The eBPF Veriier</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-07/"><span class="toc-text">07. eBPF Program and Attachment Types</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-08/"><span class="toc-text">08. eBPF for Networking</span></a><a class="link active" href="/wiki/ebpf/learning-ebpf-09/"><span class="toc-text">09. eBPF for Security</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div></widget>
 
 <widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：编程</span></div><div class="widget-body"><a class="item wiki" href="/wiki/cpp/"><span class="title">学习指南</span><span class="excerpt">这是一份从入门到放弃的学习指南。</span></a></div></widget>
 </div>
@@ -83,23 +83,94 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ebpf/ebpf/">eBPF</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-11-18T03:19:44.817Z">2025-11-18</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-11-18T03:19:44.818Z">2025-11-18</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>01. What Is eBPF, and Why Is It Important?</span></h1>
+        <h1 class="text title"><span>09. eBPF for Security</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><div class="tag-plugin colorful checkbox" ><input type="checkbox"/><span>todo</span></div></article>
+  </div><article class="md-text content"><h2 id="9-1-Security-Observability-Requires-Policy-and-Context"><a href="#9-1-Security-Observability-Requires-Policy-and-Context" class="headerlink" title="9.1 Security Observability Requires Policy and Context"></a>9.1 Security Observability Requires Policy and Context</h2><p>a security tool needs to be able to distinguish between events that are expected under normal circumstances and events that suggest malicious activity might be taking place. </p>
+<p>Policies have to take into account not just normal behavior when systems are fully functional, but also the expected error path behavior.</p>
+<p>Defining what is and isn’t expected behavior is the job of a policy.</p>
+<p>The more contextual information that’s available to the investigator, the more likely they will be able to find out the root cause of the event and determine whether it was an attack, which components were affected, how and when the attack took place, and who was responsible.</p>
+<h2 id="9-2-Using-System-Calls-for-Security-Events"><a href="#9-2-Using-System-Calls-for-Security-Events" class="headerlink" title="9.2 Using System Calls for Security Events"></a>9.2 Using System Calls for Security Events</h2><p>System calls (or syscalls) are the interface between user space applications and the kernel.</p>
+<h3 id="9-2-1-Seccomp"><a href="#9-2-1-Seccomp" class="headerlink" title="9.2.1 Seccomp"></a>9.2.1 Seccomp</h3><p>SECure COMPuting</p>
+<p>seccomp is used to limit the set of syscalls a process can use to a very small subset: <code>read()</code>,  <code>write()</code>,  <code>_exit()</code>, and <code>sigreturn()</code>.</p>
+<p>seccomp-bpf: Instead of having a fixed subset of syscalls that it permits, this mode of seccomp uses BPF code to filter the syscalls that are and aren’t allowed.</p>
+<p>The outcome is one of a set of possible actions that include:</p>
+<ul>
+<li>Allowing the syscall to go ahead</li>
+<li>Returning an error code to the user space application</li>
+<li>Killing the thread</li>
+<li>Notifying a user space application (seccomp-unotify) (as of kernel version 5.0)</li>
+</ul>
+<h4 id="Generating-Seccomp-Proiles"><a href="#Generating-Seccomp-Proiles" class="headerlink" title="Generating Seccomp Proiles"></a>Generating Seccomp Proiles</h4><p>In the early days, seccomp profiles were generally compiled using strace to gather the set of syscalls an application calls.</p>
+<p>There are a couple of tools that do this, using eBPF to gather information about all the syscalls being called:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://inspektor-gadget.io/">Inspektor Gadget</a> includes a seccomp profiler that allows you to generate a custom seccomp profile for the containers in a Kubernetes pod.</li>
+<li>Red Hat created a seccomp profiler in the form of an <a target="_blank" rel="noopener" href="https://github.com/containers/oci-seccomp-bpf-hook">OCI runtime hook</a>.</li>
+</ul>
+<h4 id="Syscall-Tracking-Security-Tools"><a href="#Syscall-Tracking-Security-Tools" class="headerlink" title="Syscall-Tracking Security Tools"></a>Syscall-Tracking Security Tools</h4><p>the CNCF project <a target="_blank" rel="noopener" href="https://falco.org/">Falco</a>, which provides security alerts</p>
+<p>Users can define rules to determine what events are security relevant, and Falco can generate alerts in a variety of formats when events happen that don’t match the policies defined in these rules.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BPF_PROBE(<span class="string">&quot;raw_syscalls/&quot;</span>, sys_enter, sys_enter_args)</span><br><span class="line"></span><br><span class="line">BPF_PROBE(<span class="string">&quot;raw_syscalls/&quot;</span>, sys_exit, sys_exit_args)</span><br></pre></td></tr></table></figure>
+
+<p>Since eBPF programs can be loaded dynamically and can detect events triggered by preexisting processes, tools like Falco can apply policies to application workloads that are already running.</p>
+<p>Unfortunately there is a problem with this approach of using syscall entry points for security tooling: there is a Time Of Check to Time Of Use (TOCTOU) issue.</p>
+<p>When an eBPF program is triggered at the entry point to a system call, it can access the arguments that user space has passed to that system call. If those arguments are pointers, the kernel will need to copy the pointed-to data into its own data structures before acting on that data.</p>
+<p>there is a window of opportunity for an attacker to modify this data, after it has been inspected by the eBPF program but before the kernel copies it.</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/microsoft/SysmonForLinux">The Sysmon for Linux tool</a> addresses the TOCTOU window by attaching to both the entry and exit points for syscalls.</p>
+<p>if the syscall returns a file descriptor, the eBPF program attached to the exit can retrieve correct information about the object that the file descriptor represents by looking into the related process’s file descriptor table. </p>
+<h2 id="9-3-BPF-LSM"><a href="#9-3-BPF-LSM" class="headerlink" title="9.3 BPF LSM"></a>9.3 BPF LSM</h2><p>The LSM interface provides a set of hooks that each occur just before the kernel is about to act on a kernel data structure. The function called by a hook can make a decision about whether to allow the action to go ahead.</p>
+<p>Here’s a trivial example of an eBPF program attached to an LSM hook. This example is called during the processing of a <code>chmod</code> command</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SEC(<span class="string">&quot;lsm/path_chmod&quot;</span>)</span><br><span class="line"><span class="type">int</span> <span class="title function_">BPF_PROG</span><span class="params">(path_chmod, <span class="type">const</span> <span class="keyword">struct</span> path *path, <span class="type">umode_t</span> mode)</span></span><br><span class="line">&#123;</span><br><span class="line">    bpf_printk(<span class="string">&quot;Change mode of file name %s\n&quot;</span>, path-&gt;dentry-&gt;d_iname);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>LSM BPF was added in kernel version 5.7</p>
+<h2 id="9-4-Cilium-Tetragon"><a href="#9-4-Cilium-Tetragon" class="headerlink" title="9.4 Cilium Tetragon"></a>9.4 Cilium Tetragon</h2><p>Tetragon is part of the Cilium project.</p>
+<p>Tetragon’s approach is to build a framework for attaching eBPF programs to arbitrary functions in the Linux kernel.</p>
+<p>Tetragon is designed for use in a Kubernetes environment, and the project defines a custom Kubernetes resource type called a TracingPolicy. </p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spec:</span></span><br><span class="line">    <span class="attr">kprobes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">call:</span> <span class="string">&quot;fd_install&quot;</span></span><br><span class="line"><span class="string">...</span></span><br><span class="line">        <span class="attr">matchArgs:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">index:</span> <span class="number">1</span></span><br><span class="line">            <span class="attr">operator:</span> <span class="string">&quot;Prefix&quot;</span></span><br><span class="line">            <span class="attr">values:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">&quot;/etc/&quot;</span></span><br><span class="line"><span class="string">...</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="9-4-1-Attaching-to-Internal-Kernel-Functions"><a href="#9-4-1-Attaching-to-Internal-Kernel-Functions" class="headerlink" title="9.4.1 Attaching to Internal Kernel Functions"></a>9.4.1 Attaching to Internal Kernel Functions</h3><p>The “fd” stands for “file descriptor,” and the comment in the source code for this function tells us this function “Install[s] a file pointer in the fd array.” </p>
+<p>This happens when a file is opened, and it’s called after the file’s data structure has been populated in the kernel.</p>
+<h3 id="9-4-2-Preventative-Security"><a href="#9-4-2-Preventative-Security" class="headerlink" title="9.4.2 Preventative Security"></a>9.4.2 Preventative Security</h3><p>In kernel versions 5.3 and up, there is a BPF helper function called <code>bpf_send_signal()</code>. Tetragon uses this function to implement preventative security. If a policy defines a Sigkill action, any matching events will cause Tetragon eBPF code to generate a SIGKILL signal that terminates the process that was attempting the out-of-policy action. </p>
+<p><img src="https://binw666.github.io/learning-ebpf-translation/09-%E7%94%A8%E4%BA%8E%E5%AE%89%E5%85%A8%E7%9A%84eBPF/figure-9-5.jpg"></p>
+<p>Sigkill policies need to be used with care, because an incorrectly configured policy could result in terminating applications unnecessarily, but it’s an incredibly powerful use of eBPF for security purposes.</p>
+<h2 id="9-5-Network-Security"><a href="#9-5-Network-Security" class="headerlink" title="9.5 Network Security"></a>9.5 Network Security</h2><p>Network security tools are very often used in a preventative mode, dropping packets rather than just auditing malicious activity.</p>
+<ul>
+<li><p>Firewalling and DDoS protection are a natural fit for eBPF programs attached early in the ingress path for network packets. And with the possibility of XDP programs offloaded to hardware, malicious packets may never even reach the CPU!</p>
+</li>
+<li><p>For implementing more sophisticated network policies, such as Kubernetes policies determining which services are allowed to communicate with one another, eBPF programs that attach to points in the network stack can drop packets if they are determined to be out of policy.</p>
+</li>
+</ul>
+<h2 id="9-6-Summary"><a href="#9-6-Summary" class="headerlink" title="9.6 Summary"></a>9.6 Summary</h2><p>In this chapter you saw how eBPF’s use in security has evolved from low-level checks on system calls to much more sophisticated use of eBPF programs for security policy checks, in-kernel event filtering, and runtime enforcement.</p>
+</article>
 <div class="article-footer">
+    <section id="references">
+      <div class="header"><span>参考资料</span></div>
+      <div class="body">
+        <ul>
+        <li class="post-title">
+          <p><a target="_blank" rel="noopener" href="https://man7.org/training/download/secisol_seccomp_slides.pdf">secisol_seccomp_slides</a></p>
+
+        </li>
+        
+        <li class="post-title">
+          <p><a target="_blank" rel="noopener" href="https://elixir.bootlin.com/linux/v6.17.8/source/include/linux/lsm_hooks.h">LSM hooks</a></p>
+
+        </li>
+        </ul>
+      </div>
+    </section>
+    
 
 </div>
 
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/ebpf/learning-ebpf-00/">00. Running the example code</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/ebpf/learning-ebpf-02/">02. eBPF’s “Hello World”</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/ebpf/learning-ebpf-08/">08. eBPF for Networking</a></div><div class="item" id="next"></div></section></div>
 
 
   <div class="related-wrap md-text" id="comments">
@@ -122,7 +193,12 @@
 <footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">gaoyangu</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1">Stellar 1.33.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-</aside><div class='float-panel'>
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#9-1-Security-Observability-Requires-Policy-and-Context"><span class="toc-text">9.1 Security Observability Requires Policy and Context</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-2-Using-System-Calls-for-Security-Events"><span class="toc-text">9.2 Using System Calls for Security Events</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-1-Seccomp"><span class="toc-text">9.2.1 Seccomp</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Generating-Seccomp-Proiles"><span class="toc-text">Generating Seccomp Proiles</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Syscall-Tracking-Security-Tools"><span class="toc-text">Syscall-Tracking Security Tools</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-3-BPF-LSM"><span class="toc-text">9.3 BPF LSM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-4-Cilium-Tetragon"><span class="toc-text">9.4 Cilium Tetragon</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-4-1-Attaching-to-Internal-Kernel-Functions"><span class="toc-text">9.4.1 Attaching to Internal Kernel Functions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-4-2-Preventative-Security"><span class="toc-text">9.4.2 Preventative Security</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-5-Network-Security"><span class="toc-text">9.5 Network Security</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-6-Summary"><span class="toc-text">9.6 Summary</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
+</div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>
