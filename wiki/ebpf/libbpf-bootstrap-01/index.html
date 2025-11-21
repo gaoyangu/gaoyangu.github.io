@@ -28,8 +28,8 @@
 <meta property="og:description" content="运行123$ cd examples&#x2F;c$ make minimal$ sudo .&#x2F;minimal  123$ sudo cat &#x2F;sys&#x2F;kernel&#x2F;debug&#x2F;tracing&#x2F;trace_pipe    &lt;...&gt;-3840345 [010] d... 3220701.101143: bpf_trace_printk: BPF triggered from PID 384034">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/touxiang.jpg">
-<meta property="article:published_time" content="2025-11-21T07:54:37.772Z">
-<meta property="article:modified_time" content="2025-11-21T07:54:37.772Z">
+<meta property="article:published_time" content="2025-11-21T08:06:42.966Z">
+<meta property="article:modified_time" content="2025-11-21T08:06:42.966Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/touxiang.jpg">
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ebpf/ebpf/">eBPF</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-11-21T07:54:37.772Z">2025-11-21</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-11-21T08:06:42.966Z">2025-11-21</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -163,7 +163,10 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bpftool gen skeleton minimal.bpf.o &gt; minimal.skel.h</span><br></pre></td></tr></table></figure>
 
 <p>它高度抽象了 <code>minimal.bpf.c</code> 的结构，也简化了 BPF 代码部署的逻辑，将编译出的 BPF 目标代码嵌入到了头文件中，该头文件又会被用户空间的代码所引用。你的应用程序的二进制文件中不会有其他多余的文件了，只导入它就好了。</p>
-<p>关于 BPF skeleton 的更多信息可以参考: <a target="_blank" rel="noopener" href="https://gaoyangu.github.io/wiki/ebpf/learning-ebpf-05/#5-9-The-Libbpf-Library-for-User-Space">Learning eBPF: 5.9 The Libbpf Library for User Space</a></p>
+<p>关于 BPF skeleton 的更多信息可以参考:</p>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="Learning eBPF: 5.9 The Libbpf Library for User Space" href="https://gaoyangu.github.io/wiki/ebpf/learning-ebpf-05/#5-9-The-Libbpf-Library-for-User-Space" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Learning eBPF: 5.9 The Libbpf Library for User Space</span><span class="cap link footnote">https://gaoyangu.github.io/wiki/ebpf/learning-ebpf-05/#5-9-The-Libbpf-Library-for-User-Space</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/link/8f277b4ee0ecd.svg"></div></div></a></div>
+
+
 <p>minimal 应用的 main() 函数在做什么：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">libbpf_print_fn</span><span class="params">(<span class="keyword">enum</span> libbpf_print_level level, <span class="type">const</span> <span class="type">char</span> *format, va_list args)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">vfprintf</span>(<span class="built_in">stderr</span>, format, args);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">minimal_bpf</span> *<span class="title">skel</span>;</span></span><br><span class="line">	<span class="type">int</span> err;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* Set up libbpf errors and debug info callback */</span></span><br><span class="line">	libbpf_set_print(libbpf_print_fn);</span><br></pre></td></tr></table></figure>
 
@@ -172,7 +175,9 @@
 
 <p>使用自动生成的 BPF skeleton，加载 BPF 程序到内核中，然后让 BPF verifier 校验它是否合法，如果这步成功了，你的 BPF 代码就是正确的。</p>
 <p>我们需要与 BPF 传递我们的用户态程序的 PID，以便它能够过滤掉不相关的进程触发的 <code>write()</code> 事件。上面的代码会直接设置映射过的内存区域的 BPF 全局变量 <code>my_pid</code>。</p>
-<p>关于 <code>my_pid</code> 存储在 <code>bss</code> 段的原因，可参考：<a target="_blank" rel="noopener" href="https://gaoyangu.github.io/wiki/ebpf/sections/">c语言内存分区</a>。</p>
+<p>关于 <code>my_pid</code> 存储在 <code>bss</code> 段的原因，可参考：</p>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="c语言内存分配" href="https://gaoyangu.github.io/wiki/ebpf/sections/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">c语言内存分配</span><span class="cap link footnote">https://gaoyangu.github.io/wiki/ebpf/sections/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/link/8f277b4ee0ecd.svg"></div></div></a></div>
+
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Attach tracepoint handler */</span></span><br><span class="line">err = minimal_bpf__attach(skel);</span><br><span class="line"><span class="keyword">if</span> (err) &#123;</span><br><span class="line">	<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;Failed to attach BPF skeleton\n&quot;</span>);</span><br><span class="line">	<span class="keyword">goto</span> cleanup;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>将 <code>handle_tp</code> BPF 程序附加到对应的内核跟踪点（tracepoint）上。这一操作会 “激活” 该 BPF 程序，此后每当有 <code>write()</code> 系统调用被触发时，内核便会在内核上下文中执行我们自定义的 BPF 代码。</p>
