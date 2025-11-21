@@ -17,17 +17,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
-  <title>eBPF：index - gaoyangu</title>
+  <title>eBPF：minimal - gaoyangu</title>
 
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="index">
+    <meta name="description" content="运行123$ cd examples&#x2F;c$ make minimal$ sudo .&#x2F;minimal  123$ sudo cat &#x2F;sys&#x2F;kernel&#x2F;debug&#x2F;tracing&#x2F;trace_pipe    &lt;...&gt;-3840345 [010] d... 3220701.101143: bpf_trace_printk: BPF triggered from PID 384034">
+<meta property="og:type" content="website">
+<meta property="og:title" content="minimal">
 <meta property="og:url" content="http://example.com/wiki/ebpf/libbpf-bootstrap-01/">
 <meta property="og:site_name" content="gaoyangu">
+<meta property="og:description" content="运行123$ cd examples&#x2F;c$ make minimal$ sudo .&#x2F;minimal  123$ sudo cat &#x2F;sys&#x2F;kernel&#x2F;debug&#x2F;tracing&#x2F;trace_pipe    &lt;...&gt;-3840345 [010] d... 3220701.101143: bpf_trace_printk: BPF triggered from PID 384034">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/touxiang.jpg">
-<meta property="article:published_time" content="2025-11-21T01:57:26.801Z">
-<meta property="article:modified_time" content="2025-11-21T01:57:26.801Z">
+<meta property="article:published_time" content="2025-11-21T06:20:46.017Z">
+<meta property="article:modified_time" content="2025-11-21T06:20:46.017Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/touxiang.jpg">
@@ -46,7 +48,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/ebpf/libbpf-bootstrap-01/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/touxiang.jpg"},"name":"index","description":"","url":"http://example.com/wiki/ebpf/libbpf-bootstrap-01/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/ebpf/libbpf-bootstrap-01/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/touxiang.jpg"},"name":"minimal","description":"运行123$ cd examples/c$ make minimal$ sudo ./minimal\n\n123$ sudo cat /sys/kernel/debug/tracing/trace_pipe    &lt;...&gt;-3840345 [010] d... 3220701.101143: bpf_trace_printk: BPF triggered from PID 384...","url":"http://example.com/wiki/ebpf/libbpf-bootstrap-01/"}</script>
   <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -66,7 +68,7 @@
 <div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/ebpf/" placeholder="在 ebpf 中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
 
 
-<widget class="widget-wrapper doc-tree post-list"><div class="widget-header dis-select"><span class="name">导航</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/ebpf/#start"><span class="toc-text">index</span></a><a class="link" href="/wiki/ebpf/ebpf-install/"><span class="toc-text">WSL2 安装 BPF 工具链</span></a></div><div class="widget-header dis-select"><span class="name">工具</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/bpftool/"><span class="toc-text">bpftool</span></a><a class="link" href="/wiki/ebpf/bpftrace/"><span class="toc-text">bpftrace</span></a><a class="link" href="/wiki/ebpf/sections/"><span class="toc-text">c语言内存分区</span></a></div><div class="widget-header dis-select"><span class="name">Learining eBPF</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/learning-ebpf-00/"><span class="toc-text">00. Running the example code</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-01/"><span class="toc-text">01. What Is eBPF, and Why Is It Important?</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-02/"><span class="toc-text">02. eBPF’s “Hello World”</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-03/"><span class="toc-text">03. Anatomy of an eBPF Program</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-04/"><span class="toc-text">04. The bpf() System Call</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-05/"><span class="toc-text">05. CO-RE, BTF, and Libbpf</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-06/"><span class="toc-text">06. The eBPF Veriier</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-07/"><span class="toc-text">07. eBPF Program and Attachment Types</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-08/"><span class="toc-text">08. eBPF for Networking</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-09/"><span class="toc-text">09. eBPF for Security</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-10/"><span class="toc-text">10. eBPF Programming</span></a></div><div class="widget-header dis-select"><span class="name">libbpf-bootstrap</span></div><div class="widget-body fs14"><a class="link active" href="/wiki/ebpf/libbpf-bootstrap-01/"><span class="toc-text">index</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div></widget>
+<widget class="widget-wrapper doc-tree post-list"><div class="widget-header dis-select"><span class="name">导航</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/ebpf/#start"><span class="toc-text">index</span></a><a class="link" href="/wiki/ebpf/ebpf-install/"><span class="toc-text">WSL2 安装 BPF 工具链</span></a></div><div class="widget-header dis-select"><span class="name">工具</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/linux-ebpf-file/"><span class="toc-text">some file about ebpf</span></a><a class="link" href="/wiki/ebpf/bpftool/"><span class="toc-text">bpftool</span></a><a class="link" href="/wiki/ebpf/bpftrace/"><span class="toc-text">bpftrace</span></a><a class="link" href="/wiki/ebpf/sections/"><span class="toc-text">c语言内存分区</span></a></div><div class="widget-header dis-select"><span class="name">Learining eBPF</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/learning-ebpf-00/"><span class="toc-text">00. Running the example code</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-01/"><span class="toc-text">01. What Is eBPF, and Why Is It Important?</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-02/"><span class="toc-text">02. eBPF’s “Hello World”</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-03/"><span class="toc-text">03. Anatomy of an eBPF Program</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-04/"><span class="toc-text">04. The bpf() System Call</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-05/"><span class="toc-text">05. CO-RE, BTF, and Libbpf</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-06/"><span class="toc-text">06. The eBPF Veriier</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-07/"><span class="toc-text">07. eBPF Program and Attachment Types</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-08/"><span class="toc-text">08. eBPF for Networking</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-09/"><span class="toc-text">09. eBPF for Security</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-10/"><span class="toc-text">10. eBPF Programming</span></a></div><div class="widget-header dis-select"><span class="name">libbpf-bootstrap</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/libbpf-bootstrap-00/"><span class="toc-text">env</span></a><a class="link active" href="/wiki/ebpf/libbpf-bootstrap-01/"><span class="toc-text">minimal</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div></widget>
 
 <widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：编程</span></div><div class="widget-body"><a class="item wiki" href="/wiki/cpp/"><span class="title">C++</span></a><a class="item wiki" href="/wiki/linux_tool/git/"><span class="title">Linux Tool</span></a></div></widget>
 </div>
@@ -81,18 +83,49 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ebpf/ebpf/">eBPF</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-11-21T01:57:26.801Z">2025-11-21</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-11-21T06:20:46.017Z">2025-11-21</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>index</span></h1>
+        <h1 class="text title"><span>minimal</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"></article>
+  </div><article class="md-text content"><h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> examples/c</span><br><span class="line">$ make minimal</span><br><span class="line">$ <span class="built_in">sudo</span> ./minimal</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> <span class="built_in">cat</span> /sys/kernel/debug/tracing/trace_pipe</span><br><span class="line">    &lt;...&gt;-3840345 [010] d... 3220701.101143: bpf_trace_printk: BPF triggered from PID 3840345.</span><br><span class="line">    &lt;...&gt;-3840345 [010] d... 3220702.101265: bpf_trace_printk: BPF triggered from PID 3840345.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q-A"><a href="#Q-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h2><div class="tag-plugin colorful note" color="red"><div class="title">你可能会发现&nbsp;`sudo&nbsp;cat&nbsp;/sys/kernel/debug/tracing/trace_pipe`&nbsp;没有任何的输出信息。</div><div class="body"><p>这是因为在 WSL 中运行的进程处于一个 PID 命名空间（PID namespace）内，因此从用户空间（userspace）获取的 PID 是该命名空间内的 PID，而通过 eBPF 代码中的 <code>bpf_get_current_pid_tgid</code> 函数获取的 PID 则是全局 PID（global PID）。</p></div></div>
+
+
+<p>以下是我的分析和调试过程：</p>
+<ol>
+<li>使用 <code>strace</code> 确认 <code>sys_enter_write</code> 是否被调用，通过以下命令重新运行 <code>minimal</code></li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 root 用户</span></span><br><span class="line">strace ./minimal</span><br></pre></td></tr></table></figure>
+
+<p>可以看到如下输出信息，确认 <code>sys_enter_write</code> 被调用：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">execve(<span class="string">&quot;./minimal&quot;</span>, [<span class="string">&quot;./minimal&quot;</span>], 0x7ffc2c4a8660 /* 35 vars */) = 0</span><br><span class="line">...</span><br><span class="line">write(2, <span class="string">&quot;.&quot;</span>, 1.)                        = 1</span><br><span class="line">clock_nanosleep(CLOCK_REALTIME, 0, &#123;tv_sec=1, tv_nsec=0&#125;, 0x7ffd02023650) = 0</span><br><span class="line">write(2, <span class="string">&quot;.&quot;</span>, 1.)                        = 1</span><br><span class="line">clock_nanosleep(CLOCK_REALTIME, 0, &#123;tv_sec=1, tv_nsec=0&#125;, 0x7ffd02023650) = 0</span><br><span class="line">write(2, <span class="string">&quot;.&quot;</span>, 1.)                        = 1</span><br><span class="line">clock_nanosleep(CLOCK_REALTIME, 0, &#123;tv_sec=1, tv_nsec=0&#125;, 0x7ffd02023650) = 0</span><br><span class="line">write(2, <span class="string">&quot;.&quot;</span>, 1.)                        = 1</span><br><span class="line">clock_nanosleep(CLOCK_REALTIME, 0, &#123;tv_sec=1, tv_nsec=0&#125;, 0x7ffd02023650) = 0</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在 <code>handle_tp</code> 的函数入口和函数返回前，通过 <code>bpf_printk</code> 增加打印信息，确认函数的执行流程</li>
+</ol>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">SEC(&quot;tp/syscalls/sys_enter_write&quot;)</span><br><span class="line">int handle_tp(void *ctx)</span><br><span class="line">&#123;</span><br><span class="line"><span class="addition">+   bpf_printk(&quot;handle_tp\n&quot;);</span></span><br><span class="line">	int pid = bpf_get_current_pid_tgid() &gt;&gt; 32;</span><br><span class="line"></span><br><span class="line">	if (pid != my_pid)</span><br><span class="line"><span class="addition">+       bpf_printk(&quot;pid != my_pid\n&quot;);</span></span><br><span class="line">		return 0;</span><br><span class="line"></span><br><span class="line">	bpf_printk(&quot;BPF triggered from PID %d.\n&quot;, pid);</span><br><span class="line"></span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>通过查找代码库的 Issues ，我发现如下两条相关信息：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/libbpf/libbpf-bootstrap/issues/75">libbpf&#x2F;libbpf-bootstrap#75</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/microsoft/WSL/issues/8461">microsoft&#x2F;WSL#8461</a></li>
+</ul>
+</li>
+<li><p>实际上代码库已经给出了解决方案😅，那就是使用 <a target="_blank" rel="noopener" href="https://github.com/libbpf/libbpf-bootstrap?tab=readme-ov-file#minimal_ns">minimal_ns</a> 。</p>
+</li>
+</ol>
+</article>
 <div class="article-footer">
     <section id="references">
       <div class="header"><span>参考资料</span></div>
@@ -114,7 +147,7 @@
 
 </div>
 
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/ebpf/learning-ebpf-10/">10. eBPF Programming</a></div><div class="item" id="next"></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/ebpf/libbpf-bootstrap-00/">env</a></div><div class="item" id="next"></div></section></div>
 
 
   <div class="related-wrap md-text" id="comments">
@@ -137,7 +170,12 @@
 <footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">gaoyangu</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1">Stellar 1.33.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-</aside><div class='float-panel'>
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C"><span class="toc-text">运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q-A"><span class="toc-text">Q&amp;A</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
+</div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>
