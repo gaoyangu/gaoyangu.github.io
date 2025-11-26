@@ -20,16 +20,16 @@
   <title>Linux Tool：gdb - gaoyangu</title>
 
   
-    <meta name="description" content="123">
+    <meta name="description" content="启动调试正在运行的进程1$ gdb attach &lt;进程ID&gt;  SIGPIPE 调试过程可能会因为 SIGPIPE 停止，可使用如下命令解决：  1(gdb) handle SIGPIPE nostop noprint pass  结束调试 且不对当前进程有任何影响  12(gdb) detach(gdb) quit  流程控制break 在函数的开头设置断点  1(gdb) bre">
 <meta property="og:type" content="website">
 <meta property="og:title" content="gdb">
 <meta property="og:url" content="http://example.com/wiki/linux_tool/gdb/">
 <meta property="og:site_name" content="gaoyangu">
-<meta property="og:description" content="123">
+<meta property="og:description" content="启动调试正在运行的进程1$ gdb attach &lt;进程ID&gt;  SIGPIPE 调试过程可能会因为 SIGPIPE 停止，可使用如下命令解决：  1(gdb) handle SIGPIPE nostop noprint pass  结束调试 且不对当前进程有任何影响  12(gdb) detach(gdb) quit  流程控制break 在函数的开头设置断点  1(gdb) bre">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/touxiang.jpg">
-<meta property="article:published_time" content="2025-11-26T08:08:55.523Z">
-<meta property="article:modified_time" content="2025-11-26T08:08:55.523Z">
+<meta property="article:published_time" content="2025-11-26T09:58:55.165Z">
+<meta property="article:modified_time" content="2025-11-26T09:58:55.165Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/touxiang.jpg">
@@ -48,7 +48,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/linux_tool/gdb/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/touxiang.jpg"},"name":"gdb","description":"123\n","url":"http://example.com/wiki/linux_tool/gdb/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/linux_tool/gdb/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/touxiang.jpg"},"name":"gdb","description":"启动调试正在运行的进程1$ gdb attach &lt;进程ID&gt;\n\nSIGPIPE\n调试过程可能会因为 SIGPIPE 停止，可使用如下命令解决：\n\n1(gdb) handle SIGPIPE nostop noprint pass\n\n结束调试\n且不对当前进程有任何影响\n\n12(gdb) detach(gdb) quit\n\n流程控制break\n在函数的开头设置断点\n\n1(gdb) ...","url":"http://example.com/wiki/linux_tool/gdb/"}</script>
   <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/linux_tool/git/">Linux Tool</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-11-26T08:08:55.523Z">2025-11-26</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-11-26T09:58:55.165Z">2025-11-26</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -94,8 +94,113 @@
     </div>
     
   </div>
-  </div><article class="md-text content"><p>123</p>
-</article>
+  </div><article class="md-text content"><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><h3 id="调试正在运行的进程"><a href="#调试正在运行的进程" class="headerlink" title="调试正在运行的进程"></a>调试正在运行的进程</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gdb attach &lt;进程ID&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="SIGPIPE"><a href="#SIGPIPE" class="headerlink" title="SIGPIPE"></a>SIGPIPE</h3><ul>
+<li>调试过程可能会因为 SIGPIPE 停止，可使用如下命令解决：</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) handle SIGPIPE nostop noprint pass</span><br></pre></td></tr></table></figure>
+
+<h3 id="结束调试"><a href="#结束调试" class="headerlink" title="结束调试"></a>结束调试</h3><ul>
+<li>且不对当前进程有任何影响</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gdb) detach</span><br><span class="line">(gdb) quit</span><br></pre></td></tr></table></figure>
+
+<h2 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h2><h3 id="break"><a href="#break" class="headerlink" title="break"></a>break</h3><ul>
+<li>在函数的开头设置断点</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">break</span> func_name</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在文件 <code>main.c</code> 的第 10 行设置断点</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">break</span> main.c:10</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>当变量 counter 的值为 100 时设置断点</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">break</span> main.c:10 <span class="keyword">if</span> counter == 100</span><br></pre></td></tr></table></figure>
+
+<h3 id="tbreak"><a href="#tbreak" class="headerlink" title="tbreak"></a>tbreak</h3><ul>
+<li>设置临时断点（该断点触发一次后，就会自动被删除）</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) tbreak func_name</span><br></pre></td></tr></table></figure>
+
+<h3 id="run"><a href="#run" class="headerlink" title="run"></a>run</h3><ul>
+<li>如果是通过 <code>gdb &lt;可执行文件&gt;</code> 的方式，可使用如下命令让程序运行起来：</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) run</span><br></pre></td></tr></table></figure>
+
+<p>或者:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) r</span><br></pre></td></tr></table></figure>
+
+<h3 id="continue"><a href="#continue" class="headerlink" title="continue"></a>continue</h3><ul>
+<li>运行到下一个断点</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">continue</span></span><br></pre></td></tr></table></figure>
+
+<p>或者：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) c</span><br></pre></td></tr></table></figure>
+
+<h3 id="step"><a href="#step" class="headerlink" title="step"></a>step</h3><ul>
+<li>执行当前行，并进入函数调用</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) step</span><br></pre></td></tr></table></figure>
+
+<p>或者：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) s</span><br></pre></td></tr></table></figure>
+
+<h3 id="next"><a href="#next" class="headerlink" title="next"></a>next</h3><ul>
+<li>执行当前行，不进入函数调用</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) next</span><br></pre></td></tr></table></figure>
+
+<p>或者：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) n</span><br></pre></td></tr></table></figure>
+
+<h3 id="until-👍"><a href="#until-👍" class="headerlink" title="until 👍"></a>until 👍</h3><ul>
+<li>让程序运行到 2774 行</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="keyword">until</span> 2774</span><br></pre></td></tr></table></figure>
+
+<h3 id="finish-👍"><a href="#finish-👍" class="headerlink" title="finish 👍"></a>finish 👍</h3><ul>
+<li>直接执行完当前函数，并回到上一层的调用处</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) finish</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h2><h3 id="print"><a href="#print" class="headerlink" title="print"></a>print</h3><h4 id="查看变量"><a href="#查看变量" class="headerlink" title="查看变量"></a>查看变量</h4><ul>
+<li><code>i</code> 是变量名</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">print</span> i</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改长度限制-👍"><a href="#修改长度限制-👍" class="headerlink" title="修改长度限制 👍"></a>修改长度限制 👍</h4><p>字符串变量的长度可能会超过默认长度，如何查看完整的字符串？</p>
+<ul>
+<li>查看长度限制</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gdb) show <span class="built_in">print</span> elements</span><br><span class="line">Limit on string chars or array elements to <span class="built_in">print</span> is 200.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>将长度限制改为 1000</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">set</span> <span class="built_in">print</span> elements 1000</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>或者改为无限制</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">set</span> <span class="built_in">print</span> elements 0</span><br></pre></td></tr></table></figure>
+
+<h3 id="info"><a href="#info" class="headerlink" title="info"></a>info</h3><h4 id="查看当前函数的参数"><a href="#查看当前函数的参数" class="headerlink" title="查看当前函数的参数"></a>查看当前函数的参数</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) info args</span><br></pre></td></tr></table></figure>
+
+<h4 id="查看寄存器"><a href="#查看寄存器" class="headerlink" title="查看寄存器"></a>查看寄存器</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) info registers</span><br></pre></td></tr></table></figure>
+
+<h4 id="查看所有线程"><a href="#查看所有线程" class="headerlink" title="查看所有线程"></a>查看所有线程</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) info threads</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h2><h3 id="修改变量的值"><a href="#修改变量的值" class="headerlink" title="修改变量的值"></a>修改变量的值</h3><ul>
+<li>将 <code>flag</code> 的值修改为 1</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">set</span> variable flag = 1</span><br></pre></td></tr></table></figure>
+
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><h3 id="获取所有线程的堆栈信息"><a href="#获取所有线程的堆栈信息" class="headerlink" title="获取所有线程的堆栈信息"></a>获取所有线程的堆栈信息</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) thread apply all bt</span><br></pre></td></tr></table></figure></article>
 <div class="article-footer">
 
 </div>
@@ -123,7 +228,12 @@
 <footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">gaoyangu</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1">Stellar 1.33.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-</aside><div class='float-panel'>
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8"><span class="toc-text">启动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E6%AD%A3%E5%9C%A8%E8%BF%90%E8%A1%8C%E7%9A%84%E8%BF%9B%E7%A8%8B"><span class="toc-text">调试正在运行的进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SIGPIPE"><span class="toc-text">SIGPIPE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9D%9F%E8%B0%83%E8%AF%95"><span class="toc-text">结束调试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6"><span class="toc-text">流程控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#break"><span class="toc-text">break</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tbreak"><span class="toc-text">tbreak</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#run"><span class="toc-text">run</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#continue"><span class="toc-text">continue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#step"><span class="toc-text">step</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#next"><span class="toc-text">next</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#until-%F0%9F%91%8D"><span class="toc-text">until 👍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#finish-%F0%9F%91%8D"><span class="toc-text">finish 👍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B"><span class="toc-text">查看</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#print"><span class="toc-text">print</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%8F%98%E9%87%8F"><span class="toc-text">查看变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E9%95%BF%E5%BA%A6%E9%99%90%E5%88%B6-%F0%9F%91%8D"><span class="toc-text">修改长度限制 👍</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#info"><span class="toc-text">info</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0"><span class="toc-text">查看当前函数的参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-text">查看寄存器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89%E7%BA%BF%E7%A8%8B"><span class="toc-text">查看所有线程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9"><span class="toc-text">修改</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%8F%98%E9%87%8F%E7%9A%84%E5%80%BC"><span class="toc-text">修改变量的值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="toc-text">多线程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%A0%86%E6%A0%88%E4%BF%A1%E6%81%AF"><span class="toc-text">获取所有线程的堆栈信息</span></a></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
+</div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>
