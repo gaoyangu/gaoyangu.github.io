@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/touxiang.jpg">
 <meta property="article:published_time" content="2025-10-27T15:39:52.000Z">
-<meta property="article:modified_time" content="2025-11-26T02:38:50.613Z">
+<meta property="article:modified_time" content="2025-11-26T03:03:23.137Z">
 <meta property="article:author" content="gaoyangu">
 <meta property="article:tag" content="keepalived">
 <meta property="article:tag" content="高可用">
@@ -50,7 +50,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/touxiang.jpg"},"dateCreated":"2025-10-27T15:39:52+00:00","dateModified":"2025-11-26T02:38:50+00:00","datePublished":"2025-10-27T15:39:52+00:00","description":"","headline":"keepalived - VRRP 状态机","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/10/27/0010-keepalived-01/"},"publisher":{"@type":"Organization","name":"gaoyangu","sameAs":[],"image":"/images/touxiang.jpg","logo":{"@type":"ImageObject","url":"/images/touxiang.jpg"}},"url":"http://example.com/2025/10/27/0010-keepalived-01/","keywords":"高可用, keepalived","image":[]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/touxiang.jpg"},"dateCreated":"2025-10-27T15:39:52+00:00","dateModified":"2025-11-26T03:03:23+00:00","datePublished":"2025-10-27T15:39:52+00:00","description":"","headline":"keepalived - VRRP 状态机","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/10/27/0010-keepalived-01/"},"publisher":{"@type":"Organization","name":"gaoyangu","sameAs":[],"image":"/images/touxiang.jpg","logo":{"@type":"ImageObject","url":"/images/touxiang.jpg"}},"url":"http://example.com/2025/10/27/0010-keepalived-01/","keywords":"高可用, keepalived","image":[]}</script>
   <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -69,7 +69,7 @@
 
 
 
-<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/11/13/0016-time-wheel/"><span class="title">时间轮</span></a><a class="item title" href="/2025/11/19/0017-vlan/"><span class="title">VLAN</span></a><a class="item title" href="/2025/10/31/0013-ntp/"><span class="title">NTP 相关内容备忘</span></a><a class="item title" href="/2025/11/03/0014-time/"><span class="title">Linux 系统中常用的时间操作函数</span></a><a class="item title" href="/2025/11/11/0015-netfilter/"><span class="title">iptables 和 netfilter</span></a><a class="item title" href="/2025/10/27/0011-ipc-shm/"><span class="title">Linux 进程间通信：共享内存</span></a><a class="item title" href="/2025/10/28/0012-source-insight/"><span class="title">Source Insight 配置记录</span></a><a class="item title" href="/2025/10/28/0010-keepalived-02/"><span class="title">keepalived - VRRP 调度器</span></a><a class="item title" href="/2025/10/28/0010-keepalived-03/"><span class="title">keepalived - VRRP 同步</span></a><a class="item title" href="/2025/11/05/0009-two-awesome-hours-05/"><span class="title">每天最重要的2小时 - 05</span></a></div></widget>
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/10/28/0010-keepalived-02/"><span class="title">keepalived - VRRP 调度器</span></a><a class="item title" href="/2025/10/28/0010-keepalived-03/"><span class="title">keepalived - VRRP 同步</span></a><a class="item title" href="/2025/10/27/0011-ipc-shm/"><span class="title">Linux 进程间通信：共享内存</span></a><a class="item title" href="/2025/10/28/0012-source-insight/"><span class="title">Source Insight 配置记录</span></a><a class="item title" href="/2025/10/31/0013-ntp/"><span class="title">NTP 相关内容备忘</span></a><a class="item title" href="/2025/11/03/0014-time/"><span class="title">Linux 系统中常用的时间操作函数</span></a><a class="item title" href="/2025/11/11/0015-netfilter/"><span class="title">iptables 和 netfilter</span></a><a class="item title" href="/2025/11/13/0016-time-wheel/"><span class="title">时间轮</span></a><a class="item title" href="/2025/11/19/0017-vlan/"><span class="title">VLAN</span></a><a class="item title" href="/2025/09/30/0001-hello-world/"><span class="title">Hello World</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -82,7 +82,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-10-27T15:39:52.000Z">2025-10-27</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-11-26T02:38:50.613Z">2025-11-26</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-10-27T15:39:52.000Z">2025-10-27</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-11-26T03:03:23.137Z">2025-11-26</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -126,8 +126,7 @@
 <li><p>当故障条件清除后，返回至 BACKUP（备份）状态</p>
 </li>
 </ol>
-<img src="/2025/10/27/0010-keepalived-01/vrrp01.png" class="">
-
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2025/0010-keepalived/03.png"></p>
 <h4 id="INIT-状态"><a href="#INIT-状态" class="headerlink" title="INIT 状态"></a>INIT 状态</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Initialize state handling */</span></span><br><span class="line"><span class="type">static</span> <span class="type">void</span></span><br><span class="line"><span class="title function_">vrrp_init_state</span><span class="params">(<span class="built_in">list</span> l)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">for</span> (e = LIST_HEAD(l); e; ELEMENT_NEXT(e)) &#123;</span><br><span class="line">    vrrp = ELEMENT_DATA(e);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (vrrp-&gt;priority == VRRP_PRIO_OWNER ||</span><br><span class="line">		    vrrp-&gt;wantstate == VRRP_STATE_MAST) &#123;</span><br><span class="line">      vrrp-&gt;state = VRRP_STATE_GOTO_MASTER;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      vrrp-&gt;ms_down_timer = <span class="number">3</span> * vrrp-&gt;adver_int</span><br><span class="line">			    + VRRP_TIMER_SKEW(vrrp);</span><br><span class="line"></span><br><span class="line">      vrrp-&gt;state = VRRP_STATE_BACK;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="BACKUP-状态"><a href="#BACKUP-状态" class="headerlink" title="BACKUP 状态"></a>BACKUP 状态</h4><ol>
