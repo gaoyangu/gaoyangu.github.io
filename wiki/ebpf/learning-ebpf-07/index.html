@@ -28,8 +28,8 @@
 <meta property="og:description" content="There are currently around 30 program types enumerated in uapi&#x2F;linux&#x2F;bpf.h, and more than 40 attachment types.  7.1 Program Context ArgumentsAll eBPF programs take a context argument that is">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2025-11-27T08:06:23.130Z">
-<meta property="article:modified_time" content="2025-11-27T08:06:23.130Z">
+<meta property="article:published_time" content="2025-11-27T09:12:28.673Z">
+<meta property="article:modified_time" content="2025-11-27T09:12:28.673Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ebpf/ebpf/">eBPF</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-11-27T08:06:23.130Z">2025-11-27</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-11-27T09:12:28.673Z">2025-11-27</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -124,21 +124,33 @@
 
 <p>the fexit hook has access to the input parameters to the function, which kretprobe does not.</p>
 <p>an example of this: <a target="_blank" rel="noopener" href="https://github.com/libbpf/libbpf-bootstrap/blob/master/examples/c/fentry.bpf.c">https://github.com/libbpf/libbpf-bootstrap/blob/master/examples/c/fentry.bpf.c</a></p>
-<h3 id="7-4-3-Tracepoints"><a href="#7-4-3-Tracepoints" class="headerlink" title="7.4.3 Tracepoints"></a>7.4.3 Tracepoints</h3><p>Tracepoints are marked locations in the kernel code. tracepoints are stable between kernel releases.</p>
-<p>see the available set of tracing subsystems on your kernel</p>
+<h3 id="7-4-3-Tracepoints"><a href="#7-4-3-Tracepoints" class="headerlink" title="7.4.3 Tracepoints"></a>7.4.3 Tracepoints</h3><p>Tracepoints 是内核开发者预先在代码中设置的、可用于触发事件记录的特定位置，在不同内核版本之间具有稳定性。</p>
+<ul>
+<li>查看内核上可用的跟踪子系统集合：</li>
+</ul>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /sys/kernel/tracing/available_events</span><br></pre></td></tr></table></figure>
 
-<p>gets hit when the kernel starts processing an execve() call.</p>
+<p>如下所示，当内核开始处理系统调用 <code>ececve()</code> 时，tracepoint <code>syscalls:sys_enter_execve</code> 会被触发。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SEC(<span class="string">&quot;tp/syscalls/sys_enter_execve&quot;</span>)</span><br><span class="line"><span class="type">int</span> <span class="title function_">tp_sys_enter_execve</span><span class="params">(<span class="keyword">struct</span> my_syscalls_enter_execve *ctx)</span></span><br></pre></td></tr></table></figure>
 
-<p>Each tracepoint has a format describing the fields that get traced out from it.</p>
+<p>BTF 可以帮助我们处理 tracepoint 的上下文(context)。</p>
+<p>但是在 BTF 不可用的情况下，以下是一些应对措施：每个 tracepoint 都有一个格式（format），用来描述从跟踪点中被追踪输出的字段（fields）。</p>
+<p>以下是 <code>execve()</code> 系统调用入口处跟踪点的格式说明：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /sys/kernel/tracing/events/syscalls/sys_enter_execve/format</span><br></pre></td></tr></table></figure>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">name: sys_enter_execve</span><br><span class="line">ID: 761</span><br><span class="line">format:</span><br><span class="line">        field:unsigned short common_type;       offset:0;       size:2; signed:0;</span><br><span class="line">        field:unsigned char common_flags;       offset:2;       size:1; signed:0;</span><br><span class="line">        field:unsigned char common_preempt_count;       offset:3;       size:1;                                                         s</span><br><span class="line">igned:0;</span><br><span class="line">        field:int common_pid;   offset:4;       size:4; signed:1;</span><br><span class="line"></span><br><span class="line">        field:int __syscall_nr; offset:8;       size:4; signed:1;</span><br><span class="line">        field:const char * filename;    offset:16;      size:8; signed:0;</span><br><span class="line">        field:const char *const * argv; offset:24;      size:8; signed:0;</span><br><span class="line">        field:const char *const * envp; offset:32;      size:8; signed:0;</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> <span class="built_in">fmt</span>: <span class="string">&quot;filename: 0x%08lx, argv: 0x%08lx, envp: 0x%08lx&quot;</span>, ((unsigned long)(REC-&gt;filename)), ((unsigned long)(REC-&gt;argv)), ((unsigned </span><br><span class="line">long)(REC-&gt;envp))</span><br></pre></td></tr></table></figure>
 
-<p>I used this information to define a matching structure called  my_syscalls_enter_execve </p>
+<p>可以使用上述信息定义一个名为 <code>my_syscalls_enter_execve</code> 的结构体：</p>
+<div class="tag-plugin colorful note" ><div class="title">NOTE:</div><div class="body"><p>eBPF 程序不允许访问前四个字段。</p></div></div>
+
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">my_syscalls_enter_execve</span> &#123;</span></span><br><span class="line">	<span class="type">unsigned</span> <span class="type">short</span> common_type;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> common_flags;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> common_preempt_count;</span><br><span class="line">    <span class="type">int</span> common_pid;</span><br><span class="line"></span><br><span class="line">	<span class="type">long</span> syscall_nr;</span><br><span class="line">	<span class="type">void</span> *filename_ptr;</span><br><span class="line">	<span class="type">long</span> argv_ptr;</span><br><span class="line">	<span class="type">long</span> envp_ptr;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<p>eBPF programs aren’t allowed to access the first four of these fields. If you try to access them, the program will fail verification with an invalid bpf_context access error.</p>
+<p>附加到该跟踪点的 eBPF 示例程序，可以将指向此类型的指针用作其上下文(context)参数，然后就可以访问这个结构体的内容了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">tp_sys_enter_execve</span><span class="params">(<span class="keyword">struct</span> my_syscalls_enter_execve *ctx)</span> &#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">data_t</span> <span class="title">data</span> =</span> &#123;&#125;; </span><br><span class="line">    ...</span><br><span class="line">    bpf_probe_read_user(&amp;data.path, <span class="keyword">sizeof</span>(data.path), ctx-&gt;filename_ptr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当使用跟踪点（tracepoint）程序类型时，传递给 eBPF 程序的结构体已由一组原始参数映射而来。</p>
+<p>为获得更优性能，可以通过原始跟踪点（raw tracepoint）eBPF 程序类型直接访问这些原始参数。此时，段定义（section definition）应以 <code>raw_tp</code>（或 <code>raw_tracepoint</code>）开头，而非 <code>tp</code>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">SEC(<span class="string">&quot;raw_tp/sched_process_exec&quot;</span>)</span><br><span class="line"><span class="type">int</span> <span class="title function_">raw_tp_exec</span><span class="params">(<span class="keyword">struct</span> bpf_raw_tracepoint_args *ctx)</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">data_t</span> <span class="title">data</span> =</span> &#123;&#125;; </span><br><span class="line"></span><br><span class="line">   bpf_probe_read_kernel(&amp;data.message, <span class="keyword">sizeof</span>(data.message), raw_tp_exec_msg);</span><br><span class="line"></span><br><span class="line">   data.pid = bpf_get_current_pid_tgid() &gt;&gt; <span class="number">32</span>;</span><br><span class="line">   data.uid = bpf_get_current_uid_gid() &amp; <span class="number">0xFFFFFFFF</span>;</span><br><span class="line"></span><br><span class="line">   bpf_perf_event_output(ctx, &amp;output, BPF_F_CURRENT_CPU, &amp;data, <span class="keyword">sizeof</span>(data));</span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="7-4-4-BTF-Enabled-Tracepoints"><a href="#7-4-4-BTF-Enabled-Tracepoints" class="headerlink" title="7.4.4 BTF-Enabled Tracepoints"></a>7.4.4 BTF-Enabled Tracepoints</h3><p>With BTF support, there will be a structure defined in vmlinux.h that matches the context structure passed to a tracepoint eBPF program.</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SEC(<span class="string">&quot;tp_btf/sched_process_exec&quot;</span>)</span><br><span class="line"><span class="type">int</span> <span class="title function_">handle_exec</span><span class="params">(<span class="keyword">struct</span> trace_event_raw_sched_process_exec *ctx)</span></span><br></pre></td></tr></table></figure>
 
