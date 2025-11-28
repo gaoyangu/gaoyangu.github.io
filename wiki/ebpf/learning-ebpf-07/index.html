@@ -28,8 +28,8 @@
 <meta property="og:description" content="There are currently around 30 program types enumerated in uapi&#x2F;linux&#x2F;bpf.h, and more than 40 attachment types.  7.1 Program Context ArgumentsAll eBPF programs take a context argument that is">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2025-11-28T03:16:23.673Z">
-<meta property="article:modified_time" content="2025-11-28T03:16:23.673Z">
+<meta property="article:published_time" content="2025-11-28T07:24:07.648Z">
+<meta property="article:modified_time" content="2025-11-28T07:24:07.648Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ebpf/ebpf/">eBPF</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-11-28T03:16:23.673Z">2025-11-28</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-11-28T07:24:07.648Z">2025-11-28</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -106,24 +106,46 @@
 <h2 id="7-3-Kfuncs"><a href="#7-3-Kfuncs" class="headerlink" title="7.3 Kfuncs"></a>7.3 Kfuncs</h2><p>be able to access some internal functions from eBPF programs. This can be achieved using the mechanism called BPF kernel functions, or kfuncs</p>
 <p>Kfuncs allow internal kernel functions to be registered with the BPF subsystem so that the verifier will allow them to be called from eBPF programs.</p>
 <p>the type of an eBPF program determines what events it can be attached to, which in turn defines the type of context information it receives. The program type also defines the set of helper functions and kfuncs it can call.</p>
-<h2 id="7-4-Tracing"><a href="#7-4-Tracing" class="headerlink" title="7.4 Tracing"></a>7.4 Tracing</h2><p>Program types are broadly considered to fall into two categories: tracing (or perf) program types and networking-related program types.</p>
-<p>Programs that attach to kprobes, tracepoints, raw tracepoints, fentry&#x2F;fexit probes, and perf events were all designed to provide an efficient way for eBPF programs in the kernel to report tracing information about events into user space.</p>
-<p>view programs attached to perf-related events:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bpftool perf show</span><br><span class="line"></span><br><span class="line">bpftool pert list</span><br></pre></td></tr></table></figure>
+<h2 id="7-4-Tracing"><a href="#7-4-Tracing" class="headerlink" title="7.4 Tracing"></a>7.4 Tracing</h2><p>附加到 kprobes、tracepoints、raw tracepoints、fentry&#x2F;fexit probes 和 perf events 的程序，都是为了内核中的 eBPF 程序能够高效的将跟踪信息传递到用户空间中。</p>
+<ul>
+<li>查看附加到 perf 相关事件的程序：</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bpftool perf show</span><br></pre></td></tr></table></figure>
 
-<h3 id="7-4-1-Kprobes-and-Kretprobes"><a href="#7-4-1-Kprobes-and-Kretprobes" class="headerlink" title="7.4.1 Kprobes and Kretprobes"></a>7.4.1 Kprobes and Kretprobes</h3><p>You can attach kprobe programs almost anywhere in the kernel.</p>
-<p>Commonly, they are attached using kprobes to the entry to a function and kretprobes to the exit of a function.</p>
-<h4 id="Attaching-kprobes-to-syscall-entry-points"><a href="#Attaching-kprobes-to-syscall-entry-points" class="headerlink" title="Attaching kprobes to syscall entry points"></a>Attaching kprobes to syscall entry points</h4><p>The first example eBPF program for this chapter is called kprobe_sys_execve, and it is a kprobe attached to the execve() syscall.</p>
+<h3 id="7-4-1-Kprobes-and-Kretprobes"><a href="#7-4-1-Kprobes-and-Kretprobes" class="headerlink" title="7.4.1 Kprobes and Kretprobes"></a>7.4.1 Kprobes and Kretprobes</h3><p>几乎可以将 kprobe 程序附加到内核的任何位置。</p>
+<p>通常情况下，使用 kprobes 附加到函数的入口，使用 kretprobes 附加到函数的出口，但也可以使用 kprobes 附加到函数入口后的某个指定偏移量。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bpftool perf list</span><br></pre></td></tr></table></figure>
+
+<h4 id="Attaching-kprobes-to-syscall-entry-points"><a href="#Attaching-kprobes-to-syscall-entry-points" class="headerlink" title="Attaching kprobes to syscall entry points"></a>Attaching kprobes to syscall entry points</h4><ul>
+<li>附加到系统调用 <code>execve()</code> 的 kprobe</li>
+</ul>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SEC(<span class="string">&quot;ksyscall/execve&quot;</span>)</span><br><span class="line"><span class="type">int</span> <span class="title function_">BPF_KPROBE_SYSCALL</span><span class="params">(kprobe_sys_execve, <span class="type">const</span> <span class="type">char</span> *pathname)</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="Attaching-kprobes-to-other-kernel-functions"><a href="#Attaching-kprobes-to-other-kernel-functions" class="headerlink" title="Attaching kprobes to other kernel functions"></a>Attaching kprobes to other kernel functions</h4><p>kprobes can also be attached to any noninlined function in the kernel</p>
+<h4 id="Attaching-kprobes-to-other-kernel-functions"><a href="#Attaching-kprobes-to-other-kernel-functions" class="headerlink" title="Attaching kprobes to other kernel functions"></a>Attaching kprobes to other kernel functions</h4><ul>
+<li>kprobes 也可以附加到内核中的任何非内联函数</li>
+</ul>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SEC(<span class="string">&quot;kprobe/do_execve&quot;</span>)</span><br><span class="line"><span class="type">int</span> <span class="title function_">BPF_KPROBE</span><span class="params">(kprobe_do_execve, <span class="keyword">struct</span> filename *filename)</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="7-4-2-Fentry-Fexit"><a href="#7-4-2-Fentry-Fexit" class="headerlink" title="7.4.2 Fentry&#x2F;Fexit"></a>7.4.2 Fentry&#x2F;Fexit</h3><p>If you’re using a recent enough kernel, fentry&#x2F;fexit is now the preferred method for tracing the entry to or exit from a kernel function. </p>
+<p><code>filename</code> 是根据内核中 <code>do_execve</code> 的函数原型确定。由于参数在内存中按顺序排列，可以忽略最后 n 个参数，但如果想使用后面的参数，则不能忽略列表中靠前的参数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">do_execve</span><span class="params">(<span class="keyword">struct</span> filename *filename,</span></span><br><span class="line"><span class="params">    <span class="type">const</span> <span class="type">char</span> __user *<span class="type">const</span> __user *__argv,</span></span><br><span class="line"><span class="params">    <span class="type">const</span> <span class="type">char</span> __user *<span class="type">const</span> __user *__envp)</span></span><br></pre></td></tr></table></figure>
+
+<p>Kretprobes 与 kprobes 非常相似，不同之处在于它们在函数返回时触发，并且可以访问返回值而不是参数。</p>
+<h3 id="7-4-2-Fentry-Fexit"><a href="#7-4-2-Fentry-Fexit" class="headerlink" title="7.4.2 Fentry&#x2F;Fexit"></a>7.4.2 Fentry&#x2F;Fexit</h3><p>从内核版本 5.5 开始（适用于 x86 处理器；BPF trampoline 支持在 Linux 6.0 之前不适用于 ARM 处理器），引入了一种更高效的机制来跟踪进入和退出内核函数的方式以及 BPF trampoline 的概念。</p>
+<p>fentry&#x2F;fexit 现在是首选的跟踪进入或退出内核函数的方法。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SEC(<span class="string">&quot;fentry/do_execve&quot;</span>)</span><br><span class="line"><span class="type">int</span> <span class="title function_">BPF_PROG</span><span class="params">(fentry_execve, <span class="keyword">struct</span> filename *filename)</span></span><br></pre></td></tr></table></figure>
 
-<p>the fexit hook has access to the input parameters to the function, which kretprobe does not.</p>
-<p>an example of this: <a target="_blank" rel="noopener" href="https://github.com/libbpf/libbpf-bootstrap/blob/master/examples/c/fentry.bpf.c">https://github.com/libbpf/libbpf-bootstrap/blob/master/examples/c/fentry.bpf.c</a></p>
+<p>fentry 和 fexit 的附加点设计得比 kprobes 更高效，且 fexit hook 可以访问函数的输入参数，而 kretprobe 不能。</p>
+<p>在 libbpf-bootstrap 的示例中 可以看到两个等效的示例：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/libbpf/libbpf-bootstrap/blob/master/examples/c/kprobe.bpf.c">kprobe.bpf.c</a></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SEC(<span class="string">&quot;kretprobe/do_unlinkat&quot;</span>)</span><br><span class="line"><span class="type">int</span> <span class="title function_">BPF_KRETPROBE</span><span class="params">(do_unlinkat_exit, <span class="type">long</span> ret)</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/libbpf/libbpf-bootstrap/blob/master/examples/c/fentry.bpf.c">fentry.bpf.c</a></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SEC(<span class="string">&quot;fexit/do_unlinkat&quot;</span>)</span><br><span class="line"><span class="type">int</span> <span class="title function_">BPF_PROG</span><span class="params">(do_unlinkat_exit, <span class="type">int</span> dfd, <span class="keyword">struct</span> filename *name, <span class="type">long</span> ret)</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="7-4-3-Tracepoints"><a href="#7-4-3-Tracepoints" class="headerlink" title="7.4.3 Tracepoints"></a>7.4.3 Tracepoints</h3><p>Tracepoints 是内核开发者预先在代码中设置的、可用于触发事件记录的特定位置，在不同内核版本之间具有稳定性。</p>
 <ul>
 <li>查看内核上可用的跟踪子系统集合：</li>
@@ -151,9 +173,11 @@
 <p>为获得更优性能，可以通过原始跟踪点（raw tracepoint）eBPF 程序类型直接访问这些原始参数。此时，段定义（section definition）应以 <code>raw_tp</code>（或 <code>raw_tracepoint</code>）开头，而非 <code>tp</code>。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">SEC(<span class="string">&quot;raw_tp/sched_process_exec&quot;</span>)</span><br><span class="line"><span class="type">int</span> <span class="title function_">raw_tp_exec</span><span class="params">(<span class="keyword">struct</span> bpf_raw_tracepoint_args *ctx)</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">data_t</span> <span class="title">data</span> =</span> &#123;&#125;; </span><br><span class="line"></span><br><span class="line">   bpf_probe_read_kernel(&amp;data.message, <span class="keyword">sizeof</span>(data.message), raw_tp_exec_msg);</span><br><span class="line"></span><br><span class="line">   data.pid = bpf_get_current_pid_tgid() &gt;&gt; <span class="number">32</span>;</span><br><span class="line">   data.uid = bpf_get_current_uid_gid() &amp; <span class="number">0xFFFFFFFF</span>;</span><br><span class="line"></span><br><span class="line">   bpf_perf_event_output(ctx, &amp;output, BPF_F_CURRENT_CPU, &amp;data, <span class="keyword">sizeof</span>(data));</span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="7-4-4-BTF-Enabled-Tracepoints"><a href="#7-4-4-BTF-Enabled-Tracepoints" class="headerlink" title="7.4.4 BTF-Enabled Tracepoints"></a>7.4.4 BTF-Enabled Tracepoints</h3><p>With BTF support, there will be a structure defined in vmlinux.h that matches the context structure passed to a tracepoint eBPF program.</p>
+<h3 id="7-4-4-BTF-Enabled-Tracepoints"><a href="#7-4-4-BTF-Enabled-Tracepoints" class="headerlink" title="7.4.4 BTF-Enabled Tracepoints"></a>7.4.4 BTF-Enabled Tracepoints</h3><p>在 BTF 支持下，在 vmlinux.h 中会定义一个与传递给跟踪点 eBPF 程序的上下文结构体相匹配的结构体。</p>
+<p>eBPF 程序应该使用 <code>SEC(&quot;tp_btf/tracepoint name&quot;)</code>，其中跟踪点名称是 <code>/sys/kernel/tracing/available_events</code> 中列出的可用事件之一。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SEC(<span class="string">&quot;tp_btf/sched_process_exec&quot;</span>)</span><br><span class="line"><span class="type">int</span> <span class="title function_">handle_exec</span><span class="params">(<span class="keyword">struct</span> trace_event_raw_sched_process_exec *ctx)</span></span><br></pre></td></tr></table></figure>
 
+<p>结构名称与跟踪点名称匹配，前缀为 <code>trace_event_raw_</code> 。</p>
 <h3 id="7-4-5-User-Space-Attachments"><a href="#7-4-5-User-Space-Attachments" class="headerlink" title="7.4.5 User Space Attachments"></a>7.4.5 User Space Attachments</h3><p>uprobes 和 uretprobes 用于挂载到用户态函数的入口和出口。用户态静态定义跟踪点 user statically defined tracepoints (USDTs) 用于挂载应用程序代码或用户态库中指定的跟踪点。这些都是用 <code>BPF_PROG_TYPE_KPROBE</code> 类型。</p>
 <p>如果你正在使用 libbpf，那么 SEC() 宏可用于为这些用户态探测程序 (user space probes) 定义自动挂载点。具体格式可参考 <a target="_blank" rel="noopener" href="https://docs.kernel.org/bpf/libbpf/program_types.html">Program Types and ELF Sections</a>。</p>
 <p>比如，将用户态入口探测（uprobe）挂载到 OpenSSL 中 SSL_write() 函数的起始处：</p>
@@ -165,9 +189,9 @@
 <li><a target="_blank" rel="noopener" href="https://github.com/iovisor/bcc/blob/master/libbpf-tools/funclatency.c">funclatency.c</a></li>
 <li><a target="_blank" rel="noopener" href="https://github.com/iovisor/bcc/blob/master/examples/usdt_sample/usdt_sample.md">usdt_sample.md</a></li>
 </ul>
-<h3 id="7-4-6-LSM"><a href="#7-4-6-LSM" class="headerlink" title="7.4.6 LSM"></a>7.4.6 LSM</h3><p><code>BPF_PROG_TYPE_LSM</code> programs are attached to the Linux Security Module (LSM) API, which is a stable interface within the kernel originally intended for kernel modules to use to enforce security policies.</p>
-<p>BPF_PROG_TYPE_LSM programs are attached using  bpf(BPF_RAW_TRACEPOINT_OPEN), and in many ways they are treated like tracing programs.</p>
-<p>the return value affects the way the kernel behaves. A nonzero return code indicates that the security check wasn’t passed, so the kernel won’t proceed with whatever operation it was asked to complete.</p>
+<h3 id="7-4-6-LSM"><a href="#7-4-6-LSM" class="headerlink" title="7.4.6 LSM"></a>7.4.6 LSM</h3><p><code>BPF_PROG_TYPE_LSM</code> 程序附加到 Linux 安全模块 (LSM) API，这是内核中的一个稳定接口，最初供内核模块用来强制执行安全策略。</p>
+<p><code>BPF_PROG_TYPE_LSM</code> 程序使用 <code>bpf(BPF_RAW_TRACEPOINT_OPEN)</code> 附加，并且在许多方面它们被视为跟踪程序。 </p>
+<p><code>BPF_PROG_TYPE_LSM</code> 程序的一个有趣特征是返回值会影响内核的行为方式。非零返回值表示安全检查未通过，因此内核不会继续执行要求完成的任何操作。这与忽略返回值的 perf 相关程序类型有显着差异。</p>
 <h2 id="7-5-Networking"><a href="#7-5-Networking" class="headerlink" title="7.5 Networking"></a>7.5 Networking</h2><p>These program types all require CAP_NET_ADMIN and CAP_BPF, or CAP_SYS_ADMIN, capabilities to be permitted.</p>
 <p>The context passed to these types of programs is the network message in question, although the type of structure depends on the data the kernel has at the relevant point in the network stack. </p>
 <p><img src="https://binw666.github.io/learning-ebpf-translation/07-eBPF%E7%A8%8B%E5%BA%8F%E5%92%8C%E9%99%84%E5%8A%A0%E7%B1%BB%E5%9E%8B/figure-7-1.jpg"></p>
