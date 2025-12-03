@@ -28,8 +28,8 @@
 <meta property="og:description" content="3.1 The eBPF Virtual MachineJIT (just-in-time) compilation 3.1.1 eBPF RegistersThe eBPF virtual machine uses 10 general-purpose registers, numbered 0 to 9.  Register 10 is used as a stack frame pointe">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2025-12-03T03:35:49.665Z">
-<meta property="article:modified_time" content="2025-12-03T03:35:49.665Z">
+<meta property="article:published_time" content="2025-12-03T06:26:25.580Z">
+<meta property="article:modified_time" content="2025-12-03T06:26:25.580Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ebpf/ebpf/">eBPF</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-12-03T03:35:49.665Z">2025-12-03</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-12-03T06:26:25.580Z">2025-12-03</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -164,12 +164,21 @@
 <p>只有当 BTF 信息可用时，bpftool 才能美观地打印出 map 中的字段名；而要包含该 BTF 信息，需在编译时添加 <code>-g</code> 标志。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ bpftool map dump name hello.rodata</span><br><span class="line">[&#123;</span><br><span class="line">        <span class="string">&quot;value&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;.rodata&quot;</span>: [&#123;</span><br><span class="line">                <span class="string">&quot;hello.____fmt&quot;</span>: <span class="string">&quot;Hello World %d&quot;</span></span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 
-<h2 id="3-9-Detaching-the-Program"><a href="#3-9-Detaching-the-Program" class="headerlink" title="3.9 Detaching the Program"></a>3.9 Detaching the Program</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bpftool net detach xdp dev eth0</span><br></pre></td></tr></table></figure>
+<h2 id="3-9-Detaching-the-Program"><a href="#3-9-Detaching-the-Program" class="headerlink" title="3.9 Detaching the Program"></a>3.9 Detaching the Program</h2><ul>
+<li>将程序从网络接口分离（detach）</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bpftool net detach xdp dev eth0</span><br></pre></td></tr></table></figure>
 
-<p>However, the program is still loaded into the kernel:</p>
+<ul>
+<li>列出挂载到网络栈的 BPF 程序</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ bpftool net list</span><br><span class="line">xdp:</span><br><span class="line"></span><br><span class="line">tc:</span><br><span class="line"></span><br><span class="line">flow_dissector:</span><br><span class="line"></span><br><span class="line">netfilter:</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>但是，程序仍加载在内核中：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ bpftool prog show name hello</span><br><span class="line">395: xdp name hello tag 9d0e949f89f1a82c gpl</span><br><span class="line">    loaded_at 2022-12-19T18:20:32+0000 uid 0</span><br><span class="line">    xlated 48B jited 108B memlock 4096B map_ids 4</span><br></pre></td></tr></table></figure>
 
-<h2 id="3-10-Unloading-the-Program"><a href="#3-10-Unloading-the-Program" class="headerlink" title="3.10 Unloading the Program"></a>3.10 Unloading the Program</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">rm</span> /sys/fs/bpf/hello</span><br><span class="line">$ bpftool prog show name hello</span><br></pre></td></tr></table></figure>
+<h2 id="3-10-Unloading-the-Program"><a href="#3-10-Unloading-the-Program" class="headerlink" title="3.10 Unloading the Program"></a>3.10 Unloading the Program</h2><p>目前，还没有 <code>bpftool prog load</code> 的反向命令（至少在撰写本文时没有），可以通过删除固定的伪文件来从内核中移除该程序：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">rm</span> /sys/fs/bpf/hello</span><br><span class="line">$ bpftool prog show name hello</span><br></pre></td></tr></table></figure>
 
 <h2 id="3-11-BPF-to-BPF-Calls"><a href="#3-11-BPF-to-BPF-Calls" class="headerlink" title="3.11 BPF to BPF Calls"></a>3.11 BPF to BPF Calls</h2><p>a very simple function that extracts the syscall opcode from the tracepoint arguments:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> __attribute((noinline)) <span class="type">int</span> <span class="title function_">get_opcode</span><span class="params">(<span class="keyword">struct</span> bpf_raw_tracepoint_args *ctx)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> ctx-&gt;args[<span class="number">1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
