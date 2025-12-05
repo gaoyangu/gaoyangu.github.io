@@ -1,0 +1,961 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1" theme-name="Stellar" theme-version="1.33.1">
+  
+  
+  <meta name="generator" content="Hexo 8.0.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  <title>eBPF：sockfilter - gaoyangu</title>
+
+  
+    <meta name="description" content="sockfilter 是一个用于监控数据包并处理 __sk_buff 结构体的示例。 它会将套接字类型的 BPF 程序附加到 sock_queue_rcv_skb() 函数上，从 BPF_MAP_TYPE_RINGBUF 类型的映射中获取信息，然后在标准输出中打印协议类型、源 IP 地址、源端口、目的 IP 地址和目的端口。 目前，该示例已涵盖了 uapi&#x2F;linux&#x2F;in.h 头文件中定义的大部">
+<meta property="og:type" content="website">
+<meta property="og:title" content="sockfilter">
+<meta property="og:url" content="http://example.com/wiki/ebpf/libbpf-bootstrap-13/">
+<meta property="og:site_name" content="gaoyangu">
+<meta property="og:description" content="sockfilter 是一个用于监控数据包并处理 __sk_buff 结构体的示例。 它会将套接字类型的 BPF 程序附加到 sock_queue_rcv_skb() 函数上，从 BPF_MAP_TYPE_RINGBUF 类型的映射中获取信息，然后在标准输出中打印协议类型、源 IP 地址、源端口、目的 IP 地址和目的端口。 目前，该示例已涵盖了 uapi&#x2F;linux&#x2F;in.h 头文件中定义的大部">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
+<meta property="article:published_time" content="2025-12-05T03:55:51.570Z">
+<meta property="article:modified_time" content="2025-12-05T03:55:51.570Z">
+<meta property="article:author" content="gaoyangu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.33.1">
+
+
+  
+
+  
+
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/ebpf/libbpf-bootstrap-13/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"sockfilter","description":"sockfilter 是一个用于监控数据包并处理 __sk_buff 结构体的示例。\n它会将套接字类型的 BPF 程序附加到 sock_queue_rcv_skb() 函数上，从 BPF_MAP_TYPE_RINGBUF 类型的映射中获取信息，然后在标准输出中打印协议类型、源 IP 地址、源端口、目的 IP 地址和目的端口。\n目前，该示例已涵盖了 uapi/linux/in.h 头文件中定义...","url":"http://example.com/wiki/ebpf/libbpf-bootstrap-13/"}</script>
+  <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+
+<div class="l_body content" id="start" layout="page" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/icon/bee.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/ebpf/ebpf"><div class="main">eBPF</div></a></div></header>
+
+<div class="nav-area">
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="探索" href="/explore/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="关于" href="/about/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="widgets">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/ebpf/" placeholder="在 ebpf 中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<widget class="widget-wrapper doc-tree post-list"><div class="widget-header dis-select"><span class="name">导航</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/ebpf/#start"><span class="toc-text">index</span></a><a class="link" href="/wiki/ebpf/ebpf-install/"><span class="toc-text">WSL2 安装 BPF 工具链</span></a><a class="link" href="/wiki/ebpf/ebpf-timeline/"><span class="toc-text">时间线</span></a></div><div class="widget-header dis-select"><span class="name">工具</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/linux-ebpf-file/"><span class="toc-text">some file about ebpf</span></a><a class="link" href="/wiki/ebpf/bpftool/"><span class="toc-text">bpftool</span></a><a class="link" href="/wiki/ebpf/bpftrace/"><span class="toc-text">bpftrace</span></a><a class="link" href="/wiki/ebpf/sections/"><span class="toc-text">c语言内存分区</span></a></div><div class="widget-header dis-select"><span class="name">Learining eBPF</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/learning-ebpf-00/"><span class="toc-text">00. Running the example code</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-01/"><span class="toc-text">01. What Is eBPF, and Why Is It Important?</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-02/"><span class="toc-text">02. eBPF’s “Hello World”</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-03/"><span class="toc-text">03. Anatomy of an eBPF Program</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-04/"><span class="toc-text">04. The bpf() System Call</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-05/"><span class="toc-text">05. CO-RE, BTF, and Libbpf</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-06/"><span class="toc-text">06. The eBPF Veriier</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-07/"><span class="toc-text">07. eBPF Program and Attachment Types</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-08/"><span class="toc-text">08. eBPF for Networking</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-09/"><span class="toc-text">09. eBPF for Security</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-10/"><span class="toc-text">10. eBPF Programming</span></a></div><div class="widget-header dis-select"><span class="name">libbpf-bootstrap</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/libbpf-bootstrap-00/"><span class="toc-text">env</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-01/"><span class="toc-text">minimal</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-02/"><span class="toc-text">minimal_ns</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-03/"><span class="toc-text">minimal_Legacy</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-04/"><span class="toc-text">bootstrap</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-05/"><span class="toc-text">bootstrap_legacy</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-06/"><span class="toc-text">uprobe</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-07/"><span class="toc-text">usdt</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-08/"><span class="toc-text">fentry</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-09/"><span class="toc-text">kprobe</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-10/"><span class="toc-text">xdp</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-11/"><span class="toc-text">tc</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-12/"><span class="toc-text">profile (todo)</span></a><a class="link active" href="/wiki/ebpf/libbpf-bootstrap-13/"><span class="toc-text">sockfilter</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div></widget>
+
+<widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：编程</span></div><div class="widget-body"><a class="item wiki" href="/wiki/cpp/"><span class="title">code</span></a><a class="item wiki" href="/wiki/linux_tool/git/"><span class="title">Linux Tool</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ebpf/ebpf/">eBPF</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-12-05T03:55:51.570Z">2025-12-05</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>sockfilter</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><p><code>sockfilter</code> 是一个用于监控数据包并处理 <code>__sk_buff</code> 结构体的示例。</p>
+<p>它会将套接字类型的 BPF 程序附加到 <code>sock_queue_rcv_skb()</code> 函数上，从 <code>BPF_MAP_TYPE_RINGBUF</code> 类型的映射中获取信息，然后在标准输出中打印协议类型、源 IP 地址、源端口、目的 IP 地址和目的端口。</p>
+<p>目前，该示例已涵盖了 <code>uapi/linux/in.h</code> 头文件中定义的大部分 IPv4 协议，若需查看支持的协议列表，可参考示例代码 <code>examples/c/sockfilter.c</code> 中的 <code>ipproto_mapping</code> 映射表。</p>
+<h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><ul>
+<li>socket</li>
+<li>ringbuf</li>
+</ul>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ./sockfilter</span><br><span class="line">interface: lo   protocol: TCP   127.0.0.1:60196(src) -&gt; 127.0.0.1:40705(dst)</span><br><span class="line">interface: lo   protocol: TCP   127.0.0.1:40705(src) -&gt; 127.0.0.1:60196(dst)</span><br></pre></td></tr></table></figure>
+
+<p>或者：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ./sockfilter -i lo</span><br><span class="line">interface: lo   protocol: TCP   127.0.0.1:60196(src) -&gt; 127.0.0.1:40705(dst)</span><br><span class="line">interface: lo   protocol: TCP   127.0.0.1:40705(src) -&gt; 127.0.0.1:60196(dst)</span><br></pre></td></tr></table></figure>
+
+<h2 id="struct-so-event"><a href="#struct-so-event" class="headerlink" title="struct so_event"></a>struct so_event</h2><p>该结构体在 BPF 程序和用户态程序中都可以使用。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">so_event</span> &#123;</span></span><br><span class="line">	__be32 src_addr;</span><br><span class="line">	__be32 dst_addr;</span><br><span class="line">	<span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">		__be32 ports;</span><br><span class="line">		__be16 port16[<span class="number">2</span>];</span><br><span class="line">	&#125;;</span><br><span class="line">	__u32 ip_proto;</span><br><span class="line">	__u32 pkt_type;</span><br><span class="line">	__u32 ifindex;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="be32"><a href="#be32" class="headerlink" title="__be32"></a><code>__be32</code></h3><ul>
+<li><p><code>be</code>： 大端序</p>
+</li>
+<li><p><code>32</code>：32位</p>
+</li>
+</ul>
+<p>相对应的，<code>__le32</code> 表示小端序 32 位整数。</p>
+<h2 id="The-BPF-side"><a href="#The-BPF-side" class="headerlink" title="The BPF side"></a>The BPF side</h2><h3 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;sockfilter.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> IP_MF	  0x2000</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> IP_OFFSET 0x1FFF</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="BPF-MAP-TYPE-RINGBUF"><a href="#BPF-MAP-TYPE-RINGBUF" class="headerlink" title="BPF_MAP_TYPE_RINGBUF"></a>BPF_MAP_TYPE_RINGBUF</h3><p>定义 <code>BPF_MAP_TYPE_RINGBUF</code> 类型的 BPF map，用于将内核收集到的事件信息传送给用户态程序</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">	__uint(type, BPF_MAP_TYPE_RINGBUF);</span><br><span class="line">	__uint(max_entries, <span class="number">256</span> * <span class="number">1024</span>);</span><br><span class="line">&#125; rb <span class="title function_">SEC</span><span class="params">(<span class="string">&quot;.maps&quot;</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ip-is-fragment"><a href="#ip-is-fragment" class="headerlink" title="ip_is_fragment"></a>ip_is_fragment</h3><ul>
+<li><code>inline</code></li>
+<li>判断是否为 IP 分片包</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="keyword">inline</span> <span class="type">int</span> <span class="title function_">ip_is_fragment</span><span class="params">(<span class="keyword">struct</span> __sk_buff *skb, __u32 nhoff)</span></span><br><span class="line">&#123;</span><br><span class="line">	__u16 frag_off;</span><br><span class="line"></span><br><span class="line">	bpf_skb_load_bytes(skb, nhoff + offsetof(<span class="keyword">struct</span> iphdr, frag_off), &amp;frag_off, <span class="number">2</span>);</span><br><span class="line">	frag_off = __bpf_ntohs(frag_off);</span><br><span class="line">	<span class="keyword">return</span> frag_off &amp; (IP_MF | IP_OFFSET);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="bpf-skb-load-bytes"><a href="#bpf-skb-load-bytes" class="headerlink" title="bpf_skb_load_bytes"></a>bpf_skb_load_bytes</h4><ul>
+<li>Helper function</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bpf_skb_load_bytes(skb, nhoff + offsetof(<span class="keyword">struct</span> iphdr, frag_off), &amp;frag_off, <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+
+<p>该辅助函数提供了一种简便的方式从数据报中加载数据。它可用于从 <code>skb</code> 关联的数据包中，将偏移量 <code>nhoff + offsetof(struct iphdr, frag_off)</code> 处开始的 <code>2</code> 字节数据，加载到 <code>&amp;frag_off</code> 所指向的缓冲区中。</p>
+<p>自 Linux 4.7 版本开始，该辅助函数的使用场景已基本被 direct packet access 替代，通过 <code>skb-&gt;data</code> 和 <code>skb-&gt;data_end</code> 即可操作数据包数据。不过，若需要一次性从数据包中读取大量数据到 eBPF 栈中，该辅助函数仍有实用价值。</p>
+<h4 id="bpf-ntohs"><a href="#bpf-ntohs" class="headerlink" title="__bpf_ntohs"></a>__bpf_ntohs</h4><p>结合查到的资料，<code>__bpf_ntohs</code> 仅出现在 Linux 内核源码中 BPF 子系统的实现里，是 BPF 字节序转换的底层内部实现。<code>bpf_ntohs</code> 是封装后的公开稳定 API，更推荐使用这个。</p>
+<h3 id="SEC-“socket”"><a href="#SEC-“socket”" class="headerlink" title="SEC(“socket”)"></a>SEC(“socket”)</h3><ul>
+<li>附加该 eBPF 程序到 socket 收到数据包之前</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">SEC(<span class="string">&quot;socket&quot;</span>)</span><br><span class="line"><span class="type">int</span> <span class="title function_">socket_handler</span><span class="params">(<span class="keyword">struct</span> __sk_buff *skb)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">so_event</span> *<span class="title">e</span>;</span></span><br><span class="line">    __u8 verlen;</span><br><span class="line">    __u16 proto;</span><br><span class="line">    __u32 nhoff = ETH_HLEN;</span><br><span class="line"></span><br><span class="line">    bpf_skb_load_bytes(skb, <span class="number">12</span>, &amp;proto, <span class="number">2</span>);</span><br><span class="line">    proto = bpf_ntohs(proto);</span><br><span class="line">    <span class="keyword">if</span> (proto != ETH_P_IP)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (ip_is_fragment(skb, nhoff))</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="bpf-ringbuf-reserve"><a href="#bpf-ringbuf-reserve" class="headerlink" title="bpf_ringbuf_reserve"></a>bpf_ringbuf_reserve</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* reserve sample from BPF ringbuf */</span></span><br><span class="line">e = bpf_ringbuf_reserve(&amp;rb, <span class="keyword">sizeof</span>(*e), <span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span> (!e)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="bpf-ringbuf-submit"><a href="#bpf-ringbuf-submit" class="headerlink" title="bpf_ringbuf_submit"></a>bpf_ringbuf_submit</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">bpf_skb_load_bytes(skb, nhoff + offsetof(<span class="keyword">struct</span> iphdr, protocol), &amp;e-&gt;ip_proto, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (e-&gt;ip_proto != IPPROTO_GRE) &#123;</span><br><span class="line">    bpf_skb_load_bytes(skb, nhoff + offsetof(<span class="keyword">struct</span> iphdr, saddr), &amp;(e-&gt;src_addr), <span class="number">4</span>);</span><br><span class="line">    bpf_skb_load_bytes(skb, nhoff + offsetof(<span class="keyword">struct</span> iphdr, daddr), &amp;(e-&gt;dst_addr), <span class="number">4</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bpf_skb_load_bytes(skb, nhoff + <span class="number">0</span>, &amp;verlen, <span class="number">1</span>);</span><br><span class="line">bpf_skb_load_bytes(skb, nhoff + ((verlen &amp; <span class="number">0xF</span>) &lt;&lt; <span class="number">2</span>), &amp;(e-&gt;ports), <span class="number">4</span>);</span><br><span class="line">e-&gt;pkt_type = skb-&gt;pkt_type;</span><br><span class="line">e-&gt;ifindex = skb-&gt;ifindex;</span><br><span class="line">bpf_ringbuf_submit(e, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="return"><a href="#return" class="headerlink" title="return"></a>return</h3><ul>
+<li>允许该数据包继续传递到socket， 返回值的意义是截取数据包的前多少字节传递到socket</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> skb-&gt;len;</span><br></pre></td></tr></table></figure>
+
+<h2 id="The-user-space-side"><a href="#The-user-space-side" class="headerlink" title="The user-space side"></a>The user-space side</h2><h3 id="env"><a href="#env" class="headerlink" title="env"></a>env</h3><ul>
+<li>要监听的端口</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">env</span> &#123;</span></span><br><span class="line">	<span class="type">const</span> <span class="type">char</span> *interface;</span><br><span class="line">&#125; env;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ipproto-mapping"><a href="#ipproto-mapping" class="headerlink" title="ipproto_mapping"></a>ipproto_mapping</h3><ul>
+<li>协议格式与协议名的映射表， 来源可<a target="_blank" rel="noopener" href="https://elixir.bootlin.com/linux/v5.19.17/source/include/uapi/linux/in.h#L27">参考</a></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="type">char</span> *ipproto_mapping[IPPROTO_MAX] = &#123;</span><br><span class="line">	[IPPROTO_IP] = <span class="string">&quot;IP&quot;</span>,	   [IPPROTO_ICMP] = <span class="string">&quot;ICMP&quot;</span>,	  [IPPROTO_IGMP] = <span class="string">&quot;IGMP&quot;</span>,</span><br><span class="line">	[IPPROTO_IPIP] = <span class="string">&quot;IPIP&quot;</span>,   [IPPROTO_TCP] = <span class="string">&quot;TCP&quot;</span>,	  [IPPROTO_EGP] = <span class="string">&quot;EGP&quot;</span>,</span><br><span class="line">	[IPPROTO_PUP] = <span class="string">&quot;PUP&quot;</span>,	   [IPPROTO_UDP] = <span class="string">&quot;UDP&quot;</span>,	  [IPPROTO_IDP] = <span class="string">&quot;IDP&quot;</span>,</span><br><span class="line">	[IPPROTO_TP] = <span class="string">&quot;TP&quot;</span>,	   [IPPROTO_DCCP] = <span class="string">&quot;DCCP&quot;</span>,	  [IPPROTO_IPV6] = <span class="string">&quot;IPV6&quot;</span>,</span><br><span class="line">	[IPPROTO_RSVP] = <span class="string">&quot;RSVP&quot;</span>,   [IPPROTO_GRE] = <span class="string">&quot;GRE&quot;</span>,	  [IPPROTO_ESP] = <span class="string">&quot;ESP&quot;</span>,</span><br><span class="line">	[IPPROTO_AH] = <span class="string">&quot;AH&quot;</span>,	   [IPPROTO_MTP] = <span class="string">&quot;MTP&quot;</span>,	  [IPPROTO_BEETPH] = <span class="string">&quot;BEETPH&quot;</span>,</span><br><span class="line">	[IPPROTO_ENCAP] = <span class="string">&quot;ENCAP&quot;</span>, [IPPROTO_PIM] = <span class="string">&quot;PIM&quot;</span>,	  [IPPROTO_COMP] = <span class="string">&quot;COMP&quot;</span>,</span><br><span class="line">	[IPPROTO_SCTP] = <span class="string">&quot;SCTP&quot;</span>,   [IPPROTO_UDPLITE] = <span class="string">&quot;UDPLITE&quot;</span>, [IPPROTO_MPLS] = <span class="string">&quot;MPLS&quot;</span>,</span><br><span class="line">	[IPPROTO_RAW] = <span class="string">&quot;RAW&quot;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="open-raw-sock"><a href="#open-raw-sock" class="headerlink" title="open_raw_sock"></a>open_raw_sock</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">open_raw_sock</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *name)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_ll</span> <span class="title">sll</span>;</span></span><br><span class="line">	<span class="type">int</span> sock;</span><br><span class="line"></span><br><span class="line">	sock = socket(PF_PACKET, SOCK_RAW | SOCK_NONBLOCK | SOCK_CLOEXEC, htons(ETH_P_ALL));</span><br><span class="line">	<span class="keyword">if</span> (sock &lt; <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;Failed to create raw socket\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">memset</span>(&amp;sll, <span class="number">0</span>, <span class="keyword">sizeof</span>(sll));</span><br><span class="line">	sll.sll_family = AF_PACKET;</span><br><span class="line">	sll.sll_ifindex = if_nametoindex(name);</span><br><span class="line">	sll.sll_protocol = htons(ETH_P_ALL);</span><br><span class="line">	<span class="keyword">if</span> (bind(sock, (<span class="keyword">struct</span> sockaddr *)&amp;sll, <span class="keyword">sizeof</span>(sll)) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;Failed to bind to %s: %s\n&quot;</span>, name, strerror(errno));</span><br><span class="line">		close(sock);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> sock;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="sockaddr-ll"><a href="#sockaddr-ll" class="headerlink" title="sockaddr_ll"></a>sockaddr_ll</h4><p><code>sockaddr_ll</code> 是 Linux 系统特有的套接字地址结构体，隶属于 <code>AF_PACKET</code> 地址族，专门用于描述数据链路层（二层） 的地址和帧属性，是用户空间程序直接操作链路层数据包（如以太网帧）的核心接口。</p>
+<h3 id="handle-event"><a href="#handle-event" class="headerlink" title="handle_event"></a>handle_event</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="keyword">inline</span> <span class="type">void</span> <span class="title function_">ltoa</span><span class="params">(<span class="type">uint32_t</span> addr, <span class="type">char</span> *dst)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">snprintf</span>(dst, <span class="number">16</span>, <span class="string">&quot;%u.%u.%u.%u&quot;</span>, (addr &gt;&gt; <span class="number">24</span>) &amp; <span class="number">0xFF</span>, (addr &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFF</span>,</span><br><span class="line">		 (addr &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>, (addr &amp; <span class="number">0xFF</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">handle_event</span><span class="params">(<span class="type">void</span> *ctx, <span class="type">void</span> *data, <span class="type">size_t</span> data_sz)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">so_event</span> *<span class="title">e</span> =</span> data;</span><br><span class="line">	<span class="type">char</span> ifname[IF_NAMESIZE];</span><br><span class="line">	<span class="type">char</span> sstr[<span class="number">16</span>] = &#123;&#125;, dstr[<span class="number">16</span>] = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (e-&gt;pkt_type != PACKET_HOST)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (e-&gt;ip_proto &lt; <span class="number">0</span> || e-&gt;ip_proto &gt;= IPPROTO_MAX)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!if_indextoname(e-&gt;ifindex, ifname))</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	ltoa(ntohl(e-&gt;src_addr), sstr);</span><br><span class="line">	ltoa(ntohl(e-&gt;dst_addr), dstr);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;interface: %s\tprotocol: %s\t%s:%d(src) -&gt; %s:%d(dst)\n&quot;</span>, ifname,</span><br><span class="line">	       ipproto_mapping[e-&gt;ip_proto], sstr, ntohs(e-&gt;port16[<span class="number">0</span>]), dstr, ntohs(e-&gt;port16[<span class="number">1</span>]));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="open-and-load"><a href="#open-and-load" class="headerlink" title="open_and_load"></a>open_and_load</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ring_buffer</span> *<span class="title">rb</span> =</span> <span class="literal">NULL</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockfilter_bpf</span> *<span class="title">skel</span>;</span></span><br><span class="line"><span class="type">int</span> err, prog_fd, sock;</span><br><span class="line"></span><br><span class="line">env.interface = <span class="string">&quot;lo&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Cleaner handling of Ctrl-C */</span></span><br><span class="line">signal(SIGINT, sig_handler);</span><br><span class="line">signal(SIGTERM, sig_handler);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Load and verify BPF programs*/</span></span><br><span class="line">skel = sockfilter_bpf__open_and_load();</span><br><span class="line"><span class="keyword">if</span> (!skel) &#123;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;Failed to open and load BPF skeleton\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ring-buffer-new"><a href="#ring-buffer-new" class="headerlink" title="ring_buffer__new"></a>ring_buffer__new</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Set up ring buffer polling */</span></span><br><span class="line">rb = ring_buffer__new(bpf_map__fd(skel-&gt;maps.rb), handle_event, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line"><span class="keyword">if</span> (!rb) &#123;</span><br><span class="line">    err = <span class="number">-1</span>;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;Failed to create ring buffer\n&quot;</span>);</span><br><span class="line">    <span class="keyword">goto</span> cleanup;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="SO-ATTACH-BPF-📌"><a href="#SO-ATTACH-BPF-📌" class="headerlink" title="SO_ATTACH_BPF 📌"></a>SO_ATTACH_BPF 📌</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Create raw socket for localhost interface */</span></span><br><span class="line">sock = open_raw_sock(env.interface);</span><br><span class="line"><span class="keyword">if</span> (sock &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    err = <span class="number">-2</span>;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;Failed to open raw socket\n&quot;</span>);</span><br><span class="line">    <span class="keyword">goto</span> cleanup;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Attach BPF program to raw socket */</span></span><br><span class="line">prog_fd = bpf_program__fd(skel-&gt;progs.socket_handler);</span><br><span class="line"><span class="keyword">if</span> (setsockopt(sock, SOL_SOCKET, SO_ATTACH_BPF, &amp;prog_fd, <span class="keyword">sizeof</span>(prog_fd))) &#123;</span><br><span class="line">    err = <span class="number">-3</span>;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;Failed to attach to raw socket\n&quot;</span>);</span><br><span class="line">    <span class="keyword">goto</span> cleanup;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ring-buffer-poll"><a href="#ring-buffer-poll" class="headerlink" title="ring_buffer__poll"></a>ring_buffer__poll</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Process events */</span></span><br><span class="line"><span class="keyword">while</span> (!exiting) &#123;</span><br><span class="line">    err = ring_buffer__poll(rb, <span class="number">100</span> <span class="comment">/* timeout, ms */</span>);</span><br><span class="line">    <span class="comment">/* Ctrl-C will cause -EINTR */</span></span><br><span class="line">    <span class="keyword">if</span> (err == -EINTR) &#123;</span><br><span class="line">        err = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (err &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;Error polling perf buffer: %d\n&quot;</span>, err);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    sleep(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="cleanup"><a href="#cleanup" class="headerlink" title="cleanup"></a>cleanup</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cleanup:</span><br><span class="line">	ring_buffer__free(rb);</span><br><span class="line">	sockfilter_bpf__destroy(skel);</span><br></pre></td></tr></table></figure></article>
+<div class="article-footer">
+    <section id="references">
+      <div class="header"><span>参考资料</span></div>
+      <div class="body">
+        <ul>
+        <li class="post-title">
+          <p><a target="_blank" rel="noopener" href="https://docs.ebpf.io/linux/helper-function/bpf_skb_load_bytes/">bpf_skb_load_bytes</a></p>
+
+        </li>
+        
+        <li class="post-title">
+          <p><a target="_blank" rel="noopener" href="https://www.meemx.com/p/ebpf-libbpf-socket/">觅梦随笔: eBPF例程——Socket数据包监控</a></p>
+
+        </li>
+        </ul>
+      </div>
+    </section>
+    
+
+</div>
+
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/ebpf/libbpf-bootstrap-12/">profile (todo)</a></div><div class="item" id="next"></div></section></div>
+
+
+  <div class="related-wrap md-text" id="comments">
+    <section class='header cmt-title cap theme'>
+      <p>快来参与讨论吧~</p>
+
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" src="https://giscus.app/client.js" data-repo="gaoyangu/blog_giscus" data-repo-id="R_kgDOQQ_jlg" data-category="Announcements" data-category-id="DIC_kwDOQQ_jls4CxiD3" data-mapping="url" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">gaoyangu</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1">Stellar 1.33.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="toc-text">前置知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C"><span class="toc-text">运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#struct-so-event"><span class="toc-text">struct so_event</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#be32"><span class="toc-text">__be32</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-BPF-side"><span class="toc-text">The BPF side</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="toc-text">头文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BPF-MAP-TYPE-RINGBUF"><span class="toc-text">BPF_MAP_TYPE_RINGBUF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ip-is-fragment"><span class="toc-text">ip_is_fragment</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#bpf-skb-load-bytes"><span class="toc-text">bpf_skb_load_bytes</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#bpf-ntohs"><span class="toc-text">__bpf_ntohs</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SEC-%E2%80%9Csocket%E2%80%9D"><span class="toc-text">SEC(“socket”)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bpf-ringbuf-reserve"><span class="toc-text">bpf_ringbuf_reserve</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bpf-ringbuf-submit"><span class="toc-text">bpf_ringbuf_submit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#return"><span class="toc-text">return</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-user-space-side"><span class="toc-text">The user-space side</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#env"><span class="toc-text">env</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ipproto-mapping"><span class="toc-text">ipproto_mapping</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#open-raw-sock"><span class="toc-text">open_raw_sock</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#sockaddr-ll"><span class="toc-text">sockaddr_ll</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#handle-event"><span class="toc-text">handle_event</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#open-and-load"><span class="toc-text">open_and_load</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ring-buffer-new"><span class="toc-text">ring_buffer__new</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SO-ATTACH-BPF-%F0%9F%93%8C"><span class="toc-text">SO_ATTACH_BPF 📌</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ring-buffer-poll"><span class="toc-text">ring_buffer__poll</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cleanup"><span class="toc-text">cleanup</span></a></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
+</div></aside><div class='float-panel'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+
+
+<script type="text/javascript">
+  window.canonical = {"originalHost":null,"officialHosts":["localhost"],"encoded":""};
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+    loading: `https://api.iconify.design/eos-icons:three-dots-loading.svg?color=%231cd0fd`,
+  };
+  const deps = {
+    jquery: `https://gcore.jsdelivr.net/npm/jquery@3.7/dist/jquery.min.js`,
+    marked: `https://gcore.jsdelivr.net/npm/marked@13.0/lib/marked.umd.min.js`,
+    lazyload: `/%5Bobject%20Object%5D`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      const maxRetry = 3;
+      let retryCount = 0;
+
+      return new Promise((resolve, reject) => {
+        const load = () => {
+          utils.onLoading?.(el);
+
+          let timedOut = false;
+          const timeout = setTimeout(() => {
+            timedOut = true;
+            console.warn('[request] 超时:', url);
+
+            if (++retryCount >= maxRetry) {
+              utils.onLoadFailure?.(el);
+              onFailure?.();
+              reject('请求超时');
+            } else {
+              setTimeout(load, 1000);
+            }
+          }, 5000);
+
+          fetch(url).then(resp => {
+            if (timedOut) return;
+            clearTimeout(timeout);
+
+            if (!resp.ok) throw new Error('响应失败');
+            return resp;
+          }).then(data => {
+            if (timedOut) return;
+            utils.onLoadSuccess?.(el);
+            callback(data);
+            resolve(data);
+          }).catch(err => {
+            clearTimeout(timeout);
+            console.warn('[request] 错误:', err);
+
+            if (++retryCount >= maxRetry) {
+              utils.onLoadFailure?.(el);
+              onFailure?.();
+              reject(err);
+            } else {
+              setTimeout(load, 1000);
+            }
+          });
+        };
+
+        load();
+      });
+    },
+    requestWithoutLoading: (url, options = {}, maxRetry = 2, timeout = 5000) => {
+      return new Promise((resolve, reject) => {
+        let retryCount = 0;
+
+        const tryRequest = () => {
+          let timedOut = false;
+          const timer = setTimeout(() => {
+            timedOut = true;
+            if (++retryCount > maxRetry) reject('timeout');
+            else tryRequest();
+          }, timeout);
+
+          fetch(url, options)
+            .then(resp => {
+              clearTimeout(timer);
+              if (!resp.ok) throw new Error('bad response');
+              resolve(resp);
+            })
+            .catch(err => {
+              clearTimeout(timer);
+              if (++retryCount > maxRetry) reject(err);
+              else setTimeout(tryRequest, 500);
+            });
+        };
+
+        tryRequest();
+      });
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+<script async src="https://gcore.jsdelivr.net/npm/vanilla-lazyload@19.1/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    callback_loaded: (el) => {
+      el.classList.add('loaded');
+      const wrapper = el.closest('.lazy-box');
+      const icon = wrapper?.querySelector('.lazy-icon');
+      if (icon) icon.remove();
+    }
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+
+  window.wrapLazyloadImages = (container) => {
+    if (typeof container === 'string') {
+      container = document.querySelector(container);
+    }
+    if (!container) return;
+    
+    const images = container.querySelectorAll('img');
+    images.forEach((img) => {
+      if (img.classList.contains('lazy')) return;
+
+      const src = img.getAttribute('src');
+      if (!src) return;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'lazy-box';
+
+      const newImg = img.cloneNode();
+      newImg.removeAttribute('src');
+      newImg.setAttribute('data-src', src);
+      newImg.classList.add('lazy');
+
+      const icon = document.createElement('div');
+      icon.className = 'lazy-icon';
+      if (def.loading) {
+        icon.style.backgroundImage = `url("${def.loading}")`;
+      }
+
+      wrapper.appendChild(newImg);
+      wrapper.appendChild(icon);
+
+      img.replaceWith(wrapper);
+    });
+
+    // 通知 LazyLoad 更新
+    if (window.lazyLoadInstance?.update) {
+      window.lazyLoadInstance.update();
+    }
+  }
+  
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.33.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    // applyThemeToGiscus(theme)
+  }
+
+  // FIXME: 这会导致无法使用 preferred_color_scheme 以外的主题
+  const applyThemeToGiscus = (theme) => {
+    // theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+  <script type="module">
+  const el = document.querySelector('#comments #giscus');
+  util.viewportLazyload(el, load_discus, false);
+
+  function load_discus() {
+    if (!el) return;
+    try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      const script = document.createElement('script');
+      script.async = true;
+      for (const key of Object.keys(el.attributes)) {
+        const attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+  }
+</script>
+
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"rating":{"js":"/js/services/rating.js","api":"https://star-vote.xaox.cc/api/rating"},"vote":{"js":"/js/services/vote.js","api":"https://star-vote.xaox.cc/api/vote"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"},"contributors":{"edit_this_page":{"_posts/":null,"wiki/stellar/":"https://github.com/xaoxuu/hexo-theme-stellar-docs/blob/main/"},"js":"/js/services/contributors.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://gcore.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error), .with-fancybox .atk-content img:not([atk-emoticon])';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const memos = document.getElementsByClassName('ds-memos');
+    if (memos != undefined && memos.length > 0) {
+      needFancybox = true;
+    }
+    const fancybox = document.getElementsByClassName('with-fancybox');
+    if (fancybox != undefined && fancybox.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
