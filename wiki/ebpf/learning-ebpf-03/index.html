@@ -20,16 +20,16 @@
   <title>eBPF：03. Anatomy of an eBPF Program - gaoyangu</title>
 
   
-    <meta name="description" content="3.1 The eBPF Virtual MachineJIT (just-in-time) compilation 3.1.1 eBPF RegistersThe eBPF virtual machine uses 10 general-purpose registers, numbered 0 to 9.  Register 10 is used as a stack frame pointe">
+    <meta name="description" content="eBPF 程序从源代码到执行过程所经历的各个阶段:  C（或 Rust）源代码会被编译为 eBPF 字节码，而这些 eBPF 字节码又会通过即时编译（JIT） 或解释的方式，转换为原生的机器码指令。 eBPF 程序是一组 eBPF 字节码指令。目前，绝大多数 eBPF 代码是用 C 语言编写的，然后编译成 eBPF 字节码。 3.1 The eBPF Virtual MachineJIT (jus">
 <meta property="og:type" content="website">
 <meta property="og:title" content="03. Anatomy of an eBPF Program">
 <meta property="og:url" content="http://example.com/wiki/ebpf/learning-ebpf-03/">
 <meta property="og:site_name" content="gaoyangu">
-<meta property="og:description" content="3.1 The eBPF Virtual MachineJIT (just-in-time) compilation 3.1.1 eBPF RegistersThe eBPF virtual machine uses 10 general-purpose registers, numbered 0 to 9.  Register 10 is used as a stack frame pointe">
+<meta property="og:description" content="eBPF 程序从源代码到执行过程所经历的各个阶段:  C（或 Rust）源代码会被编译为 eBPF 字节码，而这些 eBPF 字节码又会通过即时编译（JIT） 或解释的方式，转换为原生的机器码指令。 eBPF 程序是一组 eBPF 字节码指令。目前，绝大多数 eBPF 代码是用 C 语言编写的，然后编译成 eBPF 字节码。 3.1 The eBPF Virtual MachineJIT (jus">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2025-12-11T03:43:15.017Z">
-<meta property="article:modified_time" content="2025-12-11T03:43:15.017Z">
+<meta property="article:published_time" content="2025-12-11T03:57:41.290Z">
+<meta property="article:modified_time" content="2025-12-11T03:57:41.290Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
@@ -48,7 +48,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/ebpf/learning-ebpf-03/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"03. Anatomy of an eBPF Program","description":"3.1 The eBPF Virtual MachineJIT (just-in-time) compilation\n3.1.1 eBPF RegistersThe eBPF virtual machine uses 10 general-purpose registers, numbered 0 to 9. \nRegister 10 is used as a stack frame poi...","url":"http://example.com/wiki/ebpf/learning-ebpf-03/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/ebpf/learning-ebpf-03/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"03. Anatomy of an eBPF Program","description":"eBPF 程序从源代码到执行过程所经历的各个阶段:\n\nC（或 Rust）源代码会被编译为 eBPF 字节码，而这些 eBPF 字节码又会通过即时编译（JIT） 或解释的方式，转换为原生的机器码指令。\neBPF 程序是一组 eBPF 字节码指令。目前，绝大多数 eBPF 代码是用 C 语言编写的，然后编译成 eBPF 字节码。\n3.1 The eBPF Virtual MachineJIT (...","url":"http://example.com/wiki/ebpf/learning-ebpf-03/"}</script>
   <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ebpf/ebpf/">eBPF</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-12-11T03:43:15.017Z">2025-12-11</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-12-11T03:57:41.290Z">2025-12-11</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -94,7 +94,11 @@
     </div>
     
   </div>
-  </div><article class="md-text content"><h2 id="3-1-The-eBPF-Virtual-Machine"><a href="#3-1-The-eBPF-Virtual-Machine" class="headerlink" title="3.1 The eBPF Virtual Machine"></a>3.1 The eBPF Virtual Machine</h2><p>JIT (just-in-time) compilation</p>
+  </div><article class="md-text content"><p>eBPF 程序从源代码到执行过程所经历的各个阶段:</p>
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/wiki/ebpf/learning-ebpf/3-1.png"></p>
+<p>C（或 Rust）源代码会被编译为 eBPF 字节码，而这些 eBPF 字节码又会通过即时编译（JIT） 或解释的方式，转换为原生的机器码指令。</p>
+<p>eBPF 程序是一组 eBPF 字节码指令。目前，绝大多数 eBPF 代码是用 C 语言编写的，然后编译成 eBPF 字节码。</p>
+<h2 id="3-1-The-eBPF-Virtual-Machine"><a href="#3-1-The-eBPF-Virtual-Machine" class="headerlink" title="3.1 The eBPF Virtual Machine"></a>3.1 The eBPF Virtual Machine</h2><p>JIT (just-in-time) compilation</p>
 <h3 id="3-1-1-eBPF-Registers"><a href="#3-1-1-eBPF-Registers" class="headerlink" title="3.1.1 eBPF Registers"></a>3.1.1 eBPF Registers</h3><p>The eBPF virtual machine uses 10 general-purpose registers, numbered 0 to 9. </p>
 <p>Register 10 is used as a stack frame pointer (and can only be read, but not written). </p>
 <ul>
