@@ -28,8 +28,8 @@
 <meta property="og:description" content="如果用户空间应用程序 (user space application) 想将 eBPF 程序加载到内核中，必然会涉及到一些系统调用，这个系统调用是 bpf()。 运行在内核中的 eBPF 代码并不使用系统调用 (syscalls) 来访问映射 (maps)。系统调用接口仅供用户空间应用程序使用。 eBPF 程序使用辅助函数 (helper functions) 来读写映射 (maps)。 如果你之">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2025-12-17T05:27:23.181Z">
-<meta property="article:modified_time" content="2025-12-17T05:27:23.181Z">
+<meta property="article:published_time" content="2025-12-17T13:00:49.646Z">
+<meta property="article:modified_time" content="2025-12-17T13:00:49.646Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ebpf/ebpf/">eBPF</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-12-17T05:27:23.181Z">2025-12-17</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-12-17T13:00:49.646Z">2025-12-17</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -155,16 +155,37 @@
 <p>使用 <code>bpftool</code> 查看 map 的信息：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ bpftool map dump name config</span><br><span class="line">[&#123;</span><br><span class="line">        <span class="string">&quot;key&quot;</span>: 1000,</span><br><span class="line">        <span class="string">&quot;value&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;message&quot;</span>: [72,105,32,117,115,101,114,32,49,48,48,48,33]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,&#123;</span><br><span class="line">        <span class="string">&quot;key&quot;</span>: 0,</span><br><span class="line">        <span class="string">&quot;value&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;message&quot;</span>: <span class="string">&quot;Hey root!&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 
-<h2 id="4-3-Loading-a-Program"><a href="#4-3-Loading-a-Program" class="headerlink" title="4.3 Loading a Program"></a>4.3 Loading a Program</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bpf(BPF_PROG_LOAD, &#123;prog_type=BPF_PROG_TYPE_KPROBE, insn_cnt=<span class="number">47</span>, </span><br><span class="line">   insns=<span class="number">0x7408c9814000</span>, license=<span class="string">&quot;GPL&quot;</span>, ... prog_name=<span class="string">&quot;hello&quot;</span>, ...</span><br><span class="line">   expected_attach_type=BPF_CGROUP_INET_INGRESS, prog_btf_fd=<span class="number">3</span>, ...&#125;, <span class="number">152</span>) = <span class="number">6</span></span><br></pre></td></tr></table></figure>
+<h2 id="4-3-Loading-a-Program"><a href="#4-3-Loading-a-Program" class="headerlink" title="4.3 Loading a Program"></a>4.3 Loading a Program</h2><p>通过以下 <code>bpf()</code> 系统调用将 eBPF 程序加载到内核中</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bpf(BPF_PROG_LOAD, &#123;prog_type=BPF_PROG_TYPE_KPROBE, insn_cnt=<span class="number">47</span>, </span><br><span class="line">   insns=<span class="number">0x7408c9814000</span>, license=<span class="string">&quot;GPL&quot;</span>, ... prog_name=<span class="string">&quot;hello&quot;</span>, ...</span><br><span class="line">   expected_attach_type=BPF_CGROUP_INET_INGRESS, prog_btf_fd=<span class="number">3</span>, ...&#125;, <span class="number">152</span>) = <span class="number">6</span></span><br></pre></td></tr></table></figure>
 
+<ul>
+<li><code>prog_type</code>: eBPF 程序的类型为 <code>BPF_PROG_TYPE_KPROBE</code></li>
+<li><code>insn_cnt</code>: 程序中字节码指令的数量。</li>
+<li><code>insns</code>: 构成这个 eBPF 程序的字节码指令在内存中的地址。</li>
+<li><code>license</code>: GPL 许可</li>
+<li><code>prog_name</code>: eBPF 程序的名字为 hello</li>
+<li><code>expected_attach_type</code>: <code>BPF_CGROUP_INET_INGRESS</code> 恰好是 <a target="_blank" rel="noopener" href="https://elixir.bootlin.com/linux/v6.18.1/source/include/uapi/linux/bpf.h#L1078">BPF 附加类型</a>列表中的第一个，它的值为 0</li>
+<li><code>prog_btf_fd</code>: 告知内核，该程序要使用此前加载的哪一段 BTF 数据块。此处的数值 3 对应之前看到的、由 <code>BPF_BTF_LOAD</code> 系统调用返回的文件描述符</li>
+</ul>
+<div class="tag-plugin colorful note" ><div class="title">NOTE:</div><div class="body"><p>如果程序验证失败，这个系统调用会返回负值。</p></div></div>
+
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/wiki/ebpf/learning-ebpf/Table-4-1.png"></p>
 <h2 id="4-4-Modifying-a-Map-from-User-Space"><a href="#4-4-Modifying-a-Map-from-User-Space" class="headerlink" title="4.4 Modifying a Map from User Space"></a>4.4 Modifying a Map from User Space</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">b[<span class="string">&quot;config&quot;</span>][ct.c_int(<span class="number">0</span>)] = ct.create_string_buffer(<span class="string">b&quot;Hey root!&quot;</span>)</span><br><span class="line">b[<span class="string">&quot;config&quot;</span>][ct.c_int(<span class="number">501</span>)] = ct.create_string_buffer(<span class="string">b&quot;Hi user 501!&quot;</span>)</span><br></pre></td></tr></table></figure>
 
-<p>You can see these entries being defined in the map through syscalls like this:</p>
+<p>可以看到这些条目被通过如下系统调用，在 map 中定义:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bpf(BPF_MAP_UPDATE_ELEM, &#123;map_fd=<span class="number">5</span>, key=<span class="number">0x7408c92a9020</span>, value=<span class="number">0x7408c92a8520</span>, </span><br><span class="line">   flags=BPF_ANY&#125;, <span class="number">32</span>) = <span class="number">0</span>  </span><br></pre></td></tr></table></figure>
-<p>use  bpftool  to view the map’s contents</p>
+
+<ul>
+<li><code>BPF_MAP_UPDATE_ELEM</code> 命令用于更新 map 中的键值对</li>
+<li><code>BPF_ANY</code>: 表示如果 key 在 map 中不存在，则创建它</li>
+<li><code>map_fd</code>: 正在操作的 map 的文件描述符</li>
+</ul>
+<p>文件描述符是由内核为特定进程分配的，所以这个值 5 只对该特定用户空间进程有效。访问内核中同一映射（map）结构的两个用户态程序，所被分配的文件描述符数值很可能不同；同理，两个用户态程序也可能针对完全不同的映射（map），拥有相同的文件描述符数值。</p>
+<p>使用 <code>bpftool</code> 查看 map 的内容：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bpftool map dump name config</span><br></pre></td></tr></table></figure>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[&#123;</span><br><span class="line">         <span class="string">&quot;key&quot;</span>: 0,</span><br><span class="line">         <span class="string">&quot;value&quot;</span>: &#123;</span><br><span class="line">             <span class="string">&quot;message&quot;</span>: <span class="string">&quot;Hey root!&quot;</span></span><br><span class="line">         &#125;</span><br><span class="line">     &#125;,&#123;</span><br><span class="line">         <span class="string">&quot;key&quot;</span>: 501,</span><br><span class="line">         <span class="string">&quot;value&quot;</span>: &#123;</span><br><span class="line">             <span class="string">&quot;message&quot;</span>: <span class="string">&quot;Hi user 501!&quot;</span></span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 
+<p><code>bpftool</code> 是怎么知道如何格式化输出的呢？答案是，它会使用在定义该映射(map)的 <code>BPF_MAP_CREATE</code> 系统调用中所包含的 <code>BTF</code> 信息里的定义。</p>
 <h2 id="4-5-BPF-Program-and-Map-References"><a href="#4-5-BPF-Program-and-Map-References" class="headerlink" title="4.5 BPF Program and Map References"></a>4.5 BPF Program and Map References</h2><ul>
 <li><strong>reference counts</strong></li>
 </ul>
