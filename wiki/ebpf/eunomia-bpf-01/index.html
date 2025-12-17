@@ -17,17 +17,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
-  <title>eBPF：enuomia-bpf - gaoyangu</title>
+  <title>eBPF：Memleak - gaoyangu</title>
 
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="enuomia-bpf">
+    <meta name="description" content="https:&#x2F;&#x2F;eunomia.dev&#x2F;zh&#x2F;tutorials&#x2F;16-memleak&#x2F; 编译运行 安装 Rust 和 Cargo  1curl https:&#x2F;&#x2F;sh.rustup.rs -sSf | sh   编译  12345git clone https:&#x2F;&#x2F;github.com&#x2F;eunomia-bpf&#x2F;bpf-developer-tutorial.gitcd bpf-developer-t">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Memleak">
 <meta property="og:url" content="http://example.com/wiki/ebpf/eunomia-bpf-01/">
 <meta property="og:site_name" content="gaoyangu">
+<meta property="og:description" content="https:&#x2F;&#x2F;eunomia.dev&#x2F;zh&#x2F;tutorials&#x2F;16-memleak&#x2F; 编译运行 安装 Rust 和 Cargo  1curl https:&#x2F;&#x2F;sh.rustup.rs -sSf | sh   编译  12345git clone https:&#x2F;&#x2F;github.com&#x2F;eunomia-bpf&#x2F;bpf-developer-tutorial.gitcd bpf-developer-t">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2025-12-17T02:02:10.604Z">
-<meta property="article:modified_time" content="2025-12-17T02:02:10.604Z">
+<meta property="article:published_time" content="2025-12-17T05:27:23.180Z">
+<meta property="article:modified_time" content="2025-12-17T05:27:23.180Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
@@ -46,7 +48,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/ebpf/eunomia-bpf-01/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"enuomia-bpf","description":"","url":"http://example.com/wiki/ebpf/eunomia-bpf-01/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/ebpf/eunomia-bpf-01/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"Memleak","description":"https://eunomia.dev/zh/tutorials/16-memleak/\n编译运行\n安装 Rust 和 Cargo\n\n1curl https://sh.rustup.rs -sSf | sh\n\n\n编译\n\n12345git clone https://github.com/eunomia-bpf/bpf-developer-tutorial.gitcd bpf-develope...","url":"http://example.com/wiki/ebpf/eunomia-bpf-01/"}</script>
   <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -66,7 +68,7 @@
 <div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/ebpf/" placeholder="在 ebpf 中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
 
 
-<widget class="widget-wrapper doc-tree post-list"><div class="widget-header dis-select"><span class="name">导航</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/ebpf/#start"><span class="toc-text">index</span></a><a class="link" href="/wiki/ebpf/ebpf-install/"><span class="toc-text">WSL2 安装 BPF 工具链</span></a><a class="link" href="/wiki/ebpf/ebpf-timeline/"><span class="toc-text">时间线</span></a></div><div class="widget-header dis-select"><span class="name">工具</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/linux-ebpf-file/"><span class="toc-text">some file about ebpf</span></a><a class="link" href="/wiki/ebpf/bpftool/"><span class="toc-text">bpftool</span></a><a class="link" href="/wiki/ebpf/bpftrace/"><span class="toc-text">bpftrace</span></a><a class="link" href="/wiki/ebpf/sections/"><span class="toc-text">c语言内存分区</span></a></div><div class="widget-header dis-select"><span class="name">Learning eBPF</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/learning-ebpf-00/"><span class="toc-text">00. Running the example code</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-01/"><span class="toc-text">01. What Is eBPF, and Why Is It Important?</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-02/"><span class="toc-text">02. eBPF’s “Hello World”</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-03/"><span class="toc-text">03. Anatomy of an eBPF Program</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-04/"><span class="toc-text">04. The bpf() System Call</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-05/"><span class="toc-text">05. CO-RE, BTF, and Libbpf</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-06/"><span class="toc-text">06. The eBPF Veriier</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-07/"><span class="toc-text">07. eBPF Program and Attachment Types</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-08/"><span class="toc-text">08. eBPF for Networking</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-09/"><span class="toc-text">09. eBPF for Security</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-10/"><span class="toc-text">10. eBPF Programming</span></a></div><div class="widget-header dis-select"><span class="name">libbpf-bootstrap</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/libbpf-bootstrap-00/"><span class="toc-text">env</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-01/"><span class="toc-text">minimal</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-02/"><span class="toc-text">minimal_ns</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-03/"><span class="toc-text">minimal_Legacy</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-04/"><span class="toc-text">bootstrap</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-05/"><span class="toc-text">bootstrap_legacy</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-06/"><span class="toc-text">uprobe</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-07/"><span class="toc-text">usdt</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-08/"><span class="toc-text">fentry</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-09/"><span class="toc-text">kprobe</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-10/"><span class="toc-text">xdp</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-11/"><span class="toc-text">tc</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-12/"><span class="toc-text">profile (todo)</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-13/"><span class="toc-text">sockfilter</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-14/"><span class="toc-text">task_iter</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-15/"><span class="toc-text">lsm (todo)</span></a></div><div class="widget-header dis-select"><span class="name">eunomia-bpf</span></div><div class="widget-body fs14"><a class="link active" href="/wiki/ebpf/eunomia-bpf-01/"><span class="toc-text">enuomia-bpf</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div></widget>
+<widget class="widget-wrapper doc-tree post-list"><div class="widget-header dis-select"><span class="name">导航</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/ebpf/#start"><span class="toc-text">index</span></a><a class="link" href="/wiki/ebpf/ebpf-install/"><span class="toc-text">WSL2 安装 BPF 工具链</span></a><a class="link" href="/wiki/ebpf/ebpf-timeline/"><span class="toc-text">时间线</span></a></div><div class="widget-header dis-select"><span class="name">工具</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/linux-ebpf-file/"><span class="toc-text">some file about ebpf</span></a><a class="link" href="/wiki/ebpf/bpftool/"><span class="toc-text">bpftool</span></a><a class="link" href="/wiki/ebpf/bpftrace/"><span class="toc-text">bpftrace</span></a><a class="link" href="/wiki/ebpf/sections/"><span class="toc-text">c语言内存分区</span></a></div><div class="widget-header dis-select"><span class="name">Learning eBPF</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/learning-ebpf-00/"><span class="toc-text">00. Running the example code</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-01/"><span class="toc-text">01. What Is eBPF, and Why Is It Important?</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-02/"><span class="toc-text">02. eBPF’s “Hello World”</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-03/"><span class="toc-text">03. Anatomy of an eBPF Program</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-04/"><span class="toc-text">04. The bpf() System Call</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-05/"><span class="toc-text">05. CO-RE, BTF, and Libbpf</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-06/"><span class="toc-text">06. The eBPF Veriier</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-07/"><span class="toc-text">07. eBPF Program and Attachment Types</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-08/"><span class="toc-text">08. eBPF for Networking</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-09/"><span class="toc-text">09. eBPF for Security</span></a><a class="link" href="/wiki/ebpf/learning-ebpf-10/"><span class="toc-text">10. eBPF Programming</span></a></div><div class="widget-header dis-select"><span class="name">libbpf-bootstrap</span></div><div class="widget-body fs14"><a class="link" href="/wiki/ebpf/libbpf-bootstrap-00/"><span class="toc-text">env</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-01/"><span class="toc-text">minimal</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-02/"><span class="toc-text">minimal_ns</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-03/"><span class="toc-text">minimal_Legacy</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-04/"><span class="toc-text">bootstrap</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-05/"><span class="toc-text">bootstrap_legacy</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-06/"><span class="toc-text">uprobe</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-07/"><span class="toc-text">usdt</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-08/"><span class="toc-text">fentry</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-09/"><span class="toc-text">kprobe</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-10/"><span class="toc-text">xdp</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-11/"><span class="toc-text">tc</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-12/"><span class="toc-text">profile (todo)</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-13/"><span class="toc-text">sockfilter</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-14/"><span class="toc-text">task_iter</span></a><a class="link" href="/wiki/ebpf/libbpf-bootstrap-15/"><span class="toc-text">lsm (todo)</span></a></div><div class="widget-header dis-select"><span class="name">eunomia-bpf</span></div><div class="widget-body fs14"><a class="link active" href="/wiki/ebpf/eunomia-bpf-01/"><span class="toc-text">Memleak</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div></widget>
 
 <widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：编程</span></div><div class="widget-body"><a class="item wiki" href="/wiki/cpp/"><span class="title">code</span></a><a class="item wiki" href="/wiki/linux_tool/linux/"><span class="title">Linux Tool</span></a></div></widget>
 </div>
@@ -81,19 +83,64 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ebpf/ebpf/">eBPF</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-12-17T02:02:10.604Z">2025-12-17</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-12-17T05:27:23.180Z">2025-12-17</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>enuomia-bpf</span></h1>
+        <h1 class="text title"><span>Memleak</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"></article>
+  </div><article class="md-text content"><p><a target="_blank" rel="noopener" href="https://eunomia.dev/zh/tutorials/16-memleak/">https://eunomia.dev/zh/tutorials/16-memleak/</a></p>
+<h2 id="编译运行"><a href="#编译运行" class="headerlink" title="编译运行"></a>编译运行</h2><ul>
+<li>安装 Rust 和 Cargo</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://sh.rustup.rs -sSf | sh</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>编译</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/eunomia-bpf/bpf-developer-tutorial.git</span><br><span class="line"><span class="built_in">cd</span> bpf-developer-tutorial</span><br><span class="line">git submodule update --init --recursive <span class="comment"># Synchronize submodule</span></span><br><span class="line"><span class="built_in">cd</span> src/16-memleak</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ./test_memleak &amp;</span><br><span class="line">$ <span class="built_in">sudo</span> ./memleak -p $(pidof test_memleak)</span><br></pre></td></tr></table></figure>
+
+<h2 id="调试内存泄露的挑战"><a href="#调试内存泄露的挑战" class="headerlink" title="调试内存泄露的挑战"></a>调试内存泄露的挑战</h2><ul>
+<li>Valgrind memcheck: 模拟 CPU 来检查所有内存访问，但可能会导致应用程序运行速度大大减慢</li>
+<li>堆分析器 libtcmalloc：相对较快，但仍可能使应用程序运行速度降低五倍以上</li>
+<li>gdb：可以获取应用程序的核心转储 (coredump)，并进行后处理以分析内存使用情</li>
+<li>Address Sanitizer (ASAN)</li>
+</ul>
+<p>这些工具通常在获取核心转储时需要暂停应用程序，或在应用程序终止后才能调用 <code>free()</code> 函数。</p>
+<h2 id="Memleak-实现原理"><a href="#Memleak-实现原理" class="headerlink" title="Memleak 实现原理"></a>Memleak 实现原理</h2><p>memleak 的工作方式类似于在内存分配和释放路径上安装监控设备。它通过在内存分配和释放函数中插入 eBPF 程序来达到这个目标。</p>
+<ul>
+<li>当分配内存的函数被调用时，memleak 就会记录一些重要信息，如调用者的进程 ID（PID）、分配的内存地址以及分配的内存大小等。</li>
+<li>当释放内存的函数被调用时，memleak 则会在其内部的映射表（map）中删除相应的内存分配记录。</li>
+</ul>
+<p>这种机制使得 memleak 能够准确地追踪到哪些内存块已被分配但未被释放。</p>
+<h3 id="用户态"><a href="#用户态" class="headerlink" title="用户态"></a>用户态</h3><p>对于用户态的常用内存分配函数，如 <code>malloc</code> 和 <code>calloc</code> 等，memleak 利用了用户态探测（<code>uprobe</code>）技术来实现监控。</p>
+<p>uprobe 是一种用于用户空间应用程序的动态追踪技术，它可以在运行时不修改二进制文件的情况下在任意位置设置断点，从而实现对特定函数调用的追踪。</p>
+<h3 id="内核态"><a href="#内核态" class="headerlink" title="内核态"></a>内核态</h3><p>对于内核态的内存分配函数，如 <code>kmalloc</code> 等，memleak 则选择使用了 <code>tracepoint</code> 来实现监控。</p>
+<p>Tracepoint 是一种在 Linux 内核中提供的动态追踪技术，它可以在内核运行时动态地追踪特定的事件，而无需重新编译内核或加载内核模块。</p>
+</article>
 <div class="article-footer">
+    <section id="references">
+      <div class="header"><span>参考资料</span></div>
+      <div class="body">
+        <ul>
+        <li class="post-title">
+          <p><a target="_blank" rel="noopener" href="https://rustwiki.org/zh-CN/cargo/getting-started/installation.html">Cargo 手册</a></p>
+
+        </li>
+        </ul>
+      </div>
+    </section>
+    
 
 </div>
 
@@ -120,7 +167,12 @@
 <footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">gaoyangu</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1">Stellar 1.33.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-</aside><div class='float-panel'>
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8C"><span class="toc-text">编译运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E7%9A%84%E6%8C%91%E6%88%98"><span class="toc-text">调试内存泄露的挑战</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Memleak-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-text">Memleak 实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%80%81"><span class="toc-text">用户态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E6%80%81"><span class="toc-text">内核态</span></a></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
+</div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>
