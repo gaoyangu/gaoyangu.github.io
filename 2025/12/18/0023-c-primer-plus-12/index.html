@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1" theme-name="Stellar" theme-version="1.33.1">
   
-  <meta name="robots" content="noindex,follow">
+  
   <meta name="generator" content="Hexo 8.0.0">
   <meta http-equiv='x-dns-prefetch-control' content='on' />
   
@@ -17,22 +17,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
-  <title>标签：SourceInsight - gaoyangu</title>
+  <title>C Primer Plus - 12. 存储类、链接和内存管理 - gaoyangu</title>
 
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="gaoyangu">
-<meta property="og:url" content="http://example.com/tags/SourceInsight/">
+    <meta name="description" content="todo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C Primer Plus - 12. 存储类、链接和内存管理">
+<meta property="og:url" content="http://example.com/2025/12/18/0023-c-primer-plus-12/">
 <meta property="og:site_name" content="gaoyangu">
+<meta property="og:description" content="todo">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
+<meta property="article:published_time" content="2025-12-18T13:30:33.000Z">
+<meta property="article:modified_time" content="2025-12-18T05:43:13.223Z">
 <meta property="article:author" content="gaoyangu">
+<meta property="article:tag" content="C_Primer_Plus">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
   
   
   
-  
+  <meta name="keywords" content="C_Primer_Plus">
 
   <!-- feed -->
   
@@ -44,12 +49,12 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"gaoyangu","description":"","url":"http://example.com"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"dateCreated":"2025-12-18T13:30:33+00:00","dateModified":"2025-12-18T05:43:13+00:00","datePublished":"2025-12-18T13:30:33+00:00","description":"","headline":"C Primer Plus - 12. 存储类、链接和内存管理","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/12/18/0023-c-primer-plus-12/"},"publisher":{"@type":"Organization","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png","logo":{"@type":"ImageObject","url":"/images/notion-avatar-1764230194071.png"}},"url":"http://example.com/2025/12/18/0023-c-primer-plus-12/","keywords":"C_Primer_Plus","image":[]}</script>
   <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="l_body index" id="start" layout="undefined" type="undefined" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
+<div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
 
 
 <header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/notion-avatar-1764230194071.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">gaoyangu</div><div class="sub cap">理解世界，解决问题</div></a></div></header>
@@ -61,28 +66,182 @@
 <div class="widgets">
 <div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
 
+
+
 <widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/12/02/0019-2025-review/"><span class="title">2025年终总结 (更新中)</span></a><a class="item title" href="/2025/12/04/0020-plantuml/"><span class="title">PlantUML 使用记录</span></a><a class="item title" href="/2025/12/15/0022-unicode/"><span class="title">ASCII, GBK, Unicode 和 UTF-8</span></a><a class="item title" href="/2025/12/18/0023-c-primer-plus-10/"><span class="title">C Primer Plus - 10. 数组和指针</span></a><a class="item title" href="/2025/12/18/0023-c-primer-plus-12/"><span class="title">C Primer Plus - 12. 存储类、链接和内存管理</span></a><a class="item title" href="/2025/09/30/0003-hello-stellar/"><span class="title">Hello Stellar</span></a><a class="item title" href="/2025/10/15/0006-c99-vla/"><span class="title">结构体的内存对齐和变长数组</span></a><a class="item title" href="/2025/10/19/0007-hitch/"><span class="title">顺风车车主初体验</span></a><a class="item title" href="/2025/10/15/0005-emby/"><span class="title">我的影视资源解决方案</span></a><a class="item title" href="/2025/10/14/0004-cucc-modem/"><span class="title">家庭网络折腾备忘录</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
 
-<header class="header mobile-only"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/notion-avatar-1764230194071.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">gaoyangu</div><div class="sub cap">理解世界，解决问题</div></a></div></header>
-
- 
 
 
 
 
-<div class="navbar top"><div class="navbar-blur"><div class="navbar-container"><nav class="post"><a href="/">近期发布</a><a href="/categories/">分类</a><a class="active" href="/tags/">标签：SourceInsight</a><a href="/archives/">归档</a></nav></div></div></div>
-<div class="post-list post"><a class="post-card post" href="/2025/10/28/0012-source-insight/">
-<article class="md-text"><h2 class="post-title">Source Insight 配置记录</h2><div class="excerpt"><p>记录使用 Source Insight 过程中的常用配置。</p></div><div class="meta cap"><span class="cap" id="post-meta"><svg style="margin-bottom:2px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M6.94 2c.416 0 .753.324.753.724v1.46c.668-.012 1.417-.012 2.26-.012h4.015c.842 0 1.591 0 2.259.013v-1.46c0-.4.337-.725.753-.725s.753.324.753.724V4.25c1.445.111 2.394.384 3.09 1.055c.698.67.982 1.582 1.097 2.972L22 9H2v-.724c.116-1.39.4-2.302 1.097-2.972c.697-.67 1.645-.944 3.09-1.055V2.724c0-.4.337-.724.753-.724"/><path fill="currentColor" d="M22 14v-2c0-.839-.004-2.335-.017-3H2.01c-.013.665-.01 2.161-.01 3v2c0 3.771 0 5.657 1.172 6.828C4.343 22 6.228 22 10 22h4c3.77 0 5.656 0 6.828-1.172C22 19.658 22 17.772 22 14" opacity=".5"/><path fill="currentColor" d="M18 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0"/></svg><time datetime="2025-10-28T15:42:06.000Z">2025-10-28</time></span><span class="cap breadcrumb"><svg style="margin-bottom:1px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M2 6.95c0-.883 0-1.324.07-1.692A4 4 0 0 1 5.257 2.07C5.626 2 6.068 2 6.95 2c.386 0 .58 0 .766.017a4 4 0 0 1 2.18.904c.144.119.28.255.554.529L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .848.352C14.098 6 14.675 6 15.828 6h.374c2.632 0 3.949 0 4.804.77c.079.07.154.145.224.224c.77.855.77 2.172.77 4.804V14c0 3.771 0 5.657-1.172 6.828C19.657 22 17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 17.771 2 14z" opacity=".5"/><path fill="currentColor" d="M20 6.238c0-.298-.005-.475-.025-.63a3 3 0 0 0-2.583-2.582C17.197 3 16.965 3 16.5 3H9.988c.116.104.247.234.462.45L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .849.352C14.098 6 14.675 6 15.829 6h.373c1.78 0 2.957 0 3.798.238"/><path fill="currentColor" fill-rule="evenodd" d="M12.25 10a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 0 1.5h-5a.75.75 0 0 1-.75-.75" clip-rule="evenodd"/></svg><span>工具</span></span></div></article>
-</a></div>
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-12-18T13:30:33.000Z">2025-12-18</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-12-18T05:43:13.223Z">2025-12-18</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>C Primer Plus - 12. 存储类、链接和内存管理</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="12-1-存储类"><a href="#12-1-存储类" class="headerlink" title="12.1 存储类"></a>12.1 存储类</h2><ol>
+<li><p>自动变量</p>
+<ul>
+<li>关键字：auto</li>
+<li>程序进入包含变量声明的代码块时，变量开始存在；</li>
+<li>当程序离开这个代码块时，自动变量消失，它所占的内存可用来做其它事</li>
+<li>不会被自动初始化</li>
+</ul>
+</li>
+<li><p>寄存器变量</p>
+<ul>
+<li>关键字：register</li>
+<li>仅是一个请求，并非一条直接的命令</li>
+<li>编译器可能使用速度更快的内存或寄存器来存储它</li>
+<li>无法获取一个寄存器变量的地址</li>
+</ul>
+</li>
+<li><p>具有代码块作用域的静态变量</p>
+<ul>
+<li>关键字：static</li>
+<li>如果不显式的初始化，则将被初始化为0</li>
+</ul>
+</li>
+<li><p>具有外部链接的静态变量</p>
+<ul>
+<li>关键字：extern</li>
+<li>如果不对外部变量进行初始化，将自动被赋初值0</li>
+<li>不要用关键字 extern 来进行外部定义，只用它来引用一个已经存在的外部定义</li>
+</ul>
+</li>
+<li><p>具有内部链接的静态变量</p>
+<ul>
+<li>只可以被与它在同一个文件中的函数使用</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><p>作用域</p>
+<ul>
+<li>代码块作用域</li>
+<li>函数原型作用域</li>
+<li>文件作用域</li>
+<li>函数作用域（只适用于 goto 语句使用的标签）</li>
+</ul>
+</li>
+<li><p>链接</p>
+<ul>
+<li>外部链接：可以在一个多文件程序的任何地方使用</li>
+<li>内部链接：可以在一个文件的任何地方使用（static）</li>
+<li>空链接：由其定义所在的代码块或函数原型私有</li>
+</ul>
+</li>
+<li><p>存储时期</p>
+<ul>
+<li>静态存储时期：程序执行期间一直存在</li>
+<li>自动存储时期</li>
+</ul>
+</li>
+</ul>
+<h2 id="12-2-存储类说明符"><a href="#12-2-存储类说明符" class="headerlink" title="12.2 存储类说明符"></a>12.2 存储类说明符</h2><p>不可以在一个声明中使用一个以上存储类说明符</p>
+<ol>
+<li>auto</li>
+<li>register</li>
+<li>static</li>
+<li>extern</li>
+<li>typedef</li>
+</ol>
+<h2 id="12-3-存储类和函数"><a href="#12-3-存储类和函数" class="headerlink" title="12.3 存储类和函数"></a>12.3 存储类和函数</h2><ul>
+<li>static 创建为一个特定模块所私有的函数，避免可能的名字冲突</li>
+<li>extern 声明在其他文件中定义的函数</li>
+<li>除非函数声明使用了 static，否则认为是 extern 的</li>
+</ul>
+<h2 id="12-4-随机数函数和静态变量"><a href="#12-4-随机数函数和静态变量" class="headerlink" title="12.4 随机数函数和静态变量"></a>12.4 随机数函数和静态变量</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 随机种子 */</span></span><br><span class="line">srand((<span class="type">unsigned</span> <span class="type">int</span>)time(<span class="number">0</span>));</span><br><span class="line"><span class="comment">/* 随机数 */</span></span><br><span class="line">rand();</span><br></pre></td></tr></table></figure>
+
+<h2 id="12-6-分配内存：malloc-和-free"><a href="#12-6-分配内存：malloc-和-free" class="headerlink" title="12.6 分配内存：malloc 和 free"></a>12.6 分配内存：malloc 和 free</h2><ul>
+<li>malloc</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> *ptd;</span><br><span class="line">ptd = (<span class="type">double</span> *)<span class="built_in">malloc</span>(<span class="number">30</span> * <span class="keyword">sizeof</span>(<span class="type">double</span>));</span><br><span class="line"></span><br><span class="line"><span class="built_in">free</span>(ptd);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>calloc：将块中的全部位都置为0</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	100: 所需内存单元的数量</span></span><br><span class="line"><span class="comment">	sizeof(long)：每个单元以字节计的大小</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">long</span> * newmen;</span><br><span class="line">newmem = (<span class="type">long</span> *)<span class="built_in">calloc</span>(<span class="number">100</span>, <span class="keyword">sizeof</span>(<span class="type">long</span>));</span><br></pre></td></tr></table></figure>
+
+<h2 id="12-7-ANSI-C的类型限定词"><a href="#12-7-ANSI-C的类型限定词" class="headerlink" title="12.7 ANSI C的类型限定词"></a>12.7 ANSI C的类型限定词</h2><p>不变性和易变性</p>
+<ol>
+<li>const</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">float</span> *pf;	<span class="comment">/* 指针常量：指针的指向可以变，指向的值不能变 */</span></span><br><span class="line"><span class="type">float</span> * <span class="type">const</span> pt;	<span class="comment">/* 常量指针：指针的指向不能变，指向的值可以变 */</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>volaltile</li>
+</ol>
+<ul>
+<li>告诉编译器该变量除了可被程序改变以外还可被其它代理改变</li>
+<li>方便编译器优化</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">volatile</span> <span class="type">int</span> loc;</span><br><span class="line"><span class="keyword">volatile</span> <span class="type">int</span> * ploc;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>restrict</li>
+</ol>
+<ul>
+<li>通过允许编译器优化某几种代码增强了计算支持</li>
+<li>只可用于指针，表示指针是访问一个数据对象的<strong>唯一</strong>且初始的方式</li>
+<li>编译器可以假定在函数体内没有其他标识符修改指针指向的数据，可以试着优化代码</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> * <span class="keyword">restrict</span> restar = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="number">10</span> * <span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line"></span><br><span class="line">restar[n] += <span class="number">5</span>;</span><br><span class="line">restar[n] += <span class="number">3</span>;</span><br><span class="line"><span class="comment">/* 可被优化为：restar[n]+= 8; */</span></span><br></pre></td></tr></table></figure>
+</article>
+<div class="article-footer">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+
+</div>
+
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/12/18/0023-c-primer-plus-10/">C Primer Plus - 10. 数组和指针</a></div></section></div>
+
+
+
+
+  <div class="related-wrap md-text" id="comments">
+    <section class='header cmt-title cap theme'>
+      <p>快来参与讨论吧~</p>
+
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" src="https://giscus.app/client.js" data-repo="gaoyangu/blog_giscus" data-repo-id="R_kgDOQQ_jlg" data-category="Announcements" data-category-id="DIC_kwDOQQ_jls4CxiD3" data-mapping="url" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
 
 
 <footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">gaoyangu</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1">Stellar 1.33.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-</aside><div class='float-panel'>
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#12-1-%E5%AD%98%E5%82%A8%E7%B1%BB"><span class="toc-text">12.1 存储类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-2-%E5%AD%98%E5%82%A8%E7%B1%BB%E8%AF%B4%E6%98%8E%E7%AC%A6"><span class="toc-text">12.2 存储类说明符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-3-%E5%AD%98%E5%82%A8%E7%B1%BB%E5%92%8C%E5%87%BD%E6%95%B0"><span class="toc-text">12.3 存储类和函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-4-%E9%9A%8F%E6%9C%BA%E6%95%B0%E5%87%BD%E6%95%B0%E5%92%8C%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F"><span class="toc-text">12.4 随机数函数和静态变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-6-%E5%88%86%E9%85%8D%E5%86%85%E5%AD%98%EF%BC%9Amalloc-%E5%92%8C-free"><span class="toc-text">12.6 分配内存：malloc 和 free</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-7-ANSI-C%E7%9A%84%E7%B1%BB%E5%9E%8B%E9%99%90%E5%AE%9A%E8%AF%8D"><span class="toc-text">12.7 ANSI C的类型限定词</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
+</div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>
@@ -576,6 +735,30 @@
 
 
 <!-- optional -->
+
+  <script type="module">
+  const el = document.querySelector('#comments #giscus');
+  util.viewportLazyload(el, load_discus, false);
+
+  function load_discus() {
+    if (!el) return;
+    try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      const script = document.createElement('script');
+      script.async = true;
+      for (const key of Object.keys(el.attributes)) {
+        const attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+  }
+</script>
+
 
 
 
