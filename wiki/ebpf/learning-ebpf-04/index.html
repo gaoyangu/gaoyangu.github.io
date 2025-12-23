@@ -28,8 +28,8 @@
 <meta property="og:description" content="如果用户空间应用程序 (user space application) 想将 eBPF 程序加载到内核中，必然会涉及到一些系统调用，这个系统调用是 bpf()。系统调用接口仅供用户空间应用程序使用。 运行在内核中的 eBPF 代码并不使用系统调用 (syscalls) 来访问映射 (maps)。eBPF 程序使用辅助函数 (helper functions) 来读写映射 (maps)。 如果你之后">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2025-12-22T09:55:12.228Z">
-<meta property="article:modified_time" content="2025-12-22T09:55:12.228Z">
+<meta property="article:published_time" content="2025-12-23T06:19:37.258Z">
+<meta property="article:modified_time" content="2025-12-23T06:19:37.258Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ebpf/ebpf/">eBPF</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-12-22T09:55:12.228Z">2025-12-22</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-12-23T06:19:37.258Z">2025-12-23</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -238,7 +238,7 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ioctl(<span class="number">7</span>, PERF_EVENT_IOC_ENABLE, <span class="number">0</span>)      = <span class="number">0</span></span><br></pre></td></tr></table></figure>
 
 <p>完成此设置后，只要这台机器上运行 <code>execve()</code>，就会触发这个 eBPF 程序。</p>
-<h3 id="4-6-3-Setting-Up-and-Reading-Perf-Events"><a href="#4-6-3-Setting-Up-and-Reading-Perf-Events" class="headerlink" title="4.6.3 Setting Up and Reading Perf Events"></a>4.6.3 Setting Up and Reading Perf Events</h3><p>看到与 output perf 缓冲区相关的 bpf(BPF_MAP_UPDATE_ELEM) 调用重复出现几次与使用的处理器的核心数量有关。</p>
+<h3 id="4-6-3-Setting-Up-and-Reading-Perf-Events"><a href="#4-6-3-Setting-Up-and-Reading-Perf-Events" class="headerlink" title="4.6.3 Setting Up and Reading Perf Events"></a>4.6.3 Setting Up and Reading Perf Events</h3><p>看到与 output perf 缓冲区相关的 <code>bpf(BPF_MAP_UPDATE_ELEM)</code> 调用重复出现几次与使用的处理器的核心数量有关。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">perf_event_open(&#123;type=PERF_TYPE_SOFTWARE, size=<span class="number">0</span> <span class="comment">/* PERF_ATTR_SIZE_??? */</span>, </span><br><span class="line">   config=PERF_COUNT_SW_BPF_OUTPUT, ...&#125;, <span class="number">-1</span>, X, <span class="number">-1</span>, PERF_FLAG_FD_CLOEXEC) = <span class="number">8</span></span><br><span class="line"></span><br><span class="line">ioctl(Y, PERF_EVENT_IOC_ENABLE, <span class="number">0</span>)      = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">bpf(BPF_MAP_UPDATE_ELEM, &#123;map_fd=<span class="number">4</span>, key=<span class="number">0x7644407f88a0</span>, value=<span class="number">0x7644407f8520</span>, </span><br><span class="line">   flags=BPF_ANY&#125;, <span class="number">32</span>) = <span class="number">0</span>  </span><br></pre></td></tr></table></figure>
 
 <p>在上面的输出中，使用 X 的位置表示值 0、1、2 和 3 。查阅 <a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man2/perf_event_open.2.html">main 手册</a> 会看到这是 cpu，它前面的字段是 pid 或进程 ID。</p>
@@ -248,30 +248,94 @@
 <li>这终于解释了为什么 “output” 性能事件缓冲区映射中有四个条目：每个 CPU 核心对应一个条目。</li>
 <li>这也解释了映射类型名称 BPF_MAP_TYPE_PERF_EVENT_ARRAY 中的 “array（数组）” 部分 —— 因为这个映射并非只代表一个性能事件环形缓冲区，而是一个缓冲区数组，每个核心对应一个缓冲区。</li>
 </ul>
-<p><code>perf_event_open()</code> 的每次调用都会返回一个文件描述符，我将其表示为 Y；这些文件描述符的值分别为 8、9、10 和 11。<code>ioctl ()</code>系统调用会为每一个这类文件描述符启用性能事件输出。BPF_MAP_UPDATE_ELEM 类型的 bpf() 系统调用会设置映射条目，使其指向每个 CPU 核心的性能事件环形缓冲区，以此指定该核心可以提交数据的位置。</p>
-<p>用户空间代码可以在所有这四个输出流文件描述符上使用 <code>ppoll()</code>，以便无论哪个核心恰好运行给定 <code>execue()</code> kprobe 事件的 eBPF 程序 hello，它都可以获得数据输出。</p>
+<p><code>perf_event_open()</code> 的每次调用都会返回一个文件描述符，将其表示为 Y；这些文件描述符的值分别为 8、9、10 和 11。</p>
+<p><code>ioctl ()</code>系统调用会为每一个这类文件描述符启用性能事件输出。</p>
+<p>BPF_MAP_UPDATE_ELEM 类型的 bpf() 系统调用会设置映射条目，使其指向每个 CPU 核心的性能事件环形缓冲区，以此指定该核心可以提交数据的位置。</p>
+<p>用户空间代码可以在这四个输出流文件描述符上使用 <code>ppoll()</code>，以便无论哪个核心恰好运行给定 <code>execue()</code> kprobe 事件的 eBPF 程序 <code>hello</code>，它都可以获得数据输出。</p>
 <p>以下是 ppoll() 的系统调用：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ppoll([&#123;fd=<span class="number">8</span>, events=POLLIN&#125;, &#123;fd=<span class="number">9</span>, events=POLLIN&#125;, &#123;fd=<span class="number">10</span>, events=POLLIN&#125;,</span><br><span class="line">&#123;fd=<span class="number">11</span>, events=POLLIN&#125;], <span class="number">4</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="number">0</span>) = <span class="number">1</span> ([&#123;fd=<span class="number">8</span>, revents=POLLIN&#125;])</span><br></pre></td></tr></table></figure>
 
-<p>注：我在运行 <code>strace -e bpf,perf_event_open,ioctl,ppoll ./hello-buffer-config.py</code> 时，并没有看到 <code>ppoll</code> 的相关调用，在将 <code>ppoll</code> 改为 <code>poll</code> 后，可以看到如下系统调用：</p>
+<p>注：</p>
+<p>我在运行 <code>strace -e bpf,perf_event_open,ioctl,ppoll ./hello-buffer-config.py</code> 时，并没有看到 <code>ppoll</code> 的相关调用。在将 <code>ppoll</code> 改为 <code>poll</code> 后，可以看到如下系统调用：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">poll([&#123;fd=<span class="number">8</span>, events=POLLIN&#125;, &#123;fd=<span class="number">9</span>, events=POLLIN&#125;, ...], <span class="number">22</span>, <span class="number">-1</span>)</span><br><span class="line">    = <span class="number">1</span> ([&#123;fd=<span class="number">23</span>, revents=POLLIN&#125;])</span><br></pre></td></tr></table></figure>
 
-<h2 id="4-7-Ring-Bufers"><a href="#4-7-Ring-Bufers" class="headerlink" title="4.7 Ring Bufers"></a>4.7 Ring Bufers</h2><p>ring buffers are preferred over perf buffers partly for performance reasons</p>
-<p>The bpf() syscall that creates the output ring buffer map:</p>
+<h2 id="4-7-Ring-Bufers"><a href="#4-7-Ring-Bufers" class="headerlink" title="4.7 Ring Bufers"></a>4.7 Ring Bufers</h2><p>在内核版本 5.8 及以上，相比于性能事件缓冲区 (perf buffer)，更倾向于使用 BPF 环形缓冲区 (ring buffer)。这一方面是出于性能考量，另一方面也是为了确保数据的顺序性不会被打乱 —— 即便这些数据是由不同的 CPU 核心提交的。环形缓冲区的实现形式为单个缓冲区，供所有核心共享使用。</p>
+<p>示例 [hello-ring-buffer-config.py]:</p>
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/wiki/ebpf/learning-ebpf/Table-4-2.png"></p>
+<p>创建 <code>output</code> 环形缓冲区映射的 <code>bpf()</code> 系统调用如下所示：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bpf(BPF_MAP_CREATE, &#123;map_type=BPF_MAP_TYPE_RINGBUF, key_size=<span class="number">0</span>, value_size=<span class="number">0</span>, </span><br><span class="line">   max_entries=<span class="number">4096</span>, ..., map_name=<span class="string">&quot;output&quot;</span>, ...&#125;, <span class="number">80</span>) = <span class="number">4</span></span><br></pre></td></tr></table></figure>
 
-<p>For a ring buffer, there’s just the one file descriptor shared across all CPU cores.</p>
-<h2 id="4-8-Reading-Information-from-a-Map"><a href="#4-8-Reading-Information-from-a-Map" class="headerlink" title="4.8 Reading Information from a Map"></a>4.8 Reading Information from a Map</h2><p>an extract of the bpf() syscalls that bpftool makes while reading the contents of the config map:</p>
+<p>在撰写本文时，BCC 使用在前面展示的 <code>ppoll</code> 机制来处理 perf 缓冲区，但它使用较新的 <code>epoll</code> 机制来等待环形缓冲区的数据。</p>
+<h3 id="ppoll"><a href="#ppoll" class="headerlink" title="ppoll"></a>ppoll</h3><p>[hello-buffer-config.py] 中产生的 <code>ppoll()</code> 系统调用如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ppoll([&#123;fd=<span class="number">8</span>, events=POLLIN&#125;, &#123;fd=<span class="number">9</span>, events=POLLIN&#125;, &#123;fd=<span class="number">10</span>, events=POLLIN&#125;,</span><br><span class="line">&#123;fd=<span class="number">11</span>, events=POLLIN&#125;], <span class="number">4</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="number">0</span>) = <span class="number">1</span> ([&#123;fd=<span class="number">8</span>, revents=POLLIN&#125;])</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，这里传入了一组文件描述符（8、9、10、11），用户态进程正是要从这些描述符中读取数据。每当这个 poll 事件返回数据时，都必须再次调用 <code>ppoll()</code>，重新传入这同一组文件描述符。而在使用 <code>epoll</code> 时，这组文件描述符会由一个内核对象来管理。</p>
+<h3 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h3><p>当使用 strace 运行 [hello-ring-buffer-config.py] 时，会看到如下 epoll 相关的系统调用：</p>
+<p>首先，用户空间程序请求在内核中创建一个新的 epoll 实例：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">epoll_create1(EPOLL_CLOEXEC)            = 8</span><br></pre></td></tr></table></figure>
+
+<p>随后会调用 <code>epoll_ctl()</code>，该函数会告知内核，将文件描述符 4（即 output 缓冲区）添加到这个 epoll 实例所管理的文件描述符集合中。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">epoll_ctl(8, EPOLL_CTL_ADD, 4, &#123;events=EPOLLIN, data=&#123;u32=0, u64=0&#125;&#125;) = 0</span><br></pre></td></tr></table></figure>
+
+<p>用户态程序调用 <code>epoll_wait()</code> 等待环形缓冲区中出现可用数据。只有当数据就绪时，该调用才会返回。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">epoll_wait(8, [&#123;events=EPOLLIN, data=&#123;u32=0, u64=0&#125;&#125;], 1, -1) = 1</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-8-Reading-Information-from-a-Map"><a href="#4-8-Reading-Information-from-a-Map" class="headerlink" title="4.8 Reading Information from a Map"></a>4.8 Reading Information from a Map</h2><p>对 <code>bpftool</code> 行为的分析展示了用户空间程序如何遍历可用的映射以及存储在映射中的键值对。</p>
+<p>以下命令展示了 <code>bpftool</code> 在读取 <code>config</code> 映射内容时，所调用的 <code>bpf()</code> 系统调用的片段：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strace -e bpf bpftool map dump name config</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-8-1-Finding-a-Map"><a href="#4-8-1-Finding-a-Map" class="headerlink" title="4.8.1 Finding a Map"></a>4.8.1 Finding a Map</h3><p>bpftool walks through all the maps looking for any with the name config</p>
+<p>你将会看到，该流程包含两个主要步骤：</p>
+<ol>
+<li><p>遍历所有映射，查找名称为 <code>config</code> 的映射。</p>
+</li>
+<li><p>若找到匹配的映射，则遍历该映射内的所有元素。</p>
+</li>
+</ol>
+<h3 id="4-8-1-Finding-a-Map"><a href="#4-8-1-Finding-a-Map" class="headerlink" title="4.8.1 Finding a Map"></a>4.8.1 Finding a Map</h3><p><code>bpftool</code> 会遍历所有映射，查找名称为 <code>config</code> 的映射:</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">bpf(BPF_MAP_GET_NEXT_ID, &#123;start_id=0, ...&#125;, 12) = 0</span><br><span class="line">bpf(BPF_MAP_GET_FD_BY_ID, &#123;map_id=25, ...&#125;, 12) = 3</span><br><span class="line">bpf(BPF_OBJ_GET_INFO_BY_FD, &#123;info=&#123;bpf_fd=3, ...&#125;&#125;, 16) = 0</span><br><span class="line"></span><br><span class="line">bpf(BPF_MAP_GET_NEXT_ID, &#123;start_id=25, ...&#125;, 12) = 0</span><br><span class="line">bpf(BPF_MAP_GET_FD_BY_ID, &#123;map_id=26, ...&#125;, 12) = 3</span><br><span class="line">bpf(BPF_OBJ_GET_INFO_BY_FD, &#123;info=&#123;bpf_fd=3, ...&#125;&#125;, 16) = 0</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-8-2-Reading-Map-Elements"><a href="#4-8-2-Reading-Map-Elements" class="headerlink" title="4.8.2 Reading Map Elements"></a>4.8.2 Reading Map Elements</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">bpf(BPF_MAP_GET_NEXT_KEY, &#123;map_fd=3, key=NULL, next_key=0x5897d6dd81c0&#125;, 24) = 0</span><br><span class="line">bpf(BPF_MAP_LOOKUP_ELEM, &#123;map_fd=3, key=0x5897d6dd81c0, value=0x5897d6dd81e0, flags=BPF_ANY&#125;, 32) = 0       </span><br><span class="line">[&#123;</span><br><span class="line">        <span class="string">&quot;key&quot;</span>: 0,</span><br><span class="line">        <span class="string">&quot;value&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;message&quot;</span>: <span class="string">&quot;Hey root!&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">bpf(BPF_MAP_GET_NEXT_KEY, &#123;map_fd=3, key=0x5897d6dd81c0, next_key=0x5897d6dd81c0&#125;, 24) = -1 ENOENT (No such file or directory)</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br><span class="line">+++ exited with 0 +++</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p><code>BPF_MAP_GET_NEXT_ID</code> 用于获取在 <code>start_id</code> 指定的值之后的下一个映射的 ID。</p>
+</li>
+<li><p><code>BPF_MAP_GET_FD_BY_ID</code> 会返回指定映射 ID 对应的文件描述符。</p>
+</li>
+<li><p><code>BPF_OBJ_GET_INFO_BY_FD</code> 用于获取由文件描述符所指向的对象（此处即映射）的相关信息。这些信息包含该对象的名称， <code>bpftool</code> 可以据此判断该对象是否为其要查找的映射。</p>
+</li>
+</ol>
+<p>内核中加载的每个映射，都会对应这样一组三条系统调用。你还会发现，<code>start_id</code> 和 <code>map_id</code> 所使用的值，与这些映射的 ID 是相匹配的。当再也没有可供查找的映射时，这个重复的调用模式便会终止，此时 <code>BPF_MAP_GET_NEXT_ID</code> 会返回 <code>ENOENT</code> 错误值，如下所示：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bpf(BPF_MAP_GET_NEXT_ID, &#123;start_id=37, next_id=0, open_flags=0&#125;, 12) = -1 ENOENT (No such file or directory)</span><br></pre></td></tr></table></figure>
 
-<h2 id="4-9-Summary"><a href="#4-9-Summary" class="headerlink" title="4.9 Summary"></a>4.9 Summary</h2><div class="tag-plugin colorful checkbox" ><input type="checkbox"/><span>todo</span></div>
+<h3 id="4-8-2-Reading-Map-Elements"><a href="#4-8-2-Reading-Map-Elements" class="headerlink" title="4.8.2 Reading Map Elements"></a>4.8.2 Reading Map Elements</h3><p>如果找到了匹配的映射，<code>bpftool</code> 会持有该映射的文件描述符，以便从中读取元素。下面我们来看读取该信息对应的系统调用序列：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">bpf(BPF_MAP_GET_NEXT_KEY, &#123;map_fd=3, key=NULL, next_key=0x5897d6dd81c0&#125;, 24) = 0</span><br><span class="line">bpf(BPF_MAP_LOOKUP_ELEM, &#123;map_fd=3, key=0x5897d6dd81c0, value=0x5897d6dd81e0, flags=BPF_ANY&#125;, 32) = 0       </span><br><span class="line">[&#123;</span><br><span class="line">        <span class="string">&quot;key&quot;</span>: 0,</span><br><span class="line">        <span class="string">&quot;value&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;message&quot;</span>: <span class="string">&quot;Hey root!&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">bpf(BPF_MAP_GET_NEXT_KEY, &#123;map_fd=3, key=0x5897d6dd81c0, next_key=0x5897d6dd81c0&#125;, 24) = -1 ENOENT (No such file or directory)</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br><span class="line">+++ exited with 0 +++</span><br></pre></td></tr></table></figure>
 
-<h2 id="4-10-Exercises"><a href="#4-10-Exercises" class="headerlink" title="4.10 Exercises"></a>4.10 Exercises</h2><div class="tag-plugin colorful checkbox" ><input type="checkbox"/><span>todo</span></div></article>
+<ol>
+<li><p>首先，应用程序需要找到一个存在于该映射中的有效键 (key)。它通过 <code>bpf()</code> 系统调用的 <code>BPF_MAP_GET_NEXT_KEY</code> 类型来实现这一操作。其中，<code>key</code> 参数是一个指向键的指针，该系统调用会返回此键之后的下一个有效键。若传入的是一个空指针（NULL），则表示应用程序请求获取该映射中的第一个有效键。内核会将这个键写入到 <code>next_key</code> 指针所指向的内存地址中。</p>
+</li>
+<li><p><code>BPF_MAP_LOOKUP_ELEM</code>：给定一个键后，应用程序会请求获取其对应的数值，该数值会被写入 value 指针所指定的内存地址中。</p>
+</li>
+<li><p><code>bpftool</code> 获取到第一组键值对的内容，并将该信息输出到屏幕上。</p>
+</li>
+<li><p>当再次调用 <code>BPF_MAP_GET_NEXT_KEY</code> 时，系统会返回 <code>ENOENT</code> 错误码，表明该映射中已无更多条目。</p>
+</li>
+<li><p>最后，<code>bpftool</code> 完成屏幕输出的收尾工作并退出。</p>
+</li>
+</ol>
+<h2 id="4-9-Summary"><a href="#4-9-Summary" class="headerlink" title="4.9 Summary"></a>4.9 Summary</h2><ol>
+<li><p>BPF_PROG_LOAD 和 BPF_MAP_CREATE</p>
+</li>
+<li><p>eBPF 程序和 maps 的引用计数 (reference counts)</p>
+</li>
+<li><p>BPF links</p>
+</li>
+<li><p>用户空间程序使用 <code>perf_event_open()</code> 和 <code>ioctl()</code> 将 eBPF 程序附加到 <code>kprobe</code> 事件</p>
+</li>
+<li><p>如何使用 <code>BPF_MAP_GET_NEXT_ID</code>、<code>BPF_MAP_GET_FD_BY_ID</code> 和 <code>BPF_OBJ_GET_INFO_BY_FD</code> 来定位内核持有的映射和其他对象</p>
+</li>
+</ol>
+<h2 id="4-10-Exercises"><a href="#4-10-Exercises" class="headerlink" title="4.10 Exercises"></a>4.10 Exercises</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/gaoyangu/learning-ebpf-exercises">learning-ebpf-exercises</a></li>
+</ul>
+</article>
 <div class="article-footer">
 
 </div>
@@ -303,7 +367,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-Loading-BTF-Data"><span class="toc-text">4.1 Loading BTF Data</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-Creating-Maps"><span class="toc-text">4.2 Creating Maps</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-Loading-a-Program"><span class="toc-text">4.3 Loading a Program</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-Modifying-a-Map-from-User-Space"><span class="toc-text">4.4 Modifying a Map from User Space</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-BPF-Program-and-Map-References"><span class="toc-text">4.5 BPF Program and Map References</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-1-Pinning"><span class="toc-text">4.5.1 Pinning</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#eBPF-program"><span class="toc-text">eBPF program</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#eBPF-map"><span class="toc-text">eBPF map</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-2-BPF-Links"><span class="toc-text">4.5.2 BPF Links</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-6-Additional-Syscalls-Involved-in-eBPF"><span class="toc-text">4.6 Additional Syscalls Involved in eBPF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-1-Initializing-the-Perf-Bufer"><span class="toc-text">4.6.1 Initializing the Perf Bufer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-2-Attaching-to-Kprobe-Events"><span class="toc-text">4.6.2 Attaching to Kprobe Events</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-3-Setting-Up-and-Reading-Perf-Events"><span class="toc-text">4.6.3 Setting Up and Reading Perf Events</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-7-Ring-Bufers"><span class="toc-text">4.7 Ring Bufers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-8-Reading-Information-from-a-Map"><span class="toc-text">4.8 Reading Information from a Map</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-8-1-Finding-a-Map"><span class="toc-text">4.8.1 Finding a Map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-8-2-Reading-Map-Elements"><span class="toc-text">4.8.2 Reading Map Elements</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-9-Summary"><span class="toc-text">4.9 Summary</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-10-Exercises"><span class="toc-text">4.10 Exercises</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-Loading-BTF-Data"><span class="toc-text">4.1 Loading BTF Data</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-Creating-Maps"><span class="toc-text">4.2 Creating Maps</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-Loading-a-Program"><span class="toc-text">4.3 Loading a Program</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-Modifying-a-Map-from-User-Space"><span class="toc-text">4.4 Modifying a Map from User Space</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-BPF-Program-and-Map-References"><span class="toc-text">4.5 BPF Program and Map References</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-1-Pinning"><span class="toc-text">4.5.1 Pinning</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#eBPF-program"><span class="toc-text">eBPF program</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#eBPF-map"><span class="toc-text">eBPF map</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-2-BPF-Links"><span class="toc-text">4.5.2 BPF Links</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-6-Additional-Syscalls-Involved-in-eBPF"><span class="toc-text">4.6 Additional Syscalls Involved in eBPF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-1-Initializing-the-Perf-Bufer"><span class="toc-text">4.6.1 Initializing the Perf Bufer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-2-Attaching-to-Kprobe-Events"><span class="toc-text">4.6.2 Attaching to Kprobe Events</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-3-Setting-Up-and-Reading-Perf-Events"><span class="toc-text">4.6.3 Setting Up and Reading Perf Events</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-7-Ring-Bufers"><span class="toc-text">4.7 Ring Bufers</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ppoll"><span class="toc-text">ppoll</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#epoll"><span class="toc-text">epoll</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-8-Reading-Information-from-a-Map"><span class="toc-text">4.8 Reading Information from a Map</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-8-1-Finding-a-Map"><span class="toc-text">4.8.1 Finding a Map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-8-2-Reading-Map-Elements"><span class="toc-text">4.8.2 Reading Map Elements</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-9-Summary"><span class="toc-text">4.9 Summary</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-10-Exercises"><span class="toc-text">4.10 Exercises</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
 </div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
