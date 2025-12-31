@@ -20,16 +20,16 @@
   <title>eBPF：06. The eBPF Verifier - gaoyangu</title>
 
   
-    <meta name="description" content="the verifier works on eBPF bytecode, not directly on the source.  That bytecode depends on the output from the compiler.  6.1 The Verification ProcessAs it goes along it keeps track of the state of ea">
+    <meta name="description" content="当你将一个 eBPF 程序加载至内核时，校验过程会检查程序的所有可能执行路径，并确保每条指令的安全性。同时，校验器还会对字节码进行若干修正，使其处于可执行状态。 eBPF 校验器的处理对象是 eBPF 字节码，而非直接处理源代码。字节码的生成取决于编译器的输出结果。受编译器优化等因素的影响，源代码的改动不一定会在字节码中产生你预期的变化，相应地，校验器给出的校验结果也可能与你的预期不符。 6.1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="06. The eBPF Verifier">
 <meta property="og:url" content="http://example.com/wiki/ebpf/learning-ebpf-06/">
 <meta property="og:site_name" content="gaoyangu">
-<meta property="og:description" content="the verifier works on eBPF bytecode, not directly on the source.  That bytecode depends on the output from the compiler.  6.1 The Verification ProcessAs it goes along it keeps track of the state of ea">
+<meta property="og:description" content="当你将一个 eBPF 程序加载至内核时，校验过程会检查程序的所有可能执行路径，并确保每条指令的安全性。同时，校验器还会对字节码进行若干修正，使其处于可执行状态。 eBPF 校验器的处理对象是 eBPF 字节码，而非直接处理源代码。字节码的生成取决于编译器的输出结果。受编译器优化等因素的影响，源代码的改动不一定会在字节码中产生你预期的变化，相应地，校验器给出的校验结果也可能与你的预期不符。 6.1">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2025-12-31T02:44:54.725Z">
-<meta property="article:modified_time" content="2025-12-31T02:44:54.725Z">
+<meta property="article:published_time" content="2025-12-31T03:48:31.692Z">
+<meta property="article:modified_time" content="2025-12-31T03:48:31.692Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
@@ -48,7 +48,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/ebpf/learning-ebpf-06/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"06. The eBPF Verifier","description":"the verifier works on eBPF bytecode, not directly on the source. \nThat bytecode depends on the output from the compiler. \n6.1 The Verification ProcessAs it goes along it keeps track of the state of...","url":"http://example.com/wiki/ebpf/learning-ebpf-06/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/ebpf/learning-ebpf-06/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"06. The eBPF Verifier","description":"当你将一个 eBPF 程序加载至内核时，校验过程会检查程序的所有可能执行路径，并确保每条指令的安全性。同时，校验器还会对字节码进行若干修正，使其处于可执行状态。\neBPF 校验器的处理对象是 eBPF 字节码，而非直接处理源代码。字节码的生成取决于编译器的输出结果。受编译器优化等因素的影响，源代码的改动不一定会在字节码中产生你预期的变化，相应地，校验器给出的校验结果也可能与你的预期不符。\n6...","url":"http://example.com/wiki/ebpf/learning-ebpf-06/"}</script>
   <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ebpf/ebpf/">eBPF</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-12-31T02:44:54.725Z">2025-12-31</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-12-31T03:48:31.692Z">2025-12-31</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -94,24 +94,45 @@
     </div>
     
   </div>
-  </div><article class="md-text content"><p>the verifier works on eBPF bytecode, not directly on the source. </p>
-<p>That bytecode depends on the output from the compiler. </p>
-<h2 id="6-1-The-Verification-Process"><a href="#6-1-The-Verification-Process" class="headerlink" title="6.1 The Verification Process"></a>6.1 The Verification Process</h2><p>As it goes along it keeps track of the state of each register in a structure called <code>bpf_reg_state</code>.</p>
-<p>This structure includes a field called <code>bpf_reg_type</code>, which describes what type of value is held in that register.</p>
+  </div><article class="md-text content"><p>当你将一个 eBPF 程序加载至内核时，校验过程会检查程序的所有可能执行路径，并确保每条指令的安全性。同时，校验器还会对字节码进行若干修正，使其处于可执行状态。</p>
+<p>eBPF 校验器的处理对象是 eBPF 字节码，而非直接处理源代码。字节码的生成取决于编译器的输出结果。受编译器优化等因素的影响，源代码的改动不一定会在字节码中产生你预期的变化，相应地，校验器给出的校验结果也可能与你的预期不符。</p>
+<h2 id="6-1-The-Verification-Process"><a href="#6-1-The-Verification-Process" class="headerlink" title="6.1 The Verification Process"></a>6.1 The Verification Process</h2><p>校验器会对程序进行分析，以评估其所有可能的执行路径。它会按顺序逐条遍历指令，对指令进行校验评估，而非实际执行指令。</p>
+<p>在这一过程中，校验器会通过一个名为 <code>bpf_reg_state</code> 的结构体，持续跟踪记录每个寄存器的状态。该结构体包含一个名为 <code>bpf_reg_type</code> 的字段，用于描述对应寄存器中存储值的类型。这类值的类型有多种可能，其中包括以下几种：</p>
 <ul>
-<li>NOT_INIT, indicating that the register has not yet been set to a value.</li>
-<li>SCALAR_VALUE, indicating that the register has been set to a value that doesn’t represent a pointer</li>
-<li>Several PTR_TO_* types, indicating that the register holds a pointer to something.<ul>
-<li>PTR_TO_CTX: The register holds a pointer to the context passed as the argument to a BPF program.</li>
-<li>PTR_TO_PACKET: The register points to a network packet (held in the kernel as skb-&gt;data).</li>
-<li>PTR_TO_MAP_KEY or PTR_TO_MAP_VALUE</li>
+<li><p><code>NOT_INIT</code>, 表示寄存器尚未被赋值。</p>
+</li>
+<li><p><code>SCALAR_VALUE</code>, 表示寄存器中存储的值为非指针类型。</p>
+</li>
+<li><p>多种 <code>PTR_TO_*</code> 类型：表示寄存器中存储的是指向某一对象的指针。</p>
+<ul>
+<li><code>PTR_TO_CTX</code>: 寄存器中存储的指针，指向传入 eBPF 程序的上下文参数。</li>
+<li><code>PTR_TO_PACKET</code>: 寄存器中存储的指针，指向网络数据包（在内核中以 <code>skb-&gt;data</code> 的形式存储）。</li>
+<li><code>PTR_TO_MAP_KEY</code> or <code>PTR_TO_MAP_VALUE</code></li>
 </ul>
 </li>
 </ul>
-<p>There are several other PTR_TO_* types, and you can find the full set enumerated in the linux&#x2F;bpf.h header file.</p>
-<h2 id="6-2-The-Verifier-Log"><a href="#6-2-The-Verifier-Log" class="headerlink" title="6.2 The Verifier Log"></a>6.2 The Verifier Log</h2><p>When the verification of a program fails, the verifier generates a log showing how it reached the conclusion that the program is invalid.</p>
-<p>If you’re using bpftool prog load, the verifier log gets output to stderr. </p>
-<p>When you’re writing a program with libbpf, you can use the function libbpf_set_print() to set a handler that will display (or do something else useful with) any errors.</p>
+<p>还有其他几种 <code>PTRTO*</code> 类型参考 <a target="_blank" rel="noopener" href="https://elixir.bootlin.com/linux/v6.18.2/source/include/linux/bpf.h#L959">linux&#x2F;bpf.h</a>。</p>
+<p><code>bpf_reg_state</code> 结构体还会跟踪记录寄存器可能存储的值的取值范围。校验器会利用这些信息，判断程序是否存在尝试执行非法操作的行为。</p>
+<p>每当校验器遇到分支结构 —— 也就是需要决定是按顺序继续执行，还是跳转到其他指令的位置时，它会将所有寄存器的当前状态生成一份副本并压入栈中，随后再去遍历其中一条可能的执行路径。对每一种可能性逐一进行校验，会产生高昂的计算开销。因此在实际应用中，会采用一种名为状态剪枝(state pruning)的优化手段，来避免对程序中本质上等价的执行路径进行重复评估。</p>
+<p>相关阅读：</p>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="eBPF verifier" href="https://docs.kernel.org/bpf/verifier.html" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">eBPF verifier</span><span class="cap link footnote">https://docs.kernel.org/bpf/verifier.html</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/link/8f277b4ee0ecd.svg"></div></div></a></div>
+
+<h2 id="6-2-The-Verifier-Log"><a href="#6-2-The-Verifier-Log" class="headerlink" title="6.2 The Verifier Log"></a>6.2 The Verifier Log</h2><p>当程序校验失败时，校验器会生成一份日志，记录其判定该程序无效的完整过程。</p>
+<ul>
+<li><p>若你使用 <code>bpftool prog load</code> 命令加载程序，校验器日志会输出至标准错误流（stderr）。</p>
+</li>
+<li><p>当你基于 <code>libbpf</code> 编写程序时，可以调用 <code>libbpf_set_print()</code> 函数来设置一个处理函数，该函数可用于显示各类错误信息（或对这些错误信息执行其他实用操作）。</p>
+</li>
+</ul>
+<p>校验器日志会包含一份校验器工作量汇总，内容示例如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">processed 61 insns (<span class="built_in">limit</span> 1000000) max_states_per_insn 0 total_states 4 peak_states 4 mark_read 3</span><br></pre></td></tr></table></figure>
+
+<p>在本示例中，校验器共处理了 61 条指令，其中包含通过不同执行路径到达同一条指令、进而对其进行多次处理的情况。需要注意的是，一百万条指令的复杂度上限是程序指令数量的阈值；而在实际场景中，若代码内存在分支结构，校验器会对部分指令执行多次处理。</p>
+<p>本次存储的状态总数为 4 个，对于这个简单的程序而言，该数值与存储状态的峰值是一致的。如果其中部分状态被执行了剪枝操作，那么状态峰值就有可能低于这个总数。</p>
+<p>日志输出包含校验器已分析的 BPF 指令，以及对应的 C 语言源代码行（前提是目标文件在编译时添加了 <code>-g</code> 参数以包含调试信息），同时还会附带校验器状态信息的摘要。以下是一段校验器日志的示例片段，内容对应 <code>hello-verifier.bpf.c</code> 程序开头的几行代码：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">0: (bf) r6 = r1</span><br><span class="line"><span class="comment"># 日志包括源代码行，以便于理解输出结果与源代码的关系。由于在编译步骤中使用了 -g 标志来建立调试信息，因此这些源代码是可用的。</span></span><br><span class="line">; data.counter = c;</span><br><span class="line">1: (18) r1 = 0xffff800008178000</span><br><span class="line">3: (61) r2 = *(u32 *)(r1 +0)</span><br><span class="line"> <span class="comment"># 这是在日志中输出一些寄存器状态信息的示例。它告诉我们，在这个阶段，寄存器 1 包含映射值，寄存器 6 保存上下文，寄存器 10 是帧（或栈）指针，用于保存局部变量。</span></span><br><span class="line"> R1_w=map_value(<span class="built_in">id</span>=0,off=0,ks=4,vs=16,imm=0) R6_w=ctx(<span class="built_in">id</span>=0,off=0,imm=0) R10=fp0</span><br><span class="line">; c++;</span><br><span class="line">4: (bf) r3 = r2</span><br><span class="line">5: (07) r3 += 1</span><br><span class="line">6: (63) *(u32 *)(r1 +0) = r3</span><br><span class="line"> <span class="comment"># 这是寄存器状态信息的另一个示例。在这里，您不仅可以看到每个（初始化）寄存器中保存的值的类型，还可以看到寄存器 2 和寄存器 3 的可能值的范围。</span></span><br><span class="line"> R1_w=map_value(<span class="built_in">id</span>=0,off=0,ks=4,vs=16,imm=0) R2_w=inv(<span class="built_in">id</span>=1,umax_value=4294967295,</span><br><span class="line"> var_off=(0x0; 0xffffffff)) R3_w=inv(<span class="built_in">id</span>=0,umin_value=1,umax_value=4294967296,</span><br><span class="line"> var_off=(0x0; 0x1ffffffff)) R6_w=ctx(<span class="built_in">id</span>=0,off=0,imm=0) R10=fp0</span><br></pre></td></tr></table></figure>
+
+
 <p>When an eBPF program is called, Register 1 always holds the context argument passed to the program.</p>
 <p>Register 0 is used for the return value from a helper function and also for the return value from an eBPF program. </p>
 <p>Register 10 always holds a pointer to the eBPF stack frame (and the eBPF program can’t modify it).</p>
