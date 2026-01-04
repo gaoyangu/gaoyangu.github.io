@@ -28,8 +28,8 @@
 <meta property="og:description" content="当你将一个 eBPF 程序加载至内核时，校验过程会检查程序的所有可能执行路径，并确保每条指令的安全性。同时，校验器还会对字节码进行若干修正，使其处于可执行状态。 eBPF 校验器的处理对象是 eBPF 字节码，而非直接处理源代码。字节码的生成取决于编译器的输出结果。受编译器优化等因素的影响，源代码的改动不一定会在字节码中产生你预期的变化，相应地，校验器给出的校验结果也可能与你的预期不符。 6.1">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2026-01-04T03:58:35.245Z">
-<meta property="article:modified_time" content="2026-01-04T03:58:35.245Z">
+<meta property="article:published_time" content="2026-01-04T05:54:28.700Z">
+<meta property="article:modified_time" content="2026-01-04T05:54:28.700Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ebpf/ebpf/">eBPF</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-01-04T03:58:35.245Z">2026-01-04</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-01-04T05:54:28.700Z">2026-01-04</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -233,12 +233,20 @@
 <p>这个辅助函数的第一个参数为最大迭代次数，同时还会传入一个迭代回调函数—— 每次循环迭代时都会调用该函数。无论这个回调函数会被调用多少次，校验器都只需要对其中的 BPF 指令执行一次合法性验证。</p>
 <p>回调函数可以返回一个非零值，以此表示无需再继续调用该函数，这一机制可用于在得到预期结果后提前终止循环。</p>
 <p>还有一个辅助函数 <code>bpf_for_each_map_elem()</code>，它会针对映射中的每一个元素，调用传入的回调函数。</p>
-<h2 id="6-12-Checking-the-Return-Code"><a href="#6-12-Checking-the-Return-Code" class="headerlink" title="6.12 Checking the Return Code"></a>6.12 Checking the Return Code</h2><p>The return code from an eBPF program is stored in Register 0 (R0).</p>
-<p>Register 0 is also used to hold the return code from a helper function. After returning from a helper function in an eBPF program, Register 0 is no longer uninitialized.</p>
-<h2 id="6-13-Invalid-Instructions"><a href="#6-13-Invalid-Instructions" class="headerlink" title="6.13 Invalid Instructions"></a>6.13 Invalid Instructions</h2><p>The verifier checks that the instructions in a program are valid bytecode instructions—for example, using only known opcodes.</p>
-<h2 id="6-14-Unreachable-Instructions"><a href="#6-14-Unreachable-Instructions" class="headerlink" title="6.14 Unreachable Instructions"></a>6.14 Unreachable Instructions</h2><p>The verifier also rejects programs that have unreachable instructions. Oftentimes, these will get optimized out by the compiler anyway.</p>
-<h2 id="6-15-Summary"><a href="#6-15-Summary" class="headerlink" title="6.15 Summary"></a>6.15 Summary</h2><p>The verifier keeps track of the types and possible range of values for each register to ensure that eBPF programs are safe to run.</p>
-<h2 id="6-16-Exercises"><a href="#6-16-Exercises" class="headerlink" title="6.16 Exercises"></a>6.16 Exercises</h2><div class="tag-plugin colorful checkbox" ><input type="checkbox"/><span>todo</span></div></article>
+<h2 id="6-12-Checking-the-Return-Code"><a href="#6-12-Checking-the-Return-Code" class="headerlink" title="6.12 Checking the Return Code"></a>6.12 Checking the Return Code</h2><p>eBPF 程序的返回值会被存储在寄存器 0（R0）中。如果程序未对 R0 进行初始化，校验器就会判定程序无效，报错信息如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R0 !read_ok</span><br></pre></td></tr></table></figure>
+
+<p>你可以通过注释掉函数内的所有代码来测试这一点；例如，将 <code>xdp_hello</code> 示例程序修改为如下形式：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SEC(<span class="string">&quot;xdp&quot;</span>)</span><br><span class="line"><span class="type">int</span> <span class="title function_">xdp_hello</span><span class="params">(<span class="keyword">struct</span> xdp_md *ctx)</span> &#123;</span><br><span class="line">  <span class="type">void</span> *data = (<span class="type">void</span> *)(<span class="type">long</span>)ctx-&gt;data;</span><br><span class="line">  <span class="type">void</span> *data_end = (<span class="type">void</span> *)(<span class="type">long</span>)ctx-&gt;data_end;</span><br><span class="line"></span><br><span class="line"><span class="comment">//   bpf_printk(&quot;%x %x&quot;, data, data_end);</span></span><br><span class="line"><span class="comment">//   return XDP_PASS;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码会无法通过校验器的检查。但如果你把调用辅助函数 <code>bpf_printf()</code> 的那行代码恢复回去，即便源代码里没有显式设置返回值，校验器也不会再报错。</p>
+<p>这是因为寄存器 0（R0）同时也被用于存储辅助函数的返回值。在 eBPF 程序中，当辅助函数执行完毕返回后，寄存器 0 就不再处于未初始化的状态了。</p>
+<h2 id="6-13-Invalid-Instructions"><a href="#6-13-Invalid-Instructions" class="headerlink" title="6.13 Invalid Instructions"></a>6.13 Invalid Instructions</h2><p>eBPF 程序由一系列字节码指令构成。校验器会检查程序中的指令是否为合法的字节码指令 —— 例如，是否只使用了已知的操作码。</p>
+<p>如果编译器生成了非法字节码，这会被视作一个编译器缺陷；因此，除非你（出于某些自己才清楚的原因）选择手动编写 eBPF 字节码，否则一般不会遇到这类校验器错误。</p>
+<p>不过，近年来内核新增了一些指令，比如原子操作指令。如果你的编译后字节码中使用了这些指令，那么程序在较旧版本的内核上运行时，就会无法通过校验。</p>
+<h2 id="6-14-Unreachable-Instructions"><a href="#6-14-Unreachable-Instructions" class="headerlink" title="6.14 Unreachable Instructions"></a>6.14 Unreachable Instructions</h2><p>校验器还会拒绝包含不可达指令的程序。不过，这类指令通常都会被编译器在优化阶段自动剔除。</p>
+<h2 id="6-15-Summary"><a href="#6-15-Summary" class="headerlink" title="6.15 Summary"></a>6.15 Summary</h2><p>eBPF 虚拟机在逐条执行 eBPF 程序指令的过程中，会借助一组寄存器来暂存数据；而校验器会持续追踪每个寄存器的类型及其数值的可能范围，以此确保 eBPF 程序的运行安全性。</p>
+<h2 id="6-16-Exercises"><a href="#6-16-Exercises" class="headerlink" title="6.16 Exercises"></a>6.16 Exercises</h2><div class="tag-plugin link dis-select"><a class="link-card plain" title="learning-ebpf-exercises" href="https://github.com/gaoyangu/learning-ebpf-exercises" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">learning-ebpf-exercises</span><span class="cap link footnote">https://github.com/gaoyangu/learning-ebpf-exercises</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/link/8f277b4ee0ecd.svg"></div></div></a></div></article>
 <div class="article-footer">
     <section id="references">
       <div class="header"><span>参考资料</span></div>
