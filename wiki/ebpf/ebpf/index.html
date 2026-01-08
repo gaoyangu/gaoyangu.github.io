@@ -20,16 +20,16 @@
   <title>eBPF：index - gaoyangu</title>
 
   
-    <meta name="description" content="web eBPF.io eBPF Docs  github bcc: 一套用于开发高性能内核跟踪与操控程序的工具集，内置多款实用工具及示例程序  bcc: libbpf-tools: BCC 工具集的 libbpf 版本  BTFhub: 为所有未原生支持嵌入式 BTF 的已发布内核提供 BTF 文件。确保即便是无内置 BTF 支持的内核，也能有效利用 eBPF 程序的优势，从而提升各类内核版本间">
+    <meta name="description" content="web eBPF.io eBPF Docs BPF and XDP Reference Guide  github bcc: 一套用于开发高性能内核跟踪与操控程序的工具集，内置多款实用工具及示例程序  bcc: libbpf-tools: BCC 工具集的 libbpf 版本  BTFhub: 为所有未原生支持嵌入式 BTF 的已发布内核提供 BTF 文件。确保即便是无内置 BTF 支持的内核，也">
 <meta property="og:type" content="website">
 <meta property="og:title" content="index">
 <meta property="og:url" content="http://example.com/wiki/ebpf/ebpf/">
 <meta property="og:site_name" content="gaoyangu">
-<meta property="og:description" content="web eBPF.io eBPF Docs  github bcc: 一套用于开发高性能内核跟踪与操控程序的工具集，内置多款实用工具及示例程序  bcc: libbpf-tools: BCC 工具集的 libbpf 版本  BTFhub: 为所有未原生支持嵌入式 BTF 的已发布内核提供 BTF 文件。确保即便是无内置 BTF 支持的内核，也能有效利用 eBPF 程序的优势，从而提升各类内核版本间">
+<meta property="og:description" content="web eBPF.io eBPF Docs BPF and XDP Reference Guide  github bcc: 一套用于开发高性能内核跟踪与操控程序的工具集，内置多款实用工具及示例程序  bcc: libbpf-tools: BCC 工具集的 libbpf 版本  BTFhub: 为所有未原生支持嵌入式 BTF 的已发布内核提供 BTF 文件。确保即便是无内置 BTF 支持的内核，也">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2026-01-08T05:32:34.701Z">
-<meta property="article:modified_time" content="2026-01-08T05:32:34.701Z">
+<meta property="article:published_time" content="2026-01-08T06:19:47.974Z">
+<meta property="article:modified_time" content="2026-01-08T06:19:47.974Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
@@ -48,7 +48,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/ebpf/ebpf/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"index","description":"web\neBPF.io\neBPF Docs\n\ngithub\nbcc: 一套用于开发高性能内核跟踪与操控程序的工具集，内置多款实用工具及示例程序\n\nbcc: libbpf-tools: BCC 工具集的 libbpf 版本\n\nBTFhub: 为所有未原生支持嵌入式 BTF 的已发布内核提供 BTF 文件。确保即便是无内置 BTF 支持的内核，也能有效利用 eBPF 程序的优势，从而提升各类内核...","url":"http://example.com/wiki/ebpf/ebpf/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/ebpf/ebpf/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"index","description":"web\neBPF.io\neBPF Docs\nBPF and XDP Reference Guide\n\ngithub\nbcc: 一套用于开发高性能内核跟踪与操控程序的工具集，内置多款实用工具及示例程序\n\nbcc: libbpf-tools: BCC 工具集的 libbpf 版本\n\nBTFhub: 为所有未原生支持嵌入式 BTF 的已发布内核提供 BTF 文件。确保即便是无内置 BTF 支持的内...","url":"http://example.com/wiki/ebpf/ebpf/"}</script>
   <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ebpf/ebpf/">eBPF</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-01-08T05:32:34.701Z">2026-01-08</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-01-08T06:19:47.974Z">2026-01-08</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -97,6 +97,7 @@
   </div><article class="md-text content"><h2 id="web"><a href="#web" class="headerlink" title="web"></a>web</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://ebpf.io/zh-hans/">eBPF.io</a></li>
 <li><a target="_blank" rel="noopener" href="https://docs.ebpf.io/">eBPF Docs</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.cilium.io/en/stable/reference-guides/bpf/">BPF and XDP Reference Guide</a></li>
 </ul>
 <h2 id="github"><a href="#github" class="headerlink" title="github"></a>github</h2><ul>
 <li><p><a target="_blank" rel="noopener" href="https://github.com/iovisor/bcc">bcc</a>: 一套用于开发高性能内核跟踪与操控程序的工具集，内置多款实用工具及示例程序</p>
