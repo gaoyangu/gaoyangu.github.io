@@ -20,16 +20,16 @@
   <title>eBPF：some file about ebpf - gaoyangu</title>
 
   
-    <meta name="description" content="eBPF 指令编码https:&#x2F;&#x2F;github.com&#x2F;iovisor&#x2F;bpf-docs&#x2F;blob&#x2F;master&#x2F;eBPF.md bpf_helpers.hhttps:&#x2F;&#x2F;elixir.bootlin.com&#x2F;linux&#x2F;v5.19.17&#x2F;source&#x2F;tools&#x2F;lib&#x2F;bpf&#x2F;bpf_helpers.h https:&#x2F;&#x2F;man7.org&#x2F;linux&#x2F;man-pages&#x2F;man7&#x2F;bpf-hel">
+    <meta name="description" content="eBPF 指令编码https:&#x2F;&#x2F;github.com&#x2F;iovisor&#x2F;bpf-docs&#x2F;blob&#x2F;master&#x2F;eBPF.md bpf_helpers.hhttps:&#x2F;&#x2F;elixir.bootlin.com&#x2F;linux&#x2F;v5.19.17&#x2F;source&#x2F;tools&#x2F;lib&#x2F;bpf&#x2F;bpf_helpers.h  关于辅助函数的手册  https:&#x2F;&#x2F;man7.org&#x2F;linux&#x2F;man-pages&#x2F;">
 <meta property="og:type" content="website">
 <meta property="og:title" content="some file about ebpf">
 <meta property="og:url" content="http://example.com/wiki/ebpf/linux-ebpf-file/">
 <meta property="og:site_name" content="gaoyangu">
-<meta property="og:description" content="eBPF 指令编码https:&#x2F;&#x2F;github.com&#x2F;iovisor&#x2F;bpf-docs&#x2F;blob&#x2F;master&#x2F;eBPF.md bpf_helpers.hhttps:&#x2F;&#x2F;elixir.bootlin.com&#x2F;linux&#x2F;v5.19.17&#x2F;source&#x2F;tools&#x2F;lib&#x2F;bpf&#x2F;bpf_helpers.h https:&#x2F;&#x2F;man7.org&#x2F;linux&#x2F;man-pages&#x2F;man7&#x2F;bpf-hel">
+<meta property="og:description" content="eBPF 指令编码https:&#x2F;&#x2F;github.com&#x2F;iovisor&#x2F;bpf-docs&#x2F;blob&#x2F;master&#x2F;eBPF.md bpf_helpers.hhttps:&#x2F;&#x2F;elixir.bootlin.com&#x2F;linux&#x2F;v5.19.17&#x2F;source&#x2F;tools&#x2F;lib&#x2F;bpf&#x2F;bpf_helpers.h  关于辅助函数的手册  https:&#x2F;&#x2F;man7.org&#x2F;linux&#x2F;man-pages&#x2F;">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2026-01-21T06:18:55.917Z">
-<meta property="article:modified_time" content="2026-01-21T06:18:55.917Z">
+<meta property="article:published_time" content="2026-01-21T10:20:38.744Z">
+<meta property="article:modified_time" content="2026-01-21T10:20:38.744Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
@@ -48,7 +48,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/ebpf/linux-ebpf-file/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"some file about ebpf","description":"eBPF 指令编码https://github.com/iovisor/bpf-docs/blob/master/eBPF.md\nbpf_helpers.hhttps://elixir.bootlin.com/linux/v5.19.17/source/tools/lib/bpf/bpf_helpers.h\nhttps://man7.org/linux/man-pages/man7/bpf-...","url":"http://example.com/wiki/ebpf/linux-ebpf-file/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/ebpf/linux-ebpf-file/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"some file about ebpf","description":"eBPF 指令编码https://github.com/iovisor/bpf-docs/blob/master/eBPF.md\nbpf_helpers.hhttps://elixir.bootlin.com/linux/v5.19.17/source/tools/lib/bpf/bpf_helpers.h\n\n关于辅助函数的手册\n\nhttps://man7.org/linux/man-pag...","url":"http://example.com/wiki/ebpf/linux-ebpf-file/"}</script>
   <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ebpf/ebpf/">eBPF</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-01-21T06:18:55.917Z">2026-01-21</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-01-21T10:20:38.744Z">2026-01-21</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -96,6 +96,9 @@
   </div>
   </div><article class="md-text content"><h3 id="eBPF-指令编码"><a href="#eBPF-指令编码" class="headerlink" title="eBPF 指令编码"></a>eBPF 指令编码</h3><p><a target="_blank" rel="noopener" href="https://github.com/iovisor/bpf-docs/blob/master/eBPF.md">https://github.com/iovisor/bpf-docs/blob/master/eBPF.md</a></p>
 <h3 id="bpf-helpers-h"><a href="#bpf-helpers-h" class="headerlink" title="bpf_helpers.h"></a>bpf_helpers.h</h3><p><a target="_blank" rel="noopener" href="https://elixir.bootlin.com/linux/v5.19.17/source/tools/lib/bpf/bpf_helpers.h">https://elixir.bootlin.com/linux/v5.19.17/source/tools/lib/bpf/bpf_helpers.h</a></p>
+<ul>
+<li>关于辅助函数的手册</li>
+</ul>
 <p><a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man7/bpf-helpers.7.html">https://man7.org/linux/man-pages/man7/bpf-helpers.7.html</a></p>
 <h3 id="查看辅助函数是否采用-GPL-许可证授权"><a href="#查看辅助函数是否采用-GPL-许可证授权" class="headerlink" title="查看辅助函数是否采用 GPL 许可证授权"></a>查看辅助函数是否采用 GPL 许可证授权</h3><p><a target="_blank" rel="noopener" href="https://github.com/iovisor/bcc/blob/master/docs/kernel-versions.md#helpers">https://github.com/iovisor/bcc/blob/master/docs/kernel-versions.md#helpers</a></p>
 <h3 id="查看-bpf-prink-的输出信息"><a href="#查看-bpf-prink-的输出信息" class="headerlink" title="查看 bpf_prink 的输出信息"></a>查看 bpf_prink 的输出信息</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /sys/kernel/debug/tracing/trace_pipe</span><br></pre></td></tr></table></figure>

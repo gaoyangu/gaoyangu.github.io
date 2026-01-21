@@ -20,16 +20,16 @@
   <title>eBPF：07. eBPF Program and Attachment Types - gaoyangu</title>
 
   
-    <meta name="description" content="There are currently around 30 program types enumerated in uapi&#x2F;linux&#x2F;bpf.h, and more than 40 attachment types.  7.1 Program Context ArgumentsAll eBPF programs take a context argument that is">
+    <meta name="description" content="目前在 uapi&#x2F;linux&#x2F;bpf.h 中大约定义了 30 种程序类型 (program types)，以及 40 多种挂载点类型 (attachment types)。 7.1 Program Context Arguments所有 eBPF 程序都接收一个指针类型的上下文参数，但该指针指向的具体结构取决于触发它的事件类型。eBPF 程序员需要编写能够接收相应上下文类型的程">
 <meta property="og:type" content="website">
 <meta property="og:title" content="07. eBPF Program and Attachment Types">
 <meta property="og:url" content="http://example.com/wiki/ebpf/learning-ebpf-07/">
 <meta property="og:site_name" content="gaoyangu">
-<meta property="og:description" content="There are currently around 30 program types enumerated in uapi&#x2F;linux&#x2F;bpf.h, and more than 40 attachment types.  7.1 Program Context ArgumentsAll eBPF programs take a context argument that is">
+<meta property="og:description" content="目前在 uapi&#x2F;linux&#x2F;bpf.h 中大约定义了 30 种程序类型 (program types)，以及 40 多种挂载点类型 (attachment types)。 7.1 Program Context Arguments所有 eBPF 程序都接收一个指针类型的上下文参数，但该指针指向的具体结构取决于触发它的事件类型。eBPF 程序员需要编写能够接收相应上下文类型的程">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2026-01-21T06:18:55.915Z">
-<meta property="article:modified_time" content="2026-01-21T06:18:55.915Z">
+<meta property="article:published_time" content="2026-01-21T10:20:38.743Z">
+<meta property="article:modified_time" content="2026-01-21T10:20:38.743Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
@@ -48,7 +48,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/ebpf/learning-ebpf-07/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"07. eBPF Program and Attachment Types","description":"There are currently around 30 program types enumerated in uapi&#x2F;linux&#x2F;bpf.h, and more than 40 attachment types. \n7.1 Program Context ArgumentsAll eBPF programs take a context argument that...","url":"http://example.com/wiki/ebpf/learning-ebpf-07/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/ebpf/learning-ebpf-07/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"07. eBPF Program and Attachment Types","description":"目前在 uapi&#x2F;linux&#x2F;bpf.h 中大约定义了 30 种程序类型 (program types)，以及 40 多种挂载点类型 (attachment types)。\n7.1 Program Context Arguments所有 eBPF 程序都接收一个指针类型的上下文参数，但该指针指向的具体结构取决于触发它的事件类型。eBPF 程序员需要编写能够接收相应上下文类...","url":"http://example.com/wiki/ebpf/learning-ebpf-07/"}</script>
   <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/ebpf/ebpf/">eBPF</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-01-21T06:18:55.915Z">2026-01-21</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-01-21T10:20:38.743Z">2026-01-21</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -94,43 +94,80 @@
     </div>
     
   </div>
-  </div><article class="md-text content"><p>There are currently around 30 program types enumerated in <a target="_blank" rel="noopener" href="https://elixir.bootlin.com/linux/v5.19.14/source/include/uapi/linux/bpf.h">uapi&#x2F;linux&#x2F;bpf.h</a>, and more than 40 attachment types. </p>
-<h2 id="7-1-Program-Context-Arguments"><a href="#7-1-Program-Context-Arguments" class="headerlink" title="7.1 Program Context Arguments"></a>7.1 Program Context Arguments</h2><p>All eBPF programs take a context argument that is a pointer, but the structure it points to depends on the type of event that triggered it. </p>
-<p>Defining different types of programs allows the verifier to ensure that the contextual information is handled appropriately and to enforce rules about what helper functions are permissible.</p>
-<h2 id="7-2-Helper-Functions-and-Return-Codes"><a href="#7-2-Helper-Functions-and-Return-Codes" class="headerlink" title="7.2 Helper Functions and Return Codes"></a>7.2 Helper Functions and Return Codes</h2><p>the verifier checks that all helper functions used by a program are compatible with its program type.</p>
-<p>The program type also determines the meaning of the return code from the program. </p>
-<p>Again using XDP as an example, the return code value tells the kernel what to do with the packet once the eBPF program has finished processing it—which could involve passing it to the network stack, dropping it, or redirecting it to a different interface.</p>
-<p>get a list of which helper functions are available for each program type in your version of the kernel:</p>
+  </div><article class="md-text content"><p>目前在 <a target="_blank" rel="noopener" href="https://elixir.bootlin.com/linux/v5.19.14/source/include/uapi/linux/bpf.h">uapi&#x2F;linux&#x2F;bpf.h</a> 中大约定义了 30 种程序类型 (<a target="_blank" rel="noopener" href="https://elixir.bootlin.com/linux/v5.19.14/source/include/uapi/linux/bpf.h#L922">program types</a>)，以及 40 多种挂载点类型 (<a target="_blank" rel="noopener" href="https://elixir.bootlin.com/linux/v5.19.14/source/include/uapi/linux/bpf.h#L957">attachment types</a>)。</p>
+<h2 id="7-1-Program-Context-Arguments"><a href="#7-1-Program-Context-Arguments" class="headerlink" title="7.1 Program Context Arguments"></a>7.1 Program Context Arguments</h2><p>所有 eBPF 程序都接收一个指针类型的上下文参数，但该指针指向的具体结构取决于触发它的事件类型。eBPF 程序员需要编写能够接收相应上下文类型的程序；例如，如果事件是一个跟踪点（tracepoint），那么假装上下文参数指向一个网络包是毫无意义的。</p>
+<p>定义不同类型的程序可以让验证器（verifier）确保上下文信息被正确处理，并强制实施关于哪些辅助函数（helper functions）是允许调用的规则。</p>
+<p>延伸阅读：</p>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="" href="https://blogs.oracle.com/linux/bpf-a-tour-of-program-types" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="title,icon"><div class="left"><span class="title">https://blogs.oracle.com/linux/bpf-a-tour-of-program-types</span><span class="cap link footnote">https://blogs.oracle.com/linux/bpf-a-tour-of-program-types</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/link/8f277b4ee0ecd.svg"></div></div></a></div>
+
+<h2 id="7-2-Helper-Functions-and-Return-Codes"><a href="#7-2-Helper-Functions-and-Return-Codes" class="headerlink" title="7.2 Helper Functions and Return Codes"></a>7.2 Helper Functions and Return Codes</h2><p>验证器会检查程序所使用的所有辅助函数是否与其程序类型兼容。上一章的示例表明，<code>bpf_get_current_pid_tgid()</code> 辅助函数在 <code>XDP</code> 程序中是不被允许的。</p>
+<p>程序类型还决定了程序返回码(return code)的含义。同样以 XDP 为例，返回码的值会告诉内核，在 eBPF 程序完成处理后，该如何处理这个数据包 —— 这可能包括将其传递给网络协议栈、丢弃它，或者将其重定向到另一个网络接口。</p>
+<p>获取当前内核版本中每种程序类型可用的辅助函数列表：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bpftool feature</span><br></pre></td></tr></table></figure>
 
-<h2 id="7-3-Kfuncs"><a href="#7-3-Kfuncs" class="headerlink" title="7.3 Kfuncs"></a>7.3 Kfuncs</h2><p>be able to access some internal functions from eBPF programs. This can be achieved using the mechanism called BPF kernel functions, or kfuncs</p>
-<p>Kfuncs allow internal kernel functions to be registered with the BPF subsystem so that the verifier will allow them to be called from eBPF programs.</p>
-<p>the type of an eBPF program determines what events it can be attached to, which in turn defines the type of context information it receives. The program type also defines the set of helper functions and kfuncs it can call.</p>
-<h2 id="7-4-Tracing"><a href="#7-4-Tracing" class="headerlink" title="7.4 Tracing"></a>7.4 Tracing</h2><p>附加到 kprobes、tracepoints、raw tracepoints、fentry&#x2F;fexit probes 和 perf events 的程序，都是为了内核中的 eBPF 程序能够高效的将跟踪信息传递到用户空间中。</p>
+<p>辅助函数（Helper functions）被视为 UAPI（Linux 内核外部稳定接口）的一部分。因此，一旦某个辅助函数在内核中被定义，即便内核的内部函数和数据结构可能会发生变化，该辅助函数在未来也不应改变。</p>
+<h2 id="7-3-Kfuncs"><a href="#7-3-Kfuncs" class="headerlink" title="7.3 Kfuncs"></a>7.3 Kfuncs</h2><p>尽管内核版本之间存在变更的风险，但 eBPF 程序员仍希望能够从 eBPF 程序中访问某些内部函数。这可以通过一种称为 BPF 内核函数（kfuncs） 的机制来实现。</p>
+<p>Kfuncs 允许将内核内部函数注册到 BPF 子系统，以便验证器允许从 eBPF 程序中调用它们。对于每个被允许调用某个给定 kfunc 的 eBPF 程序类型，都有一个对应的注册项。</p>
+<p>与辅助函数不同，kfuncs 不提供兼容性保证，因此 eBPF 程序员必须考虑内核版本之间发生变化的可能性。</p>
+<p>eBPF 程序的类型决定了它可以挂载到哪些事件上，这反过来又定义了它接收的上下文信息的类型。程序类型还定义了它可以调用的辅助函数和 kfuncs 的集合。</p>
+<h2 id="7-4-Tracing"><a href="#7-4-Tracing" class="headerlink" title="7.4 Tracing"></a>7.4 Tracing</h2><p>程序类型大致被分为两类：跟踪（或 perf）程序类型和网络相关程序类型。</p>
+<p>附加到 kprobes、tracepoints、raw tracepoints、fentry&#x2F;fexit probes 和 perf events 的程序，都是为了内核中的 eBPF 程序能够高效的将跟踪信息传递到用户空间中。</p>
 <ul>
 <li>查看附加到 perf 相关事件的程序：</li>
 </ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bpftool perf show</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> learning-ebpf/chapter7</span><br><span class="line">$ make</span><br><span class="line">$ <span class="built_in">sudo</span> ./hello</span><br><span class="line"></span><br><span class="line">$ bpftool perf show</span><br><span class="line">pid 43800  fd 12: prog_id 664  kprobe  func __x64_sys_execve  offset 0</span><br><span class="line">pid 43800  fd 14: prog_id 666  tracepoint  sys_enter_execve</span><br><span class="line">pid 43800  fd 16: prog_id 667  raw_tracepoint  sched_process_exec</span><br><span class="line">pid 43800  fd 17: prog_id 668  raw_tracepoint  sched_process_exec</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li><p>挂载到 <code>execve()</code> 系统调用入口点的 kprobe</p>
+</li>
+<li><p>挂载到内核函数 <code>do_execve()</code> 的 kprobe</p>
+</li>
+<li><p>放置在 <code>execve()</code> 系统调用入口处的 tracepoint。</p>
+</li>
+<li><p>在 <code>execve()</code> 处理过程中被调用的原始 tracepoint（raw tracepoint）的两个版本。其中一个，正如你将在本节中看到的，是启用了 BTF 的版本。</p>
+</li>
+</ul>
 <h3 id="7-4-1-Kprobes-and-Kretprobes"><a href="#7-4-1-Kprobes-and-Kretprobes" class="headerlink" title="7.4.1 Kprobes and Kretprobes"></a>7.4.1 Kprobes and Kretprobes</h3><p>几乎可以将 kprobe 程序附加到内核的任何位置。</p>
-<p>通常情况下，使用 kprobes 附加到函数的入口，使用 kretprobes 附加到函数的出口，但也可以使用 kprobes 附加到函数入口后的某个指定偏移量。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bpftool perf list</span><br></pre></td></tr></table></figure>
+<p>通常情况下，使用 <code>kprobes</code> 附加到函数的入口，使用 <code>kretprobes</code> 附加到函数的出口，但也可以使用 kprobes 附加到函数入口后的某个指定偏移量。</p>
+<p>如果某个函数恰好被内联（inlined）了，那么就不会有可供你的 eBPF 程序挂载的 kprobe 入口点。</p>
+<ul>
+<li>offset 0</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ bpftool perf list</span><br><span class="line">pid 43800  fd 12: prog_id 664  kprobe  func __x64_sys_execve  offset 0</span><br><span class="line">pid 43800  fd 14: prog_id 666  tracepoint  sys_enter_execve</span><br><span class="line">pid 43800  fd 16: prog_id 667  raw_tracepoint  sched_process_exec</span><br><span class="line">pid 43800  fd 17: prog_id 668  raw_tracepoint  sched_process_exec</span><br></pre></td></tr></table></figure>
 
 <h4 id="Attaching-kprobes-to-syscall-entry-points"><a href="#Attaching-kprobes-to-syscall-entry-points" class="headerlink" title="Attaching kprobes to syscall entry points"></a>Attaching kprobes to syscall entry points</h4><ul>
 <li>附加到系统调用 <code>execve()</code> 的 kprobe</li>
 </ul>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SEC(<span class="string">&quot;ksyscall/execve&quot;</span>)</span><br><span class="line"><span class="type">int</span> <span class="title function_">BPF_KPROBE_SYSCALL</span><span class="params">(kprobe_sys_execve, <span class="type">const</span> <span class="type">char</span> *pathname)</span></span><br></pre></td></tr></table></figure>
 
+<p>挂载到系统调用（syscalls）的一个原因是，它们是稳定的接口，在内核版本之间不会发生变化。</p>
+<p>然而，出于将在第 9 章详细介绍的原因，安全工具不应依赖基于系统调用的 kprobe。</p>
 <h4 id="Attaching-kprobes-to-other-kernel-functions"><a href="#Attaching-kprobes-to-other-kernel-functions" class="headerlink" title="Attaching kprobes to other kernel functions"></a>Attaching kprobes to other kernel functions</h4><ul>
 <li>kprobes 也可以附加到内核中的任何非内联函数</li>
 </ul>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SEC(<span class="string">&quot;kprobe/do_execve&quot;</span>)</span><br><span class="line"><span class="type">int</span> <span class="title function_">BPF_KPROBE</span><span class="params">(kprobe_do_execve, <span class="keyword">struct</span> filename *filename)</span></span><br></pre></td></tr></table></figure>
 
-<p><code>filename</code> 是根据内核中 <code>do_execve</code> 的函数原型确定。由于参数在内存中按顺序排列，可以忽略最后 n 个参数，但如果想使用后面的参数，则不能忽略列表中靠前的参数。</p>
+<p>注：在 Linux 5.x 及以上的版本使用如下代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SEC(<span class="string">&quot;kprobe/do_execveat_common.isra.0&quot;</span>)</span><br><span class="line"><span class="type">int</span> <span class="title function_">BPF_KPROBE</span><span class="params">(kprobe_do_execve, <span class="keyword">struct</span> filename *filename)</span> &#123;</span><br></pre></td></tr></table></figure>
+
+<p>由于 <code>do_execve()</code> 不是系统调用，该示例与之前的示例有以下几点不同：</p>
+<ul>
+<li><p><code>SEC</code> 名称的格式与之前挂载到系统调用入口点的版本完全相同，但无需定义特定于平台的变体，因为 <code>do_execve()</code> 与大多数内核函数一样，是所有平台通用的。</p>
+</li>
+<li><p>使用了 <code>BPF_KPROBE</code> 宏，而不是 <code>BPF_KPROBE_SYSCALL</code>。两者的意图完全相同，只是后者会处理系统调用参数。</p>
+</li>
+<li><p>还有一个重要区别：系统调用的 <code>pathname</code> 参数是一个指向字符串的指针（char *），但对于这个函数，参数名为 <code>filename</code>，它是一个指向 <code>struct filename</code> 的指针，这是内核内部使用的一种数据结构。</p>
+</li>
+</ul>
+<p><code>filename</code> 是根据内核中 <a target="_blank" rel="noopener" href="https://elixir.bootlin.com/linux/v5.19.17/source/fs/exec.c#L2014">do_execve</a> 的函数原型确定。由于参数在内存中按顺序排列，可以忽略最后 n 个参数，但如果想使用后面的参数，则不能忽略列表中靠前的参数。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">do_execve</span><span class="params">(<span class="keyword">struct</span> filename *filename,</span></span><br><span class="line"><span class="params">    <span class="type">const</span> <span class="type">char</span> __user *<span class="type">const</span> __user *__argv,</span></span><br><span class="line"><span class="params">    <span class="type">const</span> <span class="type">char</span> __user *<span class="type">const</span> __user *__envp)</span></span><br></pre></td></tr></table></figure>
 
+<p><code>filename-&gt;name</code> 指向即将运行的可执行文件的名称。在示例代码中使用以下行获取该名称：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">char</span> *name = BPF_CORE_READ(filename, name);</span><br><span class="line">bpf_probe_read_kernel(&amp;data.path, <span class="keyword">sizeof</span>(data.path), name);</span><br></pre></td></tr></table></figure>
+
+<p>系统调用 <code>kprobe</code> 的上下文参数是一个结构体，它代表了用户空间传递给该系统调用的值。而 “普通”（非系统调用）kprobe 的上下文参数则是一个结构体，它代表了调用该函数的内核代码传递给它的参数，因此这个结构体取决于被调用函数的定义。</p>
 <p>Kretprobes 与 kprobes 非常相似，不同之处在于它们在函数返回时触发，并且可以访问返回值而不是参数。</p>
-<h3 id="7-4-2-Fentry-Fexit"><a href="#7-4-2-Fentry-Fexit" class="headerlink" title="7.4.2 Fentry&#x2F;Fexit"></a>7.4.2 Fentry&#x2F;Fexit</h3><p>从内核版本 5.5 开始（适用于 x86 处理器；BPF trampoline 支持在 Linux 6.0 之前不适用于 ARM 处理器），引入了一种更高效的机制来跟踪进入和退出内核函数的方式以及 BPF trampoline 的概念。</p>
+<h3 id="7-4-2-Fentry-Fexit"><a href="#7-4-2-Fentry-Fexit" class="headerlink" title="7.4.2 Fentry&#x2F;Fexit"></a>7.4.2 Fentry&#x2F;Fexit</h3><p>从内核版本 5.5 开始（适用于 x86 处理器；BPF tramopline 支持在 Linux 6.0 之前不适用于 ARM 处理器），引入了一种更高效的机制来跟踪进入和退出内核函数的方式以及 BPF trampoline 的概念。</p>
 <p>fentry&#x2F;fexit 现在是首选的跟踪进入或退出内核函数的方法。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SEC(<span class="string">&quot;fentry/do_execve&quot;</span>)</span><br><span class="line"><span class="type">int</span> <span class="title function_">BPF_PROG</span><span class="params">(fentry_execve, <span class="keyword">struct</span> filename *filename)</span></span><br></pre></td></tr></table></figure>
 
