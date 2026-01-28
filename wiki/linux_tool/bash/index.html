@@ -20,16 +20,16 @@
   <title>Linux Tool：bash - gaoyangu</title>
 
   
-    <meta name="description" content="阮一峰: Bash 脚本教程https:&#x2F;&#x2F;wangdoc.com&#x2F;bash&#x2F;intro  set 命令set -xset -eset -u">
+    <meta name="description" content="阮一峰: Bash 脚本教程https:&#x2F;&#x2F;wangdoc.com&#x2F;bash&#x2F;intro  set 命令 Bash 执行脚本时，会创建一个子 Shell。这个子 Shell 就是脚本的执行环境，Bash 默认给定了这个环境的各种参数。  set 命令用来修改子 Shell 环境的运行参数，即定制环境。   set -ubefore执行脚本时，如果遇到不存在的变量，Bash 默认忽略它。 1234#">
 <meta property="og:type" content="website">
 <meta property="og:title" content="bash">
 <meta property="og:url" content="http://example.com/wiki/linux_tool/bash/">
 <meta property="og:site_name" content="gaoyangu">
-<meta property="og:description" content="阮一峰: Bash 脚本教程https:&#x2F;&#x2F;wangdoc.com&#x2F;bash&#x2F;intro  set 命令set -xset -eset -u">
+<meta property="og:description" content="阮一峰: Bash 脚本教程https:&#x2F;&#x2F;wangdoc.com&#x2F;bash&#x2F;intro  set 命令 Bash 执行脚本时，会创建一个子 Shell。这个子 Shell 就是脚本的执行环境，Bash 默认给定了这个环境的各种参数。  set 命令用来修改子 Shell 环境的运行参数，即定制环境。   set -ubefore执行脚本时，如果遇到不存在的变量，Bash 默认忽略它。 1234#">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2026-01-28T06:17:46.609Z">
-<meta property="article:modified_time" content="2026-01-28T06:17:46.609Z">
+<meta property="article:published_time" content="2026-01-28T06:29:43.646Z">
+<meta property="article:modified_time" content="2026-01-28T06:29:43.646Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
@@ -48,7 +48,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/linux_tool/bash/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"bash","description":"阮一峰: Bash 脚本教程https://wangdoc.com/bash/intro\n\nset 命令set -xset -eset -u","url":"http://example.com/wiki/linux_tool/bash/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/linux_tool/bash/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"bash","description":"阮一峰: Bash 脚本教程https://wangdoc.com/bash/intro\n\nset 命令\nBash 执行脚本时，会创建一个子 Shell。这个子 Shell 就是脚本的执行环境，Bash 默认给定了这个环境的各种参数。\n\nset 命令用来修改子 Shell 环境的运行参数，即定制环境。\n\n\nset -ubefore执行脚本时，如果遇到不存在的变量，Bash 默认忽略它。\n12...","url":"http://example.com/wiki/linux_tool/bash/"}</script>
   <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/linux_tool/opencode/">Linux Tool</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-01-28T06:17:46.609Z">2026-01-28</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-01-28T06:29:43.646Z">2026-01-28</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -96,7 +96,73 @@
   </div>
   </div><article class="md-text content"><div class="tag-plugin link dis-select"><a class="link-card plain" title="阮一峰: Bash 脚本教程" href="https://wangdoc.com/bash/intro" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">阮一峰: Bash 脚本教程</span><span class="cap link footnote">https://wangdoc.com/bash/intro</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/link/8f277b4ee0ecd.svg"></div></div></a></div>
 
-<h2 id="set-命令"><a href="#set-命令" class="headerlink" title="set 命令"></a>set 命令</h2><h3 id="set-x"><a href="#set-x" class="headerlink" title="set -x"></a>set -x</h3><h3 id="set-e"><a href="#set-e" class="headerlink" title="set -e"></a>set -e</h3><h3 id="set-u"><a href="#set-u" class="headerlink" title="set -u"></a>set -u</h3></article>
+<h2 id="set-命令"><a href="#set-命令" class="headerlink" title="set 命令"></a>set 命令</h2><ul>
+<li><p>Bash 执行脚本时，会创建一个子 Shell。这个子 Shell 就是脚本的执行环境，Bash 默认给定了这个环境的各种参数。</p>
+</li>
+<li><p><code>set</code> 命令用来修改子 Shell 环境的运行参数，即定制环境。</p>
+</li>
+</ul>
+<h3 id="set-u"><a href="#set-u" class="headerlink" title="set -u"></a>set -u</h3><h4 id="before"><a href="#before" class="headerlink" title="before"></a>before</h4><p>执行脚本时，如果遇到不存在的变量，Bash 默认忽略它。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env bash</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$a</span></span><br><span class="line"><span class="built_in">echo</span> bar</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中，<code>$a</code>是一个不存在的变量。执行结果如下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ bash script.sh</span><br><span class="line"></span><br><span class="line">bar</span><br></pre></td></tr></table></figure>
+
+<h4 id="after"><a href="#after" class="headerlink" title="after"></a>after</h4><p>脚本在头部加上 <code>set -u</code>，遇到不存在的变量就会报错，并停止执行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env bash</span></span><br><span class="line"><span class="built_in">set</span> -u</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$a</span></span><br><span class="line"><span class="built_in">echo</span> bar</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ bash test.sh</span><br><span class="line">bash: script.sh: line 4: a: unbound variable</span><br></pre></td></tr></table></figure>
+
+<p><code>-u</code> 还有另一种写法 <code>-o nounset</code>，两者是等价的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> -o nounset</span><br></pre></td></tr></table></figure>
+
+<h3 id="set-x"><a href="#set-x" class="headerlink" title="set -x"></a>set -x</h3><ul>
+<li>用来在运行结果之前，先输出执行的那一行命令。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env bash</span></span><br><span class="line"><span class="built_in">set</span> -x</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$a</span></span><br><span class="line"><span class="built_in">echo</span> bar</span><br></pre></td></tr></table></figure>
+
+<p>执行上面的脚本，结果如下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ ./test.sh</span><br><span class="line">+ <span class="built_in">echo</span></span><br><span class="line"></span><br><span class="line">+ <span class="built_in">echo</span> bar</span><br><span class="line">bar</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>-x</code> 还有另一种写法 <code>-o xtrace</code>。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> -o xtrace</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>脚本当中如果要关闭命令输出，可以使用<code>set +x</code>。</li>
+</ul>
+<h3 id="set-e"><a href="#set-e" class="headerlink" title="set -e"></a>set -e</h3><p><code>set -e</code> 使得脚本只要发生错误，就终止执行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env bash</span></span><br><span class="line"><span class="built_in">set</span> -e</span><br><span class="line"></span><br><span class="line">foo</span><br><span class="line"><span class="built_in">echo</span> bar</span><br></pre></td></tr></table></figure>
+
+<p>执行结果如下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ bash script.sh</span><br><span class="line">script.sh:行4: foo: 未找到命令</span><br></pre></td></tr></table></figure>
+
+<p><code>set -e</code>根据返回值来判断，一个命令是否运行失败。但是，某些命令的非零返回值可能不表示失败，或者开发者希望在命令失败的情况下，脚本继续执行下去。这时可以暂时关闭 <code>set -e</code>，该命令执行结束后，再重新打开<code>set -e</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> +e</span><br><span class="line">command1</span><br><span class="line">command2</span><br><span class="line"><span class="built_in">set</span> -e</span><br></pre></td></tr></table></figure>
+
+<p><code>set +e</code> 表示关闭 <code>-e</code> 选项，<code>set -e</code> 表示重新打开 <code>-e</code> 选项。</p>
+<p>还有一种方法是使用<code>command || true</code>，使得该命令即使执行失败，脚本也不会终止执行。</p>
+<ul>
+<li><code>-e</code>还有另一种写法<code>-o errexit</code>。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> -o errexit</span><br></pre></td></tr></table></figure>
+
+<h3 id="set-o-pipefail"><a href="#set-o-pipefail" class="headerlink" title="set -o pipefail"></a>set -o pipefail</h3><ul>
+<li><code>set -e</code>有一个例外情况，就是不适用于管道命令</li>
+<li>所谓管道命令，就是多个子命令通过管道运算符（<code>|</code>）组合成为一个大的命令。Bash 会把最后一个子命令的返回值，作为整个命令的返回值。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env bash</span></span><br><span class="line"><span class="built_in">set</span> -e</span><br><span class="line"></span><br><span class="line">foo | <span class="built_in">echo</span> a</span><br><span class="line"><span class="built_in">echo</span> bar</span><br></pre></td></tr></table></figure>
+
+<p>执行结果如下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ bash script.sh</span><br><span class="line">a</span><br><span class="line">script.sh:行4: foo: 未找到命令</span><br><span class="line">bar</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中，<code>foo</code>是一个不存在的命令，但是<code>foo | echo a</code>这个管道命令会执行成功，导致后面的<code>echo bar</code>会继续执行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env bash</span></span><br><span class="line"><span class="built_in">set</span> -eo pipefail</span><br><span class="line"></span><br><span class="line">foo | <span class="built_in">echo</span> a</span><br><span class="line"><span class="built_in">echo</span> bar</span><br></pre></td></tr></table></figure>
+
+<p>运行后，结果如下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ bash script.sh</span><br><span class="line">a</span><br><span class="line">script.sh:行4: foo: 未找到命令</span><br></pre></td></tr></table></figure></article>
 <div class="article-footer">
 
 </div>
@@ -128,7 +194,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#set-%E5%91%BD%E4%BB%A4"><span class="toc-text">set 命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#set-x"><span class="toc-text">set -x</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#set-e"><span class="toc-text">set -e</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#set-u"><span class="toc-text">set -u</span></a></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#set-%E5%91%BD%E4%BB%A4"><span class="toc-text">set 命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#set-u"><span class="toc-text">set -u</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#before"><span class="toc-text">before</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#after"><span class="toc-text">after</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#set-x"><span class="toc-text">set -x</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#set-e"><span class="toc-text">set -e</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#set-o-pipefail"><span class="toc-text">set -o pipefail</span></a></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
 </div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
