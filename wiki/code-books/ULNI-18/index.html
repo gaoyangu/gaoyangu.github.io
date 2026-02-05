@@ -28,8 +28,8 @@
 <meta property="og:description" content="IP 协议：大蓝图 附一张在其它地方看到的类似图  IP 协议的一些任务：  健康检查  校验和不正确 一个报头字段的值超过范围   Netfilter 防火墙子系统  处理选项  IP 协议包含一些应用程序可以使用的选项   分段 &#x2F; 重组  接收，传输以及转发操作   IP 报头 版本 (Version)  IPv4 IPv6  报头长度 (Header Length, IHL)">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2026-02-05T03:58:35.987Z">
-<meta property="article:modified_time" content="2026-02-05T03:58:35.987Z">
+<meta property="article:published_time" content="2026-02-05T06:42:30.713Z">
+<meta property="article:modified_time" content="2026-02-05T06:42:30.713Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/code-books/ULNI-02/">技术书籍</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-02-05T03:58:35.987Z">2026-02-05</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-02-05T06:42:30.713Z">2026-02-05</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -138,7 +138,7 @@
 </ul>
 <p>识别 (Identification)</p>
 <ul>
-<li>封包标识符</li>
+<li>packet 标识符</li>
 </ul>
 <p>DF (Don’t Fragment) 不分段</p>
 <p>MF (More Fragments) 还有其它分段</p>
@@ -150,11 +150,11 @@
 <ul>
 <li><p>跳点技术</p>
 </li>
-<li><p>每个路由器在转发时都应该递减此字段，当 TTL 为零时，丢弃该封包</p>
+<li><p>每个路由器在转发时都应该递减此字段，当 TTL 为零时，丢弃该packet </p>
 </li>
 <li><p>多数时候使用默认值 64</p>
 </li>
-<li><p>封包被丢弃时，发送方会收到一条 ICMP 消息</p>
+<li><p>packet 被丢弃时，发送方会收到一条 ICMP 消息</p>
 </li>
 </ul>
 <p>协议 (Protocol)</p>
@@ -166,7 +166,7 @@
 </ul>
 <p>报头校验和 (Header Checksum)</p>
 <ul>
-<li><p>确保 IP 报头在传输之后依然准确，但不包括封包的有效载荷</p>
+<li><p>确保 IP 报头在传输之后依然准确，但不包括packet 的有效载荷</p>
 </li>
 <li><p>必要时，L4 协议负责检查内容</p>
 </li>
@@ -185,7 +185,7 @@
 <ul>
 <li><p>每个选项都有一个 8 位字段，名为 type，可进一步拆成三个子字段</p>
 </li>
-<li><p>当 copied 被设定，若封包需要分段，IP 层就必须把该选项拷贝至每个片段</p>
+<li><p>当 copied 被设定，若packet 需要分段，IP 层就必须把该选项拷贝至每个片段</p>
 </li>
 </ul>
 <p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-5.png"></p>
@@ -202,7 +202,7 @@
 </li>
 </ul>
 <h3 id="Source-Route-选项"><a href="#Source-Route-选项" class="headerlink" title="Source Route 选项"></a>Source Route 选项</h3><ul>
-<li><p>让传送者指定封包到其接收者所走的路径。</p>
+<li><p>让传送者指定packet 到其接收者所走的路径。</p>
 </li>
 <li><p>多字节选项，发送节点会列出后续跳点所用的 IP 地址</p>
 </li>
@@ -217,12 +217,12 @@
 <p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-6.png"></p>
 <p>严格：R_1, R_2, R_3</p>
 <p>松散: R_1, R_3（如果 R_2 失败，可改用 R_2b）</p>
-<h3 id="Record-Route-选项"><a href="#Record-Route-选项" class="headerlink" title="Record Route 选项"></a>Record Route 选项</h3><p>请求发送发和目的地之间的路由器存储它们用于转发封包时，所用的外出接口的 IP 地址。</p>
+<h3 id="Record-Route-选项"><a href="#Record-Route-选项" class="headerlink" title="Record Route 选项"></a>Record Route 选项</h3><p>请求发送发和目的地之间的路由器存储它们用于转发packet 时，所用的外出接口的 IP 地址。</p>
 <p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-7.png"></p>
 <h3 id="TimeStamp-选项"><a href="#TimeStamp-选项" class="headerlink" title="TimeStamp 选项"></a>TimeStamp 选项</h3><p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-8.png"></p>
 <p>最右边的 4 位代表的是可以改变此选项效应的子命令：</p>
 <ul>
-<li><p>RECORD TIMESTAMPS: 每个路由器会记录其收到封包的时间</p>
+<li><p>RECORD TIMESTAMPS: 每个路由器会记录其收到packet 的时间</p>
 </li>
 <li><p>RECORD ADDRESSES AND TIMESTAMPS: 存储接收接口的 IP 地址</p>
 </li>
@@ -232,8 +232,134 @@
 <p>时间以毫秒，存储在一个 32 位变量内。</p>
 <p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-9.png"></p>
 <h3 id="Router-Alert-选项"><a href="#Router-Alert-选项" class="headerlink" title="Router Alert 选项"></a>Router Alert 选项</h3><p>最后两个字节只有一个指定值，零。</p>
-<p>路由器应该检查该封包，携带其他值的封包是非法的，应该被丢弃，同时产生 ICMP 错误消息返回给产生这种封包的发送方。</p>
-<h2 id="封包的分段-重组"><a href="#封包的分段-重组" class="headerlink" title="封包的分段 &#x2F; 重组"></a>封包的分段 &#x2F; 重组</h2><h2 id="校验和"><a href="#校验和" class="headerlink" title="校验和"></a>校验和</h2></article>
+<p>路由器应该检查该packet ，携带其他值的packet 是非法的，应该被丢弃，同时产生 ICMP 错误消息返回给产生这种packet 的发送方。</p>
+<h2 id="packet-的分段-重组"><a href="#packet-的分段-重组" class="headerlink" title="packet 的分段 &#x2F; 重组"></a>packet 的分段 &#x2F; 重组</h2><p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-10.png"></p>
+<p>分段后的 IP packet 通常会由目的主机重组，但，必须查看整个 IP packet 的中间设备也得重组，如防火墙和<br>NAT 路由器。</p>
+<h3 id="分段对较高分层的效应"><a href="#分段对较高分层的效应" class="headerlink" title="分段对较高分层的效应"></a>分段对较高分层的效应</h3><p>对packet 进行分段和重组都会用到 CPU 时间和内存。分段也会消耗传输用的带宽，因为每个分段都必须包含 L2 和 L3 报头。</p>
+<p>许多应用程序会通过考虑下列因素避免分段：</p>
+<ul>
+<li><p>内核可以使用一个名为路径 MTU 发现(path MTU discovery)的功能，发现可以使用的最大packet 尺寸。</p>
+</li>
+<li><p>MTU 可以设成一个相当安全的小值 576。</p>
+</li>
+</ul>
+<h3 id="分段-重组所用的-IP-报头字段"><a href="#分段-重组所用的-IP-报头字段" class="headerlink" title="分段&#x2F;重组所用的 IP 报头字段"></a>分段&#x2F;重组所用的 IP 报头字段</h3><p>DF (Don’t Fragment) 不分段</p>
+<ul>
+<li>如果路径上的packet 超出某个连结的 MTU，就会被丢弃</li>
+</ul>
+<p>MF (More Fragments) 还有其它分段</p>
+<ul>
+<li><p>当一个节点把一个packet 分段时，在每个片段中将此标志设为 TRUE，最后一个除外</p>
+</li>
+<li><p>当接收者接收由此packet 所建的最后一个片段时，就会知道原本没分段的packet 的尺寸</p>
+</li>
+</ul>
+<p>片段偏移量 (Fragment Offset)</p>
+<ul>
+<li><p>由 IP 协议的分段&#x2F;重组功能使用</p>
+</li>
+<li><p>代表该片段要放在原本 IP packet 中的位置偏移量</p>
+</li>
+<li><p>这是一个 13位字段</p>
+</li>
+<li><p>偏移量 0 是指该片段是此packet 内第一个片段。第一个片段包含和整个原有packet 相关的报头信息</p>
+</li>
+</ul>
+<p>ID</p>
+<ul>
+<li><p>IP packet ID，对一个IPpacket 的所有片段是相同的。</p>
+</li>
+<li><p>Linux 会把最近一个所用的 ID 存储在一个名为 <code>inet_peer</code> 的结构中，此结构中还存储了其正在通信的远程主机的信息</p>
+</li>
+</ul>
+<h3 id="分段-重组的问题实例"><a href="#分段-重组的问题实例" class="headerlink" title="分段&#x2F;重组的问题实例"></a>分段&#x2F;重组的问题实例</h3><h4 id="重新传输"><a href="#重新传输" class="headerlink" title="重新传输"></a>重新传输</h4><p>每个传送者只会等待，直到较高分层通知其重传整个封包</p>
+<p>重传的数据包不会复用原始数据包的标识（ID）。不过，主机仍有可能接收到具有相同数据包标识（ID）的同一 IP 分片的多个副本，因此主机必须能够处理这种情况。</p>
+<p>由于 IP 是无连接协议，它不提供流量控制，丢包问题需要由上层协议（或应用程序）来处理。</p>
+<p>假设上层通过某种方式检测到部分数据丢失（例如，因未收到确认而超时的计时器），并尝试重传。由于无法仅选择性地重传丢失的分片，传输层（L4）协议必须重传整个 IP 数据包。</p>
+<p>每次重传都可能导致一些特殊情况，这些情况需要由接收方处理（有时，当中介路由器实现了某些需要对数据包进行重组的防火墙功能时，也需要由这些路由器处理）。以下是其中一些情况：</p>
+<ul>
+<li><p>重叠</p>
+<ul>
+<li>一个片段内含的某些数据可能已经在前一个封包内抵达了。</li>
+</ul>
+</li>
+<li><p>重复</p>
+<ul>
+<li>两个片段完全相同</li>
+</ul>
+</li>
+<li><p>重组完成后又接收到</p>
+<ul>
+<li>在这种情况下，IP 层会将该分片视为一个新 IP 数据包的首个分片。</li>
+<li>如果未能收到所有新分片，IP 层会在垃圾回收过程中直接清理重复数据；否则，它会重新组装整个数据包，而识别该数据包为重复包则是上层协议的工作。</li>
+</ul>
+</li>
+</ul>
+<h3 id="把片段和其-IP-封包相关联"><a href="#把片段和其-IP-封包相关联" class="headerlink" title="把片段和其 IP 封包相关联"></a>把片段和其 IP 封包相关联</h3><p>要识别一个片段所属的 IP 封包，内核会考虑下列参数：</p>
+<ul>
+<li><p>源 IP 和目的 IP</p>
+</li>
+<li><p>IP packet ID</p>
+</li>
+<li><p>L4 协议</p>
+</li>
+</ul>
+<h3 id="IP-ID-生成范例"><a href="#IP-ID-生成范例" class="headerlink" title="IP ID 生成范例"></a>IP ID 生成范例</h3><p>Linux 内核不是使用一个全局 IP ID，而是为每个目的 IP 地址设置不同的计数器。</p>
+<ul>
+<li>通往相同目的地的所有数据流都共享 IP ID</li>
+<li>把通往目的地的数据看成一个整体，封包就有连续的 ID，但每个应用程序的数据流则不会有连续的 ID</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-11.png"></p>
+<h3 id="无法解决的重组问题范例：NAT"><a href="#无法解决的重组问题范例：NAT" class="headerlink" title="无法解决的重组问题范例：NAT"></a>无法解决的重组问题范例：NAT</h3><p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-12.png"></p>
+<p>当两个由 R 所传输的 IP 封包在抵达服务器 S 前被分段是，服务器 S 接收的那些片段都拥有相同发送方和目的 IP 地址以及相同的 IP ID，会试着将它们都放在一起，且可能把两个不同的 IP 封包的片段混在一起。</p>
+<h3 id="路径-MTU-发现"><a href="#路径-MTU-发现" class="headerlink" title="路径 MTU 发现"></a>路径 MTU 发现</h3><ul>
+<li><p>用于发现封包传输至目的地址而不用被分段的最大尺寸，该参数称为路径 MTU (Path MTU, PMTU)</p>
+</li>
+<li><p>由于每个目的 IP 地址会使用不同的 PMTU，其值会暂存在相关的路由表缓存项目中</p>
+</li>
+<li><p>LAN 上的所有设备（彼此间没有路由器）共享相同 MTU 以正确运作。</p>
+</li>
+<li><p>如果设备没有直接连接，或 PMTU 功能被关闭，PMTU 默认设成 576</p>
+</li>
+</ul>
+<p>如何运作，利用 IP 报头中用于处理分段&#x2F;重组的字段以及相关 ICMP 消息</p>
+<ul>
+<li><p>如果你发送一个在头部设置了 DF（不分片）标志的 IP 数据包，且没有收到任何报错，这意味着在通往目的地的路径上没有发生分片，并且你使用的路径 MTU（PMTU）是可行的。</p>
+</li>
+<li><p>但这并不代表你正在使用最优的数据包大小。你完全有可能增大 PMTU，同时仍然不会触发分片。</p>
+</li>
+<li><p>如果你将探测包的大小增加到最优值，当超过实际路径 MTU（PMTU）时，你会收到一条 ICMP 消息通知。该 ICMP 消息会包含触发报错的设备的 MTU 值，以便内核据此更新本地的路径 MTU。</p>
+</li>
+</ul>
+<p>Linux 可以配置下列方式来处理路径 MTU 发现功能：</p>
+<p>IP_PMTUDIISC_DONT</p>
+<ul>
+<li>绝不传送报头中设定了 DF 标志的 IP 封包。不使用路径 MTU 发现功能。</li>
+</ul>
+<p>IP_PMTUDISC_DO</p>
+<ul>
+<li>总是在本地节点所产生的封包的报头中设定 DF 标志，试图在每次传输时都找出最佳的 PMTU</li>
+</ul>
+<p>IP_PMTUDISC_WANT</p>
+<ul>
+<li>按每条路径决定是否使用路径 MTU 发现功能。默认行为。</li>
+</ul>
+<p>通过 <code>ip route</code> 命令新增路径时，路径的 PMTU 也可手动设定。</p>
+<p>即便开启路径 MTU 发现功能，依然可以锁定当前 PMTU，使其无法被更改。</p>
+<ol>
+<li>使用 <code>ip route</code> 设定 PMTU 时，以 lock 关键词锁定</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip route add 10.10.1.0/24 via 100.100.100.1 mtu lock 750</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>如果因接收到 ICMP FRAGMENTATION NEEDED 消息使得你要用的 PMTU 小于最小容许值，则 PMTU 会设成该最小值，然后锁住<ul>
+<li>最小值可通过 <code>/proc/sys/net/ipv4/route/min_pmtu</code> 文件配置</li>
+<li>PMTU 不能设成低于 68 的值</li>
+</ul>
+</li>
+</ol>
+<p>Linux 的 <code>ip_dont_fragment</code> 函数会以以上描述的思路决定当封包超过 PMTU 时是否应该分段。</p>
+<h2 id="校验和"><a href="#校验和" class="headerlink" title="校验和"></a>校验和</h2></article>
 <div class="article-footer">
 
 </div>
@@ -265,7 +391,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#IP-%E5%8D%8F%E8%AE%AE%EF%BC%9A%E5%A4%A7%E8%93%9D%E5%9B%BE"><span class="toc-text">IP 协议：大蓝图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP-%E6%8A%A5%E5%A4%B4"><span class="toc-text">IP 报头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP-%E9%80%89%E9%A1%B9"><span class="toc-text">IP 选项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#End-of-Option-List-%E5%92%8C-No-Operation-%E9%80%89%E9%A1%B9"><span class="toc-text">End of Option List 和 No Operation 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Source-Route-%E9%80%89%E9%A1%B9"><span class="toc-text">Source Route 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Record-Route-%E9%80%89%E9%A1%B9"><span class="toc-text">Record Route 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TimeStamp-%E9%80%89%E9%A1%B9"><span class="toc-text">TimeStamp 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Router-Alert-%E9%80%89%E9%A1%B9"><span class="toc-text">Router Alert 选项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%81%E5%8C%85%E7%9A%84%E5%88%86%E6%AE%B5-%E9%87%8D%E7%BB%84"><span class="toc-text">封包的分段 &#x2F; 重组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%A1%E9%AA%8C%E5%92%8C"><span class="toc-text">校验和</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#IP-%E5%8D%8F%E8%AE%AE%EF%BC%9A%E5%A4%A7%E8%93%9D%E5%9B%BE"><span class="toc-text">IP 协议：大蓝图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP-%E6%8A%A5%E5%A4%B4"><span class="toc-text">IP 报头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP-%E9%80%89%E9%A1%B9"><span class="toc-text">IP 选项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#End-of-Option-List-%E5%92%8C-No-Operation-%E9%80%89%E9%A1%B9"><span class="toc-text">End of Option List 和 No Operation 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Source-Route-%E9%80%89%E9%A1%B9"><span class="toc-text">Source Route 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Record-Route-%E9%80%89%E9%A1%B9"><span class="toc-text">Record Route 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TimeStamp-%E9%80%89%E9%A1%B9"><span class="toc-text">TimeStamp 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Router-Alert-%E9%80%89%E9%A1%B9"><span class="toc-text">Router Alert 选项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#packet-%E7%9A%84%E5%88%86%E6%AE%B5-%E9%87%8D%E7%BB%84"><span class="toc-text">packet 的分段 &#x2F; 重组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AE%B5%E5%AF%B9%E8%BE%83%E9%AB%98%E5%88%86%E5%B1%82%E7%9A%84%E6%95%88%E5%BA%94"><span class="toc-text">分段对较高分层的效应</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AE%B5-%E9%87%8D%E7%BB%84%E6%89%80%E7%94%A8%E7%9A%84-IP-%E6%8A%A5%E5%A4%B4%E5%AD%97%E6%AE%B5"><span class="toc-text">分段&#x2F;重组所用的 IP 报头字段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AE%B5-%E9%87%8D%E7%BB%84%E7%9A%84%E9%97%AE%E9%A2%98%E5%AE%9E%E4%BE%8B"><span class="toc-text">分段&#x2F;重组的问题实例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E6%96%B0%E4%BC%A0%E8%BE%93"><span class="toc-text">重新传输</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%8A%E7%89%87%E6%AE%B5%E5%92%8C%E5%85%B6-IP-%E5%B0%81%E5%8C%85%E7%9B%B8%E5%85%B3%E8%81%94"><span class="toc-text">把片段和其 IP 封包相关联</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP-ID-%E7%94%9F%E6%88%90%E8%8C%83%E4%BE%8B"><span class="toc-text">IP ID 生成范例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E6%B3%95%E8%A7%A3%E5%86%B3%E7%9A%84%E9%87%8D%E7%BB%84%E9%97%AE%E9%A2%98%E8%8C%83%E4%BE%8B%EF%BC%9ANAT"><span class="toc-text">无法解决的重组问题范例：NAT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E5%BE%84-MTU-%E5%8F%91%E7%8E%B0"><span class="toc-text">路径 MTU 发现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%A1%E9%AA%8C%E5%92%8C"><span class="toc-text">校验和</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
 </div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
