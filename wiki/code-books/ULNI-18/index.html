@@ -20,16 +20,16 @@
   <title>技术书籍：18. IPv4 概念 - gaoyangu</title>
 
   
-    <meta name="description" content="IP 协议：大蓝图 附一张在其它地方看到的类似图  IP 协议的一些任务：  健康检查  校验和不正确 一个报头字段的值超过范围   Netfilter 防火墙子系统  处理选项  IP 协议包含一些应用程序可以使用的选项   分段 &#x2F; 重组  接收，传输以及转发操作">
+    <meta name="description" content="IP 协议：大蓝图 附一张在其它地方看到的类似图  IP 协议的一些任务：  健康检查  校验和不正确 一个报头字段的值超过范围   Netfilter 防火墙子系统  处理选项  IP 协议包含一些应用程序可以使用的选项   分段 &#x2F; 重组  接收，传输以及转发操作   IP 报头 版本 (Version)  IPv4 IPv6  报头长度 (Header Length, IHL)">
 <meta property="og:type" content="website">
 <meta property="og:title" content="18. IPv4 概念">
 <meta property="og:url" content="http://example.com/wiki/code-books/ULNI-18/">
 <meta property="og:site_name" content="gaoyangu">
-<meta property="og:description" content="IP 协议：大蓝图 附一张在其它地方看到的类似图  IP 协议的一些任务：  健康检查  校验和不正确 一个报头字段的值超过范围   Netfilter 防火墙子系统  处理选项  IP 协议包含一些应用程序可以使用的选项   分段 &#x2F; 重组  接收，传输以及转发操作">
+<meta property="og:description" content="IP 协议：大蓝图 附一张在其它地方看到的类似图  IP 协议的一些任务：  健康检查  校验和不正确 一个报头字段的值超过范围   Netfilter 防火墙子系统  处理选项  IP 协议包含一些应用程序可以使用的选项   分段 &#x2F; 重组  接收，传输以及转发操作   IP 报头 版本 (Version)  IPv4 IPv6  报头长度 (Header Length, IHL)">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2026-02-05T02:40:47.133Z">
-<meta property="article:modified_time" content="2026-02-05T02:40:47.133Z">
+<meta property="article:published_time" content="2026-02-05T03:58:35.987Z">
+<meta property="article:modified_time" content="2026-02-05T03:58:35.987Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
@@ -48,7 +48,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/code-books/ULNI-18/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"18. IPv4 概念","description":"IP 协议：大蓝图\n附一张在其它地方看到的类似图\n\nIP 协议的一些任务：\n\n健康检查\n\n校验和不正确\n一个报头字段的值超过范围\n\n\nNetfilter 防火墙子系统\n\n处理选项\n\nIP 协议包含一些应用程序可以使用的选项\n\n\n分段 &#x2F; 重组\n\n接收，传输以及转发操作\n\n\n","url":"http://example.com/wiki/code-books/ULNI-18/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/code-books/ULNI-18/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"18. IPv4 概念","description":"IP 协议：大蓝图\n附一张在其它地方看到的类似图\n\nIP 协议的一些任务：\n\n健康检查\n\n校验和不正确\n一个报头字段的值超过范围\n\n\nNetfilter 防火墙子系统\n\n处理选项\n\nIP 协议包含一些应用程序可以使用的选项\n\n\n分段 &#x2F; 重组\n\n接收，传输以及转发操作\n\n\nIP 报头\n版本 (Version)\n\nIPv4\nIPv6\n\n报头长度 (Header Length, IHL...","url":"http://example.com/wiki/code-books/ULNI-18/"}</script>
   <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/code-books/ULNI-02/">技术书籍</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-02-05T02:40:47.133Z">2026-02-05</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-02-05T03:58:35.987Z">2026-02-05</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -117,7 +117,123 @@
 <li><p>接收，传输以及转发操作</p>
 </li>
 </ul>
-</article>
+<h2 id="IP-报头"><a href="#IP-报头" class="headerlink" title="IP 报头"></a>IP 报头</h2><p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-2.png"></p>
+<p>版本 (Version)</p>
+<ul>
+<li>IPv4</li>
+<li>IPv6</li>
+</ul>
+<p>报头长度 (Header Length, IHL)</p>
+<ul>
+<li>以 32 位为单位</li>
+</ul>
+<p>服务类型 (Type of Service, TOS)</p>
+<ul>
+<li>8位，由 3 个字段组成</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-3.png"></p>
+<p>总长度(Total Length)</p>
+<ul>
+<li>包括报头，以字节为单位</li>
+</ul>
+<p>识别 (Identification)</p>
+<ul>
+<li>封包标识符</li>
+</ul>
+<p>DF (Don’t Fragment) 不分段</p>
+<p>MF (More Fragments) 还有其它分段</p>
+<p>片段偏移量 (Fragment Offset)</p>
+<ul>
+<li>由 IP 协议的分段&#x2F;重组功能使用</li>
+</ul>
+<p>存活时间 (Time To Live, TTL)</p>
+<ul>
+<li><p>跳点技术</p>
+</li>
+<li><p>每个路由器在转发时都应该递减此字段，当 TTL 为零时，丢弃该封包</p>
+</li>
+<li><p>多数时候使用默认值 64</p>
+</li>
+<li><p>封包被丢弃时，发送方会收到一条 ICMP 消息</p>
+</li>
+</ul>
+<p>协议 (Protocol)</p>
+<ul>
+<li><p>L4 的协议标识符</p>
+</li>
+<li><p><code>cat /etc/protocols</code></p>
+</li>
+</ul>
+<p>报头校验和 (Header Checksum)</p>
+<ul>
+<li><p>确保 IP 报头在传输之后依然准确，但不包括封包的有效载荷</p>
+</li>
+<li><p>必要时，L4 协议负责检查内容</p>
+</li>
+</ul>
+<p>选项 (Options)</p>
+<ul>
+<li><p>最大为 40 字节</p>
+</li>
+<li><p>报头长度是一个 4 位的值，可表示 60 字节，IP 报头占 20 字节</p>
+</li>
+</ul>
+<h2 id="IP-选项"><a href="#IP-选项" class="headerlink" title="IP 选项"></a>IP 选项</h2><ul>
+<li>多字节选项内的 option_data 并没有从 32 位边界起算</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-4.png"></p>
+<ul>
+<li><p>每个选项都有一个 8 位字段，名为 type，可进一步拆成三个子字段</p>
+</li>
+<li><p>当 copied 被设定，若封包需要分段，IP 层就必须把该选项拷贝至每个片段</p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-5.png"></p>
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/t-18-1.png"></p>
+<p><a target="_blank" rel="noopener" href="https://elixir.bootlin.com/linux/v2.6.19.7/source/include/linux/ip.h">include&#x2F;linux&#x2F;ip.h</a> 中可以找到这些选项类型的定义，以及一些存取其子字段的宏：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span>	IPOPT_COPIED(o)		((o)&amp;IPOPT_COPY)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	IPOPT_CLASS(o)		((o)&amp;IPOPT_CLASS_MASK)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	IPOPT_NUMBER(o)		((o)&amp;IPOPT_NUMBER_MASK)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="End-of-Option-List-和-No-Operation-选项"><a href="#End-of-Option-List-和-No-Operation-选项" class="headerlink" title="End of Option List 和 No Operation 选项"></a>End of Option List 和 No Operation 选项</h3><ul>
+<li><p>不含选项的 IP 报头的大小是 20 字节</p>
+</li>
+<li><p>当 IP 选项的大小不是 4 字节的倍数时，传送者会以 IPOPT_END 选项使其对齐 4 字节边界</p>
+</li>
+<li><p>IPOPT_NOOP 选项可用于填补选项之间的空白</p>
+</li>
+</ul>
+<h3 id="Source-Route-选项"><a href="#Source-Route-选项" class="headerlink" title="Source Route 选项"></a>Source Route 选项</h3><ul>
+<li><p>让传送者指定封包到其接收者所走的路径。</p>
+</li>
+<li><p>多字节选项，发送节点会列出后续跳点所用的 IP 地址</p>
+</li>
+</ul>
+<p>两种类型：</p>
+<ol>
+<li><p>严格 (strict): 传送者必须列出路径上每台路由器的 IP 地址，沿途都不能做修改</p>
+</li>
+<li><p>松散 (loose): 一台中间路由器可以使用另一台路由器（不在列表中的）作为通向列表中下一个路由器的路径；传送者所指定的所有路由器还是必须按其指定的次序使用</p>
+</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-6.png"></p>
+<p>严格：R_1, R_2, R_3</p>
+<p>松散: R_1, R_3（如果 R_2 失败，可改用 R_2b）</p>
+<h3 id="Record-Route-选项"><a href="#Record-Route-选项" class="headerlink" title="Record Route 选项"></a>Record Route 选项</h3><p>请求发送发和目的地之间的路由器存储它们用于转发封包时，所用的外出接口的 IP 地址。</p>
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-7.png"></p>
+<h3 id="TimeStamp-选项"><a href="#TimeStamp-选项" class="headerlink" title="TimeStamp 选项"></a>TimeStamp 选项</h3><p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-8.png"></p>
+<p>最右边的 4 位代表的是可以改变此选项效应的子命令：</p>
+<ul>
+<li><p>RECORD TIMESTAMPS: 每个路由器会记录其收到封包的时间</p>
+</li>
+<li><p>RECORD ADDRESSES AND TIMESTAMPS: 存储接收接口的 IP 地址</p>
+</li>
+<li><p>RECORD TIMESTAMPS ONLY AT THE PRESPECIFIFD SYSTEMS: 只针对传送者选择的一些特定 IP 地址记录接收时间</p>
+</li>
+</ul>
+<p>时间以毫秒，存储在一个 32 位变量内。</p>
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-9.png"></p>
+<h3 id="Router-Alert-选项"><a href="#Router-Alert-选项" class="headerlink" title="Router Alert 选项"></a>Router Alert 选项</h3><p>最后两个字节只有一个指定值，零。</p>
+<p>路由器应该检查该封包，携带其他值的封包是非法的，应该被丢弃，同时产生 ICMP 错误消息返回给产生这种封包的发送方。</p>
+<h2 id="封包的分段-重组"><a href="#封包的分段-重组" class="headerlink" title="封包的分段 &#x2F; 重组"></a>封包的分段 &#x2F; 重组</h2><h2 id="校验和"><a href="#校验和" class="headerlink" title="校验和"></a>校验和</h2></article>
 <div class="article-footer">
 
 </div>
@@ -149,7 +265,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#IP-%E5%8D%8F%E8%AE%AE%EF%BC%9A%E5%A4%A7%E8%93%9D%E5%9B%BE"><span class="toc-text">IP 协议：大蓝图</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#IP-%E5%8D%8F%E8%AE%AE%EF%BC%9A%E5%A4%A7%E8%93%9D%E5%9B%BE"><span class="toc-text">IP 协议：大蓝图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP-%E6%8A%A5%E5%A4%B4"><span class="toc-text">IP 报头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP-%E9%80%89%E9%A1%B9"><span class="toc-text">IP 选项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#End-of-Option-List-%E5%92%8C-No-Operation-%E9%80%89%E9%A1%B9"><span class="toc-text">End of Option List 和 No Operation 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Source-Route-%E9%80%89%E9%A1%B9"><span class="toc-text">Source Route 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Record-Route-%E9%80%89%E9%A1%B9"><span class="toc-text">Record Route 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TimeStamp-%E9%80%89%E9%A1%B9"><span class="toc-text">TimeStamp 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Router-Alert-%E9%80%89%E9%A1%B9"><span class="toc-text">Router Alert 选项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%81%E5%8C%85%E7%9A%84%E5%88%86%E6%AE%B5-%E9%87%8D%E7%BB%84"><span class="toc-text">封包的分段 &#x2F; 重组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%A1%E9%AA%8C%E5%92%8C"><span class="toc-text">校验和</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
 </div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
