@@ -28,8 +28,8 @@
 <meta property="og:description" content="IP 协议：大蓝图 附一张在其它地方看到的类似图  IP 协议的一些任务：  健康检查  校验和不正确 一个报头字段的值超过范围   Netfilter 防火墙子系统  处理选项  IP 协议包含一些应用程序可以使用的选项   分段 &#x2F; 重组  接收，传输以及转发操作   IP 报头 版本 (Version)  IPv4 IPv6  报头长度 (Header Length, IHL)">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2026-02-05T07:41:54.890Z">
-<meta property="article:modified_time" content="2026-02-05T07:41:54.890Z">
+<meta property="article:published_time" content="2026-02-06T08:14:51.281Z">
+<meta property="article:modified_time" content="2026-02-06T08:14:51.281Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/code-books/ULNI-02/">技术书籍</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-02-05T07:41:54.890Z">2026-02-05</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-02-06T08:14:51.281Z">2026-02-06</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -234,7 +234,7 @@
 <h3 id="Router-Alert-选项"><a href="#Router-Alert-选项" class="headerlink" title="Router Alert 选项"></a>Router Alert 选项</h3><p>最后两个字节只有一个指定值，零。</p>
 <p>路由器应该检查该packet ，携带其他值的packet 是非法的，应该被丢弃，同时产生 ICMP 错误消息返回给产生这种packet 的发送方。</p>
 <h2 id="packet-的分段-重组"><a href="#packet-的分段-重组" class="headerlink" title="packet 的分段 &#x2F; 重组"></a>packet 的分段 &#x2F; 重组</h2><p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-10.png"></p>
-<p>分段后的 IP packet 通常会由目的主机重组，但，必须查看整个 IP packet 的中间设备也得重组，如防火墙和<br>NAT 路由器。</p>
+<p>分段后的 IP packet 通常会由目的主机重组，但，必须查看整个 IP packet 的中间设备也得重组，如防火墙和 NAT 路由器。</p>
 <h3 id="分段对较高分层的效应"><a href="#分段对较高分层的效应" class="headerlink" title="分段对较高分层的效应"></a>分段对较高分层的效应</h3><p>对packet 进行分段和重组都会用到 CPU 时间和内存。分段也会消耗传输用的带宽，因为每个分段都必须包含 L2 和 L3 报头。</p>
 <p>许多应用程序会通过考虑下列因素避免分段：</p>
 <ul>
@@ -267,7 +267,7 @@
 </ul>
 <p>ID</p>
 <ul>
-<li><p>IP packet ID，对一个IPpacket 的所有片段是相同的。</p>
+<li><p>IP packet ID，对一个IP packet 的所有片段是相同的。</p>
 </li>
 <li><p>Linux 会把最近一个所用的 ID 存储在一个名为 <code>inet_peer</code> 的结构中，此结构中还存储了其正在通信的远程主机的信息</p>
 </li>
@@ -360,11 +360,82 @@
 </ol>
 <p>Linux 的 <code>ip_dont_fragment</code> 函数会以以上描述的思路决定当封包超过 PMTU 时是否应该分段。</p>
 <h2 id="校验和-checksum"><a href="#校验和-checksum" class="headerlink" title="校验和 checksum"></a>校验和 checksum</h2><ul>
-<li>一种冗余类型，网络协议用它发现传输错误</li>
+<li><p>一种冗余类型，网络协议用它发现传输错误</p>
+</li>
+<li><p>IP 协议的校验只包括 IP 报头。</p>
+</li>
+<li><p>多数 L4 协议的校验和则包括报头和数据。</p>
+</li>
 </ul>
 <p>传输封包前，传送者会计算一个小而长度固定的字段（校验和），其中包含数据的某种 hash 值。</p>
 <p>IP 协议所用的校验和算法很简单，只涉及总和以及 1 的补码</p>
 <p>可靠的健康检查需要依靠 L2 CRC 或者 SSL&#x2F;IPSec MACs(Message Authentication Codes, 消息鉴定码)</p>
+<p>大多数 L2 和 L4 协议都会提供校验工作，IPv6 已把校验工作删除。</p>
+<p>在 IPv4 中，IP 校验和是一个 16 位字段，覆盖整个 IP 头部（包括选项字段）。</p>
+<ol>
+<li><p>校验和首先由数据包的源端计算，然后在通往目的地的路径上逐跳更新，以反映每个路由器对头部所做的修改。</p>
+</li>
+<li><p>在更新校验和之前，每一跳都必须先通过将数据包中包含的校验和与本地计算的校验和进行比较，来检查数据包的完整性。</p>
+</li>
+<li><p>如果完整性检查失败，数据包将被丢弃，但不会生成 ICMP 消息：传输层（L4）协议会处理这种情况（例如，通过计时器，若在指定时间内未收到确认，将强制重传）。</p>
+</li>
+</ol>
+<p>一些触发 校验和 更换需求的情况：</p>
+<ul>
+<li><p>递减 TTL</p>
+<ul>
+<li>路由器转发封包前，必须递减其 IP 报头中的 TTL</li>
+<li>TTL 是由 <code>ip_decrease_ttl</code> 递减</li>
+</ul>
+</li>
+<li><p>封包调整（包括 NAT）</p>
+<ul>
+<li>改变一个或多个 IP 报头字段的所有功能都会强制校验和重新计算</li>
+</ul>
+</li>
+<li><p>IP 选项的处理</p>
+<ul>
+<li>选项是报头的一部分</li>
+</ul>
+</li>
+<li><p>分段</p>
+<ul>
+<li>每个片段有不同的报头，大多数字段不变，但 offset 不同</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-13.png"></p>
+<h3 id="用于-校验和-计算的-API"><a href="#用于-校验和-计算的-API" class="headerlink" title="用于 校验和 计算的 API"></a>用于 校验和 计算的 API</h3><p>相关文件 <a href="">include&#x2F;asm-xx&#x2F;checksum.h</a></p>
+<p>IP 专用函数</p>
+<ul>
+<li>对要被传输的封包计算 IP 报头的校验和是，<code>iphdr-&gt;check</code> 的值应该先变为零</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// iph: 报头的指针</span></span><br><span class="line"><span class="comment">// ihl: 报头的长度</span></span><br><span class="line"><span class="type">static</span> <span class="keyword">inline</span> </span><br><span class="line"><span class="type">unsigned</span> <span class="type">short</span> <span class="title function_">ip_fast_csum</span><span class="params">(<span class="type">unsigned</span> <span class="type">char</span> *iph, <span class="type">unsigned</span> <span class="type">int</span> ihl)</span> </span><br></pre></td></tr></table></figure>
+
+<p>校验和算法有一个有趣的特性，如果校验和正确，那么转发或接收节点对整个头部运行该算法（保持原始的 iphdr-&gt;check 字段不变），得到的结果将是零。这种检查数据损坏的方式，比更直观的先将 iphdr-&gt;check 字段清零再重新计算的方法要快。</p>
+<p>用于计算或更新 IP 校验和 的主要函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 计算校验和 的通用函数。输入参数是一个任意大小的缓冲区</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">short</span> <span class="title function_">ip_compute_csum</span><span class="params">(<span class="type">unsigned</span> <span class="type">char</span> * buff, <span class="type">int</span> len)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 指定 IP 报头和长度后，计算并返回 IP 校验和</span></span><br><span class="line"><span class="comment">// 可用于验证输入封包，计算外出封包的校验和</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">short</span> <span class="title function_">ip_fast_csum</span><span class="params">(<span class="type">unsigned</span> <span class="type">char</span> *iph, <span class="type">unsigned</span> <span class="type">int</span> ihl)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 计算外出封包的 IP 校验和</span></span><br><span class="line">__inline__ <span class="type">void</span> <span class="title function_">ip_send_check</span><span class="params">(<span class="keyword">struct</span> iphdr *iph)</span></span><br><span class="line">&#123;</span><br><span class="line">	iph-&gt;check = <span class="number">0</span>;</span><br><span class="line">	iph-&gt;check = ip_fast_csum((<span class="type">unsigned</span> <span class="type">char</span> *)iph, iph-&gt;ihl);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 对 IP 校验和进行增值更新</span></span><br><span class="line"><span class="comment">// ip_forward 中调用</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">ip_decrease_ttl</span><span class="params">(<span class="keyword">struct</span> iphdr *iph)</span></span><br><span class="line">&#123;</span><br><span class="line">	u32 check = iph-&gt;check;</span><br><span class="line">	check += htons(<span class="number">0x0100</span>);</span><br><span class="line">	iph-&gt;check = check + (check&gt;=<span class="number">0xFFFF</span>);</span><br><span class="line">	<span class="keyword">return</span> --iph-&gt;ttl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="">checksum.h</a> 中的通用函数，几乎都是由 L4 协议使用</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通用校验和计算函数，定义在 net/core/skbuff.c 中</span></span><br><span class="line"><span class="comment">// 几乎都是由 L4 协议在特定情况下使用</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">int</span> <span class="title function_">skb_checksum</span><span class="params">(<span class="type">const</span> <span class="keyword">struct</span> sk_buff *skb, <span class="type">int</span> offset,</span></span><br><span class="line"><span class="params">			  <span class="type">int</span> len, <span class="type">unsigned</span> <span class="type">int</span> csum)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 把32位值的最高 16 位对折到最低 16 位，然后求出输出值的补码</span></span><br><span class="line"><span class="comment">// 此预算通常是校验和计算的最后阶段</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">int</span> <span class="title function_">csum_fold</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> sum)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这个函数系列所计算的校验和会缺少 csum_fold 所做的最后对折步骤</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">int</span> csum_partial[_xxx](<span class="type">const</span> <span class="type">unsigned</span> <span class="type">char</span> *buff, <span class="type">unsigned</span> len, <span class="type">unsigned</span> <span class="type">int</span> sum);</span><br><span class="line"></span><br><span class="line"><span class="type">unsigned</span> <span class="type">int</span> <span class="title function_">csum_block_add</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> csum, <span class="type">unsigned</span> <span class="type">int</span> csum2, <span class="type">int</span> offset)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">unsigned</span> <span class="type">int</span> <span class="title function_">csum_block_sub</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> csum, <span class="type">unsigned</span> <span class="type">int</span> csum2, <span class="type">int</span> offset)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 入口封包：使其 L4 硬件校验和失效</span></span><br><span class="line"><span class="comment">// 出口封包：计算 L4 校验和</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">skb_checksum_help</span><span class="params">(<span class="keyword">struct</span> sk_buff *skb)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对 TCP 和 UDP 伪报头计算校验和</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">short</span> <span class="type">int</span> <span class="title function_">csum_tcpudp_magic</span><span class="params">(<span class="type">unsigned</span> <span class="type">long</span> saddr,</span></span><br><span class="line"><span class="params">					   <span class="type">unsigned</span> <span class="type">long</span> daddr,</span></span><br><span class="line"><span class="params">					   <span class="type">unsigned</span> <span class="type">short</span> len,</span></span><br><span class="line"><span class="params">					   <span class="type">unsigned</span> <span class="type">short</span> proto,</span></span><br><span class="line"><span class="params">					   <span class="type">unsigned</span> <span class="type">int</span> sum)</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/18-14.png"></p>
+<h3 id="对-L4-校验和-所做的修改"><a href="#对-L4-校验和-所做的修改" class="headerlink" title="对 L4 校验和 所做的修改"></a>对 L4 校验和 所做的修改</h3><p>TCP 和 UDP 协议所计算的 校验和 会包括其报头、有效载荷以及伪报头。</p>
+<p>伪报头中的字段是从 IP 报头中取来，IP 报头中出现的一些信息最后会整合至 L4 校验和内。</p>
+<p>伪报头只是为了计算校验和而定义，并不存在于在网络中传送的封包内。</p>
+<p>对 IP 层次所做的修改会使得 L4 校验和 失效。</p>
+<p>已接收数据帧中的硬件计算的 L4 校验和 失效的几种情况：</p>
+<ul>
+<li><p>当入站二层帧为达到最小帧长度而包含填充字段，但网卡在计算校验和时，未能智能地将该填充字段排除在外，就会出现校验和不匹配的情况。</p>
+</li>
+<li><p>当入站的 IP 分片与此前已接收的分片发生重叠时。</p>
+</li>
+<li><p>当入站 IP 数据包使用 IPsec 协议簇中的任一协议时，网卡无法正确计算出传输层校验和 —— 因为此时传输层头部与载荷数据已被执行压缩、摘要计算或加密操作。相关实现示例可参考 <a target="_blank" rel="noopener" href="https://elixir.bootlin.com/linux/v2.6.19.7/source/net/ipv4/esp4.c#L145">net&#x2F;ipv4&#x2F;esp4.c</a> 文件中的 <code>esp_input</code> 函数。</p>
+</li>
+<li><p>由于网络地址转换（NAT）或 IP 层的其他类似干预操作，该校验和需要重新计算。相关实现可参见 <a target="_blank" rel="noopener" href="https://elixir.bootlin.com/linux/v2.6.19.7/source/net/ipv4/netfilter/ip_nat_standalone.c#L92">net&#x2F;ipv4&#x2F;netfilter&#x2F;ip_nat_standalone.c</a> 文件中的 <code>ip_nat_fn</code> 函数。</p>
+</li>
+</ul>
+<p><code>skb-&gt;ip_summed</code> 字段实际作用于传输层（L4）校验和。当 IP 层检测到有操作导致传输层校验和失效时（例如，对伪首部中的某个字段进行了修改），会对该字段的值进行相应调整。</p>
 </article>
 <div class="article-footer">
 
@@ -397,7 +468,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#IP-%E5%8D%8F%E8%AE%AE%EF%BC%9A%E5%A4%A7%E8%93%9D%E5%9B%BE"><span class="toc-text">IP 协议：大蓝图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP-%E6%8A%A5%E5%A4%B4"><span class="toc-text">IP 报头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP-%E9%80%89%E9%A1%B9"><span class="toc-text">IP 选项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#End-of-Option-List-%E5%92%8C-No-Operation-%E9%80%89%E9%A1%B9"><span class="toc-text">End of Option List 和 No Operation 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Source-Route-%E9%80%89%E9%A1%B9"><span class="toc-text">Source Route 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Record-Route-%E9%80%89%E9%A1%B9"><span class="toc-text">Record Route 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TimeStamp-%E9%80%89%E9%A1%B9"><span class="toc-text">TimeStamp 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Router-Alert-%E9%80%89%E9%A1%B9"><span class="toc-text">Router Alert 选项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#packet-%E7%9A%84%E5%88%86%E6%AE%B5-%E9%87%8D%E7%BB%84"><span class="toc-text">packet 的分段 &#x2F; 重组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AE%B5%E5%AF%B9%E8%BE%83%E9%AB%98%E5%88%86%E5%B1%82%E7%9A%84%E6%95%88%E5%BA%94"><span class="toc-text">分段对较高分层的效应</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AE%B5-%E9%87%8D%E7%BB%84%E6%89%80%E7%94%A8%E7%9A%84-IP-%E6%8A%A5%E5%A4%B4%E5%AD%97%E6%AE%B5"><span class="toc-text">分段&#x2F;重组所用的 IP 报头字段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AE%B5-%E9%87%8D%E7%BB%84%E7%9A%84%E9%97%AE%E9%A2%98%E5%AE%9E%E4%BE%8B"><span class="toc-text">分段&#x2F;重组的问题实例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E6%96%B0%E4%BC%A0%E8%BE%93"><span class="toc-text">重新传输</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%8A%E7%89%87%E6%AE%B5%E5%92%8C%E5%85%B6-IP-%E5%B0%81%E5%8C%85%E7%9B%B8%E5%85%B3%E8%81%94"><span class="toc-text">把片段和其 IP 封包相关联</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP-ID-%E7%94%9F%E6%88%90%E8%8C%83%E4%BE%8B"><span class="toc-text">IP ID 生成范例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E6%B3%95%E8%A7%A3%E5%86%B3%E7%9A%84%E9%87%8D%E7%BB%84%E9%97%AE%E9%A2%98%E8%8C%83%E4%BE%8B%EF%BC%9ANAT"><span class="toc-text">无法解决的重组问题范例：NAT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E5%BE%84-MTU-%E5%8F%91%E7%8E%B0"><span class="toc-text">路径 MTU 发现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%A1%E9%AA%8C%E5%92%8C-checksum"><span class="toc-text">校验和 checksum</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#IP-%E5%8D%8F%E8%AE%AE%EF%BC%9A%E5%A4%A7%E8%93%9D%E5%9B%BE"><span class="toc-text">IP 协议：大蓝图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP-%E6%8A%A5%E5%A4%B4"><span class="toc-text">IP 报头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP-%E9%80%89%E9%A1%B9"><span class="toc-text">IP 选项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#End-of-Option-List-%E5%92%8C-No-Operation-%E9%80%89%E9%A1%B9"><span class="toc-text">End of Option List 和 No Operation 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Source-Route-%E9%80%89%E9%A1%B9"><span class="toc-text">Source Route 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Record-Route-%E9%80%89%E9%A1%B9"><span class="toc-text">Record Route 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TimeStamp-%E9%80%89%E9%A1%B9"><span class="toc-text">TimeStamp 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Router-Alert-%E9%80%89%E9%A1%B9"><span class="toc-text">Router Alert 选项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#packet-%E7%9A%84%E5%88%86%E6%AE%B5-%E9%87%8D%E7%BB%84"><span class="toc-text">packet 的分段 &#x2F; 重组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AE%B5%E5%AF%B9%E8%BE%83%E9%AB%98%E5%88%86%E5%B1%82%E7%9A%84%E6%95%88%E5%BA%94"><span class="toc-text">分段对较高分层的效应</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AE%B5-%E9%87%8D%E7%BB%84%E6%89%80%E7%94%A8%E7%9A%84-IP-%E6%8A%A5%E5%A4%B4%E5%AD%97%E6%AE%B5"><span class="toc-text">分段&#x2F;重组所用的 IP 报头字段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AE%B5-%E9%87%8D%E7%BB%84%E7%9A%84%E9%97%AE%E9%A2%98%E5%AE%9E%E4%BE%8B"><span class="toc-text">分段&#x2F;重组的问题实例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E6%96%B0%E4%BC%A0%E8%BE%93"><span class="toc-text">重新传输</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%8A%E7%89%87%E6%AE%B5%E5%92%8C%E5%85%B6-IP-%E5%B0%81%E5%8C%85%E7%9B%B8%E5%85%B3%E8%81%94"><span class="toc-text">把片段和其 IP 封包相关联</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP-ID-%E7%94%9F%E6%88%90%E8%8C%83%E4%BE%8B"><span class="toc-text">IP ID 生成范例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E6%B3%95%E8%A7%A3%E5%86%B3%E7%9A%84%E9%87%8D%E7%BB%84%E9%97%AE%E9%A2%98%E8%8C%83%E4%BE%8B%EF%BC%9ANAT"><span class="toc-text">无法解决的重组问题范例：NAT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E5%BE%84-MTU-%E5%8F%91%E7%8E%B0"><span class="toc-text">路径 MTU 发现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%A1%E9%AA%8C%E5%92%8C-checksum"><span class="toc-text">校验和 checksum</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E4%BA%8E-%E6%A0%A1%E9%AA%8C%E5%92%8C-%E8%AE%A1%E7%AE%97%E7%9A%84-API"><span class="toc-text">用于 校验和 计算的 API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9-L4-%E6%A0%A1%E9%AA%8C%E5%92%8C-%E6%89%80%E5%81%9A%E7%9A%84%E4%BF%AE%E6%94%B9"><span class="toc-text">对 L4 校验和 所做的修改</span></a></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
 </div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
