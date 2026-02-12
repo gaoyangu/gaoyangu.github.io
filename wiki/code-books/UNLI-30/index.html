@@ -20,16 +20,16 @@
   <title>技术书籍：30. 路由 概念 - gaoyangu</title>
 
   
-    <meta name="description" content="图 30-1 给出了网络协议栈中路由子系统的位置（灰色框）。  30.1 路由器(Routers)，路由(Routes)，路由表(Routing Tables)路由器可以定义为一种配备了多个网络接口卡（NIC），并利用其对网络的认知来正确转发入站流量的网络设备。 判断一个入站数据包 (ingress packet) 是发往本地主机、还是需要被转发，所需的信息，以及在后一种情况下正确转发数据包所需的">
+    <meta name="description" content="图 30-1 给出了网络协议栈中路由子系统的位置（灰色框）。  30.1 路由器(Routers)，路由(Routes)，路由表(Routing Tables)路由器：  为一种配备了多个网络接口卡（NIC），并利用其对网络的认知来正确转发入站流量的网络设备。 路由器需要更多关于如何访问远程网络的信息，可能需要运行路由协议(routing protocol)。  路由表:  判断一个入站数据包 (">
 <meta property="og:type" content="website">
 <meta property="og:title" content="30. 路由 概念">
 <meta property="og:url" content="http://example.com/wiki/code-books/UNLI-30/">
 <meta property="og:site_name" content="gaoyangu">
-<meta property="og:description" content="图 30-1 给出了网络协议栈中路由子系统的位置（灰色框）。  30.1 路由器(Routers)，路由(Routes)，路由表(Routing Tables)路由器可以定义为一种配备了多个网络接口卡（NIC），并利用其对网络的认知来正确转发入站流量的网络设备。 判断一个入站数据包 (ingress packet) 是发往本地主机、还是需要被转发，所需的信息，以及在后一种情况下正确转发数据包所需的">
+<meta property="og:description" content="图 30-1 给出了网络协议栈中路由子系统的位置（灰色框）。  30.1 路由器(Routers)，路由(Routes)，路由表(Routing Tables)路由器：  为一种配备了多个网络接口卡（NIC），并利用其对网络的认知来正确转发入站流量的网络设备。 路由器需要更多关于如何访问远程网络的信息，可能需要运行路由协议(routing protocol)。  路由表:  判断一个入站数据包 (">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2026-02-11T09:47:17.543Z">
-<meta property="article:modified_time" content="2026-02-11T09:47:17.543Z">
+<meta property="article:published_time" content="2026-02-12T03:55:04.504Z">
+<meta property="article:modified_time" content="2026-02-12T03:55:04.504Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
@@ -48,7 +48,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/code-books/UNLI-30/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"30. 路由 概念","description":"图 30-1 给出了网络协议栈中路由子系统的位置（灰色框）。\n\n30.1 路由器(Routers)，路由(Routes)，路由表(Routing Tables)路由器可以定义为一种配备了多个网络接口卡（NIC），并利用其对网络的认知来正确转发入站流量的网络设备。\n判断一个入站数据包 (ingress packet) 是发往本地主机、还是需要被转发，所需的信息，以及在后一种情况下正确转发数据包...","url":"http://example.com/wiki/code-books/UNLI-30/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/code-books/UNLI-30/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"30. 路由 概念","description":"图 30-1 给出了网络协议栈中路由子系统的位置（灰色框）。\n\n30.1 路由器(Routers)，路由(Routes)，路由表(Routing Tables)路由器：\n\n为一种配备了多个网络接口卡（NIC），并利用其对网络的认知来正确转发入站流量的网络设备。\n路由器需要更多关于如何访问远程网络的信息，可能需要运行路由协议(routing protocol)。\n\n路由表:\n\n判断一个入站数据...","url":"http://example.com/wiki/code-books/UNLI-30/"}</script>
   <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/code-books/ULNI-02/">技术书籍</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-02-11T09:47:17.543Z">2026-02-11</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-02-12T03:55:04.504Z">2026-02-12</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -96,30 +96,47 @@
   </div>
   </div><article class="md-text content"><p>图 30-1 给出了网络协议栈中路由子系统的位置（灰色框）。</p>
 <p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/30-1.png"></p>
-<h2 id="30-1-路由器-Routers-，路由-Routes-，路由表-Routing-Tables"><a href="#30-1-路由器-Routers-，路由-Routes-，路由表-Routing-Tables" class="headerlink" title="30.1 路由器(Routers)，路由(Routes)，路由表(Routing Tables)"></a>30.1 路由器(Routers)，路由(Routes)，路由表(Routing Tables)</h2><p>路由器可以定义为一种配备了多个网络接口卡（NIC），并利用其对网络的认知来正确转发入站流量的网络设备。</p>
-<p>判断一个入站数据包 (ingress packet) 是发往本地主机、还是需要被转发，所需的信息，以及在后一种情况下正确转发数据包所需的信息，都存储在一个名为转发信息库（Forwarding Information Base, FIB）的数据库中。它通常也被简称为路由表。</p>
+<h2 id="30-1-路由器-Routers-，路由-Routes-，路由表-Routing-Tables"><a href="#30-1-路由器-Routers-，路由-Routes-，路由表-Routing-Tables" class="headerlink" title="30.1 路由器(Routers)，路由(Routes)，路由表(Routing Tables)"></a>30.1 路由器(Routers)，路由(Routes)，路由表(Routing Tables)</h2><p>路由器：</p>
+<ul>
+<li>为一种配备了多个网络接口卡（NIC），并利用其对网络的认知来正确转发入站流量的网络设备。</li>
+<li>路由器需要更多关于如何访问远程网络的信息，可能需要运行<strong>路由协议(routing protocol)</strong>。</li>
+</ul>
+<p>路由表:</p>
+<ul>
+<li>判断一个入站数据包 (ingress packet) 是发往本地主机、还是需要被转发所需的信息，以及在后一种情况下正确转发数据包所需的信息，都存储在一个名为转发信息库（Forwarding Information Base, FIB）的数据库中。</li>
+<li>每台主机都会维护一张<strong>路由表</strong>，在需要处理网络流量时（无论是发送还是接收）都会查询该表。</li>
+</ul>
 <p>图 30-2 展示了一个简单场景：一个局域网（LAN）内的主机都配置在 10.0.0.0&#x2F;24 子网中，局域网主机通过一台名为 RT 的路由器访问互联网。</p>
 <p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/30-2.png"></p>
-<p>主机被配置为使用**默认网关(default gateway)**来访问所有非本地地址。因此，在图30‑2中，发往 <code>10.0.0.0/24</code> 网络之外任何主机的流量（用 <code>0.0.0.0/0</code> 表示）都会被发送到地址为 <code>10.0.0.1</code> 的网关。</p>
-<p>对于 10.0.0.0&#x2F;24 网段内的主机，则会使用第六部分介绍的<strong>邻居子系统</strong>。</p>
-<p>无论一台主机在网络中扮演何种角色，每台主机都会维护一张<strong>路由表</strong>，在需要处理网络流量时（无论是发送还是接收）都会查询该表。</p>
-<p>路由器可能需要运行<strong>路由协议(routing protocol)</strong>——这类专用软件通常主机并不需要；毕竟，路由器需要更多关于如何访问远程网络的信息，而非路由器主机也依赖它们来实现这一点。</p>
-<p>路由表只不过是路由项的集合。一条路由是一组参数，用于存储向指定目的地转发流量所需的信息。在第 32 章中，我们将详细介绍 Linux 如何定义一条路由，但这里可以先提前说明定义一条路由所需的最小参数集。</p>
-<p>目的网络(Destination network)</p>
+<p>默认网关(default gateway)：</p>
 <ul>
-<li>路由表用于将流量转发至其目的地。这自然是路由查找过程中最重要的字段。</li>
+<li>主机被配置为使用默认网关来访问所有非本地地址。</li>
+<li>在图 30‑2 中，发往 <code>10.0.0.0/24</code> 网络之外任何主机的流量（用 <code>0.0.0.0/0</code> 表示）都会被发送到地址为 <code>10.0.0.1</code> 的网关。</li>
+</ul>
+<p>对于 10.0.0.0&#x2F;24 网段内的主机，则会使用第六部分介绍的<strong>邻居子系统</strong>。</p>
+<p>路由表只不过是路由项的集合。一条路由是一组参数，用于存储向指定目的地转发流量所需的信息。</p>
+<p>定义一条路由所需的最小参数集:</p>
+<ul>
+<li><p>目的网络(Destination network)</p>
+<ul>
+<li>路由表用于将流量转发至其目的地。路由查找过程中最重要的字段。</li>
 <li>图 30‑2 展示了包含两条路由的路由表：一条通往本地子网 10.0.0.0&#x2F;24，另一条通往其他所有网络。后者被称为默认路由(default route)，在路由表中记为全零网络（参见 “默认网关选择” 一节）。</li>
 </ul>
-<p>出接口设备 (Egress device)</p>
+</li>
+<li><p>出接口设备 (Egress device)</p>
 <ul>
-<li>这是匹配该路由的数据包应该被发送出去的网络设备。例如，发往地址 10.0.0.100 的数据包会从 eth0 接口发出。</li>
+<li>这是匹配该路由的数据包应该被发送出去的网络设备。</li>
+<li>例如，发往地址 10.0.0.100 的数据包会从 eth0 接口发出。</li>
 </ul>
-<p>下一跳网关(Next hop gateway)</p>
+</li>
+<li><p>下一跳网关(Next hop gateway)</p>
 <ul>
 <li>当目的网络与本地主机并非直连时，就需要依靠其他路由器来到达该网络。</li>
 <li>例如，图 30‑2 中的主机需要依靠路由器 RT，才能访问 10.0.0.0&#x2F;24 子网以外的任何主机。下一跳网关就是该路由器的地址。</li>
 </ul>
-<h3 id="30-1-1-非路由型多宿主主机-Nonrouting-Multihomed-Hosts"><a href="#30-1-1-非路由型多宿主主机-Nonrouting-Multihomed-Hosts" class="headerlink" title="30.1.1 非路由型多宿主主机 (Nonrouting Multihomed Hosts)"></a>30.1.1 非路由型多宿主主机 (Nonrouting Multihomed Hosts)</h3><p>非路由型主机（尤其是服务器）也可以拥有多个网卡，而不执行任何数据包转发。一台大型服务器配备多个网卡是很常见的，通常出于以下一个或多个原因：</p>
+</li>
+</ul>
+<h3 id="30-1-1-非路由型多宿主主机-Nonrouting-Multihomed-Hosts"><a href="#30-1-1-非路由型多宿主主机-Nonrouting-Multihomed-Hosts" class="headerlink" title="30.1.1 非路由型多宿主主机 (Nonrouting Multihomed Hosts)"></a>30.1.1 非路由型多宿主主机 (Nonrouting Multihomed Hosts)</h3><p>非路由型主机（尤其是服务器）也可以拥有多个网卡，而不执行任何数据包转发。一台大型服务器配备多个网卡通常出于以下一个或多个原因：</p>
 <p>高可用性 (High availability)</p>
 <ul>
 <li>如果一个接口故障或断开，流量可以由第二个接口接管（该接口也可以连接到不同的局域网）。</li>
@@ -134,9 +151,9 @@
 <p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/30-3.png"></p>
 <p>链路聚合（Channeling）</p>
 <ul>
-<li>可以将多个接口绑定在一起，使它们在路由子系统看来就像单个接口一样。这一额外的层（对路由子系统是透明的）能够提高指定连接的总带宽，这对于高负载服务器来说是一项很有价值的特性。</li>
+<li>可以将多个接口绑定在一起，使它们在路由子系统看来就像单个接口一样，提高指定连接的总带宽</li>
 </ul>
-<h3 id="30-1-2-路由配置的种类"><a href="#30-1-2-路由配置的种类" class="headerlink" title="30.1.2 路由配置的种类"></a>30.1.2 路由配置的种类</h3><p>图 30‑4 展示了三种路由子系统设计中你需要理解的配置。这些配置中的路由器命名为 <code>Rn</code>。我们来看一下这些场景的特别之处：</p>
+<h3 id="30-1-2-路由配置的种类"><a href="#30-1-2-路由配置的种类" class="headerlink" title="30.1.2 路由配置的种类"></a>30.1.2 路由配置的种类</h3><p>图 30‑4 展示了三种路由子系统设计中你需要理解的配置。这些配置中的路由器命名为 <code>Rn</code>。来看一下这些场景的特别之处：</p>
 <ul>
 <li><p>(a) 这是最常见的情况：不同的接口配置在不同的子网上，每个子网对应不同的局域网。</p>
 </li>
@@ -154,7 +171,7 @@
 <li><p>入接口与出接口<strong>不一定不同</strong>，尽管通常是不同的。转发一般是在一个接口接收数据包，再从另一个接口发送出去。但在情况 (c) 中，路由器 RT 可以在<strong>同一个网卡、同一个局域网</strong>上，从一个子网接收数据包，再转发到另一个子网。</p>
 </li>
 </ul>
-<h3 id="30-1-3-本书本部分将解答的问题"><a href="#30-1-3-本书本部分将解答的问题" class="headerlink" title="30.1.3 本书本部分将解答的问题"></a>30.1.3 本书本部分将解答的问题</h3><p>此时你可能会产生一些普遍性的疑问，例如：</p>
+<h3 id="30-1-3-本部分将解答的问题"><a href="#30-1-3-本部分将解答的问题" class="headerlink" title="30.1.3 本部分将解答的问题"></a>30.1.3 本部分将解答的问题</h3><p>此时你可能会产生一些普遍性的疑问，例如：</p>
 <ul>
 <li>如果路由器需要转发数据包，内核如何知道转发功能已启用</li>
 <li>路由是全局开启，还是在接口对之间开启</li>
@@ -177,15 +194,14 @@
 </ul>
 <p>对称路由与非对称路由</p>
 <ul>
-<li>通常情况下，从主机A到主机B的路径，与从主机B返回主机A的路径是相同的，这种路由称为<strong>对称路由</strong>。</li>
-<li>在复杂网络结构中，往返路径可能不同，这种路由称为<strong>非对称路由</strong>。</li>
+<li>对称路由：从主机A到主机B的路径，与从主机B返回主机A的路径是相同的</li>
+<li>非对称路由：在复杂网络结构中，往返路径可能不同</li>
 </ul>
 <p>度量值（Metrics）</p>
 <ul>
-<li><p>度量值是可以在路由上配置的<strong>可选参数</strong>。</p>
-</li>
-<li><p>当你使用 <strong>iproute2</strong> 配置路由时，可以指定名为度量值的附加参数，如“路由的核心要素”一节中所定义。其中一个参数——<strong>路径最大传输单元（Path MTU）</strong>，已在第18章介绍。其他参数会被<strong>传输控制协议（TCP）</strong> 用作内部变量的初始值，这些变量后续可由协议自行调整。它们的含义与用法可参考任何一本TCP相关书籍：</p>
-<ul>
+<li>可以在路由上配置的可选参数。</li>
+<li>当使用 <code>iproute2</code> 配置路由时，可以指定名为度量值的附加参数，如“路由的核心要素”一节中所定义。其中一个参数——<strong>路径最大传输单元（Path MTU）</strong>，已在第18章介绍。</li>
+<li>其他参数会被<strong>传输控制协议（TCP）</strong> 用作内部变量的初始值，这些变量后续可由协议自行调整。它们的含义与用法可参考任何一本TCP相关书籍：<ul>
 <li>窗口（Window）</li>
 <li>往返时间（Round trip）</li>
 <li>往返时间波动（Round-trip time variation）</li>
@@ -196,6 +212,91 @@
 </ul>
 </li>
 </ul>
+<p>Realm</p>
+<ul>
+<li>一个数值表示的域标识</li>
+</ul>
+<p>地址分类</p>
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/t-30-1.png"></p>
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/t-30-2.png"></p>
+<p>可路由地址与不可路由地址</p>
+<ul>
+<li><p>不可路由地址</p>
+<ul>
+<li>保留给局域网 (LAN) 内部使用</li>
+<li>任何人都可以配置不可路由地址，大多数用户的设备在路由器后方所使用的正是这类地址。</li>
+<li>不可路由地址不能用于提供互联网服务，因为它们不具备全球唯一性，而且互联网路由器也不会转发去往这些地址的流量。</li>
+</ul>
+</li>
+<li><p>可路由地址</p>
+<ul>
+<li>必须由统一的管理机构分配，并且在全球范围内是唯一的。</li>
+</ul>
+</li>
+<li><p>127.0.0.0&#x2F;8 子网</p>
+<ul>
+<li>一段特殊的地址范围，其作用范围 (scope) 仅限于配置这些地址的本机。</li>
+<li>任何以这类地址作为源地址或目的地址的数据包，都无法离开本机。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/t-30-3.png"></p>
+<p>图 30-5 中</p>
+<ul>
+<li>两个使用相同的不可路由 IP 子网 10.0.1.0&#x2F;24</li>
+<li>可路由的子网 100.0.1.0&#x2F;24</li>
+<li>10.0.1.0&#x2F;24 子网内的任何一个主机要与子网外部的主机通信，路由器必须使用 NAT 来隐藏本地不可路由的子网</li>
+<li>每台主机都配置有默认地址 127.0.0.1</li>
+<li>三个路由器与各自 ISP 的接口上都配置了 ISP 分配的可路由的 IP 地址</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2026/0027-ULNI/30-5.png"></p>
+<h3 id="30-2-1-Scope"><a href="#30-2-1-Scope" class="headerlink" title="30.2.1 Scope"></a>30.2.1 Scope</h3><p>在 Linux 中，</p>
+<ul>
+<li><p>路由的 scope 表示到目的网络的距离</p>
+</li>
+<li><p>IP 地址的 scope 表示该地址在离本地主机多远的范围内可见，在一定程度上也能反映出该地址的拥有者与本地主机的距离。</p>
+</li>
+</ul>
+<p>IP 地址的 scope:</p>
+<ul>
+<li><p>主机 (Host)</p>
+<ul>
+<li>当一个地址只能用于主机自身的内部通信时</li>
+<li>如：回环地址 127.0.0.1</li>
+</ul>
+</li>
+<li><p>链路 (Link)</p>
+<ul>
+<li>当一个地址只在一个局域网内有意义且只在局域网内使用时</li>
+<li>如：子网的广播地址</li>
+</ul>
+</li>
+<li><p>全域 (Universe)</p>
+<ul>
+<li>当一个地址可以在任何地方使用时</li>
+</ul>
+</li>
+</ul>
+<p>广播地址和回环地址由内核来自动设定合适的 scope 值。</p>
+<p>当同样三个 scope 用于路由时表示什么：</p>
+<ul>
+<li><p>主机 (Host)</p>
+<ul>
+<li>当一条路由指向本机上的目的地址时</li>
+</ul>
+</li>
+<li><p>链路 (Link)</p>
+<ul>
+<li>当一条路由指向本地局域网内的目的地址时</li>
+</ul>
+</li>
+<li><p>全域 (Universe)</p>
+<ul>
+<li>当一条路由指向跨一跳以上的地址时</li>
+</ul>
+</li>
+</ul>
+<h4 id="30-2-1-1-scope-的使用"><a href="#30-2-1-1-scope-的使用" class="headerlink" title="30.2.1.1 scope 的使用"></a>30.2.1.1 scope 的使用</h4><p>在 Linux 中，尽管管理员是在接口上配置 IP 地址，但这些地址属于主机本身，而不是接口。更多细节可参见第 28 章 “从多个接口响应” 一节。</p>
 </article>
 <div class="article-footer">
 
@@ -228,7 +329,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#30-1-%E8%B7%AF%E7%94%B1%E5%99%A8-Routers-%EF%BC%8C%E8%B7%AF%E7%94%B1-Routes-%EF%BC%8C%E8%B7%AF%E7%94%B1%E8%A1%A8-Routing-Tables"><span class="toc-text">30.1 路由器(Routers)，路由(Routes)，路由表(Routing Tables)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#30-1-1-%E9%9D%9E%E8%B7%AF%E7%94%B1%E5%9E%8B%E5%A4%9A%E5%AE%BF%E4%B8%BB%E4%B8%BB%E6%9C%BA-Nonrouting-Multihomed-Hosts"><span class="toc-text">30.1.1 非路由型多宿主主机 (Nonrouting Multihomed Hosts)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#30-1-2-%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE%E7%9A%84%E7%A7%8D%E7%B1%BB"><span class="toc-text">30.1.2 路由配置的种类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#30-1-3-%E6%9C%AC%E4%B9%A6%E6%9C%AC%E9%83%A8%E5%88%86%E5%B0%86%E8%A7%A3%E7%AD%94%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">30.1.3 本书本部分将解答的问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#30-2-%E8%B7%AF%E7%94%B1%E7%9A%84%E6%A0%B8%E5%BF%83%E8%A6%81%E7%B4%A0"><span class="toc-text">30.2 路由的核心要素</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#30-1-%E8%B7%AF%E7%94%B1%E5%99%A8-Routers-%EF%BC%8C%E8%B7%AF%E7%94%B1-Routes-%EF%BC%8C%E8%B7%AF%E7%94%B1%E8%A1%A8-Routing-Tables"><span class="toc-text">30.1 路由器(Routers)，路由(Routes)，路由表(Routing Tables)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#30-1-1-%E9%9D%9E%E8%B7%AF%E7%94%B1%E5%9E%8B%E5%A4%9A%E5%AE%BF%E4%B8%BB%E4%B8%BB%E6%9C%BA-Nonrouting-Multihomed-Hosts"><span class="toc-text">30.1.1 非路由型多宿主主机 (Nonrouting Multihomed Hosts)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#30-1-2-%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE%E7%9A%84%E7%A7%8D%E7%B1%BB"><span class="toc-text">30.1.2 路由配置的种类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#30-1-3-%E6%9C%AC%E9%83%A8%E5%88%86%E5%B0%86%E8%A7%A3%E7%AD%94%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">30.1.3 本部分将解答的问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#30-2-%E8%B7%AF%E7%94%B1%E7%9A%84%E6%A0%B8%E5%BF%83%E8%A6%81%E7%B4%A0"><span class="toc-text">30.2 路由的核心要素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#30-2-1-Scope"><span class="toc-text">30.2.1 Scope</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#30-2-1-1-scope-%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">30.2.1.1 scope 的使用</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
 </div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
