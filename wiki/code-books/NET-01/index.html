@@ -17,27 +17,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
-  <title>孕期检查备忘录 - gaoyangu</title>
+  <title>技术书籍：服务器、交换机、路由器 - gaoyangu</title>
 
   
-    <meta name="description" content="记录一些重要的时间节点。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="孕期检查备忘录">
-<meta property="og:url" content="http://example.com/2025/10/20/0008-pregnancy-checklist/">
+    <meta name="description" content="服务器 最常见的终端设备  发出流量，Transmit, outbound发送数据时，无论是 TCP 还是 UDP，都需要先封装成三层数据包，再封装成二层数据帧，最后通过物理层让网卡发送数据。 接收流量，Receive, inbound网卡从物理层收到网络数据，解析成二层数据帧，判断目标 MAC 地址是否是发给自己的  如果是，就把数据交给 kernel 如果不是，丢弃  如果是广播报文，根据协议">
+<meta property="og:type" content="website">
+<meta property="og:title" content="服务器、交换机、路由器">
+<meta property="og:url" content="http://example.com/wiki/code-books/NET-01/">
 <meta property="og:site_name" content="gaoyangu">
-<meta property="og:description" content="记录一些重要的时间节点。">
+<meta property="og:description" content="服务器 最常见的终端设备  发出流量，Transmit, outbound发送数据时，无论是 TCP 还是 UDP，都需要先封装成三层数据包，再封装成二层数据帧，最后通过物理层让网卡发送数据。 接收流量，Receive, inbound网卡从物理层收到网络数据，解析成二层数据帧，判断目标 MAC 地址是否是发给自己的  如果是，就把数据交给 kernel 如果不是，丢弃  如果是广播报文，根据协议">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2025-10-20T10:36:06.000Z">
-<meta property="article:modified_time" content="2026-03-13T06:08:14.696Z">
+<meta property="article:published_time" content="2026-03-13T06:08:14.701Z">
+<meta property="article:modified_time" content="2026-03-13T06:08:14.701Z">
 <meta property="article:author" content="gaoyangu">
-<meta property="article:tag" content="育儿">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
   
   
   
-  <meta name="keywords" content="育儿">
+  
 
   <!-- feed -->
   
@@ -49,26 +48,29 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"dateCreated":"2025-10-20T10:36:06+00:00","dateModified":"2026-03-13T06:08:14+00:00","datePublished":"2025-10-20T10:36:06+00:00","description":"","headline":"孕期检查备忘录","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/10/20/0008-pregnancy-checklist/"},"publisher":{"@type":"Organization","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png","logo":{"@type":"ImageObject","url":"/images/notion-avatar-1764230194071.png"}},"url":"http://example.com/2025/10/20/0008-pregnancy-checklist/","keywords":"育儿","image":[]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/wiki/code-books/NET-01/","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"name":"服务器、交换机、路由器","description":"服务器\n最常见的终端设备\n\n发出流量，Transmit, outbound发送数据时，无论是 TCP 还是 UDP，都需要先封装成三层数据包，再封装成二层数据帧，最后通过物理层让网卡发送数据。\n接收流量，Receive, inbound网卡从物理层收到网络数据，解析成二层数据帧，判断目标 MAC 地址是否是发给自己的\n\n如果是，就把数据交给 kernel\n如果不是，丢弃\n\n如果是广播报文，根...","url":"http://example.com/wiki/code-books/NET-01/"}</script>
   <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
 
 
-<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/notion-avatar-1764230194071.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">gaoyangu</div><div class="sub cap">理解世界，解决问题</div></a></div></header>
+<div class="l_body content" id="start" layout="page" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/icon/cs_book.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/code-books/ULNI-02"><div class="main">技术书籍</div></a></div></header>
 
 <div class="nav-area">
 
-<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="探索" href="/explore/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="关于" href="/about/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item active" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="探索" href="/explore/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="关于" href="/about/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
 </div>
 <div class="widgets">
-<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/code-books/" placeholder="在 code-books 中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
 
 
+<widget class="widget-wrapper doc-tree post-list"><div class="widget-header dis-select"><span class="name">深入理解 Linux 网络技术内幕</span></div><div class="widget-body fs14"><a class="link" href="/wiki/code-books/ULNI-02/#start"><span class="toc-text">02. 关键数据结构</span></a><a class="link" href="/wiki/code-books/ULNI-03/"><span class="toc-text">03. 用户空间与内核的接口</span></a><a class="link" href="/wiki/code-books/UNLI-14/"><span class="toc-text">14. 桥接 概念</span></a><a class="link" href="/wiki/code-books/ULNI-18/"><span class="toc-text">18. IPv4 概念</span></a><a class="link" href="/wiki/code-books/UNLI-19/"><span class="toc-text">19. IPv4 - Linux 的原理和功能</span></a><a class="link" href="/wiki/code-books/UNLI-20/"><span class="toc-text">20. IPv4 - 转发和本地传递</span></a><a class="link" href="/wiki/code-books/UNLI-21/"><span class="toc-text">21. IPv4 - 传输</span></a><a class="link" href="/wiki/code-books/UNLI-30/"><span class="toc-text">30. 路由 概念</span></a></div><div class="widget-header dis-select"><span class="name">UNIX环境高级编程</span></div><div class="widget-body fs14"><a class="link" href="/wiki/code-books/APUE-08/"><span class="toc-text">08. 进程</span></a></div><div class="widget-header dis-select"><span class="name">...</span></div><div class="widget-body fs14"><a class="link active" href="/wiki/code-books/NET-01/"><span class="toc-text">服务器、交换机、路由器</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div></widget>
 
-<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/12/02/0019-2025-review/"><span class="title">2025年终总结</span></a><a class="item title" href="/2025/12/15/0022-unicode/"><span class="title">ASCII, GBK, Unicode 和 UTF-8</span></a><a class="item title" href="/2025/12/24/0024-webservice/"><span class="title">webservice = XML + SOAP + WSDL</span></a><a class="item title" href="/2026/01/25/0026-food-01/"><span class="title">喝什么 - 甜汤</span></a><a class="item title" href="/2026/02/17/0026-food-02/"><span class="title">番茄炖牛腩</span></a><a class="item title" href="/2026/02/11/0027-cartoon/"><span class="title">儿童动画片</span></a><a class="item title" href="/2026/02/19/0029-play/"><span class="title">过年玩什么</span></a><a class="item title" href="/2025/10/20/0008-pregnancy-checklist/"><span class="title">孕期检查备忘录</span></a><a class="item title" href="/2025/10/21/0009-two-awesome-hours-01/"><span class="title">每天最重要的2小时 - 01</span></a><a class="item title" href="/2025/10/29/0009-two-awesome-hours-02/"><span class="title">每天最重要的2小时 - 02</span></a></div></widget>
+<widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：编程</span></div><div class="widget-body"><a class="item wiki" href="/wiki/ebpf/ebpf/"><span class="title">eBPF</span></a><a class="item wiki" href="/wiki/cpp/"><span class="title">code</span></a><a class="item wiki" href="/wiki/linux_tool/opencode/"><span class="title">Linux Tool</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -80,77 +82,75 @@
 <div class="article banner top">
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
-<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E7%94%9F%E6%B4%BB%E8%AE%B0%E5%BD%95/">生活记录</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-10-20T10:36:06.000Z">2025-10-20</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-03-13T06:08:14.696Z">2026-03-13</time></span></div></div></div>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/code-books/ULNI-02/">技术书籍</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-03-13T06:08:14.701Z">2026-03-13</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>孕期检查备忘录</span></h1>
+        <h1 class="text title"><span>服务器、交换机、路由器</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><h3 id="13-6"><a href="#13-6" class="headerlink" title="13+6"></a>13+6</h3><p>医生关于孕期的常用描述，<code>13</code> 是指第13周，<code>+6</code> 则指的是第6天，比如 NT 检查需要在 11 到 13+6 这段时间进行，意思就是需要在第11周到第13周的第6天之间的这段时间进行。</p>
-<h2 id="重要时间节点"><a href="#重要时间节点" class="headerlink" title="重要时间节点"></a>重要时间节点</h2><h3 id="NT-检查"><a href="#NT-检查" class="headerlink" title="NT 检查"></a>NT 检查</h3><ul>
-<li>时间：孕11周到孕13+6周</li>
+  </div><article class="md-text content"><h1 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h1><ul>
+<li>最常见的终端设备</li>
 </ul>
-<p>通过B超检查胎儿颈项透明层的厚度。</p>
-<h3 id="建档（母子健康手册）"><a href="#建档（母子健康手册）" class="headerlink" title="建档（母子健康手册）"></a>建档（母子健康手册）</h3><ul>
-<li>时间：孕12周</li>
+<h2 id="发出流量，Transmit-outbound"><a href="#发出流量，Transmit-outbound" class="headerlink" title="发出流量，Transmit, outbound"></a>发出流量，Transmit, outbound</h2><p>发送数据时，无论是 TCP 还是 UDP，都需要先封装成三层数据包，再封装成二层数据帧，最后通过物理层让网卡发送数据。</p>
+<h2 id="接收流量，Receive-inbound"><a href="#接收流量，Receive-inbound" class="headerlink" title="接收流量，Receive, inbound"></a>接收流量，Receive, inbound</h2><p>网卡从物理层收到网络数据，解析成二层数据帧，判断目标 MAC 地址是否是发给自己的</p>
+<ul>
+<li>如果是，就把数据交给 kernel</li>
+<li>如果不是，丢弃</li>
 </ul>
-<p>一本粉红色的小册子，需要保留到孩子上学。</p>
-<p>建档需要进行抽血检查，所以当天早上记得不要吃早饭。建档之后，需要按照时间要求，定期到医院进行孕期检查。</p>
-<h3 id="准生证（生育登记证明）"><a href="#准生证（生育登记证明）" class="headerlink" title="准生证（生育登记证明）"></a>准生证（生育登记证明）</h3><ul>
-<li>时间：怀孕3个月后</li>
+<p>如果是广播报文，根据协议判断是否需要回复（ARP）</p>
+<h1 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h1><ul>
+<li><p>流量转发设备，将收到的网络包转发出去</p>
+</li>
+<li><p>工作在二层</p>
+</li>
 </ul>
-<p>准生证应该是计划生育时期的叫法，现在应该都是通过各地的相关公众号进行的。</p>
-<h3 id="唐氏筛查"><a href="#唐氏筛查" class="headerlink" title="唐氏筛查"></a>唐氏筛查</h3><ul>
-<li>时间：孕15周到孕20周（以医生建议为准）</li>
+<h2 id="MAC-address-table"><a href="#MAC-address-table" class="headerlink" title="MAC address table"></a>MAC address table</h2><p>MAC 地址和交换机端口的对应。</p>
+<p>收到一个二层数据帧，交换机会进行如下步骤：</p>
+<ol>
+<li>把源 MAC 地址和源端口号记录在 MAC address table 中</li>
+<li>根据目的 MAC 查找 MAC address table<ul>
+<li>如果找到目的 MAC 对应的端口号，则从这个端口把数据转发出去</li>
+<li>否则，就转发到除了源端口之外的其他所有端口</li>
 </ul>
-<p>用于评估胎儿患有唐氏综合征的风险。</p>
-<h3 id="四维彩超"><a href="#四维彩超" class="headerlink" title="四维彩超"></a>四维彩超</h3><ul>
-<li>时间：孕22周到孕26周（以医生建议为准）</li>
+</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/wiki/code-books/net/idc-ha-network.png"></p>
+<p>MAC address table 中，</p>
+<ul>
+<li>一个 MAC 地址只能对应一个端口</li>
+<li>一个端口可以对应多个 MAC 地址，因为一个端口后面不仅是服务器，也可以是交换机</li>
 </ul>
-<p>实时三维超声，是在二维超声的基础上，通过技术处理而形成的形象直观的动态立体图像。</p>
-<p>也称为大排畸。</p>
-<h3 id="糖耐"><a href="#糖耐" class="headerlink" title="糖耐"></a>糖耐</h3><ul>
-<li>时间：孕24到孕28周（以医生建议为准）</li>
+<h1 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h1><ul>
+<li><p>流量转发设备，将收到的网络包转发出去</p>
+</li>
+<li><p>工作在三层</p>
+</li>
 </ul>
-<p>葡萄糖耐量试验（OGTT），简称糖耐。检查时会让准妈妈喝葡萄糖水来模拟一顿饭摄入的糖量，从而检测胰岛功能，排查妊娠期糖尿病。</p>
-<h3 id="小排畸"><a href="#小排畸" class="headerlink" title="小排畸"></a>小排畸</h3><ul>
-<li>时间：孕28到孕32周（以医生建议为准）</li>
-</ul>
-<p>此阶段胎儿各器官功能进一步完善，部分在早期不明显的结构异常开始呈现典型超声特征。</p>
-<p>对之前的大畸形筛查进行“查缺补漏”，识别大排畸中尚未显现的迟发性畸形，同时系统评估胎儿生长发育状况。​</p>
-<p>涵盖识别迟发性畸形、评估胎儿生长发育、监测羊水量、评估胎盘位置及成熟度、血流动力学评估等。</p>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="脉络丛囊肿"><a href="#脉络丛囊肿" class="headerlink" title="脉络丛囊肿"></a>脉络丛囊肿</h3><h3 id="血管迷走神经性昏厥"><a href="#血管迷走神经性昏厥" class="headerlink" title="血管迷走神经性昏厥"></a>血管迷走神经性昏厥</h3></article>
+<h2 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h2><p>IP 与端口的对应表</p>
+</article>
 <div class="article-footer">
     <section id="references">
       <div class="header"><span>参考资料</span></div>
       <div class="body">
         <ul>
         <li class="post-title">
-          <p><a target="_blank" rel="noopener" href="https://y.dxy.cn/hospital/879/833577.html">孕期必做的 NT 检查，一定要在这个时间，不能早也不能晚！</a></p>
+          <p><a target="_blank" rel="noopener" href="https://www.kawabangga.com/posts/6417">数据中心网络高可用技术：序</a></p>
 
         </li>
         </ul>
       </div>
     </section>
     
-    <section id="license">
-      <div class="header"><span>许可协议</span></div>
-      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
-</div>
-    </section>
-    
 
 </div>
 
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/10/21/0009-two-awesome-hours-01/">每天最重要的2小时 - 01</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/10/19/0007-hitch/">顺风车车主初体验</a></div></section></div>
-
-
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/code-books/APUE-08/">08. 进程</a></div><div class="item" id="next"></div></section></div>
 
 
   <div class="related-wrap md-text" id="comments">
@@ -177,7 +177,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="toc-text">名词解释</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#13-6"><span class="toc-text">13+6</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E8%A6%81%E6%97%B6%E9%97%B4%E8%8A%82%E7%82%B9"><span class="toc-text">重要时间节点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NT-%E6%A3%80%E6%9F%A5"><span class="toc-text">NT 检查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E6%A1%A3%EF%BC%88%E6%AF%8D%E5%AD%90%E5%81%A5%E5%BA%B7%E6%89%8B%E5%86%8C%EF%BC%89"><span class="toc-text">建档（母子健康手册）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E7%94%9F%E8%AF%81%EF%BC%88%E7%94%9F%E8%82%B2%E7%99%BB%E8%AE%B0%E8%AF%81%E6%98%8E%EF%BC%89"><span class="toc-text">准生证（生育登记证明）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%94%90%E6%B0%8F%E7%AD%9B%E6%9F%A5"><span class="toc-text">唐氏筛查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E7%BB%B4%E5%BD%A9%E8%B6%85"><span class="toc-text">四维彩超</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%96%E8%80%90"><span class="toc-text">糖耐</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E6%8E%92%E7%95%B8"><span class="toc-text">小排畸</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%84%89%E7%BB%9C%E4%B8%9B%E5%9B%8A%E8%82%BF"><span class="toc-text">脉络丛囊肿</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%80%E7%AE%A1%E8%BF%B7%E8%B5%B0%E7%A5%9E%E7%BB%8F%E6%80%A7%E6%98%8F%E5%8E%A5"><span class="toc-text">血管迷走神经性昏厥</span></a></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E5%87%BA%E6%B5%81%E9%87%8F%EF%BC%8CTransmit-outbound"><span class="toc-text">发出流量，Transmit, outbound</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E6%B5%81%E9%87%8F%EF%BC%8CReceive-inbound"><span class="toc-text">接收流量，Receive, inbound</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-text">交换机</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MAC-address-table"><span class="toc-text">MAC address table</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8"><span class="toc-text">路由器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E8%A1%A8"><span class="toc-text">路由表</span></a></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
 </div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
