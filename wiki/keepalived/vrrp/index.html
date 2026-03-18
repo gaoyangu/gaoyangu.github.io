@@ -28,8 +28,8 @@
 <meta property="og:description" content="虚拟路由冗余协议VRRP（Virtual Router Redundancy Protocol）是一种用于提高网络可靠性的容错协议。 为什么需要 VRRP现网中的主机使用默认网关与外部网络联系，当默认网关出现故障，与其相连的主机将与外界失去联系，导致业务中断。 VRRP 将多台设备组成一个虚拟设备，主机通过配置虚拟设备的 IP 地址为默认网关，实现默认网关的备份。当网关设备发生故障时，VRRP 机">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-<meta property="article:published_time" content="2026-03-18T01:25:04.956Z">
-<meta property="article:modified_time" content="2026-03-18T01:25:04.956Z">
+<meta property="article:published_time" content="2026-03-18T05:57:00.734Z">
+<meta property="article:modified_time" content="2026-03-18T05:57:00.734Z">
 <meta property="article:author" content="gaoyangu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/keepalived/">keepalived</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-03-18T01:25:04.956Z">2026-03-18</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2026-03-18T05:57:00.734Z">2026-03-18</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -97,13 +97,157 @@
   </div><article class="md-text content"><p>虚拟路由冗余协议VRRP（Virtual Router Redundancy Protocol）是一种用于提高<strong>网络可靠性</strong>的容错协议。</p>
 <h1 id="为什么需要-VRRP"><a href="#为什么需要-VRRP" class="headerlink" title="为什么需要 VRRP"></a>为什么需要 VRRP</h1><p>现网中的主机使用<strong>默认网关</strong>与外部网络联系，当默认网关出现故障，与其相连的主机将与外界失去联系，导致业务中断。</p>
 <p>VRRP 将多台设备组成一个虚拟设备，主机通过配置虚拟设备的 IP 地址为默认网关，实现默认网关的备份。当网关设备发生故障时，VRRP 机制能够选举新的网关设备承担数据流量，从而保障网络的可靠通信。</p>
-<h1 id="VRRP-是什么"><a href="#VRRP-是什么" class="headerlink" title="VRRP 是什么"></a>VRRP 是什么</h1><h2 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h2><ul>
+<h1 id="VRRP-是什么"><a href="#VRRP-是什么" class="headerlink" title="VRRP 是什么"></a>VRRP 是什么</h1><h2 id="相关术语"><a href="#相关术语" class="headerlink" title="相关术语"></a>相关术语</h2><ul>
+<li><p>VRRP 路由器(VRRP Router)：运行 VRRP 协议的设备，它可能属于一个或多个虚拟路由器。</p>
+</li>
+<li><p>虚拟路由器(Virtual Router): 又称 <code>VRRP 备份组</code>，由一个 Master 路由器和多个 Backup 路由器组成，被当做一个共享局域网内主机的缺省网关。</p>
+</li>
+<li><p>Master 路由器：承担转发报文任务的 VRRP 设备。</p>
+</li>
+<li><p>Backup 路由器：一组没有承担转发任务的 VRRP 设备，当 Master 路由器出现故障时，它们将通过竞选成为新的 Master 路由器。</p>
+</li>
+<li><p>VRID：虚拟路由器标识，在同一个 VRRP 组内的路由器必须有相同的 VRID。</p>
+</li>
+<li><p>虚拟 IP 地址(Virtual IP Address)：虚拟路由器的 IP 地址，一个虚拟路由器可以有一个或多个 IP 地址。</p>
+</li>
+<li><p>IP 地址拥有者(IP Address Owner)：如果一个 VRRP 设备将虚拟路由器 IP 地址作为真实的接口地址，则该设备被称为 IP 地址拥有者。如果 IP 地址拥有者是可用的，通常它将成为 Master 路由器。</p>
+</li>
+<li><p>虚拟 MAC 地址(Virtual MAC Address)：格式：00-00-5E-00-01-{VRID} (VRRP for IPv4); 00-00-5E-00-02-{VRID} (VRRP for IPv6)，其中 00-00-5E 是 IANA 组织分配的，00-01 是为 VRRP 协议指定的，VRID 是虚拟路由器标识，取值范围为[1-255]。当虚拟路由器回应 ARP 请求时，使用虚拟 MAC 地址，而不是接口的真实 MAC 地址。</p>
+</li>
+</ul>
+<h2 id="VRRP-版本"><a href="#VRRP-版本" class="headerlink" title="VRRP 版本"></a>VRRP 版本</h2><ul>
 <li><p>VRRP v2: 主要添加了对 IPv6 的支持</p>
 </li>
 <li><p>VRRP v3: 主要添加了抢占模式，object-tracking（追踪链路状态）, sub-second timers</p>
 </li>
 </ul>
-<h2 id="核心工作方式"><a href="#核心工作方式" class="headerlink" title="核心工作方式"></a>核心工作方式</h2><h1 id="如何使用-VRRP"><a href="#如何使用-VRRP" class="headerlink" title="如何使用 VRRP"></a>如何使用 VRRP</h1></article>
+<h2 id="VRRP-状态"><a href="#VRRP-状态" class="headerlink" title="VRRP 状态"></a>VRRP 状态</h2><p>标准状态 (RFC 2338):</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>VRRP_STATE_INIT</td>
+<td>0</td>
+<td>初始化状态，VRRP 实例未启动</td>
+</tr>
+<tr>
+<td>VRRP_STATE_BACK</td>
+<td>1</td>
+<td>BACKUP 状态，监听 MASTER 的 VRRP 报文</td>
+</tr>
+<tr>
+<td>VRRP_STATE_MAST</td>
+<td>2</td>
+<td>MASTER 状态，承担虚拟路由设备的所有转发工作，并定期发送 VRRP 报文</td>
+</tr>
+</tbody></table>
+<p>内部状态 (Keepalived 扩展):</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>VRRP_STATE_FAULT</td>
+<td>3</td>
+<td>故障状态，接口down或健康检查失败</td>
+</tr>
+<tr>
+<td>VRRP_STATE_GOTO_MASTER</td>
+<td>4</td>
+<td>内部状态，正在转为 MASTER</td>
+</tr>
+<tr>
+<td>VRRP_STATE_LEAVE_MASTER</td>
+<td>5</td>
+<td>内部状态，正在离开 MASTER</td>
+</tr>
+<tr>
+<td>VRRP_STATE_GOTO_FAULT</td>
+<td>98</td>
+<td>内部状态，正在转为 FAULT</td>
+</tr>
+</tbody></table>
+<h2 id="VRRP-报文"><a href="#VRRP-报文" class="headerlink" title="VRRP 报文"></a>VRRP 报文</h2><ul>
+<li><p>VRRP 只定义了一种报文 —— VRRP 通告报文</p>
+</li>
+<li><p>VRRP 报文封装在 IP 报文中，支持各种上层协议</p>
+</li>
+<li><p>VRRP 基于 IP Multicast 协议，广播的目标地址是 <code>224.0.0.18</code></p>
+</li>
+<li><p>只有处于 Master 状态的路由器定期发送 VRRP报文，Src IP 设置为自己，IP 层的 TTL 设置为 255</p>
+</li>
+</ul>
+<h2 id="VRRP-路由器的优先级"><a href="#VRRP-路由器的优先级" class="headerlink" title="VRRP 路由器的优先级"></a>VRRP 路由器的优先级</h2><p>0：</p>
+<ul>
+<li>优先级为 0 用于指示当前虚拟路由器的 Master 路由器停止参与 VRRP 组，放弃 Master 位置。主要用于触发 Backup 路由器快速地迁移到 Master 路由器，而不用等待当前 Master 路由器超时。</li>
+</ul>
+<p>255：</p>
+<ul>
+<li>如果 VRRP 路由器是虚拟路由器地址的IP地址拥有者，那么其优先级必须为255。</li>
+</ul>
+<p>1-254：</p>
+<ul>
+<li>Backup 路由器的优先级必须在1–254之间。缺省的 VRRP 路由器优先级为100。</li>
+</ul>
+<h1 id="核心工作方式"><a href="#核心工作方式" class="headerlink" title="核心工作方式"></a>核心工作方式</h1><h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><ol>
+<li><p>虚拟路由器中的设备根据优先级选举出 Master。</p>
+</li>
+<li><p>Master 路由器</p>
+<ul>
+<li>通过发送<a target="_blank" rel="noopener" href="https://gaoyangu.github.io/2026/02/10/0010-keepalived-04/">免费 ARP 报文</a>将自己的虚拟 MAC 地址通知给与它连接的设备或主机，从而承担报文转发任务</li>
+<li>周期性向VRRP 备份组中的 Backup 设备发送 VRRP 报文，通告器配置信息（优先级等）和工作状况</li>
+</ul>
+</li>
+<li><p>如果 Master 路由器出现故障</p>
+<ul>
+<li>VRRP 备份组中的 Backup 路由器根据优先级重新选举出新的 Master</li>
+<li>新的 Master 路由器会立即发送携带虚拟路由器的 MAC 地址和虚拟 IP 地址信息的免费ARP报文，刷新与它连接的设备的MAC表项，从而把用户流量引到新的 Master 设备上，整个过程对用户完全透明</li>
+</ul>
+</li>
+<li><p>原 Master 设备故障恢复后</p>
+<ul>
+<li>若该设备优先级为 255，则直接切换至 Master 状态</li>
+<li>否则，首先切换至 Backup 状态，优先级不变</li>
+</ul>
+</li>
+<li><p>Backup 设备的优先级高于 Master 设备时，由 Backup 设备的工作方式（抢占方式和非抢占方式）觉得是否重新选举 Master。</p>
+</li>
+</ol>
+<h2 id="选举机制"><a href="#选举机制" class="headerlink" title="选举机制"></a>选举机制</h2><p>VRRP 根据优先级来确定虚拟路由器中每台路由器的角色（Master路由器或Backup路由器）。优先级越高，则越有可能成为Master路由器。</p>
+<p>初始创建的路由器工作在Backup状态，通过 VRRP 报文的交互获知虚拟路由器中其他成员的优先级：</p>
+<ul>
+<li><p>如果VRRP报文中Master路由器的优先级高于自己的优先级，则路由器保持在Backup状态；</p>
+</li>
+<li><p>如果VRRP报文中Master路由器的优先级低于自己的优先级，采用抢占工作方式的路由器将抢占成为Master状态，周期性地发送VRRP报文，采用非抢占工作方式的路由器仍保持Backup状态；</p>
+</li>
+<li><p>如果在一定时间内没有收到VRRP报文，则路由器切换为Master状态。</p>
+</li>
+</ul>
+<h2 id="抢占与非抢占"><a href="#抢占与非抢占" class="headerlink" title="抢占与非抢占"></a>抢占与非抢占</h2><ul>
+<li><p>非抢占方式：如果 Backup 路由器工作在非抢占方式下，只要 Master 路由器没有故障，Backup 路由器即使被配置了更高的优先级，也不会成为 Master 路由器。</p>
+</li>
+<li><p>抢占方式：如果 Backup 路由器工作在抢占方式下，当它收到 VRRP 报文后，会将自己的优先级与通告报文中的优先级进行比较。如果自己的优先级更高，就会主动抢占成为 Master 路由器。</p>
+</li>
+</ul>
+<h1 id="典型组网案例"><a href="#典型组网案例" class="headerlink" title="典型组网案例"></a>典型组网案例</h1><h2 id="主备备份"><a href="#主备备份" class="headerlink" title="主备备份"></a>主备备份</h2><p>业务仅由 Master 路由器承担，当 Master 路由器出现故障时，才会由选举出来的 Backup 路由器接替它工作。</p>
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2025/0010-keepalived/01.png"></p>
+<h2 id="负载分担"><a href="#负载分担" class="headerlink" title="负载分担"></a>负载分担</h2><p>在路由器的一个接口上可以创建多个虚拟路由器，使得该路由器可以在一个虚拟路由器中作为 Master 路由器，同时在其它的虚拟路由器中作为 Backup 路由器。</p>
+<p><img src="https://raw.githubusercontent.com/gaoyangu/blog_pic/main/2025/0010-keepalived/02.png"></p>
+<p>为了实现业务流量在 Device A、Device B 和 Device C 之间进行负载分担，需要将局域网内的主机的默认网关分别设置为虚拟路由器1、2和3。</p>
+<p>在配置优先级时，需要确保三个虚拟路由器中各路由器的 VRRP 优先级之间形成一定的交叉，使得一台路由器尽可能不同时充当 2 个 Master 路由器。</p>
+<h1 id="BFD-技术"><a href="#BFD-技术" class="headerlink" title="BFD 技术"></a>BFD 技术</h1><ul>
+<li><input disabled="" type="checkbox"> todo</li>
+</ul>
+<a class="tag-plugin colorful hashtag" color="green" target="_blank" rel="noopener" href="https://gaoyangu.github.io/tags/keepalived/"><svg t="1701408144765" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4228" width="200" height="200"><path d="M426.6 64.8c34.8 5.8 58.4 38.8 52.6 73.6l-19.6 117.6h190.2l23-138.6c5.8-34.8 38.8-58.4 73.6-52.6s58.4 38.8 52.6 73.6l-19.4 117.6H896c35.4 0 64 28.6 64 64s-28.6 64-64 64h-137.8l-42.6 256H832c35.4 0 64 28.6 64 64s-28.6 64-64 64h-137.8l-23 138.6c-5.8 34.8-38.8 58.4-73.6 52.6s-58.4-38.8-52.6-73.6l19.6-117.4h-190.4l-23 138.6c-5.8 34.8-38.8 58.4-73.6 52.6s-58.4-38.8-52.6-73.6l19.4-117.8H128c-35.4 0-64-28.6-64-64s28.6-64 64-64h137.8l42.6-256H192c-35.4 0-64-28.6-64-64s28.6-64 64-64h137.8l23-138.6c5.8-34.8 38.8-58.4 73.6-52.6z m11.6 319.2l-42.6 256h190.2l42.6-256h-190.2z" p-id="4229"></path></svg><span>keepalived</span></a></article>
 <div class="article-footer">
 
 </div>
@@ -135,7 +279,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-VRRP"><span class="toc-text">为什么需要 VRRP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#VRRP-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">VRRP 是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%88%E6%9C%AC"><span class="toc-text">版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="toc-text">核心工作方式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-VRRP"><span class="toc-text">如何使用 VRRP</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-VRRP"><span class="toc-text">为什么需要 VRRP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#VRRP-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">VRRP 是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%9C%AF%E8%AF%AD"><span class="toc-text">相关术语</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VRRP-%E7%89%88%E6%9C%AC"><span class="toc-text">VRRP 版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VRRP-%E7%8A%B6%E6%80%81"><span class="toc-text">VRRP 状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VRRP-%E6%8A%A5%E6%96%87"><span class="toc-text">VRRP 报文</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VRRP-%E8%B7%AF%E7%94%B1%E5%99%A8%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-text">VRRP 路由器的优先级</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="toc-text">核心工作方式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E4%B8%BE%E6%9C%BA%E5%88%B6"><span class="toc-text">选举机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A2%E5%8D%A0%E4%B8%8E%E9%9D%9E%E6%8A%A2%E5%8D%A0"><span class="toc-text">抢占与非抢占</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B8%E5%9E%8B%E7%BB%84%E7%BD%91%E6%A1%88%E4%BE%8B"><span class="toc-text">典型组网案例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E5%A4%87%E5%A4%87%E4%BB%BD"><span class="toc-text">主备备份</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%88%86%E6%8B%85"><span class="toc-text">负载分担</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BFD-%E6%8A%80%E6%9C%AF"><span class="toc-text">BFD 技术</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M8 10.5h8M8 14h5.5M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"/></svg><span>参与讨论</span></a></div></widget>
 </div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
