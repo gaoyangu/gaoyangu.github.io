@@ -3,12 +3,12 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1" theme-name="Stellar" theme-version="1.33.1">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.44.0" theme-name="Stellar" theme-version="1.44.0">
   
   
   <meta name="generator" content="Hexo 8.1.2">
   <meta http-equiv='x-dns-prefetch-control' content='on' />
-  
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin><link rel="preconnect" href="https://unpkg.com" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <meta name="renderer" content="webkit">
   <meta name="force-rendering" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -19,8 +19,7 @@
   <meta name="theme-color" content="#f9fafb">
   <title>Linux 系统中常用的时间操作函数 - gaoyangu</title>
 
-  
-    <meta name="description" content="time, mktime, localtime">
+  <meta name="description" content="time, mktime, localtime">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux 系统中常用的时间操作函数">
 <meta property="og:url" content="http://example.com/2025/11/03/0014-time/">
@@ -29,12 +28,11 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/notion-avatar-1764230194071.png">
 <meta property="article:published_time" content="2025-11-03T16:23:13.000Z">
-<meta property="article:modified_time" content="2026-08-01T00:05:10.935Z">
+<meta property="article:modified_time" content="2026-09-19T07:13:13.944Z">
 <meta property="article:author" content="gaoyangu">
 <meta property="article:tag" content="时间">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png">
-  
+<meta name="twitter:image" content="http://example.com/images/notion-avatar-1764230194071.png"><meta name="twitter:title" content="Linux 系统中常用的时间操作函数">
   
   
   <meta name="keywords" content="时间">
@@ -42,46 +40,343 @@
   <!-- feed -->
   
 
-  <link rel="stylesheet" href="/css/main.css?v=1.33.1">
+  <link rel="preload" href="/css/main.css?v=1.44.0" as="style">
+  <link rel="stylesheet" href="/css/main.css?v=1.44.0">
 
 
   
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png"},"dateCreated":"2025-11-03T16:23:13+00:00","dateModified":"2026-08-01T00:05:10+00:00","datePublished":"2025-11-03T16:23:13+00:00","description":"Here's something encrypted, password is required to continue reading.","headline":"Linux 系统中常用的时间操作函数","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/11/03/0014-time/"},"publisher":{"@type":"Organization","name":"gaoyangu","sameAs":[],"image":"/images/notion-avatar-1764230194071.png","logo":{"@type":"ImageObject","url":"/images/notion-avatar-1764230194071.png"}},"url":"http://example.com/2025/11/03/0014-time/","keywords":"时间","image":[]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"gaoyangu","sameAs":[],"image":"http://example.com/images/notion-avatar-1764230194071.png"},"dateCreated":"2025-11-03T16:23:13+00:00","dateModified":"2026-09-19T07:13:13+00:00","datePublished":"2025-11-03T16:23:13+00:00","description":"Here's something encrypted, password is required to continue reading.","headline":"Linux 系统中常用的时间操作函数","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/11/03/0014-time/"},"publisher":{"@type":"Organization","name":"gaoyangu","sameAs":[],"image":"http://example.com/images/notion-avatar-1764230194071.png","logo":{"@type":"ImageObject","url":"http://example.com/images/notion-avatar-1764230194071.png"}},"url":"http://example.com/2025/11/03/0014-time/","keywords":"时间","thumbnailUrl":"https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg","image":["https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg"]}</script>
   <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
+
+  <!-- icons.yml 驱动的 CSS 装饰图标 -->
+  
+  
+  <style>:root {
+  --icon-h3-left: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2024%2024%22%3E%3C!--%20Icon%20from%20Solar%20by%20480%20Design%20-%20https%3A%2F%2Fcreativecommons.org%2Flicenses%2Fby%2F4.0%2F%20--%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M17.75%2019a.75.75%200%200%201-1.32.488l-6-7a.75.75%200%200%201%200-.976l6-7A.75.75%200%200%201%2017.75%205z%22%20opacity%3D%22.5%22%2F%3E%3Cpath%20fill%3D%22currentColor%22%20fill-rule%3D%22evenodd%22%20d%3D%22M13.488%2019.57a.75.75%200%200%200%20.081-1.058L7.988%2012l5.581-6.512a.75.75%200%201%200-1.138-.976l-6%207a.75.75%200%200%200%200%20.976l6%207a.75.75%200%200%200%201.057.082%22%20clip-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E");
+  --icon-h3-right: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2024%2024%22%3E%3C!--%20Icon%20from%20Solar%20by%20480%20Design%20-%20https%3A%2F%2Fcreativecommons.org%2Flicenses%2Fby%2F4.0%2F%20--%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M6.25%2019a.75.75%200%200%200%201.32.488l6-7a.75.75%200%200%200%200-.976l-6-7A.75.75%200%200%200%206.25%205z%22%20opacity%3D%22.5%22%2F%3E%3Cpath%20fill%3D%22currentColor%22%20fill-rule%3D%22evenodd%22%20d%3D%22M10.512%2019.57a.75.75%200%200%201-.081-1.058L16.012%2012l-5.581-6.512a.75.75%200%201%201%201.139-.976l6%207a.75.75%200%200%201%200%20.976l-6%207a.75.75%200%200%201-1.058.082%22%20clip-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E");
+  --icon-quote-left: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2024%2024%22%3E%3C!--%20Icon%20from%20BoxIcons%20Solid%20by%20Atisa%20-%20https%3A%2F%2Fcreativecommons.org%2Flicenses%2Fby%2F4.0%2F%20--%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M3.691%206.292C5.094%204.771%207.217%204%2010%204h1v2.819l-.804.161c-1.37.274-2.323.813-2.833%201.604A2.9%202.9%200%200%200%206.925%2010H10a1%201%200%200%201%201%201v7c0%201.103-.897%202-2%202H3a1%201%200%200%201-1-1v-5l.003-2.919c-.009-.111-.199-2.741%201.688-4.789M20%2020h-6a1%201%200%200%201-1-1v-5l.003-2.919c-.009-.111-.199-2.741%201.688-4.789C16.094%204.771%2018.217%204%2021%204h1v2.819l-.804.161c-1.37.274-2.323.813-2.833%201.604A2.9%202.9%200%200%200%2017.925%2010H21a1%201%200%200%201%201%201v7c0%201.103-.897%202-2%202%22%2F%3E%3C%2Fsvg%3E");
+  --icon-quote-right: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2024%2024%22%3E%3C!--%20Icon%20from%20BoxIcons%20Solid%20by%20Atisa%20-%20https%3A%2F%2Fcreativecommons.org%2Flicenses%2Fby%2F4.0%2F%20--%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M20.309%2017.708C22.196%2015.66%2022.006%2013.03%2022%2013V5a1%201%200%200%200-1-1h-6c-1.103%200-2%20.897-2%202v7a1%201%200%200%200%201%201h3.078a2.9%202.9%200%200%201-.429%201.396c-.508.801-1.465%201.348-2.846%201.624l-.803.16V20h1c2.783%200%204.906-.771%206.309-2.292m-11.007%200C11.19%2015.66%2010.999%2013.03%2010.993%2013V5a1%201%200%200%200-1-1h-6c-1.103%200-2%20.897-2%202v7a1%201%200%200%200%201%201h3.078a2.9%202.9%200%200%201-.429%201.396c-.508.801-1.465%201.348-2.846%201.624l-.803.16V20h1c2.783%200%204.906-.771%206.309-2.292%22%2F%3E%3C%2Fsvg%3E");
+  --icon-loading: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221em%22%20height%3D%221em%22%20viewBox%3D%220%200%2024%2024%22%3E%3Ccircle%20cx%3D%2218%22%20cy%3D%2212%22%20r%3D%220%22%20fill%3D%22currentColor%22%3E%3Canimate%20attributeName%3D%22r%22%20begin%3D%22.67%22%20calcMode%3D%22spline%22%20dur%3D%221.5s%22%20keySplines%3D%220.2%200.2%200.4%200.8%3B0.2%200.2%200.4%200.8%3B0.2%200.2%200.4%200.8%22%20repeatCount%3D%22indefinite%22%20values%3D%220%3B2%3B0%3B0%22%2F%3E%3C%2Fcircle%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%220%22%20fill%3D%22currentColor%22%3E%3Canimate%20attributeName%3D%22r%22%20begin%3D%22.33%22%20calcMode%3D%22spline%22%20dur%3D%221.5s%22%20keySplines%3D%220.2%200.2%200.4%200.8%3B0.2%200.2%200.4%200.8%3B0.2%200.2%200.4%200.8%22%20repeatCount%3D%22indefinite%22%20values%3D%220%3B2%3B0%3B0%22%2F%3E%3C%2Fcircle%3E%3Ccircle%20cx%3D%226%22%20cy%3D%2212%22%20r%3D%220%22%20fill%3D%22currentColor%22%3E%3Canimate%20attributeName%3D%22r%22%20begin%3D%220%22%20calcMode%3D%22spline%22%20dur%3D%221.5s%22%20keySplines%3D%220.2%200.2%200.4%200.8%3B0.2%200.2%200.4%200.8%3B0.2%200.2%200.4%200.8%22%20repeatCount%3D%22indefinite%22%20values%3D%220%3B2%3B0%3B0%22%2F%3E%3C%2Fcircle%3E%3C%2Fsvg%3E");
+}</style>
+  
 </head>
-<body>
-
-<div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
+<body><div id="l_cover"></div><div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left leftbar-card" data-ui-surface="card"><div class="sidebg"></div><div class="leftbar-container">
 
 
-<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/notion-avatar-1764230194071.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">gaoyangu</div><div class="sub cap">理解世界，解决问题</div></a></div></header>
 
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg"></div><img no-lazy class="avatar" src="/images/notion-avatar-1764230194071.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">gaoyangu</div><div class="sub cap">理解世界，解决问题</div></a></div></header>
+
+
+<div class="search-wrapper" id="search-wrapper"><div class="search-form" role="search"><label class="search-button" for="search-input" aria-hidden="true"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></label><input type="search" class="search-input" id="search-input" aria-label="站内搜索" placeholder="站内搜索"></div><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+<div class="widgets">
+<svg class="grad-def" width="0" height="0" aria-hidden="true" focusable="false"><defs><linearGradient id="leftbar-active-icon-grad" x1="75%" y1="6.7%" x2="6.7%" y2="125%"><stop offset="20%" style="stop-color:var(--item-theme-light)"/><stop offset="60%" style="stop-color:var(--item-theme)"/></linearGradient></defs></svg>
 <div class="nav-area">
 
-<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="探索" href="/explore/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="关于" href="/about/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+<nav class="menu dis-select">
+<div class="ui-collection" data-layout="list" data-variant="nav" data-density="auto">
+  
+    
+<a class="ui-collection__item card-hover card-hover--spotlight is-active is-themed" href="/" title="博客" aria-current="page" style="--item-theme:#1BCDFC;--item-grad:url(#menu-grad-post);">
+  
+  <span class="ui-collection__leading">solar:documents-bold-duotone</span>
+  
+    <span class="ui-collection__content">
+      
+      <span class="ui-collection__title">博客</span>
+      
+      
+    </span>
+  
+  
+  <span class="ui-collection__indicator"></span>
+  
+<svg class="grad-def" width="0" height="0" aria-hidden="true" focusable="false"><defs><linearGradient id="menu-grad-post" x1="75%" y1="6.7%" x2="6.7%" y2="125%"><stop offset="20%" style="stop-color:var(--item-theme-light)"/><stop offset="60%" style="stop-color:var(--item-theme)"/></linearGradient></defs></svg>
+
+</a>
+
+  
+    
+<a class="ui-collection__item card-hover card-hover--spotlight is-themed" href="/wiki/" title="文档" style="--item-theme:#3DC550;--item-grad:url(#menu-grad-wiki);">
+  
+  <span class="ui-collection__leading">solar:notebook-bookmark-bold-duotone</span>
+  
+    <span class="ui-collection__content">
+      
+      <span class="ui-collection__title">文档</span>
+      
+      
+    </span>
+  
+  
+  
+  
+<svg class="grad-def" width="0" height="0" aria-hidden="true" focusable="false"><defs><linearGradient id="menu-grad-wiki" x1="75%" y1="6.7%" x2="6.7%" y2="125%"><stop offset="20%" style="stop-color:var(--item-theme-light)"/><stop offset="60%" style="stop-color:var(--item-theme)"/></linearGradient></defs></svg>
+
+</a>
+
+  
+    
+<a class="ui-collection__item card-hover card-hover--spotlight is-themed" href="/explore/" title="探索" style="--item-theme:#FA6400;--item-grad:url(#menu-grad-explore);">
+  
+  <span class="ui-collection__leading">solar:planet-bold-duotone</span>
+  
+    <span class="ui-collection__content">
+      
+      <span class="ui-collection__title">探索</span>
+      
+      
+    </span>
+  
+  
+  
+  
+<svg class="grad-def" width="0" height="0" aria-hidden="true" focusable="false"><defs><linearGradient id="menu-grad-explore" x1="75%" y1="6.7%" x2="6.7%" y2="125%"><stop offset="20%" style="stop-color:var(--item-theme-light)"/><stop offset="60%" style="stop-color:var(--item-theme)"/></linearGradient></defs></svg>
+
+</a>
+
+  
+    
+<a class="ui-collection__item card-hover card-hover--spotlight is-themed" href="/about/" title="关于" style="--item-theme:#F44336;--item-grad:url(#menu-grad-about);">
+  
+  <span class="ui-collection__leading">solar:chat-square-like-bold-duotone</span>
+  
+    <span class="ui-collection__content">
+      
+      <span class="ui-collection__title">关于</span>
+      
+      
+    </span>
+  
+  
+  
+  
+<svg class="grad-def" width="0" height="0" aria-hidden="true" focusable="false"><defs><linearGradient id="menu-grad-about" x1="75%" y1="6.7%" x2="6.7%" y2="125%"><stop offset="20%" style="stop-color:var(--item-theme-light)"/><stop offset="60%" style="stop-color:var(--item-theme)"/></linearGradient></defs></svg>
+
+</a>
+
+  
 </div>
-<div class="widgets">
-<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
 
-
-
-<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2026/02/19/0029-play/"><span class="title">过年聚会玩什么</span></a><a class="item title" href="/2026/03/25/0030-stop-and-go/"><span class="title">走走停停</span></a><a class="item title" href="/2026/04/29/0031-life-design-00/"><span class="title">斯坦福大学人生设计课-00</span></a><a class="item title" href="/2026/05/07/0031-life-design-01/"><span class="title">斯坦福大学人生设计课-01</span></a><a class="item title" href="/2026/05/08/0031-life-design-02/"><span class="title">斯坦福大学人生设计课-02</span></a><a class="item title" href="/2026/05/09/0031-life-design-03/"><span class="title">斯坦福大学人生设计课-03</span></a><a class="item title" href="/2026/05/11/0031-life-design-04/"><span class="title">斯坦福大学人生设计课-04</span></a><a class="item title" href="/2026/05/12/0031-life-design-05/"><span class="title">斯坦福大学人生设计课-05</span></a><a class="item title" href="/2026/05/13/0031-life-design-06/"><span class="title">斯坦福大学人生设计课-06</span></a><a class="item title" href="/2026/05/14/0031-life-design-07/"><span class="title">斯坦福大学人生设计课-07</span></a></div></widget>
+</nav>
 </div>
 
-</div></aside><div class="l_main" id="main">
+
+
+<widget class="widget-wrapper slide-up recent-widget">
+  
+    <div class="widget-header dis-select">
+      <span class="name">最近更新</span>
+      
+    </div>
+  
+  <div class="widget-body"><div class="ui-collection" data-layout="list" data-variant="nav" data-density="compact">
+  
+    
+<a class="ui-collection__item card-hover card-hover--spotlight" href="/2025/10/27/0011-ipc-shm/" title="Linux 进程间通信：共享内存">
+  
+  
+  
+    <span class="ui-collection__content">
+      
+      <span class="ui-collection__title">Linux 进程间通信：共享内存</span>
+      
+      
+    </span>
+  
+  
+  
+  
+</a>
+
+  
+    
+<a class="ui-collection__item card-hover card-hover--spotlight" href="/2026/01/29/0011-ipc-tipc/" title="TIPC 透明进程间通信">
+  
+  
+  
+    <span class="ui-collection__content">
+      
+      <span class="ui-collection__title">TIPC 透明进程间通信</span>
+      
+      
+    </span>
+  
+  
+  
+  
+</a>
+
+  
+    
+<a class="ui-collection__item card-hover card-hover--spotlight" href="/2025/10/28/0012-source-insight/" title="Source Insight 配置记录">
+  
+  
+  
+    <span class="ui-collection__content">
+      
+      <span class="ui-collection__title">Source Insight 配置记录</span>
+      
+      
+    </span>
+  
+  
+  
+  
+</a>
+
+  
+    
+<a class="ui-collection__item card-hover card-hover--spotlight" href="/2025/10/31/0013-ntp/" title="NTP 相关内容备忘">
+  
+  
+  
+    <span class="ui-collection__content">
+      
+      <span class="ui-collection__title">NTP 相关内容备忘</span>
+      
+      
+    </span>
+  
+  
+  
+  
+</a>
+
+  
+    
+<a class="ui-collection__item card-hover card-hover--spotlight" href="/2025/11/03/0014-time/" title="Linux 系统中常用的时间操作函数">
+  
+  
+  
+    <span class="ui-collection__content">
+      
+      <span class="ui-collection__title">Linux 系统中常用的时间操作函数</span>
+      
+      
+    </span>
+  
+  
+  
+  
+</a>
+
+  
+    
+<a class="ui-collection__item card-hover card-hover--spotlight" href="/2026/04/08/0015-netfilter-howto/" title="Linux netfilter Hacking HOWTO">
+  
+  
+  
+    <span class="ui-collection__content">
+      
+      <span class="ui-collection__title">Linux netfilter Hacking HOWTO</span>
+      
+      
+    </span>
+  
+  
+  
+  
+</a>
+
+  
+    
+<a class="ui-collection__item card-hover card-hover--spotlight" href="/2025/11/11/0015-netfilter/" title="iptables 和 netfilter">
+  
+  
+  
+    <span class="ui-collection__content">
+      
+      <span class="ui-collection__title">iptables 和 netfilter</span>
+      
+      
+    </span>
+  
+  
+  
+  
+</a>
+
+  
+    
+<a class="ui-collection__item card-hover card-hover--spotlight" href="/2025/11/13/0016-time-wheel/" title="时间轮">
+  
+  
+  
+    <span class="ui-collection__content">
+      
+      <span class="ui-collection__title">时间轮</span>
+      
+      
+    </span>
+  
+  
+  
+  
+</a>
+
+  
+    
+<a class="ui-collection__item card-hover card-hover--spotlight" href="/2025/11/19/0017-vlan/" title="VLAN">
+  
+  
+  
+    <span class="ui-collection__content">
+      
+      <span class="ui-collection__title">VLAN</span>
+      
+      
+    </span>
+  
+  
+  
+  
+</a>
+
+  
+    
+<a class="ui-collection__item card-hover card-hover--spotlight" href="/2025/12/01/0018-rent/" title="租房二三事">
+  
+  
+  
+    <span class="ui-collection__content">
+      
+      <span class="ui-collection__title">租房二三事</span>
+      
+      
+    </span>
+  
+  
+  
+  
+</a>
+
+  
+</div></div>
+  
+</widget>
+
+
+</div>
+
+</div></aside><div class="l_main" id="main" data-ui-surface="content">
 
 
 
 
 
-<div class="article banner top">
+
+<div class="article-banner-wrap slide-up"><div class="article banner top">
   <div class="content">
-    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
-<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/Linux/">Linux</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-11-03T16:23:13.000Z">2025-11-03</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-08-01T00:05:10.935Z">2026-08-01</time></span></div></div></div>
+    
+    <div class="top bread-nav footnote"><div class="top-row"><div class="left" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/Linux/">Linux</a>
+</div></div><div class="meta-row">
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-11-03T16:23:13.000Z">2025-11-03</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-09-19T07:13:13.944Z">2026-09-19</time></span></div>
+</div></div>
     
     <div class="bottom only-title">
       
@@ -92,16 +387,17 @@
     </div>
     
   </div>
-  </div><article class="md-text content"><div class="hbe hbe-container" id="hexo-blog-encrypt"
+  </div></div>
+<article class="md-text content slide-up"><div class="hbe hbe-container" id="hexo-blog-encrypt"
      data-hbe-format="4"
      data-wpm="Oh, this is an invalid password. Check and try again, please."
      data-whm="Oh, this is an invalid password. Check and try again, please."
-     data-salt="7813c12256e9db9f17c8aead686ebc21f5c9ae92d554073d9211a7cb5397f0ec"
-     data-nonce="ec23f2d56cb7b57441a93c3d"
+     data-salt="bf884e32ee05403b25905b3e88276dcfda9b295f96a9dd4603a9c72e92198dfb"
+     data-nonce="4995af83c9fa8f3da814a663"
      data-kdf-iterations="250000"
      data-auto-save="false">
   <script id="hbeData" type="hbeData">
-    11c72822677e433d5a28f601202191260cda5bd4603eef290aa311b5f13d3280c5ac1f424e5bfc993492a68c5132f460a0abfad85fb7c7c7a736cbb2d5117af53132e08b089f787265dbc2fa4aed8d8e89d8b3e6641d0384c303f42c6051f195dbd0aae5f49a8dbad6f51d324205c3c8cb6579c18f2c0d6279c1bc6e2ec74fe58166605aabb896ece566c79478c38a6f2e89b3de745a10e1ae5d5197839dadcce5386fac65c431c033a28248b633a0dc598eb16ff0ae9c0e038e7227c309921ced46819852e9f39943297c363c5ed9cf5dcd9a77ddf080d7366c775771cc7382099f91302deb0c3647378f6a69dc429cedd2f33160abbdef823c00926a037e0ec33733c3e6091e0b8b0c7d29d8ca1bb3b3e123a440088ca36821486ea9953e78a5fa9cd2029466f1aa0e7e25bb155e8b4d39da7f0b8e5528ade42886caee66dd8ab1923115b9a7675d60a51b690314b9f9a80f0e2a16fbd40b0bd2be727111cdb6a4b7af1c804d378c409ebf351ec60043a7236cbd2f9a34f31a2118c80557e84bd8b5e9f5241245c912d2d5907dd768e4ae3d69bcccf9c87ba83e77b1b18286a153c1c8be797c8509185204b47e379e251e6c0aa4401371d0005d944ec5a17ff891569b0b4444ff79b0a9dfaeb6a67a170ddda964aa54495a0454d0137887a6180c2b3b70ba6b31131a9162781ba8ede3e0f1217c85713a6f822de958020a53e2d5465fb57b91116f7829c41d3a345e1f7b9aec2c5dece68f76c7df4468b7648a5b40810c0a3450ec987a85592d6b93eb0d45e4eb5611e29f8a21d8a8936b9a9315b2e38be59e0e224eca7548c13c252b69c895271fb7f84bde91ae986edc1c4f56a7952fdecc090be7a6e8ceab305e886028c02664769405f26a4f73191a79047718dd2b381183c9779a6a7f82af39484fd4f5408958691734dbcd9ead30b803ba782573b7cbbbe0b4a00d9f353f0353b42dd62220bcaf7958be21eb698ba66d197ea37289197e5291e5d51058be495ec36abcd4b13fbc5c64052bbc238fc6ae8a8a0b9ce2e4ad090218f5cf3b1f5c883b9a75aa1ea7f803ef4e1e651583ba03053ad0bac3f835e3e071b5f76afeeeeded05d60f0bd20cc06fce436eb424a3bb504958521ee26f1cae137c291c33b9caa95fed0551e1d5005f5881f60e0aa0d22c9dd6daf538c07665f6342c7f091ee6981e0bdd163ac86f4690912678d8255a57c2f752615291633530540c16a4fcdeb3469aad5107d4daa8ad0f3f045168cd87e075800d4daa4fed5879d84a81745959d391ad84bf12a5b03f93f019284dc403a5a743556ea11c6d8a64808136af274d5a04a8f916e7bafa4e6d8e30f133d02cc58c3987a8fc2571346570f2da136bcd9e853d1a55c67f6ddfd48622a74e87126f49e697ba44f803299372d25af24ec1ecdff42f7b11af583a25682f627da8f126ef699b689c2d3f1017cd607a88cb27cfb7b4c6c9418f91165c162cc0d5a504970db6dae058669742680595e65a3c7b7a3427923de692b1a30a8a89c2494cfe92206ee11b3f1170b05bfaf3142b56edd573c1d36ac1b3fd9b933a1ca7a18016453c338a4d0d4c63ea2866eddad330602d6a98b5ff1fab8b716fba4ce20d237c99958b45b3fc8944052c837be6aa1eacc35354763c542cb88d47769929a1c8bf589db0644cb94b184976b4fb495724cac27d3c9cb0019cbc63f540e43bf367961fba0b057db9ebd1a5c84d87d3e36b9ddcd1e03fb4a72a3bfa003da4fc55a63ffdc1b6dc1014d21d72b170b39565fb37274afd801cddd26c14e76e2efac22c925631648b446d656fa898522a6fa36524a8c774f38be94deff9856f65f5efa7dcdba341fb3b1877589c6fb1d4e5867b1bb88cd2dfc5b9fadaa7d7f264a9ede34052c8fa45c109f9d6a11c0aab5cd45c1f934b0777322a79d1248d8c76fe07cb0c6c1ca6adf51e9be47fe8f22bb0fc1de01f7afe54f4cf75616d3f3d69a41200cabbf7e62d8a3817bf4a2bb1ca7c561d446d5a7ec4be784632cffec306ac05ef28c73172bb01c2b7a651b35e967c37c5373957479b3c36ac523b225cc7ff5a770c1ba8a734cf784626bc61477d258a710d8a408b996fa39d91087252952589fedf8ae9b0c5e31a28e1f23954fe9a336bc6eea0f95b6b0fa82c4decb3290825bc1d02c642c034780e95ee8273da029ce99bfd9ebae3cc436108d3e11b26ab7796107ddd52c9eecc4d953ef9ec71161d3707781b769e01b1376b23c83136c1ede5022d5f99dab7a88996df2043b36e5a073f20e66d039e741b27ce5c212425d66b42f74955f15663b9faa3e6ccd846690ba62fba76949820bcd4e3ee45dcced88ca6b8cc823fb9d2070d508b42ff360b212331404496fc03264dbbf52cfed5f82e49b6932f4d577f952cff3a2cb2372d7d42eb715a90d49d54823d0c7edb83a1aceb25eed8a54860f5a7a6b65e192b0c08460666a13af51a69c558fadf32d45326cc459333e6a8b24003500a1d1721d4b801cfd8ca6cf07451fe8c500fbe051b30bb7ad8620c5eb5f43d94e6d0d6181bb39aed5ed1b7515c36ee40a79061e17f1579555724eb1a2a3a95ab817f51499cf0999039f99e5fca7c7915e861a7e4ea99efbf62a52c4b010161baa7ffb894bce7e85684dd3e28b1a8d2818a869153c18200a5175b5ef05c1ccfb4870cd98e9d55a215536ee9d41445432e2be184fe8352de7bc1f2f70e9e709e3605e1319c5204150dcde81aeb61ae9e956fabb54a8987e25fff80ebc97a3c4962e45b4808ec43fe7ef916f3413ee760677f73335e1713d459b849a9e439311ae0d154ad8d0c044f9cf387fcef3781e6b9defaa89893e751fd6f3256dcb144114faa6a38c29cbdf7980e3ccb3683078990d6b491ecb42aabbc857e8f914b7abe85df7ea8dde192ebed417d4267221dd271d0e32569565acff5c2213269bf62e9d22f6c35af877c20f62b404bbccb66fe76f6e340c5520179170b923cdac446eb838575ac124fec5641660a38dcee3b23f5b4b054f427e1c4fe7bc20eae6aaee1d59cf99aad6b875599301078226b589d2eb75127f7ef9bac5b408f780bc90f08be02379a71c0d6f56964a41def95d79b5a71734871ca08d4482693182a9092a4e16f9fe257d8f43548aa31e8f078474fed19b9f596ff79f069470338556f7615e2cf7a41231eb4470e8e97ee41bea90db356d7789ff611548b0096d8bd1e9158f8872168415bd0220637ac463be1ef286f7d60cf2a44db4dd26f27fa26d059323dd73a613e7f7613216170059ef65724f3a1b3db81c29de4ad880fbe0faf210fa32734759df30786160a276afd125a7e3282e570769d2679f4f8151df4bb1b3c84e76eeacedab1d31c4277b59a7adf896f7a9eacb6d57d1a1878815ad99c269dd5245bb40f27844ed430881187fd6dec89da6662bff81246a16d76cf55529bb12b10018181bab2ef993d99fc48ddc04683687a586941840e85acf584f407da88dc327c19521075a5c7e4f162b94538f33a76bc15a53f460caac5a6013c7f49f1cff910c600880ff35310f49c063489b76a11759e62f283ee502dea72fa41a7e2ccf84d52c0c7269c7afbc41decb6fed9c9275235f7cdaa3925f3e2cb60c4f7843fcdeb04a5c2525e8215af704939a0562717e36ce8647ebc5f5b791400559b1f70ae2da674da30efa015b70c50f22658dd897d24d02911aef7017b2db7e77ace8fa7cc8aa9301bfac5cb80daf48b5f55167325fc7a058b077df222dc54e6040f881724c3423f59242a520b76333f2499d518775216372d8f5f309bed71d118e7f9100badca96683f3fe15d78eb69008d503ef1f8dad5ebb6b751c8993ed11dd24c87fc5c28d98c59f546cac3736abb3a743a2f7c3288ca66504ea71c94e40ae1330cc3769223b1eb1f96d83db92c54379df6f4b44c9d077cc3f81fc96422d45d1cbe9926588b7268079005486f521c3c93c6afcfb4cf80feb828456332139b3a9fe75dcc5c3b170d5475f112fdde3a76b197988fa0330b14df2e28b98c606d53bc719b907e788f0f123cf5db0d424ec46ec6a9d0dd671217263418ccf28595ee2d5f70f42e0f58e2e734160ae9a82d81cbeba3e31cb9c043c93d96e8748f2d241aa29d2db7d8d49d61ef38d7df0dcc549c067d00719e87897b3b6c8e9cd4cf9e09704468c6f8921ce7dc03391739eb6223eab3773186c8f187a08cec42fa0188aa3b409c52964ab8fb8296e9666c6c58978dae7aefdb158d3c32c6087965221bd6bb03563deaf3829cf30f2b2729237a94985ec845b8ea36d932753a6d07e536c73fdf83ab26d4e45f0cd35d644cc7a1b16b23be8840ae171d68ae5480ea57010a18d4608f01189264f364b508e10d463e41099dd4e12a68a647a4fc5de51a18b4129d5225933bd227e551728094af06ca00662a4048272f0fb6b0c10a0f8b17a45e4e228e258616a9e099f86b4ab04e567ff0dd553864699f808bc374d055a26b1e39cf85addcfd2f26b9df942ba9b36e5a80f4c16b5d96323ca49961925fda875b8107f09469c55f311fc8691a6b6ed0d45220999b912489bc9c644d39c5614aceaf464f57fa911a56284e40360ca330c97693a9d123551e940b47cf275a5a212e2655e6a091efb054abd0e79d26371cbac0985381d692218dd66338eea94007e84d6ceed46053f64dce041d8dff24d19687e18128ac1471991f80077f22eaf39bb1c7a2896b46c764f29b7a5136083b9709e3029d55da4f0ea1e21e7fcc3c98b17b32b8aea87be9b8619c0c2ced51aac12d6204c229cd152684ea294c0e4500119a8a27cf69ccf79d076a4962d201009e18325b97a3d0c756430552eb2887eab336834ab32a913a216b8e3c837bc0e77de97cf130a2fd1ee6dca482a78a7334aba377ac94a8760412e2456f89b82c139011236eb9e9262ca6f21020a098104794f48ab3a2d5a4809d1ddbfe266f2e82ae27c20a00e94e9db016474a678e32d5b510401cc28dcac2668ff3283bd72fb991023068933b5ce2f1cf540fb2e527d00b8720e51e55d49b1d998bc86d83b4f90ecf1c1a039618f2e4fd1b24c44b097bf6b506a053e372bb3141bda4bd3ba6836bd9078b69e198f64e6e1e0c28350bebac9a18b0ff8f8d818e56ab3b4b8f121d8ca46bfd4c11e0f14f350e20330190c0a0384eef02575ae7a89e232fa85f23ea174c76f870dd2896c28b20aa42a4614a913f18a6b719cf8f25539fd37d862767d97ee52b7bf9c80718c05b328edc8ac92755286746786c31965ef78a790d9eb01c7164c81c34702bc904741054625343b623b8c071e064ef985b3097108319a92d22dec34e70c808088da39905088eea810d03bbbaac370cff5f7831e8785e621a95151c1c12d967eb541a316dc34ac7b0a5dc60e49d0389c1ca52f61b0675f101c0dfdcdf399a3b4cdfa68891b30932ab5f5c5229a8a7d14e3c6641ead9fdee7f5987ea5c226ba9d55cc65a111b44ce565180544aaa99ade35e57e9b1a2d919b1a84b5b5553ed8d41fc68ed8d44c6c66a7c0061e4a43fc2ad0c4286e90305f973fabcf9075442d269233333bf6d8368ecc0ff6aedd45a6e8158b9c1370cc5f88bd71eb4e9f128993e47562148c7556e8526df54c414d1bdd880da542bc66bdabd346ee0f89117600d34ac14c6f9e3d112278ab381322fc047934ecf0c8bd58416ba750d1efbecaa5eb3ceb49ce452ede36977816b54c1cc9833c5f1d0388c682741c818cb29785dcb4a2cdcb72eba2a5d95f3a5cb6be697e1536bcc753c096c20f5888761520ec99bd5b96b1131551a531d3ecfb92b84398898cbd594da11529bbcdcc5101ed6028d8ea508d6286584dc10f8a5465a323afe91c6c1bc420972234978399959f5cc8a6564720445ac06160ffcdefd5570e7eb131bba6a28eb7cc18bfb7b65b5d455a2fb9fe62dc443f419f97eecc98d7da26ed6fccb26d6ef9f9e3ff2e72db3cf0011b7c296c7f9e7f921c861d232c6c343076746e2b6865ae2a418b981565ab224ac472ecd46c9b53f4ac8eb5425a32c10a161f2b4a2d8657d8aeffd23854dcea7de1980532a61247b7cd26821db0280d146ffe96af3ac7be09393a719d72f4fd65f00652f9b2cccace07c054d4d2405f6ede8474fe9f5dfe7d00369cf1f8f3eaa8c5bd7e3ea4907bacc9fed450fe0861fdbd6e32ea3c640b0ad98fdf13559c428e754c5cac91ddd2fc18f0ac049e008964977092b2fe5eb148855707c67afe9b9681fce5ae4477e102d63590ab38eba227789cb83fd2a0cbaee1ede004ea872cc4b3dd161f0c2b7fb483f6707f6bb2b6a213ed0376e5d9a3de54f26c9dcd0513d52fa8bfe8ffb578a5b211dc1f774bc3b4b86630b594997c62a7fe9a5e40b4f1a0e82596f06298cf5b56012c36a7343c213e78e443d953bab65c3c2caa6b04ff7038bbd4b308d4a59cfb6e336838ea3c5e82bdd26f955834b6d3c1b2e38d9067b5a6b3c9bbacc6636ae0411ca360f8018c37cbba7bd949a9fb4a2e6a72ab6c2fe2a58d95ea185c440d979cfdeb022e53b4a5c5e064ec80e3f3f8349959753aaa5742fee3c36396223741b7d8380259a721e4a3801ba4bdac39b074055787e5bdc9574aca5b7113a2018d3dc83e45908c9231c56cabdade6d39e6f907f5f6c9d662cb216f5672c51d7d47de9b9d030cad72c6e255aef308ab93f52ffb0675fcabc20377cb8d165ecb0ff207f0948c4a2cb93d07e4f2b9c1f9e07de6cedecbfe35be8f284dfb5fd9cde77bdda0a60ad69b1f99c9e1183b90e2481f53690b689c09993f1aa14172d7680e3f71fc39941064569c3d838e64117ccbc09b3d1c4cec14d59965b4c0660478aeec7672b5a0623da73b94e62a5bb57874d7f19a40a7ef34b96d9f292ee30d87e32d773ca39bb14193c135c8fe3e86dbde7d6e728795953f4744dbb2c2beffecd9fbe512a01eee263aa0fb8e1e7947942b8dc2682d9551ec6ea7aee1bebef7076e8c9928f0fa436a19179169aa5d4488f5d71d5ba7c814f1c14223984934161ed40a98736d19349aadbd11379f2373043ee4c2bdfb89d0fc62d31ec93ac7883752b3c81a97599fbae2d35d692aa50fba6347078044a430dd2ff7b2b2960986c3df9ec93ef9dfe56c80f6f946edfd0c9d1c1505855e1f9394d18486f2c1b2245beea287e86ae06f993ed77d33000da7258e63e618ab25489355b27d0dddb023f409819371e12d10a4bf4b81d5d74e0156631884a60ea170eda9c8b6c41b5e8ffeb51a2284756568e3254e074305843c4b33f875beb4b696d10066794c2ef43851d80ff8efa897e32e8a5ac6ab48c78c335de70e1eceb2b89e1ce02c3fa43abf9f0a99d556d4d43df6ca9be43f7d21040ef59ddf8a160d281b5e0c424c884aa68e64644d87518c8c8d7a8f7697f8506f0b246d5f676b79a5554fce25d3265058f9e48f7d2371b7c38140d204aa7689b05006602b44f01e5f5c45dbf60c25234b6baf95414a72c65fddc525bc29dd615b7e123461c4d7f9e213289b3c3513581829578986b02a66a20c627c43045f1cab382240468263e184edb675e3ed7d111b36dced1359599c335632292553464e6378004e40c1f4bfa9228cd3a19756d8731b04480f0589651464fb5e7b59cb385543fc4ac735733f156db7ecf560bbaeaa9aab0121cc17637fe9fcd8f74c5f32f96a2ac0d475b81aa9abe31c95e66246a8c94ddda17b75c44f498b8bde9be3b699e6751294ddbcb891856f56aff3f3a29748c0b742e9b8ef59e501a008605e5747263e4610620636a3ab9788bcd26194c9ce06d881a4c57b66cc2c8f48128373fe500ae5260b89f07903093f9700452bb692a3c27de549b96e4a2fc7f1815460c8447f508f30cb4a2bdbfcee32af96c9589bdcb36c4f99cb6e6e5e879917479b528d7dd6b3edb6468692b4e3fd61d57709da2a76740de1730aa6796c7db5fac6463c43209513bb7073bf999f18769416ec1bcbb0030ff6a56f1367f87c806e6b17ceea25b107f149c3d61f48316436038874869473891e2849dc81c6cc8d98077dc150fceef829ff59490c13d968fac8335ed4192c2a47c3ac867a74789e6473c38dc8033194d96a7ac045648eb2309161b7e9e639bd86b4540a23defe661b957f71eaab0e34df80800f91616ab16873a796856b6fb462c6570b93f9cde881578cc916a8d751da40de96ca42204d0d969fbd02c62d9aa8530463ea55f027e8974fbd2dff83a2ebfe9cfd232acf4a864314408aae66cb91b4ac45633a83a7da799f513c249d7c9ae45fa0828a4ed7d677be96e9944f59496ccfe957e354a95f8e23f851d73e6f7b23ebccd7c1d25d6e046eab134b6ec073b03f1efc9344cdf418a1d4cdcbb7649ae5f1d45c7b9984149b40b6ebf51de7fc86b1c1bf99ae65a5cfb77b91841b6331969deef0848ec4506a3767f1e114cf1afb95acd48bc7ef297651dba929694afb7d3c54cd16c7510e04398ca64af3d9a61a9631a41314c707a0600ae55b8afb7c73c819dcbb1b6874f4f2ef6580523ee6df12cb5ff6b8e63d03112341a53d573125fe3fe8f2c484c9c9461ffe81d87ca83ce94acec50f0d80219257d833835d88660afdec768159e337e22fff7ba8754298b038d8765dba036b28c0ba422c83174d5339bb8b0a0d66316070ad84b3229c5ea9b46ae593b2d405178b747d02f25fa1a4119933e5e0c9266d436d102c572741a91bbdcc0fdab29d5807dc49341b1f392f98dd19c69d5b9e4c29b6050334d82739293cdafbb55440d9281e47ac8f27c426619cdc3626933e54a82c12af19ca5090d77d5eaafd99570518591f78cbd0105d272d66f39f4378b6821277b86d352466847e57a978d1eee4785db61808371ebe3859a2a16ef345be8c3d1e6e45a3975375194b8cb60958df5338c781d86f19454d221d7bf0ed48f2cd43d293fbd2028dbacd64b85bb45702e87e075e0c1a9a18c20651f1837bfdf015d9ffac9117947bc21b5ba39aba46abff2ffc1db52eaa8f41bd6676d2926df5390435a4bc86f759a5c8ec70202b0536fb2ce8353a9ed7df63a287cc51fbdeef0052e8a80283f5555e05c899bacc98eb7778b9064ee1327ec2496dfdb87ada5bf33f8674c625e23837a20935a4e4a03075cac5c0ab8bd785a506d9e2b410be43a763fdec51e9a5855d9fbaa463b4423a2dbeb230c2524e765bbd18be5e7661f5b
+    38c4651077cce5fdd251b5eb7f15d47758a1b60f5fbcc252ee87b56deabae3d9e495785fa32c4fe0bddc9e1901d43ce364437a0b33b064f669ae706a17b084670bf16283452531717c11f3922ce57f1b7b326a96d23825e76de557789dfed07f1caacf6226dd0ceb0e493ee847c0e25c4dd6b32f65e0752fc09ce9a571a3672df848e35a9120b60aee64d3f364daaf714316b07818f31a44abb17cf5b219fab33c8dfbe7c3513fa05a52c1a2bb607b66b0be5e1841f89b458ba0cc6f65b011ae4de06339e28bc8ae2d9f7fc557af5b613824021b379cb25f2386e08183c14078a3ec8ddc207190bf2950e5aee1f5137986d01675d3f833d8cf1bb38d53bc8fe45af242660149caff321b401f82d019b511cb38c9bccb551906a762024b26ef633369b573cc865ff7317ab1e98f677d8868956225f818795818d340e0e92aaa04367010515f9848734ab5e68a9b5d2b70c5c83716d1e4510f28d23112b8450231ee39d67f759b7970d6784dea318bc06eabbf2a4dc07e6fae2cd6ba7e3126d137b09bf4728cfcafefe495e939bea23f4bd8788f90fe26c4584c9fcc82a1a7c2e34d0fae90f1f7c3aeda4e956bdfab5984056600ab1df6894e61f1123ae107e9817149bddea4715503e34fb02010c1562e97c2c60042d22be5c4c9326d11dbb808f61975ec563e51fe198e58f23466d86796184fec6bead5b1f4cdb8af5fcf3e80e6f90968032fabf304d3d2bd2d52e50253bc538eb41ab09dfa64300a2e104ff65cea02c38ad199cffb1cb1ad858da8405c11cc3758ece0020a8f247b7638ee01543e6df6c6406995ecaf9b5b874884abbfd0d4ec3ede1ac6907d937971c39fdf831ee6e2b6292b01377f435dddb5e4221e1dc2b8281084f2f6a6f9871e8723bc4a5d40f54f694262779702236cd8378ed2d4ef61a996a7b929fa0dd407054d05d77530c17c00d92459e7543d5db2634076173f985ddbfcebe13512c98fbba9a211e383e5ad0b7f98f4f149ac7d6f3c7b16831d307fe2b343eac9b6d23f3e9d1befc971d91b1fbd273519e28a6447c03ff20230df8fe6866c0f19dc4bb892dbe2616f1f23236a67465a801ff0a48a69622aa4af68f05e08c5e706c1e1b0e85db1eb9464a02ed5a11c2b4ce03caf62b454f15e84ad5f305385d8db8575627af0e5562cb4852633c59a6dc934381c39932f105a2350fb8e614a857a1001977dffdd32cc92fbf17a3f663039ccb1b79f05cf1a423da24659e83810a16cc9eca39721ff78d24ec48af3e37474bec77a5e4b311c3a08ddc04534fe15f2b46a760cf3e12c0d610fc183d152f95f289266c865d564abb3f962df7287671770aa8ce054e15059337d99924ee4352744c2ac899ed116be3bcee3094c1c46343fef0b0b999af11d78ccafd19d1004a3d16e34506019ae601e5689ca633e0af5f756f607787496074908629c8e229de3d65bb8224f67485de1fec2a76c1c6f66ef2a8ff9668db583cdde2e35876a025ea7de6c488b2eb9ed7968e074299970dc0167faeb794376d8e9e98650f2ac191f1a4ce3a9bd060fb5ce58b88f85af0ed551db1c7b4d7377c79ad420ccacc88b775338ba5da846cfb9e9eb2bc13b5ad134871b9897d6864b4cd4ecb6592e6ec03192fd02fe5fe4a841f2f0f85467bcee5986545ddbb19dadb41bad29981d9da4df2021cb89d439c79c55c9d6b46e3faaa7451b97b2801e511b4e1958d4a83c38832305542ddc75f8d627610e49dd7c1cddae6cc7afb19747a07dbba0820c0748b5132e05c40e8903bb14420cda017eecacb52115b84442c19338f989f6afda18e4e64d5dbc86fab9f072c9236f29c7ed564e091b4b91b91abd9f47386288bcad867387f204f85035b89ce21bc6b2a53b0ca6dc38826df676561ac26d1e38c5c65475e30965ce38dd7fac2d59db3b17678a52aa42c0f2f0dd88a5a168a761985e173ec4bae6696ef1da417fd6d77c648baa9f8fd2dc60d56fec7ed9ffef942f120d616d9803df4ff1241759bf516ee2b691ce1086d75a215264d4fd232e2391e77af07f182b08ca55f9d7f588c00b3276f3285353e51e2605eef2cf5a74a0c5e354b135e317781ca0ab7057e02fce650f501120853ed04c29d2aa2b6cf68acb04a80d6f173a94a1f21860caafc3ab5ec614697d38f911049b45e54ae6d4a69dc1d388a0ee97a0b800780f636d2a8ba8b46e8ba726a935e0057ab40b74c67cb44e878945fd76368d16558e4a3b3efde51b95d53cb30675b8bb2eb5690d88da6667a412d88c50ae9be0eac42f1b69cccf4218f2425d37886431a275e68691296176c24e23991e210e6b65b8170fe2c3614e29b8ac2f22f040c49516d9b0a60d3ebdff52b960cdb1e70997fe9a71f4c463e1782b605db84bf4f98d282ced15e2a53cf34924721f509b2f09b4ae8b03276c6745900b69eff307832b3cc6b66882d0c0817d4f875b863167573d9d89d17e4d3f85c387b96da26aab85fb69f54dfb66fbd2d89bf3d9ccd3212df1103e587d4986a31aa37de27bab0d9c7930395286295e0bd1060932129cec69d57b6e1b004567cc02a344116503ecb5888848594d660f647e81cec7974ebee5301730626abba89d3d945b06703269e1057510d0ad04eb945228eb60d0dbf46a49bc7b6075044f8c332dd54aeb178cc45d8baae98f38e37fe43caabfd5a26750d5a08ea51c9ff5483a40b38a4654c9f9ce0adfa7313fe9e557cef92c91646ca8901b4fa6102cadfd4f9df5f2e3adf2c12ed6c8379ea44cbc74ca1f16eff000e84ebe9ab88428bdd3acba01a39e83b78ee783c289e491d070f0c94a5e4978ebef7d54c5111aa2532f7598de8f770424b25436f3df64bcad027bd973cec18af7243bcaa4be516e3e28f308839c496b63a73b95a6a526a74a81c8a6743ded8910252325399da1e374a357b64479b758339c9603855cd1bd2f872a46813efa588f1fb66c4e6fc40b4d10b9f686016a7945b1d0822b53d55dd67cca2cde04808eba8f12e1f23d2ded272c4c41a2bb9c1d7f464753c823fd1564efce4826b2a1a91150abce064000ee1a65ea6b08f02a39334728f37b715e7d4615559348a955e3ee7d84f3b64e6f6ad98c0d42beba050f14f7574198c5bc8d7108271ff0b6cefd6781d5a8f3df911d6cbeaae9594a4d7d87d49a5eb1e9664bb01d47963eac949c834e5338dba00c6eecc9f7cce8521159987c4493a230391ec0d27c7d14b06c37eef517a998df4ded38bb44446d7a637ba6bc6b516bbca5ccb2fe2b2731bc6d88e2da35690c52f705e8bfa390ab4daee5dc66713d010e246599e8fcf2d644e4f20b5fbbcd4e7d9b3776e5ffecf2574ff262428a5da7cd0541685ce30605302b31fb53702bc725a9890ae5cdf3f4c181bd86b2b991e896ae382339b4368bfdb5467de69b58546e583a7cf414dfd82667461b6204dff5c9e443a9812235790f0ca91586d1cced96ed465e75ef468c0c1aef2fa96f955bd0cc63812b37a2b6110c442db134ee2a62d3adf1d1dff7666ada83188a06476072c0998ffb82972670efa92d8987b02b870cfb1fcf9281bfd6d92e5fa3fcbcdcb0300a032eda09ce14264f52de618b52fe8d8b89e52d8c56fce26801acaa1218122bd2bbde9f2f7489ce114ad39939292a955cdebd4ec80752950a9a4c7fb2497b63a230e7e489d9b11153399dd2b57f57949286d66fd2e399bdb86c0849cdf6fb99814848ec2a28f1fb1b642f7fb50dd41321f5b4b936883ccc84abd1016775a8b42d41b3edb77ef5a234352d36ce0fdfc5fcab17279dd3194a1aef598003943f69ff7d50de7edd0af8d4a23aff8d0c4f015d49c59145d79e9d9f800bd66938ca006f67f86a0f177afa1a6f25d6c15699299e3adbe28db8e1ddcf083b1048fdc8a18e1b6c04c1995fc3164fa9daf2c6c241848391968a120a8900ef8c54ae56ae86e1df3a1db1ce456fd3656db6cb836f0058027af307c7d45b8e9c257beea87d688617af14e7c2bdc955866b8ac7dd92eb93d2929c8971c2700c828ee518ebd6f9e12a3149295751a5a7761ab24f6c539b7b66ff9a16cd057d9b947fc914e5a00e0e77f6ab11fbda63291d0fd21c425bd4d15c12fc05088527fbdb81875a4fddcc1fec753bf7bb6f2b31c49642b2f72404efa8d2ae3d6618a73eec0d0f08e291e87e434442dda0f0db9df85c5b2682e437e9dd756dbb9c56b48250fe7477b6d58c9ef76b95747cb43fd270059e9bad3adce60e04d70b319b4e00c742c7332355c5d55331c7621d5f6ea8f9163f2fa8d8e716fee60990fd6149b6fb52f5b863542028e5452b43eaaa459e0a1ab4a6e1e343bd6d8482e2fc5b59adcdd2748a7263e9759ef4b62af82f486ae059eb2eb1d1a4cfc29b7a74f2c36338966a4ba05d43687e032901a81f1c0a27478d6bc42f34970f1dc1b6e1b87a0afa05e78601ebea0bc82b48d9ce3292efd19e1ef5603e5cf3baeb2e9af587b871d98728239456d6ac924537a1f4a413419fd83cd387aad453d0efeba125f4d97aa9e26ca671bb3fe432664c6711754151c19d07e3c715d34b2c70b7d887cbaade6724b20c7b2da62bcfe6fdaa4a1d7b1a8b24376b3b1affeb57fdfc9239d73e1f7215010a191180a84b79151d0272e62233af068bb36ebfa3e4036c6755834d4c7474acedcb9cfbe3b67eaa16665448952e601a0c7b65862c5920de712200c70ff871a338306acc8b907c08b35800d51e458b22e4ee2569aac8177651d11756ecf5d5cba24558e07c6e3c8fb5cc1818f3fff1e0bdd0fd0e1933e8a788d48da6182018c9f706def2a70dff972e4e127c37a662814b334caa7d941ba2c497b1f03a27e34e9f2db268b378b515450b4cec5c52e3d6985fd4d5d0c7ca00c1c2dc6d09a98ef1c4493719d186654ad56c3832181ce31782d8a7b8053ea5fcb5474d29c2cf85ae7fd9d77f751cdf8b72de95ae39b64ee1c44ebbdd931a21129b6469775d9d0fddc1a42a295d59b3f7d7670bdb37df11b9d7622148c1b2578778d5c34f3cee529d573604b78834eecf76e39f7ed52917feaea80dba150fe6da0774e3fb9df618fce706222b445377f20087e7b07006a00c333358775244500648dcdf25fc3b4d735d646fcbe3c1cdd49a1ee931838fce23f2d19add72adf227417120577140821707b292387f102bae5e9c6ae0be83230fa65e2a6cd5357a326a2ec2be9b463e8b093ff1e2627f6753f5cfec5f390321af3e11d1b53c9dd0f9d36865b097eebc458810f83734a1af0f338502b3128363f327e7a82a7af22c01ff957df88e1f0179e0ac6b945d1772853bd0464032b7ca96bd6ffe386d5f8a54fa39b55dc785d0d5f5e38de2e0a02203bcf5c96af5251acc21f878997c46d47618c031c00889347327894586d175cea1c3dd5f45039c6d48b8046ec06c24c54e189f5611b70f36c0c347a216427139e4d8898def8afe1951ea0c39775d19b135264973e678412bda4fc5bd03b59e19d65da0041ace8ad1de3d9477ba826cd5940bcf1c6baf3568aa47af12da7c6f4bf98a50765cef112678b50ee2e56ccf42b46ae197b2ef43855f64f0a1ef673070420c80eed8cfefe060ebc8823e2e09008d20098c7b81cc9755c4b11036304db8be64c54752320ff77079b077c6cef120161322a3e0df36cac5cc14c38cb388f19b1dde2a0168d11b596df1661421e43e00e3e8f6038c3acb6f410c1a43ce23de05977ab547e763a32ff5183729ed2b644934a1675136767845d7e2d405423af98df274332fc5dfb97db5e44a25350596c999f2efe0293f78e74b22452f551f0309764d12704a12a35244916cd7ede644247e1821bf9a96253e654b752d7803bbe186e53eb509ee7912ca06d3b828214ce368fc8eaac8ab8d2a30c2683d4fabab7b12f20748b75844e07e6693b448dbef69dadfd81b0bcd514d0feb2ff9b67fdd088cf6b752b2142b12ce242e9d7df69d8ce15b10b37ff398bd9fa7bc1cbd80dd2fd4dc20228726e992d66d802f9f8fcd9f0cff5c0a1475acb335a2f8028ede4dc1eb4c91151b81a970fbf28cac30c8e79ee2da229d846b00971e5062e0ca48aba66beb86ff101d9443d76b754a72a1a3940c78223acab5e356fcac78478dcf82a4fbfb13ed36f4c5d4d5f38009653b6114caf38acf8ae9db0ab7f55e08865b02db10ae7291d7d042ba981f1efbc1fac18bf4e4f337ee19e2dc4a55c11c764411d17294a36e0d279a3169ea54b8f2c5127b132fd6f5673a121a75a69d4f88a2963e37222e7a8d8321226be1325aea555d1596ddadb7544a0b5d36565316efef6a05e5e3dac3370fea155dd1503772b5f5378535940b98157a02141b02fcc256a3cbbc034cbcb33ce8361fd44d3ce4d56fa286da4acfa8499e0cc07cb7ec617400cc869c8cc7468a65d3ee1dc74862e61ca2f5b119958dbc0e6566fa45bb8979e859ef62a58535d2b0a054317cd87a0189282739307fc6d7a5766723fa3aba9d5b1c7714cb21020e28c7fac2169f67a56da5db4f7c9a5861f5faee8a2635daa6b3416b91ad770326d0463e3ba0843d6ea32c232e8599006218b3d7acf836ad98596bc7ad009043213ddd8e91c2b8fe78bf3f00ea833ceb0c4825cec4ae1f0b1acafbc66f4eef7b6ab2229ae7ed7e2cbb62e48a9ee910ac5d54c1b1f864d4edb850d86ec89fcf5bdac0c46c5ae4d788c88f994b92115391c4ae2088f1bc99c4380ec1f9090c9c5becc586f69dd7205d586468c875fd29452e32c550504a771d106f407f1af2e21cab440ee28b02fdbaade15b0961c49ac0c9737e27e8e5efa5e7fef1392fbb3ef17911ddda14682ea4a4b11f5c39846523aaa626fdb6730311bb0645317b873b755549e6827842b54c4b5e647dd687f5fba1462432c150e6dfac9b575e7fa827359e82618c2a880fe96978d340509447dd1067afd52059899fdc70b92de91e92eee21a048a673c9aee3834f82f8b39c857a8babd2447dc4800bbf250ac7a03b3a79e115b63be9011c4f45a2e65a183a5fc97cafb4c5ce5cc6a681046dbf4e7c8a8daa7ff329ed856e1333a5639189fc349138040f6893fdc03dc3ed09450e715039c3eab14de49d391fc7d0c7bcdd1c07151fbeac20bde097cb953ae9f52176649d10a1a208f7af07a241c0238c84ada5c6e5742472a4707b9de652a50fca086b489d9537df2adec0e6660fdd6459ec62f625e721db29cb8214a32cf324debed5e522fc317663bfade086544451c1ee240021290debd5b0de0819a13006b8d41fd6fdee205d99378b9b44d82293e603663aa8780b704e99d2b0ccca402d7b45d5e1144cab75b315b931515a964b5ca4c9f9257824ed1a76059c4847cec9bffd6a62d8ffc14ceba2cf880619d19cb3dd57f9d7be4e63f48511d6815a3f44f9e2312f685caba2a6398ba63140aad7bc3c7fa434a929fe1620d6c6a72f2195950e4ee61fbd56b2c1fd978d0115ebdb595b6fc60150e2c6602f5344342293d4c469c284c234c5132d6f832d892f18bbd5d197c3baae55eb8870a5313156e2656685c2ce40679b759dde90c50dec9f5e3f0d4605a8da6a999a662c4ea7cef1a21417e8fcecade9538ba996ca8bb68e2a1a1a7f5fc52e7b03c03fe3c9f50ccf4d08694f9cd32a9a7a6bbea1a96877a64827db8a4396d1a93b85ee4178586e77967b2ea5a83be23669ff2729f293075040a03c83997127aacdd781ccd7b1df83634085cd5f58057a082bb53e441d99e3463c4c296de4064bcbaf5e2e46587f7a26fdefce798c3d89057ed810e6a6cbe1ac2bc44df385ca93ddbaf73021b20c99b594d9e7908e38df796f7d0940747abd44232f92e74725b08fef69638cd2f3b69af69cc0350c90d012d09dbc8bdd5f622e0b73763b55e3143198471b7ac8aea8af0b8ed15fbc7fc2379293d09fe94353aaf6f60ba59390a75a617cbe36884b48979ff6efb5e37e6f751a01445cffba8701076493a14d40f6f5a3b4cb7a482aeb77a8b56637d254362e93bb043261c902d8d393bc9c952040bcf4f6aee1bd5b4655bc814c9d6893a00887f7a509b7253bd7fdc544f860f5bd4166d544ec9281301b13755c4852eeb5576cb9ed8ebe48679471c4e4634b9c1649baa8a94668e7c8a4b34603ca87c88141179fbd3d33d30421502ebc200ace59a3f03fe542a9396bd5807b6f216824cb9397fc4aa669aee5b545ffcdd136d5b4a0d1d5a2cefdf89f17ee3a7a6ee5477438365dfde4dc452fb57114db7f357bac2e0f40e5fff3738002e52ced932d48d0ebf4b7f40736fe4b2fdbbb91dcab868242ae80a5ee86f1dfbc1f39f23496e88c6a54da7cbbf861cd59291cd0fd29572cb676df1956d964b3bf8ee269d9601f5c656805266701e988fb68b94d5277a95956aaf7f9771ac6c8b2541f061a3b4c3969fe1dba4fc775fc9cd7634f9fee0a97c32969fb8463d3dc56d40aa763a0f7dd2b24ddd894a15930f942f1a4e10fb28fc88ea1e70f4f9c2122b7b0dc9e3741004c3b225973cf9c1233367e55c1a8339a882561e1b4ad167e28ff7b2cad29c083d4da461cee79f4be63cd270a88d1d562b22beb52800b2d4ac6a3a82767a2047becebbc9cf29b452b60ec2659ce039a480a887b8443fe6ff3cb97087fff25a4b6793dd071d57e4c6a02f23aedd035643e13af223483f220985f0908ee84d82be5cd4f16b5abe70badbd4c915a7faf4fc26632e73040d1e4eea03bc4af28deb40fc5b4ae9bc1c3ab42246b9022e5b68d334229d7311b4f6517015af26c400c5e4a1c8fe9a46d4650f72ff7fcf88f2c3b2b1c69ea17095a12b2c6741a55d2750cee1293f16fbcc85750642c35dcb9e2dbe4415f1bb3c8622dc96b1cae8db3306c971913eac03fb523b72b1b84f3acf868d9d8b89bfff398dd4302a1fcaf3f2e7b1d43181228fd490661804f5726f191cc34c53148f52350258ce58079f4b57559a35e544425b0c57ede80826113365b409e418f70b3b6d3a387afb230508c64f1b729aaa3238814bc28339c9628ae8c7387e92e327f25af86b8238e38f5256e431c80a55b0f60b7afc2c038794b9afa5a30ff72a83c32808fa4c1f47c9430c799d88e138edfa105dacd96369ebc125da3d8de010234adba8ad662081e8adcbe77e4a79880ee424a047087ddf4b798e0f29e8bc5ee8684f295444c6ea09218668854095db8974b94bf60e5960663f0ea5bd9e4c337845f142f19ea16270dbc0268e07afa33dfbc9437ba223823cdb4c8ffda2570279ea3f70b75bb4839b2d72bce4aa1288d71e98c76c73c4a619b8b6c35e87c34f104b088e4f
   </script>
   <div class="hbe hbe-content">
     <form id="hbeForm" class="hbe hbe-form" onsubmit="return false">
@@ -116,8 +412,11 @@
     </form>
   </div>
 </div>
-<script data-pjax src="/lib/hbe.9e70f1e1d2.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css"></article>
-<div class="article-footer">
+<script data-pjax src="/lib/hbe.51dd9f3b98.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css"></article>
+
+<div class="article-tags slide-up"><a class="tag" href="/tags/%E6%97%B6%E9%97%B4/"><svg class="icon" data-icon="default:hashtag" aria-hidden="true"></svg>时间</a></div>
+
+<div class="article-footer slide-up">
     <section id="license">
       <div class="header"><span>许可协议</span></div>
       <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
@@ -127,12 +426,12 @@
 
 </div>
 
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/11/03/0009-two-awesome-hours-03/">每天最重要的2小时 - 03</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/10/31/0013-ntp/">NTP 相关内容备忘</a></div></section></div>
+<div class="related-wrap slide-up" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/11/03/0009-two-awesome-hours-03/">每天最重要的2小时 - 03</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/10/31/0013-ntp/">NTP 相关内容备忘</a></div></section></div>
 
 
 
 
-  <div class="related-wrap md-text" id="comments">
+  <div class="related-wrap md-text slide-up" id="comments">
     <section class='header cmt-title cap theme'>
       <p>快来参与讨论吧~</p>
 
@@ -140,7 +439,7 @@
     <section class='body cmt-body giscus'>
       
 
-<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+<div class="lazy-icon"></div>
 
 <div id="giscus" src="https://giscus.app/client.js" data-repo="gaoyangu/blog_giscus" data-repo-id="R_kgDOQQ_jlg" data-category="Announcements" data-category-id="DIC_kwDOQQ_jls4CxiD3" data-mapping="url" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
 
@@ -149,10 +448,21 @@
 
 
 
-<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">gaoyangu</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1">Stellar 1.33.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+<footer class="page-footer slide-up footnote"><hr><div class="text"><p>本站由 <a href="/">gaoyangu</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.44.0">Stellar 1.44.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
-<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-</aside><div class='float-panel'>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right" data-ui-surface="sidebar"><div class="widgets">
+
+
+
+
+<widget class="widget-wrapper slide-up toc" id="data-toc" collapse="false">
+  
+  
+  <div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="currentColor" fill-rule="evenodd" d="M11.9426 1.25H12.0574C14.3658 1.24999 16.1748 1.24998 17.5863 1.43975C19.031 1.63399 20.1711 2.03933 21.0659 2.93414C21.9607 3.82895 22.366 4.96897 22.5603 6.41371C22.75 7.82519 22.75 9.63423 22.75 11.9426V12.0574C22.75 14.3658 22.75 16.1748 22.5603 17.5863C22.366 19.031 21.9607 20.1711 21.0659 21.0659C20.1711 21.9607 19.031 22.366 17.5863 22.5603C16.1748 22.75 14.3658 22.75 12.0574 22.75H11.9426C9.63423 22.75 7.82519 22.75 6.41371 22.5603C4.96897 22.366 3.82895 21.9607 2.93414 21.0659C2.03933 20.1711 1.63399 19.031 1.43975 17.5863C1.24998 16.1748 1.24999 14.3658 1.25 12.0574V11.9426C1.24999 9.63423 1.24998 7.82519 1.43975 6.41371C1.63399 4.96897 2.03933 3.82895 2.93414 2.93414C3.82895 2.03933 4.96897 1.63399 6.41371 1.43975C7.82519 1.24998 9.63423 1.24999 11.9426 1.25ZM6.61358 2.92637C5.33517 3.09825 4.56445 3.42514 3.9948 3.9948C3.42514 4.56445 3.09825 5.33517 2.92637 6.61358C2.75159 7.91356 2.75 9.62177 2.75 12C2.75 14.3782 2.75159 16.0864 2.92637 17.3864C3.09825 18.6648 3.42514 19.4355 3.9948 20.0052C4.56445 20.5749 5.33517 20.9018 6.61358 21.0736C7.91356 21.2484 9.62177 21.25 12 21.25C14.3782 21.25 16.0864 21.2484 17.3864 21.0736C18.6648 20.9018 19.4355 20.5749 20.0052 20.0052C20.5749 19.4355 20.9018 18.6648 21.0736 17.3864C21.2484 16.0864 21.25 14.3782 21.25 12C21.25 9.62177 21.2484 7.91356 21.0736 6.61358C20.9018 5.33517 20.5749 4.56445 20.0052 3.9948C19.4355 3.42514 18.6648 3.09825 17.3864 2.92637C16.0864 2.75159 14.3782 2.75 12 2.75C9.62177 2.75 7.91356 2.75159 6.61358 2.92637ZM12 9.56066L9.53033 12.0303C9.23744 12.3232 8.76256 12.3232 8.46967 12.0303C8.17678 11.7374 8.17678 11.2626 8.46967 10.9697L11.4697 7.96967C11.7626 7.67678 12.2374 7.67678 12.5303 7.96967L15.5303 10.9697C15.8232 11.2626 15.8232 11.7374 15.5303 12.0303C15.2374 12.3232 14.7626 12.3232 14.4697 12.0303L12 9.56066ZM12 13.5607L9.53033 16.0303C9.23744 16.3232 8.76256 16.3232 8.46967 16.0303C8.17678 15.7374 8.17678 15.2626 8.46967 14.9697L11.4697 11.9697C11.7626 11.6768 12.2374 11.6768 12.5303 11.9697L15.5303 14.9697C15.8232 15.2626 15.8232 15.7374 15.5303 16.0303C15.2374 16.3232 14.7626 16.3232 14.4697 16.0303L12 13.5607Z" clip-rule="evenodd"/></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill="currentColor" fill-rule="evenodd" d="M10.4606 1.25H13.5394C15.1427 1.24999 16.3997 1.24999 17.4039 1.34547C18.4274 1.44279 19.2655 1.64457 20.0044 2.09732C20.7781 2.57144 21.4286 3.22194 21.9027 3.99563C22.3554 4.73445 22.5572 5.57256 22.6545 6.59611C22.75 7.60029 22.75 8.85725 22.75 10.4606V11.5278C22.75 12.6691 22.75 13.564 22.7007 14.2868C22.6505 15.0223 22.5468 15.6344 22.3123 16.2004C21.7287 17.6093 20.6093 18.7287 19.2004 19.3123C18.3955 19.6457 17.4786 19.7197 16.2233 19.7413C15.7842 19.7489 15.5061 19.7545 15.2941 19.7779C15.096 19.7999 15.0192 19.832 14.9742 19.8582C14.9268 19.8857 14.8622 19.936 14.7501 20.0898C14.6287 20.2564 14.4916 20.4865 14.2742 20.8539L13.7321 21.7697C12.9585 23.0767 11.0415 23.0767 10.2679 21.7697L9.72579 20.8539C9.50835 20.4865 9.37122 20.2564 9.24985 20.0898C9.13772 19.936 9.07313 19.8857 9.02572 19.8582C8.98078 19.832 8.90399 19.7999 8.70588 19.7779C8.49387 19.7545 8.21575 19.7489 7.77666 19.7413C6.52138 19.7197 5.60454 19.6457 4.79957 19.3123C3.39066 18.7287 2.27128 17.6093 1.68769 16.2004C1.45323 15.6344 1.3495 15.0223 1.29932 14.2868C1.24999 13.564 1.25 12.6691 1.25 11.5278L1.25 10.4606C1.24999 8.85726 1.24999 7.60029 1.34547 6.59611C1.44279 5.57256 1.64457 4.73445 2.09732 3.99563C2.57144 3.22194 3.22194 2.57144 3.99563 2.09732C4.73445 1.64457 5.57256 1.44279 6.59611 1.34547C7.60029 1.24999 8.85726 1.24999 10.4606 1.25ZM6.73809 2.83873C5.82434 2.92561 5.24291 3.09223 4.77938 3.37628C4.20752 3.72672 3.72672 4.20752 3.37628 4.77938C3.09223 5.24291 2.92561 5.82434 2.83873 6.73809C2.75079 7.663 2.75 8.84876 2.75 10.5V11.5C2.75 12.6751 2.75041 13.5189 2.79584 14.1847C2.84081 14.8438 2.92737 15.2736 3.07351 15.6264C3.50486 16.6678 4.33223 17.4951 5.3736 17.9265C5.88923 18.1401 6.54706 18.2199 7.8025 18.2416L7.83432 18.2421C8.23232 18.249 8.58109 18.2549 8.87097 18.287C9.18246 18.3215 9.4871 18.3912 9.77986 18.5615C10.0702 18.7304 10.2795 18.9559 10.4621 19.2063C10.6307 19.4378 10.804 19.7306 11.0004 20.0623L11.5587 21.0057C11.7515 21.3313 12.2485 21.3313 12.4412 21.0057L12.9996 20.0623C13.1959 19.7306 13.3692 19.4378 13.5379 19.2063C13.7204 18.9559 13.9298 18.7304 14.2201 18.5615C14.5129 18.3912 14.8175 18.3215 15.129 18.287C15.4189 18.2549 15.7676 18.249 16.1656 18.2421L16.1975 18.2416C17.4529 18.2199 18.1108 18.1401 18.6264 17.9265C19.6678 17.4951 20.4951 16.6678 20.9265 15.6264C21.0726 15.2736 21.1592 14.8438 21.2042 14.1847C21.2496 13.5189 21.25 12.6751 21.25 11.5V10.5C21.25 8.84876 21.2492 7.663 21.1613 6.73809C21.0744 5.82434 20.9078 5.24291 20.6237 4.77938C20.2733 4.20752 19.7925 3.72672 19.2206 3.37628C18.7571 3.09223 18.1757 2.92561 17.2619 2.83873C16.337 2.75079 15.1512 2.75 13.5 2.75H10.5C8.84876 2.75 7.663 2.75079 6.73809 2.83873ZM7.25 9C7.25 8.58579 7.58579 8.25 8 8.25H16C16.4142 8.25 16.75 8.58579 16.75 9C16.75 9.41421 16.4142 9.75 16 9.75H8C7.58579 9.75 7.25 9.41421 7.25 9ZM7.25 12.5C7.25 12.0858 7.58579 11.75 8 11.75H13.5C13.9142 11.75 14.25 12.0858 14.25 12.5C14.25 12.9142 13.9142 13.25 13.5 13.25H8C7.58579 13.25 7.25 12.9142 7.25 12.5Z" clip-rule="evenodd"/></svg><span>参与讨论</span></a></div>
+</widget>
+
+
+</div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>
@@ -165,6 +475,137 @@
 
 <script type="text/javascript">
   window.canonical = {"originalHost":null,"officialHosts":["localhost"],"encoded":""};
+  window.canonical["param"] = {"permalink":"http://example.com/2025/11/03/0014-time/","checklink":"/js/plugins/video.js"};
+  // Fix: Ensure page is at the correct top position on data load
+  if (history.scrollRestoration) {
+    history.scrollRestoration = 'auto';
+  }
+  (function() {
+    const scrollHandler = () => {
+      // 存在有效锚点时，等待布局稳定后滚动到目标
+      // （浏览器原生锚点滚动发生在布局完成前，长文章的懒加载图片/异步组件会把目标顶偏）
+      const hash = window.location.hash;
+      if (hash.length > 1) {
+        let anchorId = hash.slice(1);
+        try {
+          anchorId = decodeURIComponent(anchorId);
+        } catch (e) {
+          // 片段含非法编码时按原样查找
+        }
+        const anchor = document.getElementById(anchorId);
+        if (anchor) {
+          // #start 锚点贴顶，不预留 offset；其余锚点与 TOC 点击滚动保持一致
+          const offset = anchorId === 'start' ? 0 : 32;
+          const targetY = () => anchor.getBoundingClientRect().top + window.scrollY - offset;
+          let timer = null;
+          let lastY = null;
+          let quiet = 0;
+          let attempts = 0;
+          // 记录最近一次资源加载完成时间，判断异步数据/图片是否仍在改变布局
+          let lastResourceTime = performance.now();
+          let observer = null;
+          try {
+            observer = new PerformanceObserver(function (list) {
+              lastResourceTime = performance.now();
+            });
+            observer.observe({ entryTypes: ['resource'] });
+          } catch (e) {}
+          // 统计进行中的 fetch/XHR 请求，异步组件（timeline 等）未完成前不判定布局稳定
+          let pendingRequests = 0;
+          const trackRequest = (fn) => {
+            pendingRequests++;
+            try {
+              const result = fn();
+              if (result && typeof result.finally === 'function') {
+                result.finally(function () {
+                  pendingRequests = Math.max(0, pendingRequests - 1);
+                });
+              } else {
+                pendingRequests = Math.max(0, pendingRequests - 1);
+              }
+              return result;
+            } catch (e) {
+              pendingRequests = Math.max(0, pendingRequests - 1);
+              throw e;
+            }
+          };
+          if (typeof window.fetch === 'function') {
+            const origFetch = window.fetch.bind(window);
+            window.fetch = function () {
+              const args = arguments;
+              return trackRequest(function () {
+                return origFetch.apply(window, args);
+              });
+            };
+          }
+          if (window.XMLHttpRequest) {
+            const origOpen = window.XMLHttpRequest.prototype.open;
+            const origSend = window.XMLHttpRequest.prototype.send;
+            window.XMLHttpRequest.prototype.open = function () {
+              this.__anchorTracked = true;
+              return origOpen.apply(this, arguments);
+            };
+            window.XMLHttpRequest.prototype.send = function () {
+              if (this.__anchorTracked) {
+                pendingRequests++;
+                const done = () => {
+                  if (this.__anchorTracked) {
+                    this.__anchorTracked = false;
+                    pendingRequests = Math.max(0, pendingRequests - 1);
+                  }
+                };
+                this.addEventListener('loadend', done);
+              }
+              return origSend.apply(this, arguments);
+            };
+          }
+          const cancel = () => {
+            if (timer !== null) {
+              clearInterval(timer);
+              timer = null;
+            }
+            if (observer !== null) {
+              try {
+                observer.disconnect();
+              } catch (e) {}
+            }
+          };
+          const adjust = () => {
+            const y = targetY();
+            const atTarget = Math.abs(window.scrollY - y) <= 2;
+            if (!atTarget || lastY === null || Math.abs(y - lastY) > 2) {
+              window.scrollTo({ top: y, behavior: 'instant' });
+              lastY = y;
+              quiet = 0;
+            } else {
+              quiet++;
+            }
+            attempts++;
+            const resourceQuiet = performance.now() - lastResourceTime > 3000;
+            // 位置连续 1.8 秒无变化、无进行中的请求且最近 3 秒无资源加载才视为稳定；最长等待 30 秒
+            if ((quiet >= 3 && pendingRequests === 0 && resourceQuiet) || attempts >= 50) {
+              cancel();
+            }
+          };
+          requestAnimationFrame(() => {
+            // 锚点链接打开时直接定位，不做动画；用户主动点击（如 TOC）仍走平滑滚动
+            window.scrollTo({ top: targetY(), behavior: 'instant' });
+            timer = setInterval(adjust, 600);
+          });
+          // 用户主动滚动时停止自动校正
+          window.addEventListener('wheel', cancel, { passive: true });
+          window.addEventListener('touchstart', cancel, { passive: true });
+          window.addEventListener('mousedown', cancel, { passive: true });
+          window.addEventListener('keydown', cancel, { passive: true });
+          return;
+        }
+      }
+      // 没有锚点时始终保持页面顶部；Wiki Hero 只在用户显式访问 #start 时定位正文。
+      window.scrollTo(0, 0);
+    };
+    if (document.readyState !== 'loading') scrollHandler();
+    else document.addEventListener('DOMContentLoaded', scrollHandler);
+  })();
   const ctx = {
     date_suffix: {
       just: `刚刚`,
@@ -175,7 +616,10 @@
     root : `/`,
     tag_plugins: {
       chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
-    }
+    },
+    // 图标由构建期生成的 /js/stellar-icons.js 填充（defer，早于 DOMContentLoaded 就绪）
+    icons: {},
+    services: {"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"rating":{"js":"/js/services/rating.js","api":"https://star-vote.xaox.cc/api/rating"},"vote":{"js":"/js/services/vote.js","api":"https://star-vote.xaox.cc/api/vote"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"},"contributors":{"edit_this_page":{"_posts/":null,"wiki/stellar/":"https://github.com/xaoxuu/hexo-theme-stellar-docs/blob/main/"},"js":"/js/services/contributors.js"},"rss":{"js":"/js/services/rss.js"}},
   };
 
   // required plugins (only load if needs)
@@ -183,330 +627,104 @@
     ctx.search = {};
     ctx.search.service = `local_search`;
     if (ctx.search.service == 'local_search') {
-      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":[],"codeblock":true,"sort":"-date"}`);
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"lazy_load":true,"cache_ttl":86400,"skip_search":[],"codeblock":true,"sort":"-date"}`);
       ctx.search[ctx.search.service] = service_obj;
     }
   }
   const def = {
     avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
     cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
-    loading: `https://api.iconify.design/eos-icons:three-dots-loading.svg?color=%231cd0fd`,
+    data_cache: {"enable":true,"default_ttl":3600,"ttl":{"giscus":600,"waline":600,"artalk":600,"memos":600,"memos-user":86400,"sites":86400,"friends":86400,"friends_and_posts":86400,"siteinfo":86400},"max_entries":200},
   };
   const deps = {
-    jquery: `https://gcore.jsdelivr.net/npm/jquery@3.7/dist/jquery.min.js`,
     marked: `https://gcore.jsdelivr.net/npm/marked@13.0/lib/marked.umd.min.js`,
-    lazyload: `/%5Bobject%20Object%5D`
+    lazyload: `https://gcore.jsdelivr.net/npm/vanilla-lazyload@19.1/dist/lazyload.min.js`
   }
-  
 
+  // 主题切换提示文案（供 /js/theme.js 使用）
+  window.__STELLAR_I18N__ = {
+    light: `切换到浅色模式`,
+    dark: `切换到深色模式`,
+    auto: `切换到跟随系统配色`,
+  };
+
+  // 搜索跳转高亮：URL 带 ?kw= 时按需加载，定位正文中的匹配词
+  (function () {
+    try {
+      if (!window.location.search) return;
+      if (!new URLSearchParams(window.location.search).has('kw')) return;
+      document.addEventListener('DOMContentLoaded', function () {
+        // utils 由 /js/utils.js 定义（同时暴露 window.utils）；
+        // 未就绪时由 bootstrap 队列兜底，此处按就绪状态判断
+        if (typeof utils === 'object' && typeof utils.js === 'function') {
+          utils.js('/js/search/highlight.js', { defer: true }).catch(function () {});
+        }
+      });
+    } catch (e) {}
+  })();
 </script>
 
-<script type="text/javascript">
-  
-  function RunItem() {
-    this.list = []; // 存放回调函数
-    this.start = () => {
-      for (var i = 0; i < this.list.length; i++) {
-        this.list[i].run();
-      }
-    };
-    this.push = (fn, name, setRequestAnimationFrame = true) => {
-      let myfn = fn
-      if (setRequestAnimationFrame) {
-        myfn = () => {
-          utils.requestAnimationFrame(fn)
-        }
-      }
-      var f = new Item(myfn, name);
-      this.list.push(f);
-    };
-    this.remove = (name) => {
-      for (let index = 0; index < this.list.length; index++) {
-        const e = this.list[index];
-        if (e.name == name) {
-          this.list.splice(index, 1);
-        }
+
+<script>
+  // 插件注册队列：utils.js 尚未就绪时先缓存注册请求，就绪后统一补跑，
+  // 保证解析期注册的插件不因加载时序丢失。
+  window.stellar = window.stellar || {};
+  window.stellar._pluginQueue = window.stellar._pluginQueue || [];
+  window.stellar.initPlugin = function (fn, name, options) {
+    if (typeof utils === 'object' && typeof utils.initPlugin === 'function') {
+      return utils.initPlugin(fn, name, options);
+    }
+    window.stellar._pluginQueue.push({ fn: fn, name: name, options: options || {} });
+  };
+  window.stellar._flushPlugins = function () {
+    var pending = window.stellar._pluginQueue.splice(0);
+    if (typeof utils !== 'object' || typeof utils.initPlugin !== 'function') return;
+    for (var i = 0; i < pending.length; i++) {
+      try {
+        utils.initPlugin(pending[i].fn, pending[i].name, pending[i].options);
+      } catch (e) {
+        console.error('[Stellar] 插件补注册失败:', e);
       }
     }
-    // 构造一个可以run的对象
-    function Item(fn, name) {
-      // 函数名称
-      this.name = name || fn.name;
-      // run方法
-      this.run = () => {
-        try {
-          fn()
-        } catch (error) {
-          console.log(error);
-        }
-      };
-    }
-  }
-
-  const utils = {
-    // 懒加载 css https://github.com/filamentgroup/loadCSS
-    css: (href, before, media, attributes) => {
-      var doc = window.document;
-      var ss = doc.createElement("link");
-      var ref;
-      if (before) {
-        ref = before;
-      } else {
-        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
-        ref = refs[refs.length - 1];
-      }
-      var sheets = doc.styleSheets;
-      if (attributes) {
-        for (var attributeName in attributes) {
-          if (attributes.hasOwnProperty(attributeName)) {
-            ss.setAttribute(attributeName, attributes[attributeName]);
-          }
-        }
-      }
-      ss.rel = "stylesheet";
-      ss.href = href;
-      ss.media = "only x";
-      function ready(cb) {
-        if (doc.body) {
-          return cb();
-        }
-        setTimeout(function () {
-          ready(cb);
-        });
-      }
-      ready(function () {
-        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
-      });
-      var onloadcssdefined = function (cb) {
-        var resolvedHref = ss.href;
-        var i = sheets.length;
-        while (i--) {
-          if (sheets[i].href === resolvedHref) {
-            return cb();
-          }
-        }
-        setTimeout(function () {
-          onloadcssdefined(cb);
-        });
-      };
-      function loadCB() {
-        if (ss.addEventListener) {
-          ss.removeEventListener("load", loadCB);
-        }
-        ss.media = media || "all";
-      }
-      if (ss.addEventListener) {
-        ss.addEventListener("load", loadCB);
-      }
-      ss.onloadcssdefined = onloadcssdefined;
-      onloadcssdefined(loadCB);
-      return ss;
-    },
-
-    js: (src, opt) => new Promise((resolve, reject) => {
-      var script = document.createElement('script');
-      if (src.startsWith('/')) {
-        src = ctx.root + src.substring(1);
-      }
-      script.src = src;
-      if (opt) {
-        for (let key of Object.keys(opt)) {
-          script[key] = opt[key]
-        }
-      } else {
-        // 默认异步，如果需要同步，第二个参数传入 {} 即可
-        script.async = true
-      }
-      script.onerror = reject
-      script.onload = script.onreadystatechange = function () {
-        const loadState = this.readyState
-        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
-        script.onload = script.onreadystatechange = null
-        resolve()
-      }
-      document.head.appendChild(script)
-    }),
-
-    jq: (fn) => {
-      if (typeof jQuery === 'undefined') {
-        utils.js(deps.jquery).then(fn)
-      } else {
-        fn()
-      }
-    },
-
-    onLoading: (el) => {
-      if (el) {
-        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
-      }
-    },
-    onLoadSuccess: (el) => {
-      if (el) {
-        $(el).find('.loading-wrap').remove();
-      }
-    },
-    onLoadFailure: (el) => {
-      if (el) {
-        $(el).find('.loading-wrap svg').remove();
-        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
-        $(el).find('.loading-wrap').addClass('error');
-      }
-    },
-    request: (el, url, callback, onFailure) => {
-      const maxRetry = 3;
-      let retryCount = 0;
-
-      return new Promise((resolve, reject) => {
-        const load = () => {
-          utils.onLoading?.(el);
-
-          let timedOut = false;
-          const timeout = setTimeout(() => {
-            timedOut = true;
-            console.warn('[request] 超时:', url);
-
-            if (++retryCount >= maxRetry) {
-              utils.onLoadFailure?.(el);
-              onFailure?.();
-              reject('请求超时');
-            } else {
-              setTimeout(load, 1000);
-            }
-          }, 5000);
-
-          fetch(url).then(resp => {
-            if (timedOut) return;
-            clearTimeout(timeout);
-
-            if (!resp.ok) throw new Error('响应失败');
-            return resp;
-          }).then(data => {
-            if (timedOut) return;
-            utils.onLoadSuccess?.(el);
-            callback(data);
-            resolve(data);
-          }).catch(err => {
-            clearTimeout(timeout);
-            console.warn('[request] 错误:', err);
-
-            if (++retryCount >= maxRetry) {
-              utils.onLoadFailure?.(el);
-              onFailure?.();
-              reject(err);
-            } else {
-              setTimeout(load, 1000);
-            }
-          });
-        };
-
-        load();
-      });
-    },
-    requestWithoutLoading: (url, options = {}, maxRetry = 2, timeout = 5000) => {
-      return new Promise((resolve, reject) => {
-        let retryCount = 0;
-
-        const tryRequest = () => {
-          let timedOut = false;
-          const timer = setTimeout(() => {
-            timedOut = true;
-            if (++retryCount > maxRetry) reject('timeout');
-            else tryRequest();
-          }, timeout);
-
-          fetch(url, options)
-            .then(resp => {
-              clearTimeout(timer);
-              if (!resp.ok) throw new Error('bad response');
-              resolve(resp);
-            })
-            .catch(err => {
-              clearTimeout(timer);
-              if (++retryCount > maxRetry) reject(err);
-              else setTimeout(tryRequest, 500);
-            });
-        };
-
-        tryRequest();
-      });
-    },
-    /********************** requestAnimationFrame ********************************/
-    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
-    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
-    requestAnimationFrame: (fn) => {
-      if (!window.requestAnimationFrame) {
-        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
-      }
-      window.requestAnimationFrame(fn)
-    },
-    dark: {},
   };
-
-  // utils.dark.mode 当前模式 dark or light
-  // utils.dark.toggle() 暗黑模式触发器
-  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
-  utils.dark.method = {
-    toggle: new RunItem(),
-  };
-  utils.dark = Object.assign(utils.dark, {
-    push: utils.dark.method.toggle.push,
+  document.addEventListener('DOMContentLoaded', function () {
+    if (typeof utils === 'object') return;
+    // utils 未就绪时补载；加载成功后由 utils.js 内部补跑插件队列
+    var s = document.createElement('script');
+    // 用 setAttribute 赋值 src，避免被基于 `s.src = "..."` 的正则
+    // （图片懒加载 / 脚本延迟优化器）误改写
+    s.setAttribute('src', '/js/utils.js?v=1.44.0');
+    s.async = false;
+    s.onerror = function () {
+      console.error('[Stellar] 无法加载 /js/utils.js，已启用内容兜底显示（sr-fallback）');
+      document.documentElement.classList.add('sr-fallback');
+    };
+    document.head.appendChild(s);
   });
 </script>
+
+
+<!-- core: utils 必须同步加载（页尾内联插件片段在解析期即调用 utils.initPlugin） -->
+<script src="/js/utils.js?v=1.44.0"></script>
 <script>
-  const sidebar = {
-    leftbar: () => {
-      if (l_body) {
-        l_body.toggleAttribute('leftbar');
-        l_body.removeAttribute('rightbar');
-      }
-    },
-    rightbar: () => {
-      if (l_body) {
-        l_body.toggleAttribute('rightbar');
-        l_body.removeAttribute('leftbar');
-      }
-    },
-    dismiss: () => {
-      if (l_body) {
-        l_body.removeAttribute('leftbar');
-        l_body.removeAttribute('rightbar');
-      }
-    },
-    toggleTOC: () => {
-      document.querySelector('#data-toc').classList.toggle('collapse');
-    }
+  // 解析期检测 utils 是否已就绪；未就绪时同步补载，
+  // 保证「utils 先于页尾插件片段定义」的不变量。
+  if (typeof utils === 'undefined') {
+    document.write('<script src="/js/utils.js?v=1.44.0"><\/script>');
   }
 </script>
-<script type="text/javascript">
-  (() => {
-    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
-    for (const tagSwitcher of tagSwitchers) {
-      tagSwitcher.addEventListener('click', (e) => {
-        const parent = e.target.closest('.tag-subtree.parent-tag')
-        parent.classList.toggle('expanded')
-        e.preventDefault()
-      })
-    }
+<script defer src="/js/stellar-icons.js?v=1.44.0"></script>
+<!-- 非首屏图标异步加载：占位符替换依赖构建期生成的 js/icons/{ns}.json -->
+<script defer src="/js/icons.js?v=1.44.0" data-version="1.44.0"></script>
+<script defer src="/js/plugins/dropdown.js?v=1.44.0"></script>
+<script src="/js/main.js?v=1.44.0" defer></script>
+<script defer src="/js/theme.js?v=1.44.0"></script>
 
-    // Get active tag from query string, then activate it.
-    const urlParams = new URLSearchParams(window.location.search)
-    const activeTag = urlParams.get('tag')
-    if (activeTag) {
-      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
-      if (tag) {
-        tag.querySelector('a').classList.add('active')
-        
-        while (tag) {
-          tag.classList.add('expanded')
-          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
-        }
-      }
-    }
-  })()
-</script>
 
-<script async src="https://gcore.jsdelivr.net/npm/vanilla-lazyload@19.1/dist/lazyload.min.js"></script>
+
 <script>
+  // 先声明配置与初始化监听，再异步加载库：
+  // 保证库执行时 lazyLoadOptions 已就绪，避免 async 脚本抢先执行导致自初始化失败
   // https://www.npmjs.com/package/vanilla-lazyload
   // Set the options globally
   // to make LazyLoad self-initialize
@@ -514,13 +732,13 @@
     elements_selector: ".lazy",
     callback_loaded: (el) => {
       el.classList.add('loaded');
-      const wrapper = el.closest('.lazy-box');
+      // {% image %} 没有 .lazy-box 包裹，回退到父元素查找加载图标
+      const wrapper = el.closest('.lazy-box') || el.parentElement;
       const icon = wrapper?.querySelector('.lazy-icon');
       if (icon) icon.remove();
     }
   };
-  // Listen to the initialization event
-  // and get the instance of LazyLoad
+  // 监听初始化事件，获取 LazyLoad 实例
   window.addEventListener(
     "LazyLoad::Initialized",
     function (event) {
@@ -532,12 +750,36 @@
     window.lazyLoadInstance?.update();
   });
 
+  // 兜底：动态插入的 .lazy 元素（如站点自定义脚本在 update() 之后追加的图片）
+  // 不会被 vanilla-lazyload 自动扫描，未注册的 img.lazy 会被 CSS opacity:0 永久隐藏。
+  // MutationObserver 检测到新增 .lazy 元素后自动调用 update() 重新注册。
+  if (window.MutationObserver) {
+    window.lazyMutationObserver = new MutationObserver((mutations) => {
+      if (window.lazyMutationObserver._pending) return;
+      const hasLazy = mutations.some((m) =>
+        Array.prototype.some.call(m.addedNodes, (node) =>
+          node.nodeType === 1 &&
+          (node.matches?.('.lazy') || !!node.querySelector?.('.lazy'))
+        )
+      );
+      if (!hasLazy) return;
+      window.lazyMutationObserver._pending = requestAnimationFrame(() => {
+        window.lazyMutationObserver._pending = null;
+        window.lazyLoadInstance?.update();
+      });
+    });
+    window.lazyMutationObserver.observe(document.documentElement, {
+      childList: true,
+      subtree: true
+    });
+  }
+
   window.wrapLazyloadImages = (container) => {
     if (typeof container === 'string') {
       container = document.querySelector(container);
     }
     if (!container) return;
-    
+
     const images = container.querySelectorAll('img');
     images.forEach((img) => {
       if (img.classList.contains('lazy')) return;
@@ -555,9 +797,6 @@
 
       const icon = document.createElement('div');
       icon.className = 'lazy-icon';
-      if (def.loading) {
-        icon.style.backgroundImage = `url("${def.loading}")`;
-      }
 
       wrapper.appendChild(newImg);
       wrapper.appendChild(icon);
@@ -570,238 +809,84 @@
       window.lazyLoadInstance.update();
     }
   }
-  
 </script>
-
-<!-- required -->
-<script src="/js/main.js?v=1.33.1" defer></script>
-
-<script type="text/javascript">
-  const applyTheme = (theme) => {
-    if (theme === 'auto') {
-      document.documentElement.removeAttribute('data-theme')
-    } else {
-      document.documentElement.setAttribute('data-theme', theme)
-    }
-
-    // applyThemeToGiscus(theme)
-  }
-
-  // FIXME: 这会导致无法使用 preferred_color_scheme 以外的主题
-  const applyThemeToGiscus = (theme) => {
-    // theme = theme === 'auto' ? 'preferred_color_scheme' : theme
-    const cmt = document.getElementById('giscus')
-    if (cmt) {
-      // This works before giscus load.
-      cmt.setAttribute('data-theme', theme)
-    }
-
-    const iframe = document.querySelector('#comments > section.giscus > iframe')
-    if (iframe) {
-      // This works after giscus loaded.
-      const src = iframe.src
-      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
-      iframe.src = newSrc
-    }
-  }
-
-  const switchTheme = () => {
-    // light -> dark -> auto -> light -> ...
-    const currentTheme = document.documentElement.getAttribute('data-theme')
-    let newTheme;
-    switch (currentTheme) {
-      case 'light':
-        newTheme = 'dark'
-        break
-      case 'dark':
-        newTheme = 'auto'
-        break
-      default:
-        newTheme = 'light'
-    }
-    applyTheme(newTheme)
-    window.localStorage.setItem('Stellar.theme', newTheme)
-    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
-    utils.dark.method.toggle.start();
-
-    const messages = {
-      light: `切换到浅色模式`,
-      dark: `切换到深色模式`,
-      auto: `切换到跟随系统配色`,
-    }
-    hud?.toast?.(messages[newTheme])
-  }
-
-  (() => {
-    // Apply user's preferred theme, if any.
-    const theme = window.localStorage.getItem('Stellar.theme')
-    if (theme !== null) {
-      applyTheme(theme)
-    } else {
-      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    }
-    utils.dark.method.toggle.start();
-  })()
-</script>
+<script async src="https://gcore.jsdelivr.net/npm/vanilla-lazyload@19.1/dist/lazyload.min.js"></script>
 
 
 <!-- optional -->
 
   <script type="module">
-  const el = document.querySelector('#comments #giscus');
-  util.viewportLazyload(el, load_discus, false);
-
-  function load_discus() {
-    if (!el) return;
-    try {
-        el.innerHTML = '';
-      } catch (error) {
-        console.error(error);
+  (function() {
+    
+    function initGiscus() {
+      const el = document.querySelector('#comments #giscus');
+      if (!el) return;
+      
+      function load_giscus() {
+        try {
+          el.innerHTML = '';
+        } catch (error) {
+          console.error(error);
+        }
+        const script = document.createElement('script');
+        script.async = true;
+        for (const key of Object.keys(el.attributes)) {
+          const attr = el.attributes[key];
+          if (['class', 'id'].includes(attr.name) === false) {
+            script.setAttribute(attr.name, attr.value);
+          }
+        }
+        el.appendChild(script);
       }
-      const script = document.createElement('script');
-      script.async = true;
-      for (const key of Object.keys(el.attributes)) {
-        const attr = el.attributes[key];
-        if (['class', 'id'].includes(attr.name) === false) {
-          script.setAttribute(attr.name, attr.value);
+      
+      util.viewportLazyload(el, load_giscus);
+    }
+    
+    // Initialize on page load
+    initGiscus();
+  })();
+</script>
+
+
+
+
+<script defer src="/js/services.js?v=1.44.0"></script>
+<script>
+  // 防御：bootstrap 被第三方优化器改写/移除导致 window.stellar.initPlugin 缺失时，
+  // 在此补一个等价注册点：utils 就绪时直接委托，未就绪时入队，utils 加载后自动补跑。
+  if (typeof window.stellar === 'undefined' || typeof window.stellar.initPlugin !== 'function') {
+    window.stellar = window.stellar || {};
+    window.stellar._pluginQueue = window.stellar._pluginQueue || [];
+    window.stellar.initPlugin = function (fn, name, options) {
+      if (typeof utils === 'object' && typeof utils.initPlugin === 'function') {
+        return utils.initPlugin(fn, name, options);
+      }
+      window.stellar._pluginQueue.push({ fn: fn, name: name, options: options || {} });
+    };
+    window.stellar._flushPlugins = function () {
+      var pending = window.stellar._pluginQueue.splice(0);
+      if (typeof utils !== 'object' || typeof utils.initPlugin !== 'function') return;
+      for (var i = 0; i < pending.length; i++) {
+        try {
+          utils.initPlugin(pending[i].fn, pending[i].name, pending[i].options);
+        } catch (e) {
+          console.error('[Stellar] 插件补注册失败:', e);
         }
       }
-      el.appendChild(script);
+    };
   }
 </script>
 
-
-
-
-<script defer>
+<script>window.addEventListener('DOMContentLoaded', function () { utils.js('/js/search/shortcut.js', { defer: true }); });</script><script>
   window.addEventListener('DOMContentLoaded', (event) => {
-    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"rating":{"js":"/js/services/rating.js","api":"https://star-vote.xaox.cc/api/rating"},"vote":{"js":"/js/services/vote.js","api":"https://star-vote.xaox.cc/api/vote"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"},"contributors":{"edit_this_page":{"_posts/":null,"wiki/stellar/":"https://github.com/xaoxuu/hexo-theme-stellar-docs/blob/main/"},"js":"/js/services/contributors.js"}}`));
-    for (let id of Object.keys(ctx.services)) {
-      const js = ctx.services[id].js;
-      if (id == 'siteinfo') {
-        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
-        if (ctx.cardlinks?.length > 0) {
-          utils.js(js, { defer: true }).then(function () {
-            setCardLink(ctx.cardlinks);
-          });
-        }
-      } else if (id == 'voice') {
-        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
-        if (ctx.voiceAudios?.length > 0) {
-          utils.js(js, { defer: true }).then(function () {
-            createVoiceDom(ctx.voiceAudios);
-          });
-        }
-      } else if (id == 'video') {
-        ctx.videos = document.querySelectorAll('.video>video');
-        if (ctx.videos?.length > 0) {
-          utils.js(js, { defer: true }).then(function () {
-            videoEvents(ctx.videos);
-          });
-        }
-      } else if (id == 'download-file') {
-        ctx.files = document.querySelectorAll('.file');
-        if (ctx.files?.length > 0) {
-          utils.js(js, { defer: true }).then(function () {
-            downloadFileEvent(ctx.files);
-          });
-        }
-      } else {
-        const els = document.getElementsByClassName(`ds-${id}`);
-        if (els?.length > 0) {
-          utils.jq(() => {
-            if (id == 'timeline' || 'memos' || 'marked') {
-              utils.js(deps.marked).then(function () {
-                utils.js(js, { defer: true });
-              });
-            } else {
-              utils.js(js, { defer: true });
-            }
-          });
-        }
-      }
-    }
-
-    // chat iphone time
-    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
-
-    if (phoneTimes.length > 0) {
-      NowTime();
-      var date = new Date();
-      var sec = date.getSeconds();
-      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
-    }
-
-    function firstAdjustTime() {
-      NowTime();
-      clearInterval(firstAdjustInterval);
-      setInterval(NowTime, 1000 * 60);
-    }
-
-    function NowTime() {
-      for (let i = 0; i < phoneTimes.length; ++i) {
-        var timeSpan = phoneTimes[i];
-        var date = new Date();
-        var hour = date.getHours();
-        var min = date.getMinutes();
-        timeSpan.innerHTML = check(hour) + ":" + check(min);
-      }
-    };
-
-    function check(val) {
-      if (val < 10) {
-        return ("0" + val);
-      }
-      return (val);
-    }
-
-    // chat quote
-    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
-      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
-          observer.unobserve(entry.target);
-          setTimeout(() => {
-            entry.target.classList.add('quote-blink');
-            setTimeout(() => {
-              entry.target.classList.remove('quote-blink');
-            }, 1000);
-          }, Math.max(100, 16) * (index + 1));
-        });
-    });
-
-    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
-    chatQuotes.forEach((quote) => {
-      quote.addEventListener('click', function () {
-        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
-        if (chatCellDom) {
-          var chatDiv = chatCellDom.parentElement;
-          var mid = chatDiv.clientHeight / 2;
-          var offsetTop = chatCellDom.offsetTop;
-          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
-            chatDiv.scrollTo({
-              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
-              behavior: "smooth"
-            });
-          } else {
-            chatDiv.scrollTo({
-              top: 0,
-              behavior: "smooth"
-            });
-          }
-          chat_quote_obverser.observe(chatCellDom);
-        }
-      });
-    });
-  });
-</script>
-
-<script>
-  window.addEventListener('DOMContentLoaded', (event) => {
-    ctx.search = {
+    ctx.search = Object.assign({}, ctx.search, {
       path: `/search.json`,
-    }
+      local_search: {"field":"all","path":"/search.json","content":true,"lazy_load":true,"cache_ttl":86400,"skip_search":[],"codeblock":true,"sort":"-date"},
+    });
     utils.js('/js/search/local-search.js', { defer: true });
   });
-</script><script>
+</script>
+<script>
   window.FPConfig = {
     delay: 0,
     ignoreKeywords: [],
@@ -811,28 +896,45 @@
 </script>
 <script defer src="https://gcore.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script>
   ctx.fancybox = {
+    mode: `auto`,
     selector: `.timenode p>img`,
     css: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
     js: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
   };
-  var selector = '[data-fancybox]:not(.error), .with-fancybox .atk-content img:not([atk-emoticon])';
+  // auto=按需：页面存在可弹窗图片才加载；global=全局：所有页面加载
+  const isGlobal = ctx.fancybox.mode === 'global';
+  // 评论区图片（artalk/twikoo/waline）显示较小，自动支持放大；
+  // 仅绑定各评论服务的评论内容区，编辑器、表情面板等非内容区图片不弹窗
+  var selector = '[data-fancybox]:not(.error), .with-fancybox .atk-content img:not([atk-emoticon]):not([class*="emo"]), .with-fancybox .tk-content img:not([atk-emoticon]):not([class*="emo"]), .with-fancybox .wl-content img:not([atk-emoticon]):not([class*="emo"])';
   if (ctx.fancybox.selector) {
     selector += `, ${ctx.fancybox.selector}`
   }
-  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  var needFancybox = isGlobal;
   if (!needFancybox) {
-    const memos = document.getElementsByClassName('ds-memos');
-    if (memos != undefined && memos.length > 0) {
-      needFancybox = true;
+    needFancybox = document.querySelectorAll(selector).length !== 0;
+    if (!needFancybox) {
+      // 图片型评论系统容器：评论区图片小图需要 fancybox
+      const withFancybox = document.getElementsByClassName('with-fancybox');
+      if (withFancybox != undefined && withFancybox.length > 0) {
+        needFancybox = true;
+      }
     }
-    const fancybox = document.getElementsByClassName('with-fancybox');
-    if (fancybox != undefined && fancybox.length > 0) {
-      needFancybox = true;
+    if (!needFancybox) {
+      // 动态数据服务：memos 渲染的图片需要 fancybox
+      const memos = document.getElementsByClassName('ds-memos');
+      if (memos != undefined && memos.length > 0) {
+        needFancybox = true;
+      }
     }
   }
   if (needFancybox) {
+    utils.css(`/css/plugins/fancybox.css?v=1.44.0`);
     utils.css(ctx.fancybox.css);
     utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      if (isGlobal) {
+        // 全局模式：正文所有非内联图片均可弹窗
+        selector += ', .md-text img:not(.inline):not([atk-emoticon])';
+      }
       Fancybox.bind(selector, {
         hideScrollbar: false,
         Thumbs: {
@@ -846,9 +948,10 @@
   }
 </script>
 <script>
-  window.addEventListener('DOMContentLoaded', (event) => {
+  stellar.initPlugin(() => {
     const swiper_api = document.getElementById('swiper-api');
     if (swiper_api != undefined) {
+      utils.css(`/css/plugins/swiper.css?v=1.44.0`);
       utils.css(`https://unpkg.com/swiper@10.3/swiper-bundle.min.css`);
       utils.js(`https://unpkg.com/swiper@10.3/swiper-bundle.min.js`, { defer: true }).then(function () {
         const effect = swiper_api.getAttribute('effect') || '';
@@ -869,21 +972,139 @@
         });
       })
     }
-  });
+  }, 'swiper');
 </script>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    window.codeElements = document.querySelectorAll('.code');
-    if (window.codeElements.length > 0) {
+  (function () {
+    // 兜底看门狗独立于插件初始化：3 秒内未完成 reveal 时强制显示 .slide-up 内容
+    let fallbackApplied = false;
+    const revealFallback = () => {
+      if (fallbackApplied) return;
+      fallbackApplied = true;
+      document.documentElement.classList.add('sr-fallback');
+    };
+    const watchdog = setTimeout(() => revealFallback(), 3000);
+
+    stellar.initPlugin(() => {
+      const els = Array.prototype.slice.call(document.querySelectorAll('.slide-up'));
+      if (els.length === 0) {
+        clearTimeout(watchdog);
+        return;
+      }
+
+    // 吸顶/固定定位容器内的元素始终在视口内（或由容器控制显隐），
+    // 但 ScrollReveal 按文档坐标判断可见性，会误判这类元素为不可见，
+    // 导致带锚点/恢复滚动位置打开页面时组件一直不显示。
+    // 解决方式：以最近的吸顶/固定祖先作为该组元素的容器，
+    // 使可见性判断恒成立，入场动画保留且不再依赖主文档滚动。
+    const findPinnedContainer = (el) => {
+      let node = el;
+      while (node && node.nodeType === 1) {
+        const pos = window.getComputedStyle(node).position;
+        if (pos === 'sticky' || pos === 'fixed') return node;
+        node = node.parentElement;
+      }
+      return null;
+    };
+
+    // 最近的滚动容器（overflow-y: auto/scroll）
+    // 吸顶容器内可能存在内部滚动容器（如侧栏 .widgets），
+    // 若直接用吸顶容器做 reveal 容器，折叠区下方的元素永远不会进入视口，导致一直不显示。
+    const findScrollContainer = (el) => {
+      let node = el.parentElement;
+      while (node && node.nodeType === 1) {
+        const oy = window.getComputedStyle(node).overflowY;
+        if (oy === 'auto' || oy === 'scroll') return node;
+        node = node.parentElement;
+      }
+      return null;
+    };
+
+    const pinnedGroups = new Map(); // 容器 -> 元素列表
+    const targets = [];
+    els.forEach((el) => {
+      const pinned = findPinnedContainer(el);
+      if (pinned) {
+        // 优先使用最近的滚动容器，其次才用吸顶容器
+        const container = findScrollContainer(el) || pinned;
+        const group = pinnedGroups.get(container) || [];
+        group.push(el);
+        pinnedGroups.set(container, group);
+      } else {
+        targets.push(el);
+      }
+    });
+    if (pinnedGroups.size === 0 && targets.length === 0) {
+      clearTimeout(watchdog);
+      return;
+    }
+
+    const slideUp = {
+      distance: `8px`,
+      duration: `1000`,
+      interval: `100`,
+      scale: `1`,
+      opacity: 0,
+      easing: "ease-out"
+    };
+
+    utils.js(`https://gcore.jsdelivr.net/npm/scrollreveal@4.0/dist/scrollreveal.min.js`, { defer: true })
+      .then(() => {
+        if (fallbackApplied) return;
+        if (typeof ScrollReveal !== 'function') {
+          revealFallback();
+          return;
+        }
+        try {
+          const sr = ScrollReveal();
+          if (targets.length > 0) {
+            sr.reveal(targets, { ...slideUp });
+          }
+          pinnedGroups.forEach((group, container) => {
+            sr.reveal(group, { ...slideUp, container: container });
+          });
+          clearTimeout(watchdog);
+        } catch (err) {
+          console.error('[Plugin scrollreveal] 初始化失败:', err);
+          revealFallback();
+        }
+      })
+      .catch((err) => {
+        console.error('[Plugin scrollreveal] 加载失败:', err);
+        revealFallback();
+      });
+    }, 'scrollreveal');
+  })();
+</script>
+<script>
+  stellar.initPlugin(() => {
+    const codeElements = document.querySelectorAll('.code');
+    if (codeElements.length > 0) {
       ctx.copycode = {
         default_text: `Copy`,
         success_text: `Copied`,
         toast: `复制成功`,
       };
-      utils.js('/js/plugins/copycode.js');
+      utils.js('/js/plugins/copycode.js', { defer: true }).then(() => {
+        if (typeof createCopyButtons === 'function') {
+          createCopyButtons(codeElements);
+        }
+      });
     }
-  });
+  }, 'copycode');
 </script>
+<script>
+  stellar.initPlugin(() => {
+    const els = Array.prototype.slice.call(document.querySelectorAll('[data-text-adaptive]'));
+    if (els.length === 0) return;
+    utils.js('/js/color.js').then(() => utils.js('/js/plugins/adaptive-text.js')).then(() => {
+      if (typeof applyAdaptiveText === 'function') {
+        applyAdaptiveText(els);
+      }
+    });
+  }, 'adaptive-text');
+</script>
+
 
 
 <!-- inject -->
